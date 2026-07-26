@@ -1,0 +1,3 @@
+import { Tabs } from "expo-router";
+import { Dumbbell, Library, ListMusic, History } from "lucide-react-native";
+const color="#08fd8e"; export default function TabsLayout(){return <Tabs screenOptions={{headerShown:false,tabBarStyle:{backgroundColor:"#101713",borderTopColor:"#26382a"},tabBarActiveTintColor:color,tabBarInactiveTintColor:"#91a094"}}><Tabs.Screen name="index" options={{title:"Train",tabBarIcon:p=><Dumbbell {...p}/>}}/><Tabs.Screen name="library" options={{title:"Library",tabBarIcon:p=><Library {...p}/>}}/><Tabs.Screen name="builder" options={{title:"Builder",tabBarIcon:p=><ListMusic {...p}/>}}/><Tabs.Screen name="history" options={{title:"History",tabBarIcon:p=><History {...p}/>}}/></Tabs>}

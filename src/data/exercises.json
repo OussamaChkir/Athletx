@@ -1,0 +1,3631 @@
+[
+  {
+    "_id": "6c26f0a1f16b4c0cb078ea11",
+    "title": "Barbell Bench Press",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Bench",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Lie flat on the bench with your eyes under the bar and feet firmly planted on the floor.",
+      "Squeeze your shoulder blades together and puff your chest out.",
+      "Grip the bar slightly wider than shoulder-width.",
+      "Unrack the bar by straightening your arms, then move it over your shoulders.",
+      "Lower the bar to your mid-chest while keeping your elbows at roughly a 45-degree angle to your body.",
+      "Press the bar back up to the starting position, locking out your elbows."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Bench-Press_0316b783-43b2-44f8-8a2b-b177a2cfcbfc_600x600.png?v=1612137800"
+  },
+  {
+    "_id": "24c5b920e3cb4e168d966284",
+    "title": "Incline Dumbbell Bench Press",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells",
+      "Incline Bench"
+    ],
+    "steps": [
+      "Set an adjustable bench to an incline of 30-45 degrees.",
+      "Sit on the bench holding a dumbbell in each hand resting on your thighs.",
+      "Kick the dumbbells up to shoulder level and lean back onto the bench.",
+      "Press the dumbbells up directly over your upper chest until your arms are straight.",
+      "Slowly lower the dumbbells back down until you feel a stretch in your chest.",
+      "Press the weights back up to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Dumbbell-Bench-Press_c2bf89a2-433f-4a8f-9801-67c679980867_600x600.png?v=1612138008"
+  },
+  {
+    "_id": "606d1a1773a84a80924f1882",
+    "title": "Peck Deck",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Machines",
+    "difficulty": "",
+    "equipment": [
+      "Peck Deck Machine"
+    ],
+    "steps": [
+      "Adjust the seat height so the handles or arm pads sit at chest level.",
+      "Sit down and grasp the handles, or place your forearms on the pads with elbows bent at 90 degrees.",
+      "Press your arms together in a hugging motion, squeezing your chest at the peak.",
+      "Pause and squeeze your pecs together at the center.",
+      "Slowly return to the starting position, allowing a stretch across your chest."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Peck-Deck_600x600.png?v=1612137910"
+  },
+  {
+    "_id": "4bd77467112f4c2d993d14cc",
+    "title": "Cable Crossover",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "D-Handle Attachments"
+    ],
+    "steps": [
+      "Set both pulleys on a cable crossover machine to the high position and attach D-handles.",
+      "Grab a handle in each hand and step forward into a staggered stance with a slight forward lean.",
+      "With a slight bend in your elbows, pull the handles down and together in front of your hips.",
+      "Squeeze your chest hard as your hands cross or meet at the bottom.",
+      "Slowly return to the starting position, keeping tension on your chest throughout."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Crossover_09c90616-2777-47ed-927e-d5987edfce09_600x600.png?v=1612138036"
+  },
+  {
+    "_id": "efdd093e070347e1bc3d9bcc",
+    "title": "Incline Barbell Bench Press",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Incline Bench",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Set an adjustable bench to a 30-45 degree incline.",
+      "Lie back and grip the bar slightly wider than shoulder-width.",
+      "Unrack the bar and hold it over your upper chest with arms extended.",
+      "Lower the bar under control to your upper chest.",
+      "Press the bar back up to the starting position, locking out your elbows at the top."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Barbell-Bench-Press_dc0c6279-d038-44f5-a682-54c2a5e2602c_600x600.png?v=1612137944"
+  },
+  {
+    "_id": "8f0fd0124dd74c6b9d0dbd0c",
+    "title": "Dumbbell Bench Press",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells",
+      "Bench"
+    ],
+    "steps": [
+      "Lie flat on a bench holding a dumbbell in each hand at chest level, palms facing forward.",
+      "Plant your feet firmly on the floor and brace your core.",
+      "Press the dumbbells up until your arms are fully extended above your chest.",
+      "Slowly lower the dumbbells back down until you feel a stretch in your chest.",
+      "Repeat for the desired number of repetitions."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Bench-Press_13090f67-ccfc-4f3a-9bab-e75d753fa9fa_600x600.png"
+  },
+  {
+    "_id": "da3384c2254840598997d053",
+    "title": "Dumbbell Fly",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells",
+      "Bench"
+    ],
+    "steps": [
+      "Lie flat on a bench holding a dumbbell in each hand above your chest, palms facing each other.",
+      "With a slight bend in your elbows, lower the dumbbells out to the sides in a wide arc.",
+      "Lower until you feel a stretch across your chest.",
+      "Bring the dumbbells back together above your chest, squeezing your pecs at the top.",
+      "Keep the slight elbow bend fixed throughout the movement."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Fly_119e2918-4241-4f55-bd77-c98a0c76c6c8_600x600.png"
+  },
+  {
+    "_id": "dfdfb43c5aff41c7a33a0ffd",
+    "title": "Incline Dumbbell Fly",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells",
+      "Incline Bench"
+    ],
+    "steps": [
+      "Set an adjustable bench to a 30-45 degree incline.",
+      "Lie back holding a dumbbell in each hand above your chest, palms facing each other.",
+      "With a slight bend in your elbows, lower the dumbbells out to the sides.",
+      "Lower until you feel a stretch across your upper chest.",
+      "Bring the dumbbells back together above your chest, squeezing your pecs at the top."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Dumbbell-Fly_44d253c3-da60-45b2-b0ba-88a3bb79da09_600x600.png?v=1612137870"
+  },
+  {
+    "_id": "5804039512d04f97844556e5",
+    "title": "Chest Press Machine",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Machines",
+    "difficulty": "",
+    "equipment": [
+      "Chest Press Machine"
+    ],
+    "steps": [
+      "Adjust the seat so the handles align with your mid-chest.",
+      "Sit down and grasp the handles with an overhand grip.",
+      "Press the handles forward until your arms are fully extended.",
+      "Pause and squeeze your chest at the top of the movement.",
+      "Slowly return to the starting position under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Chest-Press-Machine_ab8cd29d-5698-4110-a938-098bda19b5fc_600x600.png?v=1621163108"
+  },
+  {
+    "_id": "0f02c2b5d1044ee49ee1ab59",
+    "title": "Barbell Declined Bench Press",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Decline Bench",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Secure your feet under the foot pads of a decline bench and lie back.",
+      "Grip the bar slightly wider than shoulder-width.",
+      "Unrack the bar and hold it over your lower chest.",
+      "Lower the bar under control to your lower chest.",
+      "Press the bar back up to the starting position, locking out your elbows."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Declined-Bench-Press_600x600.png?v=1619977283"
+  },
+  {
+    "_id": "52b5bb91f524447eb78bf84d",
+    "title": "Dumbbell Declined Bench Press",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells",
+      "Decline Bench"
+    ],
+    "steps": [
+      "Secure your feet under the foot pads of a decline bench and lie back holding a dumbbell in each hand.",
+      "Press the dumbbells up above your lower chest until your arms are extended.",
+      "Slowly lower the dumbbells back down to chest level.",
+      "Keep your elbows at roughly a 45-degree angle throughout.",
+      "Repeat for the desired number of repetitions."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Declined-Bench-Press_600x600.png?v=1619977242"
+  },
+  {
+    "_id": "7e98a9f926a14828b088b1a6",
+    "title": "Push Ups",
+    "primary_muscles": [
+      "Pectoralis Major"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Chest"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Get into a high plank position with your hands slightly wider than shoulder-width apart.",
+      "Your body should form a straight line from your head to your heels. Brace your core and squeeze your glutes.",
+      "Lower your body by bending your elbows, keeping them tucked in at about a 45-degree angle to your sides.",
+      "Lower yourself until your chest nearly touches the floor.",
+      "Push back up to the starting position by straightening your arms."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Push-Ups_600x600.png?v=1640121436"
+  },
+  {
+    "_id": "bc2a45caa09346d59637137c",
+    "title": "Lying Triceps Extension",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Triceps",
+    "difficulty": "",
+    "equipment": [
+      "EZ Curl Bar",
+      "Bench"
+    ],
+    "steps": [
+      "Lie on a flat bench holding an EZ bar with a shoulder-width overhand grip, arms extended above your chest.",
+      "Keeping your upper arms stationary, bend your elbows to lower the bar toward your forehead.",
+      "Lower until you feel a stretch in your triceps.",
+      "Extend your elbows to press the bar back to the starting position.",
+      "Keep your elbows tucked in throughout the movement."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Lying-Triceps-Extension_4affa7a2-9c1c-48f8-8003-3570d7b3a39c_600x600.png?v=1612136744"
+  },
+  {
+    "_id": "0ce3f4311b0345a28a26870e",
+    "title": "Triceps Pressdown",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Straight Bar Attachment"
+    ],
+    "steps": [
+      "Attach a straight bar to a high pulley on a cable machine.",
+      "Grab the bar with an overhand, shoulder-width grip and tuck your elbows into your sides.",
+      "Push the bar down until your arms are fully extended.",
+      "Squeeze your triceps at the bottom.",
+      "Slowly let the bar return to the starting position, keeping your elbows locked in place."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Triceps-Pressdown_e759437b-6200-4b44-b484-14db770024a4_600x600.png?v=1612136845"
+  },
+  {
+    "_id": "10c447dce93642099f172fc4",
+    "title": "Cable Rope Pushdown",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Rope Attachment"
+    ],
+    "steps": [
+      "Attach a rope to a high pulley on a cable machine.",
+      "Grab the rope with a neutral grip and stand with a slight forward lean, keeping your elbows tucked into your sides.",
+      "Push the rope down by straightening your arms, spreading the rope at the bottom.",
+      "Squeeze your triceps hard at the bottom of the movement.",
+      "Slowly allow the rope to return to the starting position, keeping your elbows locked in place."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-Rope-Pushdown_600x600.png?v=1612136916"
+  },
+  {
+    "_id": "4dc7e3f4750a49b5bd75091b",
+    "title": "Dumbbell Overhead Triceps Extension",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbell"
+    ],
+    "steps": [
+      "Stand or sit holding a single dumbbell with both hands, arms extended overhead.",
+      "Keep your elbows close to your head and pointed forward.",
+      "Lower the dumbbell behind your head by bending your elbows.",
+      "Lower until you feel a stretch in your triceps.",
+      "Extend your arms to press the dumbbell back overhead."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Overhead-Triceps-Extension_99242f13-ab4d-4e77-be12-e0f180cc93ac_600x600.png?v=1612136962"
+  },
+  {
+    "_id": "32be94bcef13464785a886e2",
+    "title": "Close Grip Bench Press",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Triceps",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Bench",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Lie flat on a bench and grip the bar with your hands shoulder-width apart or slightly closer.",
+      "Unrack the bar and hold it over your chest with arms extended.",
+      "Lower the bar under control to your lower chest, keeping your elbows tucked close to your sides.",
+      "Press the bar back up by extending your arms, focusing on driving through your triceps.",
+      "Lock out your elbows at the top."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Close-Grip-Bench-Press_28c01bfb-504d-43a6-8264-bd2101d317b9_600x600.png?v=1612137028"
+  },
+  {
+    "_id": "5614145190bf40989a47580c",
+    "title": "Kickback",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Triceps",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbell",
+      "Bench"
+    ],
+    "steps": [
+      "Hold a dumbbell in one hand and hinge forward at the hips, placing your free hand on a bench for support.",
+      "Keep your upper arm parallel to the floor and your elbow bent at 90 degrees.",
+      "Extend your arm straight back by contracting your triceps, keeping your upper arm still.",
+      "Squeeze your triceps at the top of the movement.",
+      "Slowly return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Kickback_c8df8485-ed16-4808-96c0-7ccc27a0bec2_600x600.png?v=1612136991"
+  },
+  {
+    "_id": "08d9deec571d4b28a9946693",
+    "title": "Reverse Grip Cable Triceps Extension with Barbell",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Barbell Attachment"
+    ],
+    "steps": [
+      "Attach a straight bar to a high pulley and grab it with an underhand (supinated) grip.",
+      "Tuck your elbows into your sides and keep your upper arms stationary.",
+      "Push the bar down by extending your arms until they are fully straight.",
+      "Squeeze your triceps at the bottom.",
+      "Slowly return to the starting position under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Reverse-Grip-Cable-Triceps-Extension-with-Barbell_600x600.png?v=1619978215"
+  },
+  {
+    "_id": "dfbd520d42d34b96b34318b6",
+    "title": "Single-Arm Cable Triceps Extension",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Single Handle Attachment"
+    ],
+    "steps": [
+      "Attach a single handle to a high pulley and grab it with one hand, palm facing down.",
+      "Tuck your elbow into your side and keep your upper arm stationary.",
+      "Push the handle down by extending your arm until it's fully straight.",
+      "Squeeze your triceps at the bottom.",
+      "Slowly return to the starting position, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Single-Arm-Cable-Triceps-Extension_600x600.png?v=1619978169"
+  },
+  {
+    "_id": "6780bce6223e44798d6b9f7e",
+    "title": "Single-Arm Cable Triceps Extension with Supinated Grip",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Single Handle Attachment"
+    ],
+    "steps": [
+      "Attach a single handle to a high pulley and grab it with an underhand (supinated) grip.",
+      "Tuck your elbow into your side and keep your upper arm stationary.",
+      "Push the handle down by extending your arm until it's fully straight, keeping the palm up.",
+      "Squeeze your triceps at the bottom.",
+      "Slowly return to the starting position, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Single-Arm-Cable-Triceps-Extension-with-Supinated-Grip_600x600.png?v=1619978117"
+  },
+  {
+    "_id": "741ea2a2c22a439880907458",
+    "title": "Lying Dumbbell Triceps Extension",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells",
+      "Bench"
+    ],
+    "steps": [
+      "Lie on a flat bench holding a dumbbell in each hand above your chest, palms facing each other.",
+      "Keeping your upper arms stationary, bend your elbows to lower the dumbbells toward your ears.",
+      "Lower until you feel a stretch in your triceps.",
+      "Extend your elbows to press the dumbbells back to the starting position.",
+      "Keep your elbows tucked in throughout."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Lying-Dumbbell-Triceps-Extension_600x600.png?v=1619978076"
+  },
+  {
+    "_id": "7c679265b2ab434e9652aaea",
+    "title": "Seated Barbell French Press",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "EZ Curl Bar",
+      "Bench"
+    ],
+    "steps": [
+      "Sit on a bench with back support and hold an EZ bar overhead with arms extended.",
+      "Keep your elbows close to your head and pointed forward.",
+      "Lower the bar behind your head by bending your elbows.",
+      "Lower until you feel a stretch in your triceps.",
+      "Extend your arms to press the bar back to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Barbell-French-Press_600x600.png?v=1619978038"
+  },
+  {
+    "_id": "3c9b4fcac6fa472abba2a30f",
+    "title": "Bench Dips",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bench",
+      "Bodyweight"
+    ],
+    "steps": [
+      "Sit on the edge of a bench and place your hands next to your hips, fingers pointing forward.",
+      "Walk your feet out and lift your hips off the bench, supporting your weight on your hands.",
+      "Lower your body by bending your elbows until they reach about 90 degrees.",
+      "Keep your elbows pointed backward, not flared out.",
+      "Push through your palms to straighten your arms and return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Bench-Dips_600x600.png?v=1619977992"
+  },
+  {
+    "_id": "07ff5f83bb8d45948f3c7477",
+    "title": "Parallel Dip Bar",
+    "primary_muscles": [
+      "Triceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Triceps"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Parallel Dip Bars",
+      "Bodyweight"
+    ],
+    "steps": [
+      "Grip the parallel bars and lift your body up until your arms are fully extended.",
+      "Lean your torso slightly forward and keep your elbows close to your body.",
+      "Lower yourself by bending your elbows until your upper arms are roughly parallel to the floor.",
+      "Keep your core engaged and avoid swinging.",
+      "Push back up to the starting position by straightening your arms."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Parallel-Dip-Bar_600x600.png?v=1619977962"
+  },
+  {
+    "_id": "92dc15f8c78c4de9a38433a4",
+    "title": "Dumbbell Bent-Over Row (Single Arm)",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbell",
+      "Bench"
+    ],
+    "steps": [
+      "Place one knee and hand on a bench for support, holding a dumbbell in your free hand.",
+      "Keep your back flat and parallel to the floor.",
+      "Pull the dumbbell up toward your hip, keeping your elbow close to your body.",
+      "Squeeze your shoulder blade at the top of the movement.",
+      "Lower the dumbbell back down under control, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Bent-Over-Row-_Single-Arm_49867db3-f465-4fbc-b359-29cbdda502e2_600x600.png?v=1612138069"
+  },
+  {
+    "_id": "cc4187e70cd34865a99f4159",
+    "title": "Wide-Grip Pulldown",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Lat Pulldown Machine"
+    ],
+    "steps": [
+      "Sit at a lat pulldown machine and grab the bar with a wide overhand grip.",
+      "Secure your knees under the pads and lean back slightly.",
+      "Pull the bar down to your upper chest, driving your elbows down and back.",
+      "Squeeze your lats at the bottom of the movement.",
+      "Slowly return the bar to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Wide-Grip-Pulldown_91fcba9b-47a2-4185-b093-aa542c81c55c_600x600.png?v=1612138105"
+  },
+  {
+    "_id": "05c884512a1d4f6684f8ed0e",
+    "title": "Seated Cable Row",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "V-Grip Attachment"
+    ],
+    "steps": [
+      "Sit at a low cable row machine with your feet on the platforms and knees slightly bent.",
+      "Grab the V-grip handle, sit up tall with a straight back, and pull your shoulders down and back.",
+      "Pull the handle towards your stomach, keeping your elbows close to your sides.",
+      "Squeeze your shoulder blades together at the peak of the contraction.",
+      "Slowly extend your arms and let your shoulder blades stretch forward to return to the start."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Cable-Row_9470fa48-f0d1-40b1-a980-caee9e6f2e53_600x600.png?v=1612138127"
+  },
+  {
+    "_id": "771e86eac943463d862a70f9",
+    "title": "Close-Grip Pulldown",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Lat Pulldown Machine",
+      "Close Grip Attachment"
+    ],
+    "steps": [
+      "Sit at a lat pulldown machine and attach a close-grip handle.",
+      "Grab the handle with a neutral or narrow overhand grip.",
+      "Lean back slightly and pull the handle down to your upper chest.",
+      "Squeeze your lats at the bottom.",
+      "Slowly return to the starting position, getting a full stretch."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Close-Grip-Pulldown_072bb5ce-e3d9-4007-b8d2-d343e9d1051b_600x600.png?v=1612138178"
+  },
+  {
+    "_id": "dd755011db094327bd571ff8",
+    "title": "Barbell Row",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand with your mid-foot under the barbell. Hinge at your hips and grip the bar with a shoulder-width overhand grip.",
+      "Keep your back straight, nearly parallel to the floor, and your knees slightly bent.",
+      "Pull the bar towards your lower chest/upper stomach area, keeping your elbows close to your body.",
+      "Squeeze your shoulder blades together at the top of the movement.",
+      "Lower the bar under control until your arms are fully extended."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Row_4beb1d94-bac9-4538-9578-2d9cf93ef008_600x600.png?v=1612138201"
+  },
+  {
+    "_id": "7d52e04fc9564352abf1a3d1",
+    "title": "Behind-Neck Pulldown",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Lat Pulldown Machine"
+    ],
+    "steps": [
+      "Sit at a lat pulldown machine and grab the bar with a wide overhand grip.",
+      "Position the bar behind your head instead of in front.",
+      "Pull the bar down carefully to the base of your neck, keeping your torso upright.",
+      "Squeeze your lats at the bottom, avoiding excessive strain on your neck and shoulders.",
+      "Slowly return the bar to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Behind-Neck-Pulldown_f0f50b6b-ad34-48cd-8663-84ee6a581928_600x600.png?v=1612138228"
+  },
+  {
+    "_id": "95728a2c067d4233997d0ed2",
+    "title": "Reverse-Grip Pulldown",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Lat Pulldown Machine"
+    ],
+    "steps": [
+      "Sit at a lat pulldown machine and grab the bar with a shoulder-width underhand grip.",
+      "Lean back slightly and pull the bar down to your upper chest.",
+      "Keep your elbows close to your body as you pull.",
+      "Squeeze your lats and biceps at the bottom.",
+      "Slowly return the bar to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Reverse-Grip-Pulldown_10c5341f-30fd-4126-8fd7-2fa05c079889_600x600.png?v=1612138255"
+  },
+  {
+    "_id": "d96422d066694cc79db6dca1",
+    "title": "Rope Pulldown",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Rope Attachment"
+    ],
+    "steps": [
+      "Attach a rope to a high pulley on a cable machine and grab an end in each hand.",
+      "Kneel or sit facing the machine with arms extended overhead.",
+      "Pull the rope down and out to the sides of your head, driving your elbows down.",
+      "Squeeze your lats at the bottom.",
+      "Slowly return to the starting position under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Rope-Pulldown_24c7b22e-bf99-4ade-ba6c-c7b2f20ffa9a_600x600.png?v=1612138283"
+  },
+  {
+    "_id": "422baf0e474f4f06a72c1f7f",
+    "title": "T-Bar Rows",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Back",
+    "difficulty": "",
+    "equipment": [
+      "T-Bar Row Machine",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Straddle the bar on a T-bar row machine (or landmine setup) and grab the handles with a neutral grip.",
+      "Hinge at your hips with a flat back and slight knee bend.",
+      "Pull the weight up toward your chest, squeezing your shoulder blades together.",
+      "Pause briefly at the top of the movement.",
+      "Lower the weight back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/T-Bar-Rows_600x600.png?v=1612092112"
+  },
+  {
+    "_id": "b2fc14661390466382a02549",
+    "title": "Barbell Bent Over Rows Supinated Grip",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand with your mid-foot under the barbell and grip it with a shoulder-width underhand grip.",
+      "Hinge at your hips, keeping your back flat and nearly parallel to the floor.",
+      "Pull the bar toward your lower chest/upper stomach, keeping your elbows close to your body.",
+      "Squeeze your shoulder blades together at the top.",
+      "Lower the bar under control until your arms are fully extended."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Bent-Over-Rows-Supinated-Grip_600x600.png?v=1619977891"
+  },
+  {
+    "_id": "67a7495c7b8d4fffa573407d",
+    "title": "Pull Up",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Pull-up Bar",
+      "Bodyweight"
+    ],
+    "steps": [
+      "Grab the pull-up bar with an overhand grip slightly wider than shoulder-width.",
+      "Hang freely with your arms fully extended and your core engaged.",
+      "Initiate the movement by pulling your shoulder blades down and back.",
+      "Pull yourself up until your chin is over the bar, driving your elbows down towards the floor.",
+      "Squeeze your back muscles at the top.",
+      "Lower yourself down under control to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Pull-Up_600x600.png?v=1619977612"
+  },
+  {
+    "_id": "4172cf4cb4864d3a8f92fb6a",
+    "title": "Behind the Neck Pull Up",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Pull-up Bar",
+      "Bodyweight"
+    ],
+    "steps": [
+      "Grab the pull-up bar with a wide overhand grip.",
+      "Hang freely with your arms fully extended.",
+      "Pull yourself up until the bar reaches the back of your neck, keeping your torso upright.",
+      "Squeeze your back muscles at the top, being careful not to strain your neck.",
+      "Lower yourself back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Behind-the-Neck-Pull-Up_600x600.png?v=1619977573"
+  },
+  {
+    "_id": "2abc33e47c084cb3b67d5f54",
+    "title": "Pull Up with a Supinated Grip",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Pull-up Bar",
+      "Bodyweight"
+    ],
+    "steps": [
+      "Grab the pull-up bar with a shoulder-width underhand (supinated) grip.",
+      "Hang freely with your arms fully extended and core engaged.",
+      "Pull yourself up until your chin clears the bar, driving your elbows down.",
+      "Squeeze your back and biceps at the top.",
+      "Lower yourself back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Pull-Up-with-a-Supinated-Grip_600x600.png?v=1619977534"
+  },
+  {
+    "_id": "09238da6f29244b4bd277ee4",
+    "title": "Straight Arm Lat Pulldown",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Straight Bar Attachment"
+    ],
+    "steps": [
+      "Attach a straight bar to a high pulley and grab it with an overhand, shoulder-width grip.",
+      "Stand facing the machine with a slight forward lean and arms extended.",
+      "Keeping your arms straight, pull the bar down toward your thighs.",
+      "Squeeze your lats at the bottom of the movement.",
+      "Slowly return the bar to the starting position, feeling a stretch in your lats."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Straight-Arm-Lat-Pulldown_600x600.png?v=1619977498"
+  },
+  {
+    "_id": "bb835e9eda0f4c9b9db7410b",
+    "title": "Dumbbell Bent Over Rows",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand holding a dumbbell in each hand and hinge at your hips, keeping your back flat.",
+      "Let the dumbbells hang directly below your shoulders.",
+      "Pull the dumbbells up toward your hips, keeping your elbows close to your body.",
+      "Squeeze your shoulder blades together at the top.",
+      "Lower the dumbbells back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Bent-Over-Rows_600x600.png?v=1619977463"
+  },
+  {
+    "_id": "6057a66e57db4cae92772144",
+    "title": "Dumbbell Pullover",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbell",
+      "Bench"
+    ],
+    "steps": [
+      "Lie perpendicular across a bench with only your upper back supported, holding a single dumbbell with both hands above your chest.",
+      "Keep a slight bend in your elbows.",
+      "Lower the dumbbell back and behind your head in an arc until you feel a stretch in your lats.",
+      "Pull the dumbbell back over your chest to the starting position.",
+      "Keep your hips low throughout the movement."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Pullover_600x600.png?v=1619977197"
+  },
+  {
+    "_id": "29ffcb49818d4b2f89f8ec03",
+    "title": "Barbell Pullover",
+    "primary_muscles": [
+      "Latissimus Dorsi"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Bench",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Lie flat on a bench holding a barbell with a shoulder-width overhand grip above your chest.",
+      "Keep a slight bend in your elbows.",
+      "Lower the bar back and behind your head in an arc until you feel a stretch in your lats.",
+      "Pull the bar back over your chest to the starting position.",
+      "Keep your core braced throughout."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Pullover_600x600.png?v=1619977155"
+  },
+  {
+    "_id": "46e64349013346b38269c76d",
+    "title": "Barbell Deadlift",
+    "primary_muscles": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Hamstrings"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back",
+      "Glutes",
+      "Legs"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand with your mid-foot under the barbell, feet hip-width apart.",
+      "Bend over and grab the bar with a shoulder-width grip.",
+      "Bend your knees until your shins touch the bar.",
+      "Lift your chest up and straighten your lower back.",
+      "Take a deep breath, brace your core, and stand up with the weight by pushing the floor away with your legs.",
+      "Keep the bar close to your body throughout the movement. Return the weight to the floor by pushing your hips back."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Deadlift_600x600.png?v=1619977112"
+  },
+  {
+    "_id": "7812b73f14b342aba944db94",
+    "title": "Barbell Sumo Deadlift",
+    "primary_muscles": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Hamstrings"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back",
+      "Glutes",
+      "Legs"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand with a wide stance, toes pointed outward, and the barbell over your mid-foot.",
+      "Grip the bar with your hands inside your knees.",
+      "Bend your knees and hips to lower into position, keeping your chest up and back flat.",
+      "Drive through your heels and push the floor away to stand up, keeping the bar close to your body.",
+      "Lock out your hips at the top, then reverse the motion to lower the bar back down."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Sumo-Deadlift_600x600.png?v=1619976908"
+  },
+  {
+    "_id": "4e13b728fb6a443c9527c9ca",
+    "title": "Trap Bar Deadlift",
+    "primary_muscles": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Hamstrings"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back",
+      "Glutes",
+      "Legs"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Trap Bar",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand inside a trap bar with feet hip-width apart.",
+      "Bend your knees and hips to grab the handles, keeping your chest up and back flat.",
+      "Brace your core and drive through your feet to stand up, keeping the bar close to your body.",
+      "Lock out your hips and knees at the top.",
+      "Lower the bar back down under control by hinging at the hips and bending your knees."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Trap-Bar-Deadlift_600x600.png?v=1619976866"
+  },
+  {
+    "_id": "39ca12d6859847aca1a6afb2",
+    "title": "Dumbbell Deadlift",
+    "primary_muscles": [
+      "Erector Spinae",
+      "Gluteus Maximus",
+      "Hamstrings"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back",
+      "Glutes",
+      "Legs"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand with feet hip-width apart, holding a dumbbell in each hand in front of your thighs.",
+      "Keep your back straight and a slight bend in your knees.",
+      "Hinge at your hips, lowering the dumbbells along your legs while pushing your hips back.",
+      "Lower until you feel a stretch in your hamstrings.",
+      "Drive your hips forward to return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Deadlift_600x600.png?v=1619976747"
+  },
+  {
+    "_id": "7c53aeeaa9e348ef930df03b",
+    "title": "Barbell Shrug",
+    "primary_muscles": [
+      "Trapezius"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand holding a barbell in front of your thighs with an overhand, shoulder-width grip.",
+      "Keep your arms straight and core braced.",
+      "Elevate your shoulders straight up toward your ears as high as possible.",
+      "Squeeze your traps at the top of the movement.",
+      "Slowly lower your shoulders back down to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Shrug_4f8a4e15-96b9-4595-8e88-635bf83cc8ac_600x600.png?v=1612138751"
+  },
+  {
+    "_id": "d6d6e0efc3ab40b19ebcc330",
+    "title": "Dumbbell Shrugs",
+    "primary_muscles": [
+      "Trapezius"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Back"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand holding a dumbbell in each hand by your sides.",
+      "Keep your arms straight and core braced.",
+      "Elevate your shoulders straight up toward your ears as high as possible.",
+      "Squeeze your traps at the top of the movement.",
+      "Slowly lower your shoulders back down to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Shrugs_69a32385-3573-471b-a66e-3abdb0d95819_600x600.png?v=1619986777"
+  },
+  {
+    "_id": "1bf18567950040c6b276495e",
+    "title": "Barbell Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell"
+    ],
+    "steps": [
+      "Stand tall with your chest up and core braced, holding a barbell with a shoulder-width, underhand grip.",
+      "Keeping your elbows tucked in close to your torso, curl the barbell up towards your shoulders.",
+      "Squeeze your biceps hard at the top of the movement.",
+      "Lower the barbell under control back to the starting position, fully extending your arms.",
+      "Avoid using momentum by swinging your torso; keep your body still."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Curl_f38580d5-412e-4082-b453-5d319afa94fd_600x600.png?v=1612137128"
+  },
+  {
+    "_id": "382da853e09742938789faa9",
+    "title": "Alternating Dumbbell Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand tall holding a dumbbell in each hand at your sides, palms facing forward.",
+      "Keep your elbows tucked close to your torso.",
+      "Curl one dumbbell up toward your shoulder while keeping the other arm still.",
+      "Squeeze your bicep at the top, then lower under control.",
+      "Repeat on the opposite arm, alternating sides."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Alternating-Dumbbell-Curl_ad879dc4-b4fb-4ca7-b2b1-6e1eb5d78252_600x600.png?v=1612137169"
+  },
+  {
+    "_id": "31309b47be5345649290fdab",
+    "title": "Rope Cable Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Rope Attachment"
+    ],
+    "steps": [
+      "Attach a rope to a low pulley on a cable machine.",
+      "Grab the ends of the rope with a neutral grip and stand tall, elbows tucked in.",
+      "Curl the rope up toward your shoulders, rotating your wrists slightly outward at the top.",
+      "Squeeze your biceps at the top of the movement.",
+      "Slowly lower back to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Rope-Cable-Curl_6216e254-5f77-462c-9954-ea210fff8a70_600x600.png?v=1612137195"
+  },
+  {
+    "_id": "eed2f9a2841644b0b093280f",
+    "title": "EZ Barbell Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "EZ Curl Bar"
+    ],
+    "steps": [
+      "Stand tall holding an EZ curl bar with an underhand grip on the angled portions.",
+      "Keep your elbows tucked close to your torso.",
+      "Curl the bar up toward your shoulders, squeezing your biceps at the top.",
+      "Lower the bar back down under control, fully extending your arms.",
+      "Avoid swinging your torso to generate momentum."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/EZ-Barbell-Curl_42cb566b-6415-4318-94e0-c93f4b442e59_600x600.png?v=1612137227"
+  },
+  {
+    "_id": "7ca142bc1ad94f148af58893",
+    "title": "EZ Barbell Preacher Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "EZ Curl Bar",
+      "Preacher Bench"
+    ],
+    "steps": [
+      "Sit at a preacher bench with your upper arms resting flat on the pad.",
+      "Grab an EZ curl bar with an underhand, shoulder-width grip.",
+      "Curl the bar up toward your shoulders, squeezing your biceps at the top.",
+      "Lower the bar back down slowly until your arms are almost fully extended.",
+      "Keep your upper arms pressed against the pad throughout."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/EZ-Barbell-Preacher-Curl_4d449fee-1920-4137-970c-75d4698b268d_600x600.png?v=1612137254"
+  },
+  {
+    "_id": "791cc021be2141efbcd6ebec",
+    "title": "Hammer Curl",
+    "primary_muscles": [
+      "Brachialis",
+      "Brachioradialis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps",
+      "Forearms"
+    ],
+    "category": "Biceps",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand tall with a dumbbell in each hand by your sides.",
+      "Keep your palms facing your body (neutral grip) throughout the movement.",
+      "Keeping your elbows tucked in, curl the dumbbells up towards your shoulders.",
+      "Squeeze your biceps and forearms at the top.",
+      "Slowly lower the dumbbells back to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Hammer-Curl_da9fea8b-fc81-4a4f-9af1-aea1b85239d7_600x600.png?v=1612137282"
+  },
+  {
+    "_id": "c79f523828244fe2a103937e",
+    "title": "Incline Dumbbell Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells",
+      "Incline Bench"
+    ],
+    "steps": [
+      "Sit back on an incline bench set to about 45-60 degrees, holding a dumbbell in each hand with arms hanging straight down.",
+      "Keep your upper arms stationary against the bench.",
+      "Curl the dumbbells up toward your shoulders, keeping your elbows still.",
+      "Squeeze your biceps at the top.",
+      "Slowly lower the dumbbells back down, feeling a deep stretch at the bottom."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Incline-Dumbbell-Curl_7debf468-cd34-49bc-8933-7f4b087e6cca_600x600.png?v=1612137309"
+  },
+  {
+    "_id": "3190b5664e78447da2ad2d82",
+    "title": "Dumbbell Concentration Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbell",
+      "Bench"
+    ],
+    "steps": [
+      "Sit on a bench with your legs spread and hold a dumbbell in one hand.",
+      "Rest the back of your upper arm against the inside of your thigh.",
+      "Curl the dumbbell up toward your shoulder, keeping your upper arm still.",
+      "Squeeze your bicep hard at the top.",
+      "Slowly lower the dumbbell back down, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Concentration-Curl_289b5739-4bdd-40e6-a195-6ecfcc685126_600x600.png?v=1612137334"
+  },
+  {
+    "_id": "08318169d92a41c89a75db19",
+    "title": "Single-Arm Low Pulley Cable Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Single Handle Attachment"
+    ],
+    "steps": [
+      "Attach a single handle to a low pulley and grab it with an underhand grip.",
+      "Stand facing away from the machine with your elbow tucked into your side.",
+      "Curl the handle up toward your shoulder, keeping your upper arm stationary.",
+      "Squeeze your bicep at the top.",
+      "Slowly lower back to the starting position, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Single-Arm-Low-Pulley-Cable-Curl_600x600.png?v=1619978525"
+  },
+  {
+    "_id": "0b458580c85f439aae447d73",
+    "title": "Straight Bar Low Pulley Cable Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Straight Bar Attachment"
+    ],
+    "steps": [
+      "Attach a straight bar to a low pulley and grab it with an underhand, shoulder-width grip.",
+      "Stand facing the machine with your elbows tucked into your sides.",
+      "Curl the bar up toward your shoulders, keeping your upper arms still.",
+      "Squeeze your biceps at the top.",
+      "Slowly lower the bar back to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Straight-Bar-Low-Pulley-Cable-Curl_600x600.png?v=1619978455"
+  },
+  {
+    "_id": "b9ce38ba841c4db083ca93a0",
+    "title": "Standing High Pulley Cable Curl",
+    "primary_muscles": [
+      "Biceps Brachii"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Biceps"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Single Handle Attachments"
+    ],
+    "steps": [
+      "Stand between two high pulleys with a handle attached to each.",
+      "Grab a handle in each hand with your arms extended out to the sides.",
+      "Curl your hands toward your head, keeping your upper arms in place.",
+      "Squeeze your biceps at the top of the movement.",
+      "Slowly return to the starting position under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Standing-High-Pulley-Cable-Curl_600x600.png?v=1619978409"
+  },
+  {
+    "_id": "e5cf086c5f104396a9060804",
+    "title": "Seated Barbell Wrist Curl",
+    "primary_muscles": [
+      "Forearms"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Forearms"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Bench"
+    ],
+    "steps": [
+      "Sit on a bench and rest your forearms on your thighs, holding a barbell with an underhand grip, wrists hanging off your knees.",
+      "Let the bar roll down to your fingertips.",
+      "Curl the bar upward by flexing your wrists as high as possible.",
+      "Squeeze your forearms at the top.",
+      "Slowly lower the bar back down to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Barbell-Wrist-Curl_600x600.png?v=1619978365"
+  },
+  {
+    "_id": "6461fa18a792480683431d35",
+    "title": "Seated Barbell Wrist Extension",
+    "primary_muscles": [
+      "Forearms"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Forearms"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Bench"
+    ],
+    "steps": [
+      "Sit on a bench and rest your forearms on your thighs, holding a barbell with an overhand grip, wrists hanging off your knees.",
+      "Lower the bar down as far as comfortable.",
+      "Extend your wrists to lift the bar upward as high as possible.",
+      "Squeeze your forearms at the top.",
+      "Slowly lower the bar back down to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Barbell-Wrist-Extension_600x600.png?v=1619978327"
+  },
+  {
+    "_id": "228a875536004f4c948bf34a",
+    "title": "Reverse Barbell Curl",
+    "primary_muscles": [
+      "Brachioradialis",
+      "Brachialis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Forearms",
+      "Biceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell"
+    ],
+    "steps": [
+      "Stand tall holding a barbell with an overhand, shoulder-width grip.",
+      "Keep your elbows tucked close to your torso.",
+      "Curl the bar up toward your shoulders, keeping your wrists straight.",
+      "Squeeze your forearms and biceps at the top.",
+      "Lower the bar back down under control, fully extending your arms."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Reverse-Barbell-Curl_600x600.png?v=1619978270"
+  },
+  {
+    "_id": "4eb5baa4dd7a45889433659e",
+    "title": "Crunch",
+    "primary_muscles": [
+      "Rectus Abdominis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Lie on your back with your knees bent and feet flat on the floor.",
+      "Place your hands lightly behind your head or crossed over your chest.",
+      "Engage your core and curl your shoulders up off the floor toward your knees.",
+      "Squeeze your abs at the top of the movement.",
+      "Slowly lower back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Crunch_f3498d5d-82d9-4a7f-8dee-98a2e55a62f2_600x600.png?v=1612138317"
+  },
+  {
+    "_id": "b41a192e65c241d28e672cef",
+    "title": "Oblique Crunch",
+    "primary_muscles": [
+      "Obliques"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs",
+      "Obliques"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Lie on your back with your knees bent and feet flat on the floor, hands behind your head.",
+      "Engage your core and lift your shoulder blades off the floor while rotating your torso.",
+      "Bring one elbow toward the opposite knee.",
+      "Squeeze your obliques at the top.",
+      "Lower back down and repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Oblique-Crunch_253d0361-395d-443b-8228-aff440c1eee9_600x600.png?v=1612138354"
+  },
+  {
+    "_id": "29b4f95a4ea6480fa966c6ca",
+    "title": "Crunch Machine",
+    "primary_muscles": [
+      "Rectus Abdominis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs"
+    ],
+    "category": "Machines",
+    "difficulty": "",
+    "equipment": [
+      "Ab Crunch Machine"
+    ],
+    "steps": [
+      "Sit on the ab crunch machine and adjust the seat so the pads rest against your upper chest or shoulders.",
+      "Grip the handles and engage your core.",
+      "Crunch forward by contracting your abs, pulling the pads down toward your hips.",
+      "Squeeze your abs at the bottom of the movement.",
+      "Slowly return to the starting position under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Crunch-Machine_538b22a3-379f-4a45-874a-ec1d798235b4_600x600.png?v=1612138379"
+  },
+  {
+    "_id": "220cba8d8f874c94954bd93f",
+    "title": "Rope Ab Pulldown",
+    "primary_muscles": [
+      "Rectus Abdominis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Rope Attachment"
+    ],
+    "steps": [
+      "Attach a rope to a high pulley and kneel facing the machine, holding an end of the rope in each hand near your head.",
+      "Engage your core and curl your torso downward, bringing your elbows toward your knees.",
+      "Squeeze your abs at the bottom of the movement.",
+      "Keep your hips stationary throughout.",
+      "Slowly return to the starting position under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Rope-Ab-Pulldown_b808db26-a4f3-4018-8007-5e31da5736dc_600x600.png?v=1612138402"
+  },
+  {
+    "_id": "d35f72577107462daac2d2d0",
+    "title": "Plank",
+    "primary_muscles": [
+      "Rectus Abdominis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Start on the floor resting on your forearms and knees.",
+      "Step your feet back one at a time to come into a forearm plank position.",
+      "Make sure your elbows are directly beneath your shoulders.",
+      "Keep your body in a straight line from head to heels. Do not let your hips sag or hike up.",
+      "Squeeze your glutes and brace your core as if you are about to be punched in the stomach.",
+      "Hold this position for the desired amount of time, breathing evenly."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Plank_3a82d566-9cb2-4c20-b301-bc8bd635c4d1_600x600.png?v=1612138431"
+  },
+  {
+    "_id": "d5d03ca4a52b471b9f5c34e9",
+    "title": "Hanging Leg Raise",
+    "primary_muscles": [
+      "Rectus Abdominis",
+      "Hip Flexors"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Pull-up Bar"
+    ],
+    "steps": [
+      "Hang from a pull-up bar with your arms fully extended and core engaged.",
+      "Keeping your legs straight (or knees bent for an easier variation), raise your legs up in front of you.",
+      "Lift until your legs are at least parallel to the floor, or higher for a full range.",
+      "Squeeze your abs at the top.",
+      "Slowly lower your legs back down under control, avoiding swinging."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Hanging-Leg-Raise_36986393-d0a6-494a-981f-4ea06a99b0b5_600x600.png?v=1612138457"
+  },
+  {
+    "_id": "eff0ffbf3c1344db8ef4c44b",
+    "title": "Bent Knee Reverse Crunch",
+    "primary_muscles": [
+      "Rectus Abdominis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Lie on your back with your knees bent and lifted, shins parallel to the floor.",
+      "Place your hands by your sides or under your lower back for support.",
+      "Engage your core and curl your hips up off the floor, bringing your knees toward your chest.",
+      "Squeeze your lower abs at the top.",
+      "Slowly lower your hips back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Bent-Knee-Reverse-Crunch_600x600.png?v=1621163012"
+  },
+  {
+    "_id": "778a41ef35b445ec9eecde1a",
+    "title": "Long Arm Crunch",
+    "primary_muscles": [
+      "Rectus Abdominis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Lie on your back with your knees bent and feet flat on the floor.",
+      "Extend your arms straight overhead, keeping them close to your ears.",
+      "Engage your core and curl your shoulders up off the floor, reaching your arms toward your knees.",
+      "Squeeze your abs at the top of the movement.",
+      "Slowly lower back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Long-Arm-Crunch_f0e219dc-514f-411f-ad0d-0cdf02a93d41_600x600.png?v=1621163062"
+  },
+  {
+    "_id": "78242452908e491ebb2be11d",
+    "title": "Plank Get Ups",
+    "primary_muscles": [
+      "Rectus Abdominis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Start in a forearm plank position with your body in a straight line.",
+      "Push up onto one hand, then the other, coming into a high plank.",
+      "Lower back down onto one forearm, then the other, returning to a forearm plank.",
+      "Keep your hips stable and avoid rocking side to side.",
+      "Alternate the leading arm with each repetition."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/plank-get-ups.svg?v=1681297916"
+  },
+  {
+    "_id": "32aee0fbeb1e4f3dbbcc125e",
+    "title": "Dumbbell Shoulder Press",
+    "primary_muscles": [
+      "Anterior Deltoids",
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders",
+      "Triceps"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells",
+      "Bench"
+    ],
+    "steps": [
+      "Sit or stand holding a dumbbell in each hand at shoulder height, palms facing forward.",
+      "Brace your core and keep your back straight.",
+      "Press the dumbbells overhead until your arms are fully extended.",
+      "Slowly lower the dumbbells back down to shoulder height.",
+      "Repeat for the desired number of repetitions."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Shoulder-Press_da0aa742-620a-45f7-9277-78137d38ff28_600x600.png?v=1612138495"
+  },
+  {
+    "_id": "4c98d21e31a646a89fe885b6",
+    "title": "Dumbbell Lateral Raise",
+    "primary_muscles": [
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand tall with a dumbbell in each hand by your sides, palms facing inwards.",
+      "Maintain a slight bend in your elbows and keep your core tight.",
+      "Raise the dumbbells out to the sides until your arms are parallel to the floor.",
+      "Lead with your elbows slightly rather than your wrists to better target the lateral deltoid.",
+      "Slowly lower the dumbbells back to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Lateral-Raise_31c81eee-81c4-4ffe-890d-ee13dd5bbf20_600x600.png?v=1612138523"
+  },
+  {
+    "_id": "98be7118dacd460298fb6e20",
+    "title": "Dumbbell Front Raise",
+    "primary_muscles": [
+      "Anterior Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand tall holding a dumbbell in each hand in front of your thighs, palms facing your body.",
+      "Keep a slight bend in your elbows and your core braced.",
+      "Raise the dumbbells up in front of you until they reach shoulder height.",
+      "Pause briefly at the top.",
+      "Slowly lower the dumbbells back to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Front-Raise_11804c3c-22d1-4589-a035-e30ad72149f3_600x600.png?v=1612138576"
+  },
+  {
+    "_id": "e54e5ea423ff4833b941cf1f",
+    "title": "High Cable Rear Delt Fly",
+    "primary_muscles": [
+      "Posterior Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Single Handle Attachments"
+    ],
+    "steps": [
+      "Set two pulleys to a high position and grab the left handle with your right hand and the right handle with your left hand, crossing the cables.",
+      "Stand tall with a slight forward lean.",
+      "Pull the handles out and back in a wide arc, squeezing your rear delts and shoulder blades together.",
+      "Pause briefly at the peak of the movement.",
+      "Slowly return to the starting position under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/High-Cable-Rear-Delt-Fly_600x600.png?v=1612541996"
+  },
+  {
+    "_id": "a70899ad2fb04f6e8a5d17ae",
+    "title": "Smith Machine Shoulder Press",
+    "primary_muscles": [
+      "Anterior Deltoids",
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders",
+      "Triceps"
+    ],
+    "category": "Machines",
+    "difficulty": "",
+    "equipment": [
+      "Smith Machine",
+      "Bench"
+    ],
+    "steps": [
+      "Set a bench upright under the bar of a Smith machine and sit down, gripping the bar slightly wider than shoulder-width.",
+      "Unrack the bar and hold it at shoulder height.",
+      "Press the bar straight up until your arms are fully extended.",
+      "Pause briefly at the top.",
+      "Lower the bar back down to shoulder height under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Smith-Machine-Shoulder-Press_e53bea60-c273-41e9-a70d-f5fa339c6780_600x600.png?v=1612138658"
+  },
+  {
+    "_id": "38ec2f1670c241af80d46414",
+    "title": "Barbell Upright Row",
+    "primary_muscles": [
+      "Lateral Deltoids",
+      "Trapezius"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders",
+      "Traps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand tall holding a barbell with an overhand grip, hands shoulder-width apart, resting against your thighs.",
+      "Keeping the bar close to your body, pull it straight up toward your chin, leading with your elbows.",
+      "Raise your elbows above your wrists at the top of the movement.",
+      "Pause briefly at the top.",
+      "Slowly lower the bar back down to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Upright-Row_8a03db96-29ea-47df-b517-0b863f96b564_600x600.png?v=1612138684"
+  },
+  {
+    "_id": "46c136760afb4877b0af82df",
+    "title": "Bent-Over Lateral Raise",
+    "primary_muscles": [
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Shoulders",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Hinge forward at your hips, keeping your back flat and knees slightly bent.",
+      "Hold a dumbbell in each hand hanging below your shoulders, palms facing each other.",
+      "Raise the dumbbells out to the sides until they reach shoulder height, keeping a slight bend in your elbows.",
+      "Squeeze your rear delts at the top.",
+      "Slowly lower the dumbbells back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Bent-Over-Lateral-Raise_41bd4de4-0370-4e6b-9501-37cdcc26ded4_600x600.png?v=1621163232"
+  },
+  {
+    "_id": "b185ccf409ee4433a8a0add5",
+    "title": "Cable One-Arm Lateral Raise",
+    "primary_muscles": [
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Single Handle Attachment"
+    ],
+    "steps": [
+      "Attach a single handle to a low pulley and stand sideways to the machine, grabbing the handle with the far hand.",
+      "Keep a slight bend in your elbow and your core braced.",
+      "Raise your arm out to the side until it reaches shoulder height.",
+      "Pause briefly at the top.",
+      "Slowly lower back to the starting position, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Cable-One-Arm-Lateral-Raise_3e57189f-cdf3-46ee-9a89-6ca054eae56a_600x600.png?v=1612138775"
+  },
+  {
+    "_id": "8ab599e5becf4c1ca43bbe4a",
+    "title": "Dumbbell Push Press",
+    "primary_muscles": [
+      "Anterior Deltoids",
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders",
+      "Triceps"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand holding a dumbbell in each hand at shoulder height, feet shoulder-width apart.",
+      "Slightly bend your knees and dip down, then explosively drive up through your legs.",
+      "Use the momentum to press the dumbbells overhead until your arms are fully extended.",
+      "Lock out your elbows at the top.",
+      "Lower the dumbbells back down to shoulder height under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Push-Press_f9229ee9-08e7-4aeb-8e41-ebd897e7ba8b_600x600.png?v=1621162780"
+  },
+  {
+    "_id": "a700eb078a8b4563a046b05f",
+    "title": "Barbell Push Press",
+    "primary_muscles": [
+      "Anterior Deltoids",
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders",
+      "Triceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand holding a barbell at shoulder height with an overhand grip, feet shoulder-width apart.",
+      "Slightly bend your knees and dip down, then explosively drive up through your legs.",
+      "Use the momentum to press the bar overhead until your arms are fully extended.",
+      "Lock out your elbows at the top.",
+      "Lower the bar back down to shoulder height under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Push-Press_8ba0542a-aba8-45ce-bdee-1a3eb4736514_600x600.png?v=1621162658"
+  },
+  {
+    "_id": "b7cd298282f84d4f9337a1ce",
+    "title": "Single-Arm Cable Front Raise",
+    "primary_muscles": [
+      "Anterior Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Single Handle Attachment"
+    ],
+    "steps": [
+      "Attach a single handle to a low pulley and stand facing away from the machine, holding the handle with one hand in front of your thigh.",
+      "Keep a slight bend in your elbow.",
+      "Raise your arm straight up in front of you until it reaches shoulder height.",
+      "Pause briefly at the top.",
+      "Slowly lower back to the starting position, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Single-Arm-Cable-Front-Raise_600x600.png?v=1619977928"
+  },
+  {
+    "_id": "125c58db18534f49a72d37f9",
+    "title": "Barbell Front Raise",
+    "primary_muscles": [
+      "Anterior Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand tall holding a barbell with an overhand, shoulder-width grip in front of your thighs.",
+      "Keep a slight bend in your elbows and your core braced.",
+      "Raise the bar up in front of you until it reaches shoulder height.",
+      "Pause briefly at the top.",
+      "Slowly lower the bar back down to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Front-Raise_600x600.png?v=1619977846"
+  },
+  {
+    "_id": "2b8c8746e91e4fc291a072e5",
+    "title": "Seated Barbell Shoulder Press",
+    "primary_muscles": [
+      "Anterior Deltoids",
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders",
+      "Triceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Bench",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Sit on a bench with back support, holding a barbell at shoulder height with an overhand grip slightly wider than shoulder-width.",
+      "Brace your core and keep your back against the bench.",
+      "Press the bar straight up until your arms are fully extended.",
+      "Pause briefly at the top.",
+      "Lower the bar back down to shoulder height under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Barbell-Shoulder-Press_600x600.png?v=1619977796"
+  },
+  {
+    "_id": "b1230076358f432e8b7d0ccc",
+    "title": "Seated Behind the Neck Barbell Shoulder Press",
+    "primary_muscles": [
+      "Anterior Deltoids",
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders",
+      "Triceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Bench",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Sit on a bench with back support, holding a barbell behind your neck with an overhand grip wider than shoulder-width.",
+      "Brace your core and keep your torso upright.",
+      "Press the bar straight up until your arms are fully extended.",
+      "Pause briefly at the top.",
+      "Lower the bar back down behind your neck under control, avoiding excessive strain."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Behind-the-Neck-Barbell-Shoulder-Press_600x600.png?v=1619977737"
+  },
+  {
+    "_id": "b406165737f948d98df3aba1",
+    "title": "Standing Barbell Shoulder Press",
+    "primary_muscles": [
+      "Anterior Deltoids",
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders",
+      "Triceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand with feet shoulder-width apart, holding a barbell at shoulder height with an overhand grip slightly wider than shoulder-width.",
+      "Brace your core and squeeze your glutes.",
+      "Press the bar straight up until your arms are fully extended.",
+      "Pause briefly at the top.",
+      "Lower the bar back down to shoulder height under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Alternate-Dumbbell-Front-Raise-Neutral-Grip_600x600.png?v=1619977407"
+  },
+  {
+    "_id": "87b62e9b3dd544eda2e5c694",
+    "title": "Standing Behind the Neck Barbell Shoulder Press",
+    "primary_muscles": [
+      "Anterior Deltoids",
+      "Lateral Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders",
+      "Triceps"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand with feet shoulder-width apart, holding a barbell behind your neck with an overhand grip wider than shoulder-width.",
+      "Brace your core and keep your torso upright.",
+      "Press the bar straight up until your arms are fully extended.",
+      "Pause briefly at the top.",
+      "Lower the bar back down behind your neck under control, avoiding excessive strain."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Standing-Behind-the-Neck-Barbell-Shoulder-Press_600x600.png?v=1619977648"
+  },
+  {
+    "_id": "1450d3e66aec4c1c8dfe35d0",
+    "title": "Alternate Dumbbell Front Raise Neutral Grip",
+    "primary_muscles": [
+      "Anterior Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand tall holding a dumbbell in each hand in front of your thighs, palms facing your body (neutral grip).",
+      "Keep a slight bend in your elbows and your core braced.",
+      "Raise one dumbbell up in front of you until it reaches shoulder height while keeping the other arm still.",
+      "Pause briefly at the top.",
+      "Lower and repeat on the opposite arm, alternating sides."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Alternate-Dumbbell-Front-Raise-Neutral-Grip_600x600.png?v=1619977407"
+  },
+  {
+    "_id": "cc7e638fc0ac4597acc9518f",
+    "title": "One-Arm Low-Pulley Front Raise Neutral Grip",
+    "primary_muscles": [
+      "Anterior Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Single Handle Attachment"
+    ],
+    "steps": [
+      "Attach a single handle to a low pulley and stand facing away from the machine, holding the handle with a neutral grip.",
+      "Keep a slight bend in your elbow.",
+      "Raise your arm straight up in front of you until it reaches shoulder height.",
+      "Pause briefly at the top.",
+      "Slowly lower back to the starting position, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/One-Arm-Low-Pulley-Front-Raise-Neutral-Grip_600x600.png?v=1619977374"
+  },
+  {
+    "_id": "37891bb37c194a5bb4bf85b7",
+    "title": "Two-Handed Dumbbell Front Raise",
+    "primary_muscles": [
+      "Anterior Deltoids"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Shoulders"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbell"
+    ],
+    "steps": [
+      "Stand tall holding one end of a single dumbbell with both hands in front of your thighs.",
+      "Keep a slight bend in your elbows and your core braced.",
+      "Raise the dumbbell up in front of you until it reaches shoulder height.",
+      "Pause briefly at the top.",
+      "Slowly lower the dumbbell back down to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Two-Handed-Dumbbell-Front-Raise_600x600.png?v=1619977326"
+  },
+  {
+    "_id": "31822a10da00447f987a1fd0",
+    "title": "Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Squat Rack",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Rest the barbell securely on your upper back/shoulders (not your neck).",
+      "Step back from the rack with your feet slightly wider than shoulder-width, toes pointed slightly out.",
+      "Take a deep breath, brace your core, and keep your chest up.",
+      "Push your hips back and bend your knees as if sitting in a chair, keeping your weight over your mid-foot.",
+      "Squat until your thighs are parallel to the floor (or deeper if mobility allows).",
+      "Drive through your whole foot to push back up to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Squat_d752e42d-02ba-4692-b300-c6e67ad5a4f5_600x600.png?v=1612138811"
+  },
+  {
+    "_id": "85b7741b29f141a3bf7fecc6",
+    "title": "Leg Press",
+    "primary_muscles": [
+      "Quadriceps"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Leg Press Machine"
+    ],
+    "steps": [
+      "Sit on the leg press machine and place your feet on the sled shoulder-width apart.",
+      "Ensure your back and head are flat against the backrest.",
+      "Unrack the sled and slowly bend your knees to lower the weight towards your chest.",
+      "Lower until your knees are at a 90-degree angle, making sure your lower back doesn't lift off the pad.",
+      "Push the weight back up through your heels and mid-foot until your legs are straight but not locked out."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Leg-Press_f7febd5c-75e5-42f4-9bb4-c938969ce293_600x600.png?v=1612138836"
+  },
+  {
+    "_id": "79aa45dca456441ea36b4cbc",
+    "title": "Leg Extension",
+    "primary_muscles": [
+      "Quadriceps"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Leg Extension Machine"
+    ],
+    "steps": [
+      "Sit on the leg extension machine with the pad resting on top of your lower shins.",
+      "Adjust the pad and back support so your knees align with the machine's pivot point.",
+      "Extend your legs by straightening your knees until your legs are fully extended.",
+      "Squeeze your quads at the top.",
+      "Slowly lower the weight back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Leg-Extension_41d91d3f-4b9c-4374-82e2-1d697ce35fe4_600x600.png?v=1612138862"
+  },
+  {
+    "_id": "1ad5cd2ac3af45e993f511cf",
+    "title": "Lunge",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand tall with feet hip-width apart.",
+      "Take a big step forward with one leg.",
+      "Lower your hips until both knees are bent at about 90 degrees, with your front knee over your ankle.",
+      "Keep your chest up and core engaged.",
+      "Push off your front foot to return to the starting position, then repeat on the other leg."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Lunge_600x600.png?v=1612138903"
+  },
+  {
+    "_id": "fac8ba687db94109b3cacc74",
+    "title": "Lying Leg Curl",
+    "primary_muscles": [
+      "Hamstrings"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Leg Curl Machine"
+    ],
+    "steps": [
+      "Lie face down on the leg curl machine with the pad resting just above your heels.",
+      "Hold the handles lightly for stability.",
+      "Curl your legs up as far as possible by contracting your hamstrings.",
+      "Squeeze your hamstrings at the top of the movement.",
+      "Slowly lower the weight back to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Lying-Leg-Curl_203153d8-79dd-4bb9-9125-708aa4327107_600x600.png?v=1612139013"
+  },
+  {
+    "_id": "43fc95cad36d43fe973f3752",
+    "title": "Hack Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Hack Squat Machine"
+    ],
+    "steps": [
+      "Position yourself in the hack squat machine with your shoulders and back against the pads and feet shoulder-width apart on the platform.",
+      "Release the safety handles and brace your core.",
+      "Bend your knees to lower the weight until your thighs are at least parallel to the platform.",
+      "Keep your knees tracking over your toes.",
+      "Push through your heels and mid-foot to return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Hack-Squat_044b3d09-ffa7-4728-b56f-f4fb3c175548_600x600.png?v=1612139060"
+  },
+  {
+    "_id": "094a0a9ad9444379b48d4ac6",
+    "title": "Seated Leg Curl",
+    "primary_muscles": [
+      "Hamstrings"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Seated Leg Curl Machine"
+    ],
+    "steps": [
+      "Sit on the leg curl machine with the pad resting against the back of your lower legs and your legs extended.",
+      "Adjust the thigh pad to secure your legs.",
+      "Curl your legs down and back by bending your knees.",
+      "Squeeze your hamstrings at the bottom of the movement.",
+      "Slowly return to the starting position under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Leg-Curl_e367789a-bbb3-4144-a926-5a9b42afc278_600x600.png?v=1612139123"
+  },
+  {
+    "_id": "eaa241eb0127434582085c8c",
+    "title": "Single Leg Extension",
+    "primary_muscles": [
+      "Quadriceps"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Leg Extension Machine"
+    ],
+    "steps": [
+      "Sit on the leg extension machine with the pad resting on top of one lower shin.",
+      "Adjust the pad so your knee aligns with the machine's pivot point.",
+      "Extend that leg by straightening your knee until it is fully extended.",
+      "Squeeze your quad at the top.",
+      "Slowly lower the weight back down, then repeat on the other leg."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Single-Leg-Extension_9cf850d1-0b9b-4fb3-8caf-49d438e86db0_600x600.png?v=1612139177"
+  },
+  {
+    "_id": "15513d84d12d4a44a6f11feb",
+    "title": "Front Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Squat Rack",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Rest the barbell across the front of your shoulders, crossing your arms or using a clean grip to hold it in place.",
+      "Step back from the rack with feet shoulder-width apart.",
+      "Keep your elbows up and chest tall as you push your hips back and bend your knees to squat down.",
+      "Squat until your thighs are at least parallel to the floor.",
+      "Drive through your feet to return to the starting position, keeping your torso upright."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Front-Squat_600x600.png?v=1612049397"
+  },
+  {
+    "_id": "6ccd76d4228a42809812cc43",
+    "title": "Dumbbell Stiff-Leg Deadlift",
+    "primary_muscles": [
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes",
+      "Back"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells"
+    ],
+    "steps": [
+      "Stand holding a dumbbell in each hand in front of your thighs, feet hip-width apart.",
+      "Keep your knees nearly straight with only a slight bend.",
+      "Hinge at your hips, lowering the dumbbells along your legs while pushing your hips back.",
+      "Lower until you feel a deep stretch in your hamstrings.",
+      "Drive your hips forward to return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Romanian-Deadlift_35135213-e0df-4ef2-b093-22ed8d04dc41_600x600.png?v=1621162896"
+  },
+  {
+    "_id": "a8a773a6f7c74e6b8618d612",
+    "title": "Barbell Stiff-Leg Deadlift",
+    "primary_muscles": [
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes",
+      "Back"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand holding a barbell in front of your thighs with an overhand grip, feet hip-width apart.",
+      "Keep your knees nearly straight with only a slight bend.",
+      "Hinge at your hips, lowering the bar along your legs while pushing your hips back.",
+      "Lower until you feel a deep stretch in your hamstrings.",
+      "Drive your hips forward to return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Romanian-Deadlift_34ede1b4-63ac-451d-9536-bbf9942b560c_600x600.png?v=1621162957"
+  },
+  {
+    "_id": "ee604e80cb054ca0911e751c",
+    "title": "Dumbbell Goblet Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbell"
+    ],
+    "steps": [
+      "Hold a single dumbbell vertically against your chest with both hands, cupping the top end.",
+      "Stand with feet slightly wider than shoulder-width, toes turned slightly out.",
+      "Push your hips back and bend your knees to squat down, keeping your chest up and elbows inside your knees.",
+      "Squat until your thighs are at least parallel to the floor.",
+      "Drive through your feet to return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Goblet-Squat_600x600.png?v=1612049778"
+  },
+  {
+    "_id": "17e014dc84cc45b48d473eb9",
+    "title": "Knee Tuck Jumps",
+    "primary_muscles": [
+      "Hip Flexors",
+      "Rectus Abdominis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs",
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand with feet shoulder-width apart.",
+      "Bend your knees slightly and swing your arms back to prepare for the jump.",
+      "Explosively jump up, driving your knees toward your chest as high as possible.",
+      "Extend your legs to land softly, bending your knees to absorb the impact.",
+      "Reset and repeat immediately for the next repetition."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Knee-Tuck-Jumps_dbf2e5a8-e907-4117-a044-8cd0abeb191d_600x600.png?v=1653509454"
+  },
+  {
+    "_id": "84546cde1abd4ca1a68eeb16",
+    "title": "Burpees",
+    "primary_muscles": [
+      "Quadriceps",
+      "Core"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Full Body"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Start standing, then squat down and place your hands on the floor in front of you.",
+      "Kick your feet back into a high plank position.",
+      "Perform a push-up (optional), then jump your feet back up to your hands.",
+      "Explosively jump up into the air, reaching your arms overhead.",
+      "Land softly and repeat."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Burpees_600x600.png?v=1640121232"
+  },
+  {
+    "_id": "10618219e6d944b7b4957068",
+    "title": "Bodyweight Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand with feet shoulder-width apart, toes pointed slightly outward.",
+      "Push your hips back and bend your knees as if sitting into a chair, keeping your chest up.",
+      "Squat down until your thighs are at least parallel to the floor.",
+      "Keep your weight over your mid-foot throughout.",
+      "Drive through your feet to return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Bodyweight-Squat_600x600.png?v=1653577860"
+  },
+  {
+    "_id": "25b18375e08842078fd2813c",
+    "title": "1.5 Rep Bodyweight Squats",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand with feet shoulder-width apart and squat down until your thighs are parallel to the floor.",
+      "Rise halfway up, then lower back down to the bottom position.",
+      "From the bottom, drive all the way back up to standing, completing one and a half repetitions.",
+      "Keep your chest up and core braced throughout.",
+      "Repeat for the desired number of reps."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Bodyweight-Squat_600x600.png?v=1653577860"
+  },
+  {
+    "_id": "45fe8f14ca764e938621ff64",
+    "title": "Medicine Ball Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Medicine Ball",
+    "difficulty": "",
+    "equipment": [
+      "Medicine Ball"
+    ],
+    "steps": [
+      "Hold a medicine ball at chest height with both hands.",
+      "Stand with feet shoulder-width apart, toes pointed slightly outward.",
+      "Push your hips back and bend your knees to squat down, keeping your chest up.",
+      "Squat until your thighs are at least parallel to the floor.",
+      "Drive through your feet to return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Medicine-Ball-Squat_600x600.png?v=1655223652"
+  },
+  {
+    "_id": "246a7717b6c1400da5a46767",
+    "title": "Barbell Bulgarian Split Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Bench",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Rest a barbell across your upper back and stand a couple of feet in front of a bench.",
+      "Place the top of one foot on the bench behind you.",
+      "Lower your body by bending your front knee until your back knee nearly touches the floor.",
+      "Keep your torso upright and front knee over your ankle.",
+      "Push through your front foot to return to the starting position, then repeat on the other leg."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Bulgarian-Split-Squat_600x600.png?v=1655223749"
+  },
+  {
+    "_id": "80771fca45f54aba97ad0e99",
+    "title": "Bodyweight Bulgarian Split Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bench",
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand a couple of feet in front of a bench with the top of one foot resting on it behind you.",
+      "Keep your torso upright and hands on your hips or held together at your chest.",
+      "Lower your body by bending your front knee until your back knee nearly touches the floor.",
+      "Keep your front knee over your ankle.",
+      "Push through your front foot to return to the starting position, then repeat on the other leg."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Bodyweight-Bulgarian-Split-Squat_600x600.png?v=1655223826"
+  },
+  {
+    "_id": "1fb891426f494b32b384cf53",
+    "title": "Mini-Band Air Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bands",
+    "difficulty": "",
+    "equipment": [
+      "Mini Resistance Band"
+    ],
+    "steps": [
+      "Place a mini resistance band around your legs, just above your knees.",
+      "Stand with feet shoulder-width apart, pressing outward against the band to keep tension.",
+      "Push your hips back and bend your knees to squat down, keeping your knees tracking over your toes.",
+      "Squat until your thighs are at least parallel to the floor.",
+      "Drive through your feet to return to the starting position, maintaining outward pressure on the band."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Mini-Band-Air-Squat_600x600.png?v=1655223897"
+  },
+  {
+    "_id": "97d1d2aa0cee4085864ea55d",
+    "title": "Jump Squat",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand with feet shoulder-width apart.",
+      "Push your hips back and bend your knees to lower into a squat.",
+      "Explosively jump straight up, extending your hips, knees, and ankles.",
+      "Land softly back into the squat position to absorb the impact.",
+      "Immediately repeat for the next repetition."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Jump-Squat_600x600.png?v=1655223952"
+  },
+  {
+    "_id": "d1a0d3d5ae2b47c4be69b3ff",
+    "title": "Wall Sit",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand with your back against a wall and walk your feet out in front of you.",
+      "Slide down the wall until your knees are bent at about 90 degrees, thighs parallel to the floor.",
+      "Keep your back flat against the wall and core engaged.",
+      "Hold this position for the desired amount of time.",
+      "Slide back up the wall to finish."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Wall-Sit_600x600.png?v=1655224007"
+  },
+  {
+    "_id": "0736d1963b0c4f2e9487c22a",
+    "title": "Medicine Ball Deadlift",
+    "primary_muscles": [
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes",
+      "Back"
+    ],
+    "category": "Medicine Ball",
+    "difficulty": "",
+    "equipment": [
+      "Medicine Ball"
+    ],
+    "steps": [
+      "Stand with feet hip-width apart, holding a medicine ball in front of your thighs with both hands.",
+      "Keep your back straight and a slight bend in your knees.",
+      "Hinge at your hips, lowering the ball toward the floor while pushing your hips back.",
+      "Lower until you feel a stretch in your hamstrings.",
+      "Drive your hips forward to return to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Medicine-Ball-Deadlift_600x600.png?v=1655224056"
+  },
+  {
+    "_id": "7c5ce668574d426f89bb1316",
+    "title": "Single Leg Bodyweight Deadlift",
+    "primary_muscles": [
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes",
+      "Back"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand tall on one leg with a slight bend in your knee.",
+      "Hinge at your hips, extending your free leg straight back behind you for balance.",
+      "Lower your torso toward the floor until it's roughly parallel, reaching your arms forward or down.",
+      "Keep your standing leg stable and hips square.",
+      "Drive through your standing leg to return to the starting position, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Single-Leg-Bodyweight-Deadlift_600x600.png?v=1655224115"
+  },
+  {
+    "_id": "f495814b275a4ba0ba4b8a83",
+    "title": "Kettlebell Sumo Deadlift",
+    "primary_muscles": [
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes",
+      "Back"
+    ],
+    "category": "Kettlebell",
+    "difficulty": "",
+    "equipment": [
+      "Kettlebell"
+    ],
+    "steps": [
+      "Stand with a wide stance, toes pointed outward, and a kettlebell on the floor between your feet.",
+      "Hinge at your hips and bend your knees to grip the kettlebell handle with both hands.",
+      "Keep your chest up and back flat.",
+      "Drive through your heels and stand up, keeping the kettlebell close to your body.",
+      "Lower the kettlebell back down under control by hinging at the hips."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Kettlebell-Sumo-Deadlift_600x600.png?v=1655224172"
+  },
+  {
+    "_id": "5bd0fef6d517400d90381530",
+    "title": "Good Morning",
+    "primary_muscles": [
+      "Hamstrings",
+      "Gluteus Maximus",
+      "Erector Spinae"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes",
+      "Back"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Stand with a barbell resting across your upper back, feet shoulder-width apart.",
+      "Keep a slight bend in your knees and your core braced.",
+      "Hinge at your hips, lowering your torso forward while keeping your back flat.",
+      "Lower until you feel a stretch in your hamstrings.",
+      "Drive your hips forward to return to the standing position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Good-Morning_600x600.png?v=1655224242"
+  },
+  {
+    "_id": "37a316beb32644fe91a31687",
+    "title": "Bodyweight Glute Bridge",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Lie on your back with your knees bent and feet flat on the floor, hip-width apart.",
+      "Place your arms at your sides for stability.",
+      "Drive through your heels and lift your hips toward the ceiling, squeezing your glutes at the top.",
+      "Hold briefly at the top of the movement.",
+      "Slowly lower your hips back down to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Bodyweight-Glute-Bridge_600x600.png?v=1655224288"
+  },
+  {
+    "_id": "904a20f397614bb4baab4117",
+    "title": "Single Leg Glute Bridge",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Lie on your back with one knee bent and foot flat on the floor, extending the other leg straight out.",
+      "Place your arms at your sides for stability.",
+      "Drive through your planted heel and lift your hips toward the ceiling, squeezing your glutes at the top.",
+      "Hold briefly at the top.",
+      "Slowly lower your hips back down, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Single-Leg-Glute-Bridge_600x600.png?v=1655224356"
+  },
+  {
+    "_id": "8ea5b7ed06f644b8b8db11ec",
+    "title": "Banded Glute Bridge",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bands",
+    "difficulty": "",
+    "equipment": [
+      "Mini Resistance Band"
+    ],
+    "steps": [
+      "Place a mini resistance band around your legs, just above your knees.",
+      "Lie on your back with your knees bent and feet flat on the floor, hip-width apart.",
+      "Press your knees outward against the band as you drive through your heels to lift your hips toward the ceiling.",
+      "Squeeze your glutes at the top.",
+      "Slowly lower your hips back down, maintaining tension on the band."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Banded-Glute-Bridge_600x600.png?v=1656401790"
+  },
+  {
+    "_id": "faf7a211f21d4dcaa02b6196",
+    "title": "Duck Walk",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand with feet shoulder-width apart and squat down into a low, deep squat position.",
+      "Keep your chest up and hands clasped in front of you for balance.",
+      "While staying low in the squat, step forward with one foot, then the other, walking forward.",
+      "Keep your knees tracking over your toes throughout.",
+      "Continue for the desired distance or number of steps."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Duck-Walk_600x600.png?v=1656401872"
+  },
+  {
+    "_id": "b42fcbcd4dcb42ae90efa5a1",
+    "title": "Bird Dog",
+    "primary_muscles": [
+      "Core"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Core",
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Start on all fours with your hands under your shoulders and knees under your hips.",
+      "Engage your core to keep your spine neutral.",
+      "Extend one arm straight forward while simultaneously extending the opposite leg straight back.",
+      "Hold briefly, keeping your hips and shoulders square to the floor.",
+      "Return to the starting position and repeat on the opposite side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Bird-Dog_600x600.png?v=1656401941"
+  },
+  {
+    "_id": "97cbf062934047bba44cddc0",
+    "title": "Groiners",
+    "primary_muscles": [
+      "Core"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Core",
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Start in a high plank position with your hands under your shoulders.",
+      "Step one foot forward outside of the same-side hand, coming into a deep lunge.",
+      "Rotate your torso and reach the opposite arm toward the ceiling.",
+      "Return your hand to the floor and step your foot back to plank.",
+      "Repeat on the other side, alternating continuously."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Groiners_600x600.png?v=1656402166"
+  },
+  {
+    "_id": "bd136d54fe964f689bb8b457",
+    "title": "Fire Hydrants",
+    "primary_muscles": [
+      "Gluteus Medius"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Start on all fours with your hands under your shoulders and knees under your hips.",
+      "Keeping your knee bent at 90 degrees, lift one leg out to the side until your thigh is roughly parallel to the floor.",
+      "Squeeze your glute at the top of the movement.",
+      "Keep your hips level and avoid rotating your torso.",
+      "Slowly lower your leg back down, then repeat on the same side or switch."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Fire-Hydrant_600x600.png?v=1656402231"
+  },
+  {
+    "_id": "939f687f7fe54a5892fc906d",
+    "title": "Smith Machine Hip Thrust",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Machines",
+    "difficulty": "",
+    "equipment": [
+      "Smith Machine",
+      "Bench"
+    ],
+    "steps": [
+      "Sit on the floor with your upper back against a bench and position the Smith machine bar across your hips (use a pad for comfort).",
+      "Plant your feet flat on the floor, knees bent.",
+      "Unrack the bar and drive through your heels to lift your hips toward the ceiling.",
+      "Squeeze your glutes at the top, forming a straight line from shoulders to knees.",
+      "Lower your hips back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Smith-Machine-Hip-Thrust_600x600.png?v=1656402282"
+  },
+  {
+    "_id": "82d578153f97497d890cbf18",
+    "title": "Barbell Hip Thrust",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Barbell",
+    "difficulty": "",
+    "equipment": [
+      "Barbell",
+      "Bench",
+      "Weight Plates"
+    ],
+    "steps": [
+      "Sit on the floor with your upper back against a bench and roll a padded barbell over your hips.",
+      "Plant your feet flat on the floor, knees bent, shoulder-width apart.",
+      "Drive through your heels to lift your hips toward the ceiling.",
+      "Squeeze your glutes at the top, forming a straight line from shoulders to knees.",
+      "Lower your hips back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Barbell-Hip-Thrust_600x600.png?v=1656402338"
+  },
+  {
+    "_id": "8c89a831e069446fb7ab64c0",
+    "title": "Band Seated Hip Abduction",
+    "primary_muscles": [
+      "Gluteus Medius"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bands",
+    "difficulty": "",
+    "equipment": [
+      "Mini Resistance Band",
+      "Bench"
+    ],
+    "steps": [
+      "Sit on a bench with a mini resistance band placed around your thighs, just above your knees.",
+      "Keep your feet flat on the floor and back straight.",
+      "Press your knees outward against the band as far as comfortable.",
+      "Squeeze your outer hips at the peak of the movement.",
+      "Slowly bring your knees back together under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Band-Seated-Hip-Abduction_600x600.png?v=1656404992"
+  },
+  {
+    "_id": "f0bdcee9558a4d10984919ca",
+    "title": "Seated Hip Abduction Machine",
+    "primary_muscles": [
+      "Gluteus Medius"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Machines",
+    "difficulty": "",
+    "equipment": [
+      "Hip Abduction Machine"
+    ],
+    "steps": [
+      "Sit on the hip abduction machine with your legs against the pads and adjust the range of motion setting.",
+      "Keep your back against the seat and core engaged.",
+      "Push your legs outward against the pads as far as comfortable.",
+      "Squeeze your outer hips at the peak of the movement.",
+      "Slowly return your legs to the starting position under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Hip-Abduction-Machine_600x600.png?v=1656405168"
+  },
+  {
+    "_id": "e1cd53df9b9f45fd88a13ae3",
+    "title": "Standing Cable Abduction",
+    "primary_muscles": [
+      "Gluteus Medius"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Ankle Cuff Attachment"
+    ],
+    "steps": [
+      "Attach an ankle cuff to a low pulley and secure it around one ankle.",
+      "Stand sideways to the machine, holding onto it for balance.",
+      "Keep your working leg straight and raise it out to the side away from the machine.",
+      "Squeeze your outer hip at the top of the movement.",
+      "Slowly lower back to the starting position, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Standing-Cable-Abduction_600x600.png?v=1656405251"
+  },
+  {
+    "_id": "4549e651c3c94ef9ae5d6c7b",
+    "title": "Bodyweight Frog Pump",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Lie on your back with the soles of your feet together and knees bent out to the sides, like a frog position.",
+      "Place your arms at your sides for stability.",
+      "Drive through the outer edges of your feet and lift your hips toward the ceiling.",
+      "Squeeze your glutes hard at the top.",
+      "Slowly lower your hips back down to the starting position."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Bodyweight-Frog-Pump_600x600.png?v=1656405316"
+  },
+  {
+    "_id": "32631f4e5ef0479395e9da26",
+    "title": "Smith Machine Frog Pump",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Machines",
+    "difficulty": "",
+    "equipment": [
+      "Smith Machine"
+    ],
+    "steps": [
+      "Lie on your back under a Smith machine bar with the soles of your feet together and knees bent out to the sides.",
+      "Position the bar across your hips (use a pad for comfort).",
+      "Drive through the outer edges of your feet and lift your hips toward the ceiling.",
+      "Squeeze your glutes hard at the top.",
+      "Slowly lower your hips back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Smith-Machine-Frog-Pump_600x600.png?v=1656405486"
+  },
+  {
+    "_id": "6ad82406b9cf4826a2359bc3",
+    "title": "Banded Clams",
+    "primary_muscles": [
+      "Gluteus Medius"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bands",
+    "difficulty": "",
+    "equipment": [
+      "Mini Resistance Band"
+    ],
+    "steps": [
+      "Lie on your side with a mini resistance band around your thighs, knees bent and stacked, hips stacked.",
+      "Keep your feet together and engage your core.",
+      "Rotate your top knee upward, opening it like a clam, while keeping your feet together.",
+      "Squeeze your outer hip at the top.",
+      "Slowly lower your knee back down, then repeat before switching sides."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Banded-Clams_600x600.png?v=1656405564"
+  },
+  {
+    "_id": "fbec4297c0c340f5bff5157a",
+    "title": "Side Lying Leg Raise",
+    "primary_muscles": [
+      "Quadriceps"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Lie on your side with your legs stacked and body in a straight line.",
+      "Rest your head on your lower arm or prop it up with your hand.",
+      "Raise your top leg straight up as high as comfortable, keeping it in line with your body.",
+      "Squeeze your outer hip at the top.",
+      "Slowly lower your leg back down, then repeat before switching sides."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Side-Lying-Leg-Raise_600x600.png?v=1656405688"
+  },
+  {
+    "_id": "2ab32a59bc384fd1a14b6e16",
+    "title": "Glute Ham Raise",
+    "primary_muscles": [
+      "Hamstrings"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Glute Ham Developer (GHD) Machine"
+    ],
+    "steps": [
+      "Position yourself in the glute ham developer with your ankles secured under the pads and knees on the pad.",
+      "Start with your body straight, from knees to shoulders.",
+      "Lower your torso toward the floor by bending at the knees, controlling the descent with your hamstrings.",
+      "Lower as far as you can control.",
+      "Curl your body back up to the starting position by contracting your hamstrings and glutes."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Glute-Ham-Raise_600x600.png?v=1656405832"
+  },
+  {
+    "_id": "6deb484ca5744165855e1d32",
+    "title": "Dumbbell Step Up",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Dumbbells",
+    "difficulty": "",
+    "equipment": [
+      "Dumbbells",
+      "Bench"
+    ],
+    "steps": [
+      "Hold a dumbbell in each hand and stand facing a bench or sturdy step platform.",
+      "Place one foot fully on the platform.",
+      "Push through that foot to step up, bringing your other foot to meet it on top.",
+      "Step back down with control, leading with the same foot.",
+      "Repeat, alternating the leading leg or completing all reps on one side first."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Dumbbell-Step-Up_600x600.png?v=1656405942"
+  },
+  {
+    "_id": "973e9535d9724fbdbb754774",
+    "title": "Lateral Mini-Band Walk",
+    "primary_muscles": [
+      "Gluteus Medius"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bands",
+    "difficulty": "",
+    "equipment": [
+      "Mini Resistance Band"
+    ],
+    "steps": [
+      "Place a mini resistance band around your legs, just above or below your knees.",
+      "Stand with feet hip-width apart and bend your knees slightly into a quarter-squat position.",
+      "Step sideways with one foot, then follow with the other, maintaining tension on the band.",
+      "Keep your hips level and core engaged throughout.",
+      "Continue stepping in one direction, then reverse."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Mini-Band-Lateral-Walks_600x600.png?v=1656406023"
+  },
+  {
+    "_id": "871005c833264f8089a581a3",
+    "title": "Standing Knee Raise",
+    "primary_muscles": [
+      "Hip Flexors",
+      "Rectus Abdominis"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Abs",
+      "Legs"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand tall with your feet hip-width apart.",
+      "Engage your core and lift one knee up toward your chest as high as comfortable.",
+      "Hold briefly at the top, keeping your balance.",
+      "Lower your leg back down under control.",
+      "Repeat on the same side or alternate legs."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Standing-Knee-Raise_600x600.png?v=1656406133"
+  },
+  {
+    "_id": "93d9d9a4c7784c30bc61f212",
+    "title": "Kettlebell Swings",
+    "primary_muscles": [
+      "Gluteus Maximus",
+      "Hamstrings"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes",
+      "Legs"
+    ],
+    "category": "Kettlebell",
+    "difficulty": "",
+    "equipment": [
+      "Kettlebell"
+    ],
+    "steps": [
+      "Stand with feet shoulder-width apart, holding a kettlebell with both hands in front of you.",
+      "Hinge at your hips, letting the kettlebell swing back between your legs.",
+      "Explosively drive your hips forward to swing the kettlebell up to chest height.",
+      "Keep your arms relaxed and let the momentum come from your hips, not your arms.",
+      "Let the kettlebell swing back down and repeat the movement continuously."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Kettlebell-Swing_600x600.png?v=1656782014"
+  },
+  {
+    "_id": "5e1a164552484a30a6fdd9ae",
+    "title": "Standing Cable Kickback",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Cables",
+    "difficulty": "",
+    "equipment": [
+      "Cable Machine",
+      "Ankle Cuff Attachment"
+    ],
+    "steps": [
+      "Attach an ankle cuff to a low pulley and secure it around one ankle.",
+      "Stand facing the machine, holding on for balance, with a slight forward lean.",
+      "Keeping your leg mostly straight, kick your working leg back and up.",
+      "Squeeze your glute at the top of the movement.",
+      "Slowly return your leg to the starting position, then repeat on the other side."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Standing-Cable-Kickback_600x600.png?v=1656782126"
+  },
+  {
+    "_id": "44a8b8d5df0941a39fac6a01",
+    "title": "Donkey Kicks",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Start on all fours with your hands under your shoulders and knees under your hips.",
+      "Keeping your knee bent at 90 degrees, kick one leg up and back toward the ceiling.",
+      "Squeeze your glute at the top of the movement without arching your lower back.",
+      "Slowly lower your knee back down toward the floor.",
+      "Repeat on the same side, or complete all reps before switching."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Donkey-Kicks_600x600.png?v=1656782198"
+  },
+  {
+    "_id": "c02331ff2d714cccb2e30c4e",
+    "title": "Side Lying Hip Raise",
+    "primary_muscles": [
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Lie on your side with your legs stacked and propped up on your forearm.",
+      "Bend your knees slightly, keeping your feet together.",
+      "Lift your hips off the floor, forming a straight line from your shoulders to your knees.",
+      "Squeeze your obliques and outer hip at the top.",
+      "Slowly lower your hips back down, then repeat before switching sides."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Side-Lying-Hip-Raise_600x600.png?v=1656782257"
+  },
+  {
+    "_id": "292cb10f62224d51a4870bca",
+    "title": "Squat Sit to Reach",
+    "primary_muscles": [
+      "Quadriceps",
+      "Gluteus Maximus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Legs",
+      "Glutes"
+    ],
+    "category": "Bodyweight",
+    "difficulty": "",
+    "equipment": [
+      "Bodyweight"
+    ],
+    "steps": [
+      "Stand with feet shoulder-width apart.",
+      "Push your hips back and squat down until your thighs are at least parallel to the floor.",
+      "From the bottom of the squat, reach both arms forward and rotate your torso slightly to one side.",
+      "Return your arms and torso to center, then drive through your feet to stand back up.",
+      "Alternate the reaching side with each repetition."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Squat-Sit-to-Reach_600x600.png?v=1656783666"
+  },
+  {
+    "_id": "f2a351afefc94f268d583d77",
+    "title": "Seated Calf Raise",
+    "primary_muscles": [
+      "Gastrocnemius",
+      "Soleus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Calves"
+    ],
+    "category": "Machines",
+    "difficulty": "",
+    "equipment": [
+      "Seated Calf Raise Machine"
+    ],
+    "steps": [
+      "Sit at the seated calf raise machine and place the balls of your feet on the platform, with the pads resting on your lower thighs.",
+      "Lower your heels as far as possible to stretch your calves.",
+      "Push through the balls of your feet to raise your heels as high as possible.",
+      "Squeeze your calves at the top of the movement.",
+      "Slowly lower back down under control."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Seated-Calf-Raise_8c8641b2-10f2-4dc8-9adb-8d80fd1a16d0_600x600.png?v=1612137064"
+  },
+  {
+    "_id": "fb1c1f88ceaf409e9ef2e235",
+    "title": "Standing Calf Raise",
+    "primary_muscles": [
+      "Gastrocnemius",
+      "Soleus"
+    ],
+    "secondary_muscles": [],
+    "targets": [
+      "Calves"
+    ],
+    "category": "Machines",
+    "difficulty": "",
+    "equipment": [
+      "Calf Raise Machine"
+    ],
+    "steps": [
+      "Position your shoulders under the pads of a standing calf raise machine and place the balls of your feet on the platform.",
+      "Stand tall, with a slight bend in your knees, letting your heels hang off the edge.",
+      "Lower your heels as far as possible to stretch the calves.",
+      "Push through the balls of your feet to raise your heels as high as possible.",
+      "Squeeze your calves at the top, then slowly lower back down."
+    ],
+    "image": "https://cdn.shopify.com/s/files/1/0269/5551/3900/files/Standing-Calf-Raise_61746b47-98aa-49ee-bb97-5a19562592b9_600x600.png?v=1612137090"
+  }
+]

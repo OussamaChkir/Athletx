@@ -1,0 +1,1 @@
+import { useLocalSearchParams } from "expo-router"; import { ExerciseDetail } from "@/components/screens"; export default function Page(){const {id}=useLocalSearchParams<{id:string}>();return <ExerciseDetail id={id}/>}
