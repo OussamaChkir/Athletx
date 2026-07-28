@@ -25,6 +25,7 @@ export interface OnboardingStateData {
   duration: DurationType;
   setupType: SetupType;
   targetFrequency: number | null;
+  isCompleted: boolean;
 }
 
 export interface OnboardingState extends OnboardingStateData {
@@ -32,6 +33,7 @@ export interface OnboardingState extends OnboardingStateData {
   setField: <K extends keyof OnboardingStateData>(field: K, value: OnboardingStateData[K]) => void;
   nextStep: () => void;
   prevStep: () => void;
+  completeOnboarding: () => void;
   reset: () => void;
 }
 
@@ -51,6 +53,7 @@ const initialState: OnboardingStateData & { currentStep: number } = {
   duration: null,
   setupType: null,
   targetFrequency: null,
+  isCompleted: false,
 };
 
 export const useOnboardingStore = create<OnboardingState>()(
@@ -60,6 +63,7 @@ export const useOnboardingStore = create<OnboardingState>()(
       setField: (field, value) => set({ [field]: value }),
       nextStep: () => set((state) => ({ currentStep: Math.min(state.currentStep + 1, 14) })),
       prevStep: () => set((state) => ({ currentStep: Math.max(state.currentStep - 1, 1) })),
+      completeOnboarding: () => set({ isCompleted: true }),
       reset: () => set(initialState),
     }),
     {

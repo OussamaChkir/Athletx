@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { router } from "expo-router";
 import { theme } from "@/lib/theme";
 import { useOnboardingStore } from "@/store/onboarding-store";
+import { useWorkoutStore } from "@/store/workout-store";
 import { ProgressBar } from "@/components/onboarding/ProgressBar";
 
 // Step placeholders
@@ -49,8 +50,8 @@ export default function OnboardingScreen() {
       case 10: return store.weight.value !== null && store.weight.value > 0;
       case 11: return store.goalWeight !== null && store.goalWeight > 0;
       case 12: return store.duration !== null;
-      case 13: return store.setupType !== null;
-      case 14: return store.targetFrequency !== null;
+      case 13: return store.targetFrequency !== null;
+      case 14: return store.setupType !== null;
       default: return true;
     }
   };
@@ -60,6 +61,15 @@ export default function OnboardingScreen() {
   const handleContinue = () => {
     if (!isValid) return;
     if (currentStep === TOTAL_STEPS) {
+      // Mark onboarding as complete
+      store.completeOnboarding();
+
+      // If "smart" plan chosen, auto-generate a workout from onboarding data
+      if (store.setupType === "smart") {
+        const workoutStore = useWorkoutStore.getState();
+        workoutStore.generateFromOnboarding(store);
+      }
+
       router.replace("/(tabs)" as any);
     } else {
       nextStep();
@@ -80,8 +90,8 @@ export default function OnboardingScreen() {
       case 10: return <StepWeight />;
       case 11: return <StepGoalWeight />;
       case 12: return <StepDuration />;
-      case 13: return <StepSetupType />;
-      case 14: return <StepTargetFrequency />;
+      case 13: return <StepTargetFrequency />;
+      case 14: return <StepSetupType />;
       default: return null;
     }
   };

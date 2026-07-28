@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f14"/>
+      <stop offset="100%" stop-color="#111820"/>
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06d6a0"/>
+      <stop offset="100%" stop-color="#04a97e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square app icon background -->
+  <rect x="0" y="0" width="512" height="512" rx="110" fill="url(#bg)"/>
+
+  <!-- Dumbbell X mark, centered -->
+  <g transform="translate(156,156)">
+    <rect x="0" y="85" width="200" height="32" rx="16" transform="rotate(45 100 101)" fill="url(#grad2)"/>
+    <rect x="0" y="85" width="200" height="32" rx="16" transform="rotate(-45 100 101)" fill="url(#grad2)"/>
+
+    <rect x="-16" y="8" width="32" height="66" rx="9" fill="#06d6a0"/>
+    <rect x="-16" y="190" width="32" height="66" rx="9" fill="#06d6a0"/>
+    <rect x="184" y="8" width="32" height="66" rx="9" fill="#06d6a0"/>
+    <rect x="184" y="190" width="32" height="66" rx="9" fill="#06d6a0"/>
+  </g>
+</svg>

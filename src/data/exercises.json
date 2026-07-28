@@ -10,7 +10,7 @@
       "Chest"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Bench",
@@ -37,7 +37,7 @@
       "Chest"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells",
       "Incline Bench"
@@ -63,7 +63,7 @@
       "Chest"
     ],
     "category": "Machines",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Peck Deck Machine"
     ],
@@ -87,7 +87,7 @@
       "Chest"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "D-Handle Attachments"
@@ -112,7 +112,7 @@
       "Chest"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Incline Bench",
@@ -138,7 +138,7 @@
       "Chest"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells",
       "Bench"
@@ -163,7 +163,7 @@
       "Chest"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells",
       "Bench"
@@ -188,7 +188,7 @@
       "Chest"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells",
       "Incline Bench"
@@ -213,7 +213,7 @@
       "Chest"
     ],
     "category": "Machines",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Chest Press Machine"
     ],
@@ -237,7 +237,7 @@
       "Chest"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Decline Bench",
@@ -263,7 +263,7 @@
       "Chest"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells",
       "Decline Bench"
@@ -288,7 +288,7 @@
       "Chest"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -312,7 +312,7 @@
       "Triceps"
     ],
     "category": "Triceps",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "EZ Curl Bar",
       "Bench"
@@ -337,7 +337,7 @@
       "Triceps"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Straight Bar Attachment"
@@ -362,7 +362,7 @@
       "Triceps"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Rope Attachment"
@@ -387,7 +387,7 @@
       "Triceps"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbell"
     ],
@@ -411,7 +411,7 @@
       "Triceps"
     ],
     "category": "Triceps",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Barbell",
       "Bench",
@@ -437,7 +437,7 @@
       "Triceps"
     ],
     "category": "Triceps",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbell",
       "Bench"
@@ -462,7 +462,7 @@
       "Triceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Cable Machine",
       "Barbell Attachment"
@@ -487,7 +487,7 @@
       "Triceps"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Single Handle Attachment"
@@ -512,7 +512,7 @@
       "Triceps"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Single Handle Attachment"
@@ -537,7 +537,7 @@
       "Triceps"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells",
       "Bench"
@@ -562,7 +562,7 @@
       "Triceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "EZ Curl Bar",
       "Bench"
@@ -587,7 +587,7 @@
       "Triceps"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bench",
       "Bodyweight"
@@ -612,7 +612,7 @@
       "Triceps"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Parallel Dip Bars",
       "Bodyweight"
@@ -637,7 +637,7 @@
       "Back"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbell",
       "Bench"
@@ -662,7 +662,7 @@
       "Back"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Lat Pulldown Machine"
     ],
@@ -686,7 +686,7 @@
       "Back"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "V-Grip Attachment"
@@ -711,7 +711,7 @@
       "Back"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Lat Pulldown Machine",
       "Close Grip Attachment"
@@ -736,7 +736,7 @@
       "Back"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -761,7 +761,7 @@
       "Back"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Lat Pulldown Machine"
     ],
@@ -785,7 +785,7 @@
       "Back"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Lat Pulldown Machine"
     ],
@@ -809,7 +809,7 @@
       "Back"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Rope Attachment"
@@ -834,7 +834,7 @@
       "Back"
     ],
     "category": "Back",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "T-Bar Row Machine",
       "Weight Plates"
@@ -859,7 +859,7 @@
       "Back"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -884,7 +884,7 @@
       "Back"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Pull-up Bar",
       "Bodyweight"
@@ -910,7 +910,7 @@
       "Back"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Pull-up Bar",
       "Bodyweight"
@@ -935,7 +935,7 @@
       "Back"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Pull-up Bar",
       "Bodyweight"
@@ -960,7 +960,7 @@
       "Back"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Straight Bar Attachment"
@@ -985,7 +985,7 @@
       "Back"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -1009,7 +1009,7 @@
       "Back"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbell",
       "Bench"
@@ -1034,7 +1034,7 @@
       "Back"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Bench",
@@ -1064,7 +1064,7 @@
       "Legs"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -1094,7 +1094,7 @@
       "Legs"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -1123,7 +1123,7 @@
       "Legs"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Trap Bar",
       "Weight Plates"
@@ -1152,7 +1152,7 @@
       "Legs"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -1176,7 +1176,7 @@
       "Back"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -1201,7 +1201,7 @@
       "Back"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -1225,7 +1225,7 @@
       "Biceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell"
     ],
@@ -1249,7 +1249,7 @@
       "Biceps"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -1273,7 +1273,7 @@
       "Biceps"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Rope Attachment"
@@ -1298,7 +1298,7 @@
       "Biceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "EZ Curl Bar"
     ],
@@ -1322,7 +1322,7 @@
       "Biceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "EZ Curl Bar",
       "Preacher Bench"
@@ -1349,7 +1349,7 @@
       "Forearms"
     ],
     "category": "Biceps",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -1373,7 +1373,7 @@
       "Biceps"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells",
       "Incline Bench"
@@ -1398,7 +1398,7 @@
       "Biceps"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbell",
       "Bench"
@@ -1423,7 +1423,7 @@
       "Biceps"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Single Handle Attachment"
@@ -1448,7 +1448,7 @@
       "Biceps"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Straight Bar Attachment"
@@ -1473,7 +1473,7 @@
       "Biceps"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Single Handle Attachments"
@@ -1498,7 +1498,7 @@
       "Forearms"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Bench"
@@ -1523,7 +1523,7 @@
       "Forearms"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Bench"
@@ -1550,7 +1550,7 @@
       "Biceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell"
     ],
@@ -1574,7 +1574,7 @@
       "Abs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -1599,7 +1599,7 @@
       "Obliques"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -1623,7 +1623,7 @@
       "Abs"
     ],
     "category": "Machines",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Ab Crunch Machine"
     ],
@@ -1647,7 +1647,7 @@
       "Abs"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Rope Attachment"
@@ -1672,7 +1672,7 @@
       "Abs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -1698,7 +1698,7 @@
       "Abs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Pull-up Bar"
     ],
@@ -1722,7 +1722,7 @@
       "Abs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -1746,7 +1746,7 @@
       "Abs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -1770,7 +1770,7 @@
       "Abs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -1796,7 +1796,7 @@
       "Triceps"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells",
       "Bench"
@@ -1821,7 +1821,7 @@
       "Shoulders"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -1845,7 +1845,7 @@
       "Shoulders"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -1869,7 +1869,7 @@
       "Shoulders"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Single Handle Attachments"
@@ -1896,7 +1896,7 @@
       "Triceps"
     ],
     "category": "Machines",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Smith Machine",
       "Bench"
@@ -1923,7 +1923,7 @@
       "Traps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -1948,7 +1948,7 @@
       "Shoulders"
     ],
     "category": "Shoulders",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -1972,7 +1972,7 @@
       "Shoulders"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Single Handle Attachment"
@@ -1999,7 +1999,7 @@
       "Triceps"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -2025,7 +2025,7 @@
       "Triceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -2050,7 +2050,7 @@
       "Shoulders"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Single Handle Attachment"
@@ -2075,7 +2075,7 @@
       "Shoulders"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -2102,7 +2102,7 @@
       "Triceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Bench",
@@ -2130,7 +2130,7 @@
       "Triceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Bench",
@@ -2158,7 +2158,7 @@
       "Triceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -2185,7 +2185,7 @@
       "Triceps"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -2210,7 +2210,7 @@
       "Shoulders"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -2234,7 +2234,7 @@
       "Shoulders"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Single Handle Attachment"
@@ -2259,7 +2259,7 @@
       "Shoulders"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbell"
     ],
@@ -2285,7 +2285,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Barbell",
       "Squat Rack",
@@ -2312,7 +2312,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Leg Press Machine"
     ],
@@ -2336,7 +2336,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Leg Extension Machine"
     ],
@@ -2362,7 +2362,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -2386,7 +2386,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Leg Curl Machine"
     ],
@@ -2412,7 +2412,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Hack Squat Machine"
     ],
@@ -2436,7 +2436,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Seated Leg Curl Machine"
     ],
@@ -2460,7 +2460,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Leg Extension Machine"
     ],
@@ -2486,7 +2486,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Barbell",
       "Squat Rack",
@@ -2516,7 +2516,7 @@
       "Back"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells"
     ],
@@ -2544,7 +2544,7 @@
       "Back"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -2571,7 +2571,7 @@
       "Glutes"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbell"
     ],
@@ -2597,7 +2597,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -2622,7 +2622,7 @@
       "Full Body"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -2648,7 +2648,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -2674,7 +2674,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -2700,7 +2700,7 @@
       "Glutes"
     ],
     "category": "Medicine Ball",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Medicine Ball"
     ],
@@ -2726,7 +2726,7 @@
       "Glutes"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Bench",
@@ -2754,7 +2754,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bench",
       "Bodyweight"
@@ -2781,7 +2781,7 @@
       "Glutes"
     ],
     "category": "Bands",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Mini Resistance Band"
     ],
@@ -2807,7 +2807,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -2833,7 +2833,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -2861,7 +2861,7 @@
       "Back"
     ],
     "category": "Medicine Ball",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Medicine Ball"
     ],
@@ -2889,7 +2889,7 @@
       "Back"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -2917,7 +2917,7 @@
       "Back"
     ],
     "category": "Kettlebell",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Kettlebell"
     ],
@@ -2945,7 +2945,7 @@
       "Back"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Barbell",
       "Weight Plates"
@@ -2970,7 +2970,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -2994,7 +2994,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3018,7 +3018,7 @@
       "Glutes"
     ],
     "category": "Bands",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Mini Resistance Band"
     ],
@@ -3044,7 +3044,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3069,7 +3069,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3094,7 +3094,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3118,7 +3118,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3142,7 +3142,7 @@
       "Glutes"
     ],
     "category": "Machines",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Smith Machine",
       "Bench"
@@ -3167,7 +3167,7 @@
       "Glutes"
     ],
     "category": "Barbell",
-    "difficulty": "",
+    "difficulty": "Advanced",
     "equipment": [
       "Barbell",
       "Bench",
@@ -3193,7 +3193,7 @@
       "Glutes"
     ],
     "category": "Bands",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Mini Resistance Band",
       "Bench"
@@ -3218,7 +3218,7 @@
       "Glutes"
     ],
     "category": "Machines",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Hip Abduction Machine"
     ],
@@ -3242,7 +3242,7 @@
       "Glutes"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Ankle Cuff Attachment"
@@ -3267,7 +3267,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3291,7 +3291,7 @@
       "Glutes"
     ],
     "category": "Machines",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Smith Machine"
     ],
@@ -3315,7 +3315,7 @@
       "Glutes"
     ],
     "category": "Bands",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Mini Resistance Band"
     ],
@@ -3339,7 +3339,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3363,7 +3363,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Glute Ham Developer (GHD) Machine"
     ],
@@ -3389,7 +3389,7 @@
       "Glutes"
     ],
     "category": "Dumbbells",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Dumbbells",
       "Bench"
@@ -3414,7 +3414,7 @@
       "Glutes"
     ],
     "category": "Bands",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Mini Resistance Band"
     ],
@@ -3440,7 +3440,7 @@
       "Legs"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3466,7 +3466,7 @@
       "Legs"
     ],
     "category": "Kettlebell",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Kettlebell"
     ],
@@ -3490,7 +3490,7 @@
       "Glutes"
     ],
     "category": "Cables",
-    "difficulty": "",
+    "difficulty": "Intermediate",
     "equipment": [
       "Cable Machine",
       "Ankle Cuff Attachment"
@@ -3515,7 +3515,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3539,7 +3539,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3565,7 +3565,7 @@
       "Glutes"
     ],
     "category": "Bodyweight",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Bodyweight"
     ],
@@ -3590,7 +3590,7 @@
       "Calves"
     ],
     "category": "Machines",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Seated Calf Raise Machine"
     ],
@@ -3615,7 +3615,7 @@
       "Calves"
     ],
     "category": "Machines",
-    "difficulty": "",
+    "difficulty": "Beginner",
     "equipment": [
       "Calf Raise Machine"
     ],
