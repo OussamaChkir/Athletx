@@ -3,7 +3,7 @@ import { useOnboardingStore } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 import { FormInput } from "@/components/onboarding/FormInput";
 
-export function StepWeight() {
+export default function StepWeight() {
   const { weight, height, setField } = useOnboardingStore();
 
   const toggleUnit = () => {

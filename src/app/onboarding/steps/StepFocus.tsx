@@ -10,7 +10,7 @@ const FOCUS_OPTIONS = [
   { id: "full", title: "Full Body Balance" },
 ];
 
-export function StepFocus() {
+export default function StepFocus() {
   const { focusArea, setField } = useOnboardingStore();
 
   const toggleFocus = (id: string) => {

@@ -25,6 +25,8 @@ export interface DayPlan {
 }
 
 export interface WeekPlan {
+  id: string;
+  name: string;
   weekNumber: number;
   totalWeeks: number;
   phaseName: string;
@@ -120,7 +122,8 @@ type State = {
   workoutName: string;
   savedWorkouts: SavedWorkout[];
   history: WorkoutHistoryEntry[];
-  weekPlan: WeekPlan | null;
+  plans: WeekPlan[];
+  activePlanId: string | null;
   liveIndex: number;
   livePhase: "exercise" | "rest" | "done";
   liveSet: number;
@@ -139,11 +142,17 @@ type State = {
   updateExercise(id: string, patch: Partial<WorkoutExercise>): void;
   saveCurrentWorkout(): string;
   startLiveSession(): void;
-  completeSet(): void;
+  completeSet(reps?: number, weight?: number): void;
   skipRest(): void;
+  addRestTime(seconds: number): void;
+  reduceRestTime(seconds: number): void;
   tickRest(): void;
   finishWorkout(seconds: number): void;
+  cancelWorkout(): void;
   loadDayWorkout(dayIndex: number): void;
+  setActivePlan(id: string): void;
+  addPlan(plan: WeekPlan): void;
+  deletePlan(id: string): void;
 };
 
 export const useWorkoutStore = create<State>()(
@@ -158,7 +167,8 @@ export const useWorkoutStore = create<State>()(
       workoutName: "My Workout",
       savedWorkouts: [],
       history: [],
-      weekPlan: null,
+      plans: [],
+      activePlanId: null,
       liveIndex: 0,
       livePhase: "exercise",
       liveSet: 1,
@@ -206,12 +216,26 @@ export const useWorkoutStore = create<State>()(
         const splitKey = Math.min(freq, 7) as keyof typeof SPLIT_TEMPLATES;
         const template = SPLIT_TEMPLATES[splitKey] || SPLIT_TEMPLATES[3];
 
-        // Build 7-day plan, spreading training days starting from Monday (dayIndex 1)
+        // Distribution of days based on frequency (0=Sun, 6=Sat)
+        const getWorkoutDays = (f: number) => {
+          switch(f) {
+            case 1: return [3]; // Wed
+            case 2: return [2, 5]; // Tue, Fri
+            case 3: return [1, 3, 5]; // Mon, Wed, Fri
+            case 4: return [1, 2, 4, 5]; // Mon, Tue, Thu, Fri
+            case 5: return [1, 2, 3, 5, 6]; // Mon, Tue, Wed, Fri, Sat
+            case 6: return [1, 2, 3, 4, 5, 6]; // Mon-Sat
+            case 7: return [0, 1, 2, 3, 4, 5, 6];
+            default: return [1, 3, 5];
+          }
+        };
+        const workoutDays = getWorkoutDays(freq);
+
         const days: DayPlan[] = [];
         let trainingDayIdx = 0;
 
         for (let d = 0; d < 7; d++) {
-          if (trainingDayIdx < freq) {
+          if (workoutDays.includes(d)) {
             const split = template[trainingDayIdx % template.length];
             const exercises = generateWorkout(equip, split.muscles as MuscleId[], {
               exerciseCount: exCount,
@@ -244,18 +268,23 @@ export const useWorkoutStore = create<State>()(
         const todayDOW = new Date().getDay(); // 0=Sun
         const todayPlan = days[todayDOW];
 
+        const newPlan: WeekPlan = {
+          id: "default",
+          name: "Smart Plan",
+          weekNumber: 1,
+          totalWeeks: 5,
+          phaseName,
+          days,
+        };
+
         set({
           equipment: equip,
           focus,
           exerciseCount: exCount,
-          weekPlan: {
-            weekNumber: 1,
-            totalWeeks: 5,
-            phaseName,
-            days,
-          },
-          currentWorkout: todayPlan ? todayPlan.exercises : [],
-          workoutName: todayPlan ? `${todayPlan.label} Day` : "Rest Day",
+          plans: [newPlan],
+          activePlanId: "default",
+          currentWorkout: todayPlan && !todayPlan.isRest ? todayPlan.exercises : [],
+          workoutName: todayPlan && !todayPlan.isRest ? `${todayPlan.label} Day` : "Rest Day",
         });
       },
 
@@ -318,13 +347,18 @@ export const useWorkoutStore = create<State>()(
           })),
         })),
 
-      completeSet: () => {
+      completeSet: (reps, weight) => {
         const s = get(),
           e = s.currentWorkout[s.liveIndex];
         if (!e) return;
+        const loggedSet = { 
+          reps: reps ?? e.reps, 
+          weight: weight ?? undefined, 
+          completed: true 
+        };
         const list = s.currentWorkout.map((x, i) =>
           i === s.liveIndex
-            ? { ...x, loggedSets: [...x.loggedSets, { reps: x.reps, completed: true }] }
+            ? { ...x, loggedSets: [...x.loggedSets, loggedSet] }
             : x
         );
         if (s.liveSet >= e.sets) {
@@ -348,6 +382,14 @@ export const useWorkoutStore = create<State>()(
       },
 
       skipRest: () => set({ livePhase: "exercise", restRemaining: 0 }),
+      
+      addRestTime: (seconds) => set((s) => ({
+        restRemaining: s.restRemaining + seconds,
+      })),
+
+      reduceRestTime: (seconds) => set((s) => ({
+        restRemaining: Math.max(0, s.restRemaining - seconds),
+      })),
 
       tickRest: () => {
         const s = get();
@@ -375,16 +417,41 @@ export const useWorkoutStore = create<State>()(
         set({ history: [entry, ...s.history], livePhase: "done" });
       },
 
+      cancelWorkout: () => set({ 
+        sessionStartedAt: null, 
+        currentWorkout: [], 
+        livePhase: "done" // So it won't render LiveScreen logic anymore
+      }),
+
       loadDayWorkout: (dayIndex) => {
         const s = get();
-        if (!s.weekPlan) return;
-        const day = s.weekPlan.days[dayIndex];
+        const activePlan = s.plans.find((p) => p.id === s.activePlanId);
+        if (!activePlan) return;
+        const day = activePlan.days[dayIndex];
         if (!day || day.isRest) return;
         set({
           currentWorkout: day.exercises,
           workoutName: `${day.label} Day`,
         });
       },
+
+      setActivePlan: (id) => {
+        const s = get();
+        const plan = s.plans.find((p) => p.id === id);
+        if (!plan) return;
+        
+        const todayDOW = new Date().getDay();
+        const todayPlan = plan.days[todayDOW];
+
+        set({
+          activePlanId: id,
+          currentWorkout: todayPlan && !todayPlan.isRest ? todayPlan.exercises : [],
+          workoutName: todayPlan && !todayPlan.isRest ? `${todayPlan.label} Day` : "Rest Day",
+        });
+      },
+
+      addPlan: (plan) => set((s) => ({ plans: [...s.plans, plan], activePlanId: plan.id })),
+      deletePlan: (id) => set((s) => ({ plans: s.plans.filter((p) => p.id !== id), activePlanId: s.activePlanId === id ? (s.plans.find(p => p.id !== id)?.id ?? null) : s.activePlanId })),
     }),
     {
       name: "athletx-workout-store",
@@ -399,7 +466,8 @@ export const useWorkoutStore = create<State>()(
         workoutName: s.workoutName,
         savedWorkouts: s.savedWorkouts,
         history: s.history,
-        weekPlan: s.weekPlan,
+        plans: s.plans,
+        activePlanId: s.activePlanId,
       }),
     }
   )

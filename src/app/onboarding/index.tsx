@@ -1,4 +1,5 @@
-import { SafeAreaView, StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
+import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { router } from "expo-router";
 import { theme } from "@/lib/theme";
@@ -7,20 +8,20 @@ import { useWorkoutStore } from "@/store/workout-store";
 import { ProgressBar } from "@/components/onboarding/ProgressBar";
 
 // Step placeholders
-import { StepGender } from "./steps/StepGender";
-import { StepExperience } from "./steps/StepExperience";
-import { StepFrequency } from "./steps/StepFrequency";
-import { StepGoal } from "./steps/StepGoal";
-import { StepLocation } from "./steps/StepLocation";
-import { StepInjuries } from "./steps/StepInjuries";
-import { StepFocus } from "./steps/StepFocus";
-import { StepAge } from "./steps/StepAge";
-import { StepHeight } from "./steps/StepHeight";
-import { StepWeight } from "./steps/StepWeight";
-import { StepGoalWeight } from "./steps/StepGoalWeight";
-import { StepDuration } from "./steps/StepDuration";
-import { StepSetupType } from "./steps/StepSetupType";
-import { StepTargetFrequency } from "./steps/StepTargetFrequency";
+import StepGender from "./steps/StepGender";
+import StepExperience from "./steps/StepExperience";
+import StepFrequency from "./steps/StepFrequency";
+import StepGoal from "./steps/StepGoal";
+import StepLocation from "./steps/StepLocation";
+import StepInjuries from "./steps/StepInjuries";
+import StepFocus from "./steps/StepFocus";
+import StepAge from "./steps/StepAge";
+import StepHeight from "./steps/StepHeight";
+import StepWeight from "./steps/StepWeight";
+import StepGoalWeight from "./steps/StepGoalWeight";
+import StepDuration from "./steps/StepDuration";
+import StepSetupType from "./steps/StepSetupType";
+import StepTargetFrequency from "./steps/StepTargetFrequency";
 
 const TOTAL_STEPS = 14;
 

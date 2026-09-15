@@ -4,7 +4,7 @@ import { useOnboardingStore } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 import { RadioCard } from "@/components/onboarding/RadioCard";
 
-export function StepGender() {
+export default function StepGender() {
   const { gender, setField } = useOnboardingStore();
 
   return (

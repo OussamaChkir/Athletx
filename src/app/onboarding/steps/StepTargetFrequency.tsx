@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 
-export function StepTargetFrequency() {
+export default function StepTargetFrequency() {
   const { targetFrequency, experience, goal, setField } = useOnboardingStore();
 
   const getSuggestedFrequency = () => {

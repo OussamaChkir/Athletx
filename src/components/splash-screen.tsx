@@ -1,8 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   Animated,
   Dimensions,
-  Image,
   ImageBackground,
   Pressable,
   StyleSheet,
@@ -11,15 +10,23 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { theme } from "@/lib/theme";
+import { useOnboardingStore } from "@/store/onboarding-store";
 
 const { width, height } = Dimensions.get("window");
 
 export function SplashScreen() {
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(40)).current;
-  const btnScale = useRef(new Animated.Value(1)).current;
+  const isCompleted = useOnboardingStore((s) => s.isCompleted);
+
+  const [fadeAnim] = useState(() => new Animated.Value(0));
+  const [slideAnim] = useState(() => new Animated.Value(40));
+  const [btnScale] = useState(() => new Animated.Value(1));
 
   useEffect(() => {
+    if (isCompleted) {
+      router.replace("/(tabs)" as any);
+      return;
+    }
+
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -32,7 +39,7 @@ export function SplashScreen() {
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [isCompleted, fadeAnim, slideAnim]);
 
   const handlePressIn = () =>
     Animated.spring(btnScale, {

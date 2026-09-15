@@ -3,7 +3,7 @@ import { useOnboardingStore } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 import { FormInput } from "@/components/onboarding/FormInput";
 
-export function StepAge() {
+export default function StepAge() {
   const { age, setField } = useOnboardingStore();
 
   return (

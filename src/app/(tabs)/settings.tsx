@@ -3,7 +3,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Bell,
   ChevronRight,
+  Edit2,
   HelpCircle,
+  Link2,
   LogOut,
   Moon,
   Shield,
@@ -11,16 +13,20 @@ import {
 } from "lucide-react-native";
 import { theme } from "@/lib/theme";
 import { useOnboardingStore } from "@/store/onboarding-store";
+import { useProfileStore } from "@/store/profile-store";
 import { router } from "expo-router";
 
+/* ── Reusable settings row ── */
 function SettingsRow({
   icon: Icon,
   label,
   onPress,
+  badge,
 }: {
   icon: any;
   label: string;
   onPress?: () => void;
+  badge?: string;
 }) {
   return (
     <Pressable style={styles.row} onPress={onPress}>
@@ -28,27 +34,117 @@ function SettingsRow({
         <Icon size={20} color={theme.neon} />
       </View>
       <Text style={styles.rowLabel}>{label}</Text>
+      {badge && (
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{badge}</Text>
+        </View>
+      )}
       <ChevronRight size={18} color={theme.muted} />
     </Pressable>
   );
 }
 
+/* ── Profile hero card ── */
+function ProfileCard({ onPress }: { onPress: () => void }) {
+  const profile = useProfileStore();
+
+  const displayLabel = profile.displayName.trim() || profile.username;
+  const handle = `@${profile.username}`;
+  const shortId = profile.userId.slice(0, 8).toUpperCase();
+  const initials = displayLabel
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w: string) => w[0].toUpperCase())
+    .join("") || "?";
+
+  return (
+    <Pressable style={styles.profileCard} onPress={onPress}>
+      {/* Avatar */}
+      <View style={styles.profileAvatar}>
+        <Text style={styles.profileInitials}>{initials}</Text>
+        {/* Neon ring glow */}
+        <View style={styles.profileAvatarGlow} />
+      </View>
+
+      {/* Info */}
+      <View style={{ flex: 1, gap: 2 }}>
+        <Text style={styles.profileName} numberOfLines={1}>
+          {displayLabel || "Set your name"}
+        </Text>
+        <Text style={styles.profileHandle} numberOfLines={1}>
+          {handle}
+        </Text>
+
+        {/* Tags row */}
+        <View style={styles.profileTagsRow}>
+          <View style={styles.profileTag}>
+            <Text style={styles.profileTagText}>#{shortId}</Text>
+          </View>
+          {profile.googleEmail && (
+            <View style={[styles.profileTag, styles.profileTagGoogle]}>
+              <Text style={[styles.profileTagText, { color: "#4285F4" }]}>
+                G Connected
+              </Text>
+            </View>
+          )}
+        </View>
+      </View>
+
+      {/* Edit icon */}
+      <View style={styles.profileEditBtn}>
+        <Edit2 size={16} color={theme.neon} />
+      </View>
+    </Pressable>
+  );
+}
+
+/* ── Main screen ── */
 export default function SettingsScreen() {
   const store = useOnboardingStore();
+  const profile = useProfileStore();
 
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.title}>Settings</Text>
 
-        <View style={styles.section}>
-          <SettingsRow icon={User} label="Edit Profile" />
-          <SettingsRow icon={Bell} label="Notifications" />
-          <SettingsRow icon={Moon} label="Appearance" />
-          <SettingsRow icon={Shield} label="Privacy" />
-          <SettingsRow icon={HelpCircle} label="Help & Support" />
+        {/* Profile preview → tap to edit */}
+        <ProfileCard onPress={() => router.push("/edit-profile" as any)} />
+
+        {/* General */}
+        <View style={styles.sectionWrap}>
+          <Text style={styles.sectionLabel}>ACCOUNT</Text>
+          <View style={styles.section}>
+            <SettingsRow
+              icon={User}
+              label="Edit Profile"
+              onPress={() => router.push("/edit-profile" as any)}
+            />
+            <SettingsRow
+              icon={Link2}
+              label="Connected Accounts"
+              badge={profile.googleEmail ? "Google" : undefined}
+              onPress={() => router.push("/edit-profile" as any)}
+            />
+          </View>
         </View>
 
+        {/* Preferences */}
+        <View style={styles.sectionWrap}>
+          <Text style={styles.sectionLabel}>PREFERENCES</Text>
+          <View style={styles.section}>
+            <SettingsRow icon={Bell} label="Notifications" />
+            <SettingsRow icon={Moon} label="Appearance" />
+            <SettingsRow icon={Shield} label="Privacy" />
+            <SettingsRow icon={HelpCircle} label="Help & Support" />
+          </View>
+        </View>
+
+        {/* Reset */}
         <Pressable
           style={styles.resetBtn}
           onPress={() => {
@@ -72,14 +168,113 @@ const styles = StyleSheet.create({
     backgroundColor: theme.background,
   },
   container: {
-    padding: 24,
-    gap: 24,
+    padding: 20,
+    gap: 20,
+    paddingBottom: 40,
   },
   title: {
     color: theme.text,
     fontSize: 28,
     fontWeight: "900",
-    paddingTop: 16,
+    paddingTop: 8,
+  },
+
+  /* ── Profile card ── */
+  profileCard: {
+    backgroundColor: theme.surface,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.border,
+    padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    shadowColor: theme.neon,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 4,
+  },
+  profileAvatar: {
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    backgroundColor: "#1a3d28",
+    borderWidth: 2,
+    borderColor: theme.neon,
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+    overflow: "hidden",
+  },
+  profileAvatarGlow: {
+    position: "absolute",
+    inset: -4,
+    borderRadius: 33,
+    borderWidth: 1,
+    borderColor: "rgba(8,253,142,0.2)",
+  },
+  profileInitials: {
+    color: theme.neon,
+    fontSize: 22,
+    fontWeight: "900",
+    letterSpacing: 1,
+  },
+  profileName: {
+    color: theme.text,
+    fontSize: 17,
+    fontWeight: "800",
+  },
+  profileHandle: {
+    color: theme.muted,
+    fontSize: 13,
+    fontWeight: "500",
+  },
+  profileTagsRow: {
+    flexDirection: "row",
+    gap: 6,
+    marginTop: 4,
+  },
+  profileTag: {
+    backgroundColor: "rgba(8,253,142,0.07)",
+    borderRadius: 6,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+    borderWidth: 1,
+    borderColor: "rgba(8,253,142,0.15)",
+  },
+  profileTagGoogle: {
+    backgroundColor: "rgba(66,133,244,0.07)",
+    borderColor: "rgba(66,133,244,0.2)",
+  },
+  profileTagText: {
+    color: theme.neon,
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 0.5,
+    fontFamily: "monospace",
+  },
+  profileEditBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: "rgba(8,253,142,0.08)",
+    borderWidth: 1,
+    borderColor: "rgba(8,253,142,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  /* ── Section groups ── */
+  sectionWrap: {
+    gap: 8,
+  },
+  sectionLabel: {
+    color: theme.muted,
+    fontSize: 11,
+    fontWeight: "800",
+    letterSpacing: 2,
+    paddingHorizontal: 4,
   },
   section: {
     backgroundColor: theme.surface,
@@ -110,6 +305,20 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "600",
   },
+  badge: {
+    backgroundColor: "rgba(8,253,142,0.12)",
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    marginRight: 4,
+  },
+  badgeText: {
+    color: theme.neon,
+    fontSize: 11,
+    fontWeight: "800",
+  },
+
+  /* ── Reset ── */
   resetBtn: {
     flexDirection: "row",
     alignItems: "center",
@@ -126,6 +335,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
   },
+
+  /* ── Footer ── */
   version: {
     color: theme.muted,
     fontSize: 12,

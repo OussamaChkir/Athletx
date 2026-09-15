@@ -10,11 +10,15 @@ import {
   TextInput,
   View,
   ActivityIndicator,
+  Modal,
+  SafeAreaView,
+  StatusBar,
 } from "react-native";
 import { Image } from "expo-image";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { router } from "expo-router";
 import {
+  ArrowLeft,
   Calendar,
   ChevronDown,
   Clock,
@@ -22,18 +26,24 @@ import {
   Edit3,
   Flame,
   Info,
+  ListOrdered,
   Play,
   Plus,
   Search,
+  Settings,
   SlidersHorizontal,
   Trash2,
   Zap,
+  X,
+  Minus,
+  Leaf,
 } from "lucide-react-native";
 import { EQUIPMENT_LIST, FOCUS_PRESETS, MUSCLES, MUSCLE_COLORS } from "@/lib/constants";
-import { createWorkoutExercise, filterExercises, getExerciseById } from "@/lib/exercises";
+import { createWorkoutExercise, filterExercises, getExerciseById, generateWorkout } from "@/lib/exercises";
 import { theme } from "@/lib/theme";
 import type { WorkoutExercise, WorkoutFocus } from "@/lib/types";
 import { useWorkoutStore, type DayPlan } from "@/store/workout-store";
+import { AdBanner } from "@/components/AdBanner";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const DAY_NAMES = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -83,8 +93,9 @@ export function TrainScreen() {
   const s = useWorkoutStore();
   const weekDates = useMemo(() => getWeekDates(), []);
   const [selectedDay, setSelectedDay] = useState(() => new Date().getDay());
+  const [planDropdownVisible, setPlanDropdownVisible] = useState(false);
 
-  const weekPlan = s.weekPlan;
+  const weekPlan = s.plans.find((p) => p.id === s.activePlanId) ?? null;
   const todayPlan: DayPlan | null = weekPlan?.days[selectedDay] ?? null;
   const exercises = todayPlan?.exercises ?? s.currentWorkout;
   const workoutLabel = todayPlan?.label ?? "Custom";
@@ -120,10 +131,13 @@ export function TrainScreen() {
       >
         {/* ---- Header ---- */}
         <View style={styles.homeHeader}>
-          <View style={styles.homeHeaderLeft}>
-            <Text style={styles.homePlanTitle}>My Plan</Text>
+          <Pressable 
+            style={styles.homeHeaderLeft}
+            onPress={() => setPlanDropdownVisible(true)}
+          >
+            <Text style={styles.homePlanTitle}>{weekPlan?.name || "My Plan"}</Text>
             <ChevronDown size={16} color={theme.muted} />
-          </View>
+          </Pressable>
           <View style={styles.homeHeaderRight}>
             <Pressable style={styles.headerIcon}>
               <Calendar size={20} color={theme.text} />
@@ -210,7 +224,7 @@ export function TrainScreen() {
         {/* ---- TODAY'S WORKOUT ---- */}
         <View style={styles.todaySection}>
           <View style={styles.todayRow}>
-            <Text style={styles.todayTitle}>TODAY'S WORKOUT</Text>
+            <Text style={styles.todayTitle}>TODAY&apos;S WORKOUT</Text>
             <Pressable style={styles.editIcon}>
               <Edit3 size={18} color={theme.muted} />
             </Pressable>
@@ -291,62 +305,171 @@ export function TrainScreen() {
           </Pressable>
         </View>
       )}
+
+      {/* ---- Plan Dropdown Modal ---- */}
+      <Modal visible={planDropdownVisible} transparent animationType="fade">
+        <Pressable 
+          style={styles.modalOverlay} 
+          onPress={() => setPlanDropdownVisible(false)}
+        >
+          <View style={styles.dropdownMenu}>
+            <Text style={styles.dropdownTitle}>Switch Plan</Text>
+            {s.plans.map(p => (
+              <Pressable 
+                key={p.id} 
+                style={[styles.dropdownItem, s.activePlanId === p.id && styles.dropdownItemActive]}
+                onPress={() => {
+                  s.setActivePlan(p.id);
+                  setPlanDropdownVisible(false);
+                }}
+              >
+                <Text style={[styles.dropdownItemText, s.activePlanId === p.id && styles.dropdownItemTextActive]}>
+                  {p.name}
+                </Text>
+              </Pressable>
+            ))}
+            <Pressable 
+              style={styles.dropdownAddBtn}
+              onPress={() => {
+                setPlanDropdownVisible(false);
+                router.push("/plan/new" as any);
+              }}
+            >
+              <Plus size={16} color={theme.neon} />
+              <Text style={styles.dropdownAddText}>Add New Plan</Text>
+            </Pressable>
+          </View>
+        </Pressable>
+      </Modal>
     </View>
   );
 }
 
 /* ===== OTHER SCREENS (unchanged logic) ===== */
 
+const PREPARED_WORKOUTS = [
+  { id: "1", category: "FULL BODY", title: "TITAN AWAKENING", duration: "45M", exercises: 8, icon: "Flame" },
+  { id: "2", category: "CHEST", title: "PEC DESTROYER", duration: "30M", exercises: 5, icon: "Zap" },
+  { id: "3", category: "LEGS", title: "SQUAT PROTOCOL", duration: "60M", exercises: 6, icon: "Zap" },
+  { id: "4", category: "MOBILITY", title: "MORNING FLOW", duration: "15M", exercises: 12, icon: "Leaf" },
+  { id: "5", category: "BACK", title: "V-TAPER BUILD", duration: "45M", exercises: 6, icon: "Flame" },
+  { id: "6", category: "HIIT", title: "CARDIO SHRED", duration: "20M", exercises: 5, icon: "Zap" },
+];
+
 export function LibraryScreen() {
   const [query, setQuery] = useState("");
-  const add = useWorkoutStore((s) => s.addExercise);
-  const exercises = useMemo(() => filterExercises({ search: query }), [query]);
+  const s = useWorkoutStore();
+
+  const handlePlay = (workout: typeof PREPARED_WORKOUTS[0]) => {
+    const muscleMap: Record<string, string[]> = {
+      "FULL BODY": ["Chest", "Lats", "Quads"],
+      "CHEST": ["Chest"],
+      "LEGS": ["Quads", "Hamstrings"],
+      "MOBILITY": ["Lower back", "Abdominals"],
+      "BACK": ["Lats", "Traps"],
+      "HIIT": ["Quads", "Calves"],
+    };
+    const targetMuscles = muscleMap[workout.category] || ["Chest"];
+    
+    const generated = generateWorkout(["dumbbell", "bodyweight"], targetMuscles as any, {
+      exerciseCount: workout.exercises,
+      focus: "hypertrophy",
+      difficulties: [],
+    });
+    
+    useWorkoutStore.setState({ currentWorkout: generated, workoutName: workout.title });
+    s.startLiveSession();
+    router.push("/live" as any);
+  };
 
   return (
-    <View style={styles.page}>
-      <Text style={styles.title}>Exercise library</Text>
-      <View style={styles.searchBar}>
-        <Search color={theme.muted} size={18} />
-        <TextInput
-          placeholder="Search exercises"
-          placeholderTextColor={theme.muted}
-          value={query}
-          onChangeText={setQuery}
-          style={styles.input}
-        />
-      </View>
-      <FlatList
-        data={exercises}
-        keyExtractor={(x) => x._id}
-        renderItem={({ item }) => (
-          <Pressable
-            style={styles.libExercise}
-            onPress={() => router.push(`/exercise/${item._id}`)}
-          >
-            <View
-              style={[
-                styles.dot,
-                { backgroundColor: MUSCLE_COLORS[item.mainMuscle ?? ""] ?? theme.neon },
-              ]}
-            />
-            <View style={{ flex: 1 }}>
-              <Text style={styles.cardTitle}>{item.title}</Text>
-              <Text style={styles.muted}>
-                {item.mainMuscle} · {item.difficulty}
-              </Text>
-            </View>
-            <Pressable
-              hitSlop={10}
-              onPress={() => {
-                add(createWorkoutExercise(item, "hypertrophy"));
-                Alert.alert("Added", `${item.title} is in your builder.`);
-              }}
-            >
-              <Plus color={theme.neon} />
-            </Pressable>
+    <View style={styles.discoverPage}>
+      <SafeAreaView style={{ flex: 1 }}>
+        {/* Header */}
+        <View style={styles.discoverHeader}>
+          <View>
+            <Text style={styles.discoverTitleWhite}>DISCOVER</Text>
+            <Text style={styles.discoverTitleNeon}>WORKOUTS</Text>
+          </View>
+          <Pressable style={styles.discoverCloseBtn}>
+            <X size={20} color={theme.neon} />
           </Pressable>
-        )}
-      />
+        </View>
+
+        {/* Search */}
+        <View style={styles.discoverSearchContainer}>
+          <Search color={theme.muted} size={18} />
+          <TextInput
+            placeholder="Search workouts, muscles..."
+            placeholderTextColor={theme.muted}
+            value={query}
+            onChangeText={setQuery}
+            style={styles.discoverInput}
+          />
+          <SlidersHorizontal color={theme.muted} size={18} />
+        </View>
+
+        {/* Filter Chips */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ maxHeight: 50, marginBottom: 20 }} contentContainerStyle={styles.discoverChips}>
+          {["ALL", "STRENGTH", "CARDIO", "MOBILITY"].map((chip, idx) => (
+            <Pressable key={chip} style={[styles.discoverChip, idx === 0 && styles.discoverChipActive]}>
+              <Text style={[styles.discoverChipText, idx === 0 && styles.discoverChipTextActive]}>{chip}</Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+
+        {/* Grid */}
+        <FlatList
+          data={PREPARED_WORKOUTS}
+          keyExtractor={item => item.id}
+          numColumns={2}
+          columnWrapperStyle={styles.discoverGridRow}
+          contentContainerStyle={styles.discoverGridContent}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={styles.discoverCard}>
+              <View style={styles.discoverCardHeader}>
+                <View style={[styles.discoverCategoryPill, 
+                  item.category === "LEGS" ? { backgroundColor: "#1c2a47" } : 
+                  item.category === "MOBILITY" ? { backgroundColor: "#2d1b4e" } : 
+                  item.category === "CHEST" ? { backgroundColor: "#173d2a" } : 
+                  item.category === "BACK" ? { backgroundColor: "#173d2a" } : 
+                  { backgroundColor: "rgba(255,255,255,0.1)" }
+                ]}>
+                  <Text style={[styles.discoverCategoryText, 
+                    item.category === "LEGS" ? { color: "#6b9cf6" } : 
+                    item.category === "MOBILITY" ? { color: "#b388ff" } : 
+                    item.category === "CHEST" ? { color: "#08fd8e" } : 
+                    item.category === "BACK" ? { color: "#08fd8e" } : 
+                    { color: theme.text }
+                  ]}>{item.category}</Text>
+                </View>
+                {item.icon === "Flame" ? <Flame size={14} color="#ff453a" /> : 
+                 item.icon === "Zap" ? <Zap size={14} color="#ff9f0a" /> : 
+                 <Leaf size={14} color="#30d158" />}
+              </View>
+
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <Text style={styles.discoverCardTitle}>{item.title}</Text>
+              </View>
+
+              <View style={styles.discoverCardFooter}>
+                <View style={styles.discoverCardMeta}>
+                  <Clock size={10} color={theme.muted} />
+                  <Text style={styles.discoverCardMetaText}>{item.duration}</Text>
+                  <Text style={styles.discoverCardMetaDot}>·</Text>
+                  <ListOrdered size={10} color={theme.muted} />
+                  <Text style={styles.discoverCardMetaText}>{item.exercises}X</Text>
+                </View>
+                <Pressable style={styles.discoverPlayBtn} onPress={() => handlePlay(item)}>
+                  <Play size={12} color={theme.text} fill={theme.text} />
+                </Pressable>
+              </View>
+            </View>
+          )}
+        />
+      </SafeAreaView>
+      <AdBanner />
     </View>
   );
 }
@@ -432,6 +555,7 @@ export function BuilderScreen() {
         <Play fill={theme.background} color={theme.background} />
         <Text style={styles.legacyButtonText}>Start workout</Text>
       </Pressable>
+      <AdBanner />
     </View>
   );
 }
@@ -471,10 +595,28 @@ export function HistoryScreen() {
   );
 }
 
+function formatTime(totalSeconds: number) {
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+}
+
 export function LiveScreen() {
   const s = useWorkoutStore();
   const [elapsed, setElapsed] = useState(0);
   const ex = s.currentWorkout[s.liveIndex];
+  const nextEx = s.currentWorkout[s.liveIndex + 1];
+
+  const [currentReps, setCurrentReps] = useState("");
+  const [currentWeight, setCurrentWeight] = useState("");
+
+  useEffect(() => {
+    if (s.livePhase === "exercise" && ex) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setCurrentReps(ex.reps.toString());
+      // weight is left intact if they are on same exercise
+    }
+  }, [s.liveIndex, s.liveSet, s.livePhase, ex]);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -490,8 +632,9 @@ export function LiveScreen() {
     return (
       <View style={[styles.page, styles.center]}>
         <Text style={styles.hero}>Workout complete</Text>
+        <Text style={[styles.muted, { marginTop: 8 }]}>Time: {formatTime(elapsed)}</Text>
         <Pressable
-          style={styles.legacyButton}
+          style={[styles.legacyButton, { marginTop: 24 }]}
           onPress={() => {
             s.finishWorkout(elapsed);
             router.replace("/(tabs)/history" as any);
@@ -502,31 +645,111 @@ export function LiveScreen() {
       </View>
     );
 
-  return (
-    <View style={[styles.page, styles.center]}>
-      <Text style={styles.eyebrow}>
-        {s.livePhase === "rest"
-          ? "REST"
-          : `EXERCISE ${s.liveIndex + 1}/${s.currentWorkout.length}`}
-      </Text>
-      <Text style={styles.hero}>
-        {s.livePhase === "rest" ? `${s.restRemaining}s` : ex.title}
-      </Text>
-      <Text style={styles.muted}>
-        {s.livePhase === "rest"
-          ? "Breathe. Reset. Go again."
-          : `Set ${s.liveSet} of ${ex.sets} · ${ex.reps} reps`}
-      </Text>
-      <Pressable
-        style={styles.legacyButton}
-        onPress={() =>
-          s.livePhase === "rest" ? s.skipRest() : s.completeSet()
+  const handleCancelWorkout = () => {
+    Alert.alert(
+      "End Workout Early?",
+      "Your progress will not be saved.",
+      [
+        { text: "Keep Going", style: "cancel" },
+        { 
+          text: "End Workout", 
+          style: "destructive", 
+          onPress: () => {
+            s.cancelWorkout();
+            router.replace("/(tabs)/train" as any);
+          }
         }
-      >
-        <Text style={styles.legacyButtonText}>
-          {s.livePhase === "rest" ? "Skip rest" : "Complete set"}
-        </Text>
-      </Pressable>
+      ]
+    );
+  };
+
+  return (
+    <View style={styles.livePage}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.liveHeader}>
+          <Pressable onPress={handleCancelWorkout} style={styles.liveHeaderIcon}>
+            <X size={24} color={theme.text} />
+          </Pressable>
+          <Text style={styles.liveTimer}>{formatTime(elapsed)}</Text>
+          <View style={styles.liveHeaderIcon} />
+        </View>
+
+        <ScrollView contentContainerStyle={styles.liveContent} bounces={false}>
+          {s.livePhase === "rest" ? (
+            <View style={styles.restContainer}>
+              <Text style={styles.restEyebrow}>REST</Text>
+              <View style={styles.restCircle}>
+                <Text style={styles.restTimeText}>{formatTime(s.restRemaining)}</Text>
+              </View>
+              
+              <View style={styles.restControls}>
+                <Pressable style={styles.restControlBtn} onPress={() => s.reduceRestTime(15)}>
+                  <Minus size={20} color={theme.text} />
+                  <Text style={styles.restControlText}>15s</Text>
+                </Pressable>
+                <Pressable style={styles.skipRestBtn} onPress={s.skipRest}>
+                  <Text style={styles.skipRestBtnText}>SKIP REST</Text>
+                </Pressable>
+                <Pressable style={styles.restControlBtn} onPress={() => s.addRestTime(15)}>
+                  <Plus size={20} color={theme.text} />
+                  <Text style={styles.restControlText}>15s</Text>
+                </Pressable>
+              </View>
+
+              <View style={styles.nextUpContainer}>
+                <Text style={styles.nextUpLabel}>NEXT UP</Text>
+                {s.liveSet >= ex.sets && nextEx ? (
+                  <Text style={styles.nextUpText}>{nextEx.title} ({nextEx.sets}x{nextEx.reps})</Text>
+                ) : (
+                  <Text style={styles.nextUpText}>{ex.title} - Set {s.liveSet + 1}/{ex.sets}</Text>
+                )}
+              </View>
+            </View>
+          ) : (
+            <View style={styles.exerciseContainer}>
+              <Text style={styles.eyebrow}>EXERCISE {s.liveIndex + 1}/{s.currentWorkout.length}</Text>
+              <Text style={styles.liveExerciseTitle}>{ex.title}</Text>
+              <Text style={styles.muted}>Set {s.liveSet} of {ex.sets}</Text>
+
+              <View style={styles.liveInputsRow}>
+                <View style={styles.liveInputGroup}>
+                  <Text style={styles.liveInputLabel}>REPS</Text>
+                  <TextInput
+                    style={styles.liveInput}
+                    keyboardType="number-pad"
+                    value={currentReps}
+                    onChangeText={setCurrentReps}
+                    placeholder={ex.reps.toString()}
+                    placeholderTextColor={theme.muted}
+                  />
+                </View>
+                <View style={styles.liveInputGroup}>
+                  <Text style={styles.liveInputLabel}>KGS</Text>
+                  <TextInput
+                    style={styles.liveInput}
+                    keyboardType="decimal-pad"
+                    value={currentWeight}
+                    onChangeText={setCurrentWeight}
+                    placeholder="—"
+                    placeholderTextColor={theme.muted}
+                  />
+                </View>
+              </View>
+            </View>
+          )}
+        </ScrollView>
+
+        {s.livePhase === "exercise" && (
+          <View style={styles.liveFooter}>
+            <Pressable
+              style={styles.completeSetBtn}
+              onPress={() => s.completeSet(Number(currentReps) || ex.reps, Number(currentWeight) || undefined)}
+            >
+              <Text style={styles.completeSetBtnText}>COMPLETE SET</Text>
+            </Pressable>
+          </View>
+        )}
+      </SafeAreaView>
     </View>
   );
 }
@@ -538,73 +761,127 @@ export function ExerciseDetail({ id }: { id: string }) {
 
   if (!e)
     return (
-      <View style={styles.page}>
-        <Text style={styles.title}>Exercise not found</Text>
+      <View style={detailStyles.notFound}>
+        <Dumbbell color={theme.muted} size={48} />
+        <Text style={detailStyles.notFoundText}>Exercise not found</Text>
       </View>
     );
 
+  // Split title: first word white, rest neon
+  const words = e.title.trim().split(" ");
+  const firstWord = words[0];
+  const restWords = words.slice(1).join(" ");
+
   return (
-    <ScrollView contentContainerStyle={styles.page}>
-      {/* Title & meta */}
-      <Text style={styles.title}>{e.title}</Text>
-      <Text style={styles.muted}>
-        {e.mainMuscle} · {e.difficulty} · {e.category}
-      </Text>
+    <View style={detailStyles.root}>
+      <StatusBar barStyle="light-content" />
 
-      {/* Image */}
-      <View style={styles.imageCard}>
-        {imgLoading && !imgError && (
-          <View style={styles.imagePlaceholder}>
-            <ActivityIndicator color={theme.neon} size="large" />
+      {/* ── Header ── */}
+      <SafeAreaView style={detailStyles.headerSafe}>
+        <View style={detailStyles.header}>
+          <Pressable style={detailStyles.headerBtn} onPress={() => router.back()}>
+            <ArrowLeft size={20} color={theme.text} />
+          </Pressable>
+          <Text style={detailStyles.headerTitle}>EXERCISE</Text>
+          <Pressable style={detailStyles.headerBtn}>
+            <Settings size={20} color={theme.text} />
+          </Pressable>
+        </View>
+      </SafeAreaView>
+
+      {/* ── Scrollable body ── */}
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={detailStyles.scrollBody}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Title */}
+        <Text style={detailStyles.titleRow}>
+          <Text style={detailStyles.titleWhite}>{firstWord}</Text>
+          {restWords ? (
+            <Text style={detailStyles.titleNeon}>{" "}{restWords}</Text>
+          ) : null}
+        </Text>
+
+        {/* Meta tags */}
+        <View style={detailStyles.metaRow}>
+          <Text style={detailStyles.metaMuscle}>{(e.mainMuscle ?? "").toUpperCase()}</Text>
+          <Text style={detailStyles.metaDot}>·</Text>
+          <Text style={detailStyles.metaDiff}>{e.difficulty.toUpperCase()}</Text>
+          <Text style={detailStyles.metaDot}>·</Text>
+          <Text style={detailStyles.metaMuscle}>{(e.category ?? "").toUpperCase()}</Text>
+        </View>
+
+        {/* GIF / Image preview */}
+        <View style={detailStyles.imageCard}>
+          {imgLoading && !imgError && (
+            <View style={detailStyles.imagePlaceholder}>
+              <ActivityIndicator color={theme.neon} size="large" />
+            </View>
+          )}
+          {imgError ? (
+            <View style={detailStyles.imagePlaceholder}>
+              <Dumbbell color={theme.muted} size={40} />
+              <Text style={detailStyles.noImgText}>No image available</Text>
+            </View>
+          ) : (
+            <Image
+              source={{ uri: e.image }}
+              style={detailStyles.detailImage}
+              contentFit="cover"
+              onLoadStart={() => { setImgLoading(true); setImgError(false); }}
+              onLoad={() => setImgLoading(false)}
+              onError={() => { setImgLoading(false); setImgError(true); }}
+            />
+          )}
+        </View>
+
+        {/* Equipment pills */}
+        {e.equipment?.length > 0 && (
+          <View style={detailStyles.pillsRow}>
+            {e.equipment.map((eq) => (
+              <View key={eq} style={detailStyles.equipPill}>
+                <Dumbbell size={13} color={theme.muted} />
+                <Text style={detailStyles.equipPillText}>{eq.toUpperCase()}</Text>
+              </View>
+            ))}
           </View>
         )}
-        {imgError ? (
-          <View style={styles.imagePlaceholder}>
-            <Dumbbell color={theme.muted} size={40} />
-            <Text style={[styles.muted, { marginTop: 8, textAlign: "center" }]}>
-              No image available.{"\n"}Update the image URL manually.
-            </Text>
-          </View>
-        ) : (
-          <Image
-            source={{ uri: e.image }}
-            style={styles.detailImage}
-            contentFit="cover"
-            onLoadStart={() => {
-              setImgLoading(true);
-              setImgError(false);
-            }}
-            onLoad={() => setImgLoading(false)}
-            onError={() => {
-              setImgLoading(false);
-              setImgError(true);
-            }}
-          />
-        )}
-      </View>
 
-      {/* Equipment tags */}
-      {e.equipment?.length > 0 && (
-        <View style={styles.editRow}>
-          {e.equipment.map((eq) => (
-            <View key={eq} style={styles.pill}>
-              <Text style={styles.pillText}>{eq}</Text>
+        {/* HOW TO */}
+        <View style={detailStyles.howToHeader}>
+          <ListOrdered size={16} color={theme.neon} />
+          <Text style={detailStyles.howToLabel}>HOW TO</Text>
+        </View>
+
+        <View style={detailStyles.stepsContainer}>
+          {e.steps.map((step, i) => (
+            <View key={i} style={detailStyles.stepRow}>
+              <View style={detailStyles.stepNum}>
+                <Text style={detailStyles.stepNumText}>{i + 1}</Text>
+              </View>
+              <Text style={detailStyles.stepText}>{step}</Text>
             </View>
           ))}
         </View>
-      )}
 
-      {/* Steps */}
-      <Text style={styles.eyebrow}>HOW TO</Text>
-      {e.steps.map((x, i) => (
-        <View key={x} style={styles.stepRow}>
-          <View style={styles.stepNum}>
-            <Text style={styles.stepNumText}>{i + 1}</Text>
+        {/* Bottom spacer for the fixed CTA */}
+        <View style={{ height: 100 }} />
+      </ScrollView>
+
+      {/* ── Fixed START EXERCISE button ── */}
+      <View style={detailStyles.ctaContainer}>
+        <Pressable
+          style={detailStyles.startBtn}
+          onPress={() => router.back()}
+        >
+          <Text style={detailStyles.startBtnText}>START EXERCISE</Text>
+          <View style={detailStyles.startBtnIcon}>
+            <Play size={18} color={theme.background} fill={theme.background} />
           </View>
-          <Text style={styles.step}>{x}</Text>
-        </View>
-      ))}
-    </ScrollView>
+        </Pressable>
+      </View>
+    </View>
   );
 }
 
@@ -1001,7 +1278,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
 
-  /* -- Exercise detail -- */
+  /* -- Exercise detail (legacy stubs kept for other callers) -- */
   imageCard: {
     backgroundColor: theme.surface,
     borderRadius: 20,
@@ -1046,5 +1323,629 @@ const styles = StyleSheet.create({
     lineHeight: 23,
     fontSize: 15,
     flex: 1,
+  },
+
+  /* -- Modal / Dropdown -- */
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    paddingTop: 80,
+    paddingLeft: 20,
+  },
+  dropdownMenu: {
+    backgroundColor: theme.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: theme.border,
+    width: 200,
+    padding: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.5,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  dropdownTitle: {
+    color: theme.muted,
+    fontSize: 12,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    padding: 8,
+  },
+  dropdownItem: {
+    padding: 12,
+    borderRadius: 10,
+    marginBottom: 4,
+  },
+  dropdownItemActive: {
+    backgroundColor: "rgba(8, 253, 142, 0.1)",
+  },
+  dropdownItemText: {
+    color: theme.text,
+    fontSize: 15,
+    fontWeight: "600",
+  },
+  dropdownItemTextActive: {
+    color: theme.neon,
+  },
+  dropdownAddBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 12,
+    gap: 8,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(255,255,255,0.05)",
+    marginTop: 4,
+  },
+  dropdownAddText: {
+    color: theme.neon,
+    fontSize: 15,
+    fontWeight: "700",
+  },
+  
+  /* -- Live Screen Redesign -- */
+  livePage: {
+    flex: 1,
+    backgroundColor: theme.background,
+  },
+  liveHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
+  liveHeaderIcon: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  liveTimer: {
+    color: theme.text,
+    fontSize: 18,
+    fontWeight: "800",
+    fontVariant: ["tabular-nums"],
+  },
+  liveContent: {
+    padding: 20,
+    flexGrow: 1,
+  },
+  exerciseContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+  liveExerciseTitle: {
+    color: theme.text,
+    fontSize: 32,
+    fontWeight: "900",
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 4,
+  },
+  liveInputsRow: {
+    flexDirection: "row",
+    gap: 20,
+    marginTop: 40,
+    width: "100%",
+  },
+  liveInputGroup: {
+    flex: 1,
+    backgroundColor: theme.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: theme.border,
+    padding: 20,
+    alignItems: "center",
+  },
+  liveInputLabel: {
+    color: theme.muted,
+    fontSize: 12,
+    fontWeight: "800",
+    letterSpacing: 2,
+    marginBottom: 10,
+  },
+  liveInput: {
+    color: theme.neon,
+    fontSize: 36,
+    fontWeight: "900",
+    textAlign: "center",
+    width: "100%",
+  },
+  liveFooter: {
+    padding: 20,
+    paddingBottom: 30,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(255,255,255,0.05)",
+  },
+  completeSetBtn: {
+    backgroundColor: theme.neon,
+    height: 60,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  completeSetBtnText: {
+    color: theme.background,
+    fontSize: 16,
+    fontWeight: "900",
+    letterSpacing: 2,
+  },
+  restContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
+  restEyebrow: {
+    color: theme.neon,
+    fontSize: 16,
+    fontWeight: "900",
+    letterSpacing: 4,
+    marginBottom: 40,
+  },
+  restCircle: {
+    width: 240,
+    height: 240,
+    borderRadius: 120,
+    borderWidth: 8,
+    borderColor: theme.neon,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 40,
+    shadowColor: theme.neon,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 30,
+    elevation: 20,
+  },
+  restTimeText: {
+    color: theme.text,
+    fontSize: 64,
+    fontWeight: "900",
+    fontVariant: ["tabular-nums"],
+  },
+  restControls: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+    marginBottom: 60,
+  },
+  restControlBtn: {
+    backgroundColor: theme.surface,
+    borderWidth: 1,
+    borderColor: theme.border,
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  restControlText: {
+    color: theme.text,
+    fontSize: 14,
+    fontWeight: "800",
+  },
+  skipRestBtn: {
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    backgroundColor: "rgba(255,255,255,0.1)",
+  },
+  skipRestBtnText: {
+    color: theme.text,
+    fontSize: 14,
+    fontWeight: "800",
+    letterSpacing: 1,
+  },
+  nextUpContainer: {
+    width: "100%",
+    backgroundColor: theme.surface,
+    padding: 20,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: theme.border,
+    alignItems: "center",
+  },
+  nextUpLabel: {
+    color: theme.muted,
+    fontSize: 12,
+    fontWeight: "800",
+    letterSpacing: 2,
+    marginBottom: 8,
+  },
+  nextUpText: {
+    color: theme.text,
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  
+  /* -- Discover Workouts -- */
+  discoverPage: {
+    flex: 1,
+    backgroundColor: theme.background,
+  },
+  discoverHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+  discoverTitleWhite: {
+    color: theme.text,
+    fontSize: 32,
+    fontWeight: "900",
+    fontStyle: "italic",
+    letterSpacing: -1,
+  },
+  discoverTitleNeon: {
+    color: theme.neon,
+    fontSize: 32,
+    fontWeight: "900",
+    fontStyle: "italic",
+    letterSpacing: -1,
+    marginTop: -8,
+  },
+  discoverCloseBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.1)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  discoverSearchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    marginHorizontal: 20,
+    marginTop: 10,
+    marginBottom: 20,
+    height: 50,
+    gap: 12,
+  },
+  discoverInput: {
+    flex: 1,
+    color: theme.text,
+    fontSize: 15,
+  },
+  discoverChips: {
+    paddingHorizontal: 20,
+    gap: 12,
+  },
+  discoverChip: {
+    backgroundColor: "rgba(255,255,255,0.05)",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.1)",
+  },
+  discoverChipActive: {
+    backgroundColor: theme.neon,
+    borderColor: theme.neon,
+  },
+  discoverChipText: {
+    color: theme.muted,
+    fontSize: 13,
+    fontWeight: "800",
+  },
+  discoverChipTextActive: {
+    color: theme.background,
+  },
+  discoverGridRow: {
+    justifyContent: "space-between",
+  },
+  discoverGridContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+    gap: 16,
+  },
+  discoverCard: {
+    width: "48%",
+    backgroundColor: "rgba(255,255,255,0.03)",
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.05)",
+    minHeight: 180,
+    justifyContent: "space-between",
+  },
+  discoverCardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
+  discoverCategoryPill: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  discoverCategoryText: {
+    fontSize: 10,
+    fontWeight: "900",
+  },
+  discoverCardTitle: {
+    color: theme.text,
+    fontSize: 20,
+    fontWeight: "900",
+    fontStyle: "italic",
+    letterSpacing: -0.5,
+    marginTop: 16,
+  },
+  discoverCardFooter: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 16,
+  },
+  discoverCardMeta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  discoverCardMetaText: {
+    color: theme.muted,
+    fontSize: 11,
+    fontWeight: "700",
+  },
+  discoverCardMetaDot: {
+    color: theme.muted,
+    fontSize: 10,
+  },
+  discoverPlayBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(255,255,255,0.1)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
+
+/* ================================================================
+ *  EXERCISE DETAIL — dedicated styles
+ * ================================================================ */
+const detailStyles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: theme.background,
+  },
+
+  /* Not-found state */
+  notFound: {
+    flex: 1,
+    backgroundColor: theme.background,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+  },
+  notFoundText: {
+    color: theme.muted,
+    fontSize: 18,
+    fontWeight: "700",
+  },
+
+  /* Header */
+  headerSafe: {
+    backgroundColor: theme.background,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  headerBtn: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: theme.surface,
+    borderWidth: 1,
+    borderColor: theme.border,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerTitle: {
+    color: theme.text,
+    fontSize: 16,
+    fontWeight: "900",
+    letterSpacing: 3,
+  },
+
+  /* Scroll body */
+  scrollBody: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 20,
+    gap: 16,
+  },
+
+  /* Title */
+  titleRow: {
+    fontSize: 34,
+    fontWeight: "900",
+    letterSpacing: 1,
+    lineHeight: 40,
+    flexWrap: "wrap",
+  },
+  titleWhite: {
+    color: theme.text,
+    fontSize: 34,
+    fontWeight: "900",
+  },
+  titleNeon: {
+    color: theme.neon,
+    fontSize: 34,
+    fontWeight: "900",
+  },
+
+  /* Meta */
+  metaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    flexWrap: "wrap",
+  },
+  metaMuscle: {
+    color: theme.muted,
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 0.5,
+  },
+  metaDiff: {
+    color: theme.neon,
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 0.5,
+  },
+  metaDot: {
+    color: theme.muted,
+    fontSize: 12,
+    fontWeight: "700",
+  },
+
+  /* GIF / image card */
+  imageCard: {
+    backgroundColor: theme.surface,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: theme.border,
+    overflow: "hidden",
+  },
+  detailImage: {
+    width: "100%",
+    height: 220,
+  },
+  imagePlaceholder: {
+    height: 220,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  noImgText: {
+    color: theme.muted,
+    fontSize: 13,
+    marginTop: 4,
+  },
+
+  /* Equipment pills */
+  pillsRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  equipPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    borderWidth: 1,
+    borderColor: theme.border,
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+    backgroundColor: theme.surface,
+  },
+  equipPillText: {
+    color: theme.muted,
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 0.5,
+  },
+
+  /* HOW TO header */
+  howToHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginTop: 4,
+    marginBottom: -4,
+  },
+  howToLabel: {
+    color: theme.neon,
+    fontSize: 13,
+    fontWeight: "900",
+    letterSpacing: 2,
+  },
+
+  /* Steps */
+  stepsContainer: {
+    gap: 18,
+  },
+  stepRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 14,
+  },
+  stepNum: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: theme.neon,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 2,
+    flexShrink: 0,
+  },
+  stepNumText: {
+    color: theme.background,
+    fontWeight: "900",
+    fontSize: 14,
+  },
+  stepText: {
+    color: theme.text,
+    lineHeight: 24,
+    fontSize: 15,
+    flex: 1,
+    fontWeight: "500",
+  },
+
+  /* CTA */
+  ctaContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 32,
+    paddingTop: 12,
+    backgroundColor: theme.background,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(255,255,255,0.04)",
+  },
+  startBtn: {
+    backgroundColor: theme.neon,
+    height: 60,
+    borderRadius: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    shadowColor: theme.neon,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 16,
+    elevation: 10,
+  },
+  startBtnText: {
+    color: theme.background,
+    fontSize: 17,
+    fontWeight: "900",
+    letterSpacing: 2.5,
+  },
+  startBtnIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(0,0,0,0.2)",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

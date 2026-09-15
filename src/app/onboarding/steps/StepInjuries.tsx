@@ -12,7 +12,7 @@ const INJURY_OPTIONS = [
   { id: "hips", title: "Hips" },
 ];
 
-export function StepInjuries() {
+export default function StepInjuries() {
   const { injuries, setField } = useOnboardingStore();
 
   const toggleInjury = (id: string) => {

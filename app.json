@@ -7,9 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "athletx",
     "userInterfaceStyle": "dark",
-    "ios": {
-      "icon": "./assets/expo.icon"
-    },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -17,7 +14,13 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713",
+      "package": "com.anonymous.athletx"
+    },
+    "ios": {
+      "icon": "./assets/expo.icon",
+      "googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
     },
     "web": {
       "output": "static",
@@ -34,7 +37,15 @@
         }
       ],
       "expo-video",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+        }
+      ],
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true,

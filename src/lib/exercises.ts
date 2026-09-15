@@ -35,7 +35,16 @@ export function matchesEquipment(
   availableEquipment: string[]
 ): boolean {
   if (!exercise.equipment?.length) return true;
-  return exercise.equipment.every((item) => availableEquipment.includes(item));
+  
+  const avail = availableEquipment.map(e => e.toLowerCase());
+  
+  return exercise.equipment.every((item) => {
+    const i = item.toLowerCase();
+    // Special case for Bodyweight or None
+    if (i === "bodyweight" || i === "none") return true;
+    
+    return avail.some((a) => i.includes(a) || a.includes(i));
+  });
 }
 
 export function matchesMuscle(

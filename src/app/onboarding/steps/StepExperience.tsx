@@ -4,7 +4,7 @@ import { useOnboardingStore } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 import { RadioCard } from "@/components/onboarding/RadioCard";
 
-export function StepExperience() {
+export default function StepExperience() {
   const { experience, setField } = useOnboardingStore();
 
   return (

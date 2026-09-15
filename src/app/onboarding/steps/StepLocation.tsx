@@ -4,7 +4,7 @@ import { useOnboardingStore, LocationType } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 import { CheckboxCard } from "@/components/onboarding/CheckboxCard";
 
-export function StepLocation() {
+export default function StepLocation() {
   const { location, setField } = useOnboardingStore();
 
   const toggleLocation = (loc: LocationType) => {

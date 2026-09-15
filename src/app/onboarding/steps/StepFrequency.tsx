@@ -4,7 +4,7 @@ import { useOnboardingStore } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 import { RadioCard } from "@/components/onboarding/RadioCard";
 
-export function StepFrequency() {
+export default function StepFrequency() {
   const { currentFrequency, setField } = useOnboardingStore();
 
   return (
