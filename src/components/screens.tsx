@@ -131,7 +131,7 @@ export function TrainScreen() {
       >
         {/* ---- Header ---- */}
         <View style={styles.homeHeader}>
-          <Pressable 
+          <Pressable
             style={styles.homeHeaderLeft}
             onPress={() => setPlanDropdownVisible(true)}
           >
@@ -162,10 +162,6 @@ export function TrainScreen() {
           </View>
           <View style={styles.filterChip}>
             <Text style={styles.filterChipText}>{estimatedMinutes > 0 ? `${estimatedMinutes}-${estimatedMinutes + 10} Min` : "—"}</Text>
-            <ChevronDown size={12} color={theme.muted} />
-          </View>
-          <View style={styles.filterChip}>
-            <Text style={styles.filterChipText}>Schedule</Text>
             <ChevronDown size={12} color={theme.muted} />
           </View>
         </ScrollView>
@@ -225,9 +221,6 @@ export function TrainScreen() {
         <View style={styles.todaySection}>
           <View style={styles.todayRow}>
             <Text style={styles.todayTitle}>TODAY&apos;S WORKOUT</Text>
-            <Pressable style={styles.editIcon}>
-              <Edit3 size={18} color={theme.muted} />
-            </Pressable>
           </View>
           <Text style={styles.workoutTypeLabel}>{workoutLabel}</Text>
         </View>
@@ -308,27 +301,49 @@ export function TrainScreen() {
 
       {/* ---- Plan Dropdown Modal ---- */}
       <Modal visible={planDropdownVisible} transparent animationType="fade">
-        <Pressable 
-          style={styles.modalOverlay} 
+        <Pressable
+          style={styles.modalOverlay}
           onPress={() => setPlanDropdownVisible(false)}
         >
           <View style={styles.dropdownMenu}>
             <Text style={styles.dropdownTitle}>Switch Plan</Text>
             {s.plans.map(p => (
-              <Pressable 
-                key={p.id} 
-                style={[styles.dropdownItem, s.activePlanId === p.id && styles.dropdownItemActive]}
-                onPress={() => {
-                  s.setActivePlan(p.id);
-                  setPlanDropdownVisible(false);
-                }}
-              >
-                <Text style={[styles.dropdownItemText, s.activePlanId === p.id && styles.dropdownItemTextActive]}>
-                  {p.name}
-                </Text>
-              </Pressable>
+              <View key={p.id} style={{ flexDirection: "row", alignItems: "center" }}>
+                <Pressable
+                  style={[styles.dropdownItem, s.activePlanId === p.id && styles.dropdownItemActive, { flex: 1 }]}
+                  onPress={() => {
+                    s.setActivePlan(p.id);
+                    setPlanDropdownVisible(false);
+                  }}
+                >
+                  <Text style={[styles.dropdownItemText, s.activePlanId === p.id && styles.dropdownItemTextActive]}>
+                    {p.name}
+                  </Text>
+                </Pressable>
+                {s.plans.length > 1 && (
+                  <Pressable
+                    style={{ padding: 12 }}
+                    onPress={() => {
+                      Alert.alert(
+                        "Delete Plan",
+                        `Are you sure you want to delete "${p.name}"?`,
+                        [
+                          { text: "Cancel", style: "cancel" },
+                          {
+                            text: "Delete",
+                            style: "destructive",
+                            onPress: () => s.deletePlan(p.id)
+                          }
+                        ]
+                      );
+                    }}
+                  >
+                    <Trash2 size={18} color={theme.danger} />
+                  </Pressable>
+                )}
+              </View>
             ))}
-            <Pressable 
+            <Pressable
               style={styles.dropdownAddBtn}
               onPress={() => {
                 setPlanDropdownVisible(false);
@@ -348,17 +363,66 @@ export function TrainScreen() {
 /* ===== OTHER SCREENS (unchanged logic) ===== */
 
 const PREPARED_WORKOUTS = [
-  { id: "1", category: "FULL BODY", title: "TITAN AWAKENING", duration: "45M", exercises: 8, icon: "Flame" },
-  { id: "2", category: "CHEST", title: "PEC DESTROYER", duration: "30M", exercises: 5, icon: "Zap" },
-  { id: "3", category: "LEGS", title: "SQUAT PROTOCOL", duration: "60M", exercises: 6, icon: "Zap" },
-  { id: "4", category: "MOBILITY", title: "MORNING FLOW", duration: "15M", exercises: 12, icon: "Leaf" },
-  { id: "5", category: "BACK", title: "V-TAPER BUILD", duration: "45M", exercises: 6, icon: "Flame" },
-  { id: "6", category: "HIIT", title: "CARDIO SHRED", duration: "20M", exercises: 5, icon: "Zap" },
+  { id: "1", category: "FULL BODY", title: "TITAN AWAKENING", duration: "45M", programLength: 4, daysPerWeek: 3, exercises: ["6c26f0a1f16b4c0cb078ea11", "93d9d9a4c7784c30bc61f212", "7e98a9f926a14828b088b1a6", "5e1a164552484a30a6fdd9ae", "92dc15f8c78c4de9a38433a4", "292cb10f62224d51a4870bca", "bc2a45caa09346d59637137c", "871005c833264f8089a581a3"], icon: "Flame" },
+  { id: "2", category: "CHEST", title: "PEC DESTROYER", duration: "30M", programLength: 4, daysPerWeek: 2, exercises: ["6c26f0a1f16b4c0cb078ea11", "24c5b920e3cb4e168d966284", "4bd77467112f4c2d993d14cc", "606d1a1773a84a80924f1882", "7e98a9f926a14828b088b1a6"], icon: "Zap" },
+  { id: "3", category: "LEGS", title: "SQUAT PROTOCOL", duration: "60M", programLength: 6, daysPerWeek: 2, exercises: ["292cb10f62224d51a4870bca", "93d9d9a4c7784c30bc61f212", "5e1a164552484a30a6fdd9ae", "44a8b8d5df0941a39fac6a01", "c02331ff2d714cccb2e30c4e", "fb1c1f88ceaf409e9ef2e235"], icon: "Zap" },
+  { id: "4", category: "MOBILITY", title: "MORNING FLOW", duration: "15M", programLength: 4, daysPerWeek: 5, exercises: ["871005c833264f8089a581a3", "c02331ff2d714cccb2e30c4e", "44a8b8d5df0941a39fac6a01", "292cb10f62224d51a4870bca"], icon: "Leaf" },
+  { id: "5", category: "BACK", title: "V-TAPER BUILD", duration: "45M", programLength: 8, daysPerWeek: 2, exercises: ["92dc15f8c78c4de9a38433a4", "cc4187e70cd34865a99f4159", "05c884512a1d4f6684f8ed0e", "771e86eac943463d862a70f9", "dd755011db094327bd571ff8", "7d52e04fc9564352abf1a3d1"], icon: "Flame" },
+  { id: "6", category: "HIIT", title: "CARDIO SHRED", duration: "20M", programLength: 4, daysPerWeek: 3, exercises: ["93d9d9a4c7784c30bc61f212", "7e98a9f926a14828b088b1a6", "871005c833264f8089a581a3", "c02331ff2d714cccb2e30c4e", "292cb10f62224d51a4870bca"], icon: "Zap" },
 ];
 
 export function LibraryScreen() {
   const [query, setQuery] = useState("");
   const s = useWorkoutStore();
+
+  const handleEnroll = (workout: typeof PREPARED_WORKOUTS[0]) => {
+    const allExs = workout.exercises.map(id => {
+      const ex = getExerciseById(id);
+      return ex ? createWorkoutExercise(ex, "hypertrophy") : null;
+    }).filter(Boolean) as typeof s.currentWorkout;
+
+    const days: DayPlan[] = [];
+    const activeDays = [1, 3, 5, 2, 4, 6].slice(0, workout.daysPerWeek).sort();
+
+    const chunks: (typeof s.currentWorkout)[] = Array.from({ length: workout.daysPerWeek }, () => []);
+    allExs.forEach((ex, idx) => {
+      // Create new instance ID for each exercise so they are unique if repeated
+      chunks[idx % workout.daysPerWeek].push({ ...ex, instanceId: Math.random().toString() });
+    });
+
+    let chunkIdx = 0;
+    for (let i = 0; i < 7; i++) {
+      if (activeDays.includes(i)) {
+        days.push({
+          dayIndex: i,
+          label: `Day ${chunkIdx + 1}`,
+          isRest: false,
+          exercises: chunks[chunkIdx]
+        });
+        chunkIdx++;
+      } else {
+        days.push({
+          dayIndex: i,
+          label: "Rest",
+          isRest: true,
+          exercises: []
+        });
+      }
+    }
+
+    const newPlan = {
+      id: Math.random().toString(),
+      name: workout.title,
+      weekNumber: 1,
+      totalWeeks: workout.programLength,
+      phaseName: workout.category,
+      days
+    };
+
+    s.addPlan(newPlan);
+    Alert.alert("Enrolled", `You have successfully enrolled in ${workout.title}!`);
+    router.replace("/(tabs)/train" as any);
+  };
 
   const handlePlay = (workout: typeof PREPARED_WORKOUTS[0]) => {
     const muscleMap: Record<string, string[]> = {
@@ -370,13 +434,13 @@ export function LibraryScreen() {
       "HIIT": ["Quads", "Calves"],
     };
     const targetMuscles = muscleMap[workout.category] || ["Chest"];
-    
+
     const generated = generateWorkout(["dumbbell", "bodyweight"], targetMuscles as any, {
       exerciseCount: workout.exercises,
       focus: "hypertrophy",
       difficulties: [],
     });
-    
+
     useWorkoutStore.setState({ currentWorkout: generated, workoutName: workout.title });
     s.startLiveSession();
     router.push("/live" as any);
@@ -410,7 +474,7 @@ export function LibraryScreen() {
         </View>
 
         {/* Filter Chips */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ maxHeight: 50, marginBottom: 20 }} contentContainerStyle={styles.discoverChips}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ maxHeight: 70, marginBottom: 20 }} contentContainerStyle={styles.discoverChips}>
           {["ALL", "STRENGTH", "CARDIO", "MOBILITY"].map((chip, idx) => (
             <Pressable key={chip} style={[styles.discoverChip, idx === 0 && styles.discoverChipActive]}>
               <Text style={[styles.discoverChipText, idx === 0 && styles.discoverChipTextActive]}>{chip}</Text>
@@ -427,26 +491,26 @@ export function LibraryScreen() {
           contentContainerStyle={styles.discoverGridContent}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
-            <View style={styles.discoverCard}>
+            <Pressable style={styles.discoverCard} onPress={() => router.push(`/workout/${item.id}` as any)}>
               <View style={styles.discoverCardHeader}>
-                <View style={[styles.discoverCategoryPill, 
-                  item.category === "LEGS" ? { backgroundColor: "#1c2a47" } : 
-                  item.category === "MOBILITY" ? { backgroundColor: "#2d1b4e" } : 
-                  item.category === "CHEST" ? { backgroundColor: "#173d2a" } : 
-                  item.category === "BACK" ? { backgroundColor: "#173d2a" } : 
-                  { backgroundColor: "rgba(255,255,255,0.1)" }
+                <View style={[styles.discoverCategoryPill,
+                item.category === "LEGS" ? { backgroundColor: "#1c2a47" } :
+                  item.category === "MOBILITY" ? { backgroundColor: "#2d1b4e" } :
+                    item.category === "CHEST" ? { backgroundColor: "#173d2a" } :
+                      item.category === "BACK" ? { backgroundColor: "#173d2a" } :
+                        { backgroundColor: "rgba(255,255,255,0.1)" }
                 ]}>
-                  <Text style={[styles.discoverCategoryText, 
-                    item.category === "LEGS" ? { color: "#6b9cf6" } : 
-                    item.category === "MOBILITY" ? { color: "#b388ff" } : 
-                    item.category === "CHEST" ? { color: "#08fd8e" } : 
-                    item.category === "BACK" ? { color: "#08fd8e" } : 
-                    { color: theme.text }
+                  <Text style={[styles.discoverCategoryText,
+                  item.category === "LEGS" ? { color: "#6b9cf6" } :
+                    item.category === "MOBILITY" ? { color: "#b388ff" } :
+                      item.category === "CHEST" ? { color: "#08fd8e" } :
+                        item.category === "BACK" ? { color: "#08fd8e" } :
+                          { color: theme.text }
                   ]}>{item.category}</Text>
                 </View>
-                {item.icon === "Flame" ? <Flame size={14} color="#ff453a" /> : 
-                 item.icon === "Zap" ? <Zap size={14} color="#ff9f0a" /> : 
-                 <Leaf size={14} color="#30d158" />}
+                {item.icon === "Flame" ? <Flame size={14} color="#ff453a" /> :
+                  item.icon === "Zap" ? <Zap size={14} color="#ff9f0a" /> :
+                    <Leaf size={14} color="#30d158" />}
               </View>
 
               <View style={{ flex: 1, justifyContent: "center" }}>
@@ -459,13 +523,13 @@ export function LibraryScreen() {
                   <Text style={styles.discoverCardMetaText}>{item.duration}</Text>
                   <Text style={styles.discoverCardMetaDot}>·</Text>
                   <ListOrdered size={10} color={theme.muted} />
-                  <Text style={styles.discoverCardMetaText}>{item.exercises}X</Text>
+                  <Text style={styles.discoverCardMetaText}>{item.exercises.length}X</Text>
                 </View>
-                <Pressable style={styles.discoverPlayBtn} onPress={() => handlePlay(item)}>
-                  <Play size={12} color={theme.text} fill={theme.text} />
+                <Pressable style={styles.discoverPlayBtn} onPress={() => handleEnroll(item)}>
+                  <Plus size={12} color={theme.text} />
                 </Pressable>
               </View>
-            </View>
+            </Pressable>
           )}
         />
       </SafeAreaView>
@@ -619,31 +683,75 @@ export function LiveScreen() {
   }, [s.liveIndex, s.liveSet, s.livePhase, ex]);
 
   useEffect(() => {
+    if (s.livePhase === "done") return;
     const id = setInterval(() => {
       setElapsed((n) => n + 1);
       s.tickRest();
     }, 1000);
     return () => clearInterval(id);
-  }, [s]);
+  }, [s.livePhase, s]);
 
   if (!ex) return null;
 
-  if (s.livePhase === "done")
+  if (s.livePhase === "done") {
+    let totalVolume = 0;
+    s.currentWorkout.forEach(ex => {
+      ex.loggedSets.forEach(set => {
+        if (set.weight) totalVolume += set.weight * set.reps;
+      });
+    });
+
     return (
-      <View style={[styles.page, styles.center]}>
-        <Text style={styles.hero}>Workout complete</Text>
-        <Text style={[styles.muted, { marginTop: 8 }]}>Time: {formatTime(elapsed)}</Text>
-        <Pressable
-          style={[styles.legacyButton, { marginTop: 24 }]}
-          onPress={() => {
-            s.finishWorkout(elapsed);
-            router.replace("/(tabs)/history" as any);
-          }}
-        >
-          <Text style={styles.legacyButtonText}>Save to history</Text>
-        </Pressable>
+      <View style={styles.livePage}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={styles.liveHeader}>
+            <Text style={styles.liveTimer}>Workout Complete</Text>
+          </View>
+          <ScrollView contentContainerStyle={{ padding: 24 }} showsVerticalScrollIndicator={false}>
+            <View style={{ alignItems: "center", marginBottom: 32 }}>
+              <Flame size={48} color={theme.neon} />
+              <Text style={[styles.hero, { marginTop: 16, fontSize: 32 }]}>Great Job!</Text>
+              <Text style={[styles.muted, { marginTop: 8, fontSize: 18 }]}>Time: {formatTime(elapsed)}</Text>
+              {totalVolume > 0 && <Text style={[styles.muted, { marginTop: 4, fontSize: 16 }]}>Total Volume: {totalVolume} kg</Text>}
+            </View>
+
+            <Text style={[styles.eyebrow, { marginBottom: 16 }]}>EXERCISE SUMMARY</Text>
+            {s.currentWorkout.map((ex, i) => (
+              <View key={ex.instanceId} style={{ marginBottom: 16, backgroundColor: theme.surface, padding: 16, borderRadius: 12, borderWidth: 1, borderColor: theme.border }}>
+                <Text style={styles.cardTitle}>{ex.title}</Text>
+                <View style={{ marginTop: 8 }}>
+                  {ex.loggedSets.map((set, setIdx) => (
+                    <View key={setIdx} style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 4 }}>
+                      <Text style={styles.muted}>Set {setIdx + 1}</Text>
+                      <Text style={{ color: theme.text }}>
+                        {set.reps} reps {set.weight ? `× ${set.weight} kg` : ""}
+                      </Text>
+                    </View>
+                  ))}
+                  {ex.loggedSets.length === 0 && (
+                    <Text style={styles.muted}>Skipped</Text>
+                  )}
+                </View>
+              </View>
+            ))}
+            <View style={{ height: 40 }} />
+          </ScrollView>
+
+          <View style={styles.liveFooter}>
+            <Pressable
+              style={styles.completeSetBtn}
+              onPress={() => {
+                s.finishWorkout(elapsed);
+                router.replace("/(tabs)/train" as any);
+              }}
+            >
+              <Text style={styles.completeSetBtnText}>FINISH & GO HOME</Text>
+            </Pressable>
+          </View>
+        </SafeAreaView>
       </View>
     );
+  }
 
   const handleCancelWorkout = () => {
     Alert.alert(
@@ -651,9 +759,9 @@ export function LiveScreen() {
       "Your progress will not be saved.",
       [
         { text: "Keep Going", style: "cancel" },
-        { 
-          text: "End Workout", 
-          style: "destructive", 
+        {
+          text: "End Workout",
+          style: "destructive",
           onPress: () => {
             s.cancelWorkout();
             router.replace("/(tabs)/train" as any);
@@ -681,7 +789,7 @@ export function LiveScreen() {
               <View style={styles.restCircle}>
                 <Text style={styles.restTimeText}>{formatTime(s.restRemaining)}</Text>
               </View>
-              
+
               <View style={styles.restControls}>
                 <Pressable style={styles.restControlBtn} onPress={() => s.reduceRestTime(15)}>
                   <Minus size={20} color={theme.text} />
@@ -878,6 +986,169 @@ export function ExerciseDetail({ id }: { id: string }) {
           <Text style={detailStyles.startBtnText}>START EXERCISE</Text>
           <View style={detailStyles.startBtnIcon}>
             <Play size={18} color={theme.background} fill={theme.background} />
+          </View>
+        </Pressable>
+      </View>
+    </View>
+  );
+}
+
+export function WorkoutDetailScreen({ id }: { id: string }) {
+  const workout = PREPARED_WORKOUTS.find((w) => w.id === id);
+  const s = useWorkoutStore();
+  const [exercises, setExercises] = useState<WorkoutExercise[]>([]);
+
+  useEffect(() => {
+    if (workout) {
+      const generated = workout.exercises
+        .map(id => getExerciseById(id))
+        .filter((e): e is NonNullable<typeof e> => e !== undefined)
+        .map(e => createWorkoutExercise(e, "hypertrophy"));
+      setExercises(generated);
+    }
+  }, [workout]);
+
+  if (!workout) {
+    return (
+      <View style={detailStyles.notFound}>
+        <Dumbbell color={theme.muted} size={48} />
+        <Text style={detailStyles.notFoundText}>Workout not found</Text>
+        <Pressable onPress={() => router.back()}>
+          <Text style={{ color: theme.neon, marginTop: 20 }}>Go Back</Text>
+        </Pressable>
+      </View>
+    );
+  }
+
+  const handleEnroll = () => {
+    if (!exercises.length || !workout) return;
+
+    const days: DayPlan[] = [];
+    const activeDays = [1, 3, 5, 2, 4, 6].slice(0, workout.daysPerWeek).sort();
+
+    const chunks: WorkoutExercise[][] = Array.from({ length: workout.daysPerWeek }, () => []);
+    exercises.forEach((ex, idx) => {
+      chunks[idx % workout.daysPerWeek].push({ ...ex, instanceId: Math.random().toString() });
+    });
+
+    let chunkIdx = 0;
+    for (let i = 0; i < 7; i++) {
+      if (activeDays.includes(i)) {
+        days.push({
+          dayIndex: i,
+          label: `Day ${chunkIdx + 1}`,
+          isRest: false,
+          exercises: chunks[chunkIdx]
+        });
+        chunkIdx++;
+      } else {
+        days.push({
+          dayIndex: i,
+          label: "Rest",
+          isRest: true,
+          exercises: []
+        });
+      }
+    }
+
+    const planId = Math.random().toString(36).slice(2);
+    s.addPlan({
+      id: planId,
+      name: workout.title,
+      weekNumber: 1,
+      totalWeeks: workout.programLength,
+      phaseName: workout.category,
+      days,
+    });
+    s.setActivePlan(planId);
+    Alert.alert("Enrolled", `You have successfully enrolled in ${workout.title}!`);
+    router.replace("/(tabs)/train" as any);
+  };
+
+  const estimatedMinutes = parseInt(workout.duration) ||
+    Math.round(exercises.reduce((t, e) => t + e.sets * (0.75 + e.restSeconds / 60), 0));
+
+  const words = workout.title.trim().split(" ");
+  const firstWord = words[0];
+  const restWords = words.slice(1).join(" ");
+
+  return (
+    <View style={detailStyles.root}>
+      <StatusBar barStyle="light-content" />
+
+      <SafeAreaView style={detailStyles.headerSafe}>
+        <View style={detailStyles.header}>
+          <Pressable style={detailStyles.headerBtn} onPress={() => router.back()}>
+            <ArrowLeft size={20} color={theme.text} />
+          </Pressable>
+          <Text style={detailStyles.headerTitle}>WORKOUT PLAN</Text>
+          <View style={{ width: 42 }} />
+        </View>
+      </SafeAreaView>
+
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={detailStyles.scrollBody} showsVerticalScrollIndicator={false}>
+        <Text style={detailStyles.titleRow}>
+          <Text style={detailStyles.titleWhite}>{firstWord}</Text>
+          {restWords ? (
+            <Text style={detailStyles.titleNeon}>{" "}{restWords}</Text>
+          ) : null}
+        </Text>
+
+        <View style={detailStyles.metaRow}>
+          <Text style={detailStyles.metaMuscle}>{workout.category}</Text>
+          <Text style={detailStyles.metaDot}>·</Text>
+          <Text style={detailStyles.metaDiff}>{workout.duration}</Text>
+          <Text style={detailStyles.metaDot}>·</Text>
+          <Text style={detailStyles.metaMuscle}>{workout.programLength} WEEKS</Text>
+          <Text style={detailStyles.metaDot}>·</Text>
+          <Text style={detailStyles.metaDiff}>{workout.daysPerWeek} DAYS/WK</Text>
+        </View>
+
+        <View style={styles.statsRow}>
+          <View style={styles.statItem}>
+            <Zap size={14} color={theme.neon} />
+            <Text style={styles.statText}>{exercises.length} Exercises</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Clock size={14} color={theme.neon} />
+            <Text style={styles.statText}>{estimatedMinutes} Min</Text>
+          </View>
+        </View>
+
+        <View style={detailStyles.howToHeader}>
+          <ListOrdered size={16} color={theme.neon} />
+          <Text style={detailStyles.howToLabel}>EXERCISES</Text>
+        </View>
+
+        <View style={{ gap: 8, marginTop: 8 }}>
+          {exercises.map((ex) => (
+            <Pressable
+              key={ex.instanceId}
+              style={styles.exerciseCard}
+              onPress={() => router.push(`/exercise/${ex.exerciseId}` as any)}
+            >
+              <View style={styles.exerciseThumb}>
+                {ex.gif ? (
+                  <Image source={{ uri: ex.gif }} style={styles.exerciseThumbImg} contentFit="cover" />
+                ) : (
+                  <Dumbbell size={22} color={theme.neon} />
+                )}
+              </View>
+              <View style={styles.exerciseInfo}>
+                <Text style={styles.exerciseName} numberOfLines={1}>{ex.title}</Text>
+                <Text style={styles.exerciseMeta}>{ex.sets} sets x {ex.reps} reps</Text>
+              </View>
+            </Pressable>
+          ))}
+        </View>
+        <View style={{ height: 100 }} />
+      </ScrollView>
+
+      <View style={detailStyles.ctaContainer}>
+        <Pressable style={detailStyles.startBtn} onPress={handleEnroll}>
+          <Text style={detailStyles.startBtnText}>ENROLL & ADD PLAN</Text>
+          <View style={detailStyles.startBtnIcon}>
+            <Plus size={18} color={theme.background} />
           </View>
         </Pressable>
       </View>
@@ -1385,7 +1656,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
   },
-  
+
   /* -- Live Screen Redesign -- */
   livePage: {
     flex: 1,
@@ -1563,7 +1834,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
   },
-  
+
   /* -- Discover Workouts -- */
   discoverPage: {
     flex: 1,
