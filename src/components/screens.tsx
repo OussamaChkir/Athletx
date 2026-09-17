@@ -142,9 +142,6 @@ export function TrainScreen() {
             <Pressable style={styles.headerIcon}>
               <Calendar size={20} color={theme.text} />
             </Pressable>
-            <Pressable style={styles.headerIcon}>
-              <SlidersHorizontal size={20} color={theme.text} />
-            </Pressable>
           </View>
         </View>
 
@@ -455,9 +452,6 @@ export function LibraryScreen() {
             <Text style={styles.discoverTitleWhite}>DISCOVER</Text>
             <Text style={styles.discoverTitleNeon}>WORKOUTS</Text>
           </View>
-          <Pressable style={styles.discoverCloseBtn}>
-            <X size={20} color={theme.neon} />
-          </Pressable>
         </View>
 
         {/* Search */}
@@ -474,7 +468,7 @@ export function LibraryScreen() {
         </View>
 
         {/* Filter Chips */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ maxHeight: 70, marginBottom: 20 }} contentContainerStyle={styles.discoverChips}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0, flexShrink: 0, marginBottom: 20 }} contentContainerStyle={styles.discoverChips}>
           {["ALL", "STRENGTH", "CARDIO", "MOBILITY"].map((chip, idx) => (
             <Pressable key={chip} style={[styles.discoverChip, idx === 0 && styles.discoverChipActive]}>
               <Text style={[styles.discoverChipText, idx === 0 && styles.discoverChipTextActive]}>{chip}</Text>
@@ -538,89 +532,232 @@ export function LibraryScreen() {
   );
 }
 
-export function BuilderScreen() {
-  const s = useWorkoutStore();
-  const render = ({ item, drag, isActive }: RenderItemParams<WorkoutExercise>) => (
-    <Pressable
-      onLongPress={drag}
-      disabled={isActive}
-      style={[styles.libExercise, isActive && { opacity: 0.7 }]}
-    >
-      <View
-        style={[
-          styles.dot,
-          { backgroundColor: MUSCLE_COLORS[item.mainMuscle] ?? theme.neon },
-        ]}
-      />
-      <View style={{ flex: 1 }}>
-        <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.muted}>
-          {item.sets} sets × {item.reps} reps · {item.restSeconds}s rest
-        </Text>
-        <View style={styles.editRow}>
-          {(["sets", "reps", "restSeconds"] as const).map((k) => (
-            <Pressable
-              key={k}
-              style={styles.editBtn}
-              onPress={() =>
-                s.updateExercise(item.instanceId, {
-                  [k]: Math.max(0, Number(item[k]) + 1),
-                } as Partial<WorkoutExercise>)
-              }
-            >
-              <Text style={styles.small}>+ {k}</Text>
-            </Pressable>
-          ))}
-        </View>
-      </View>
-      <Pressable onPress={() => s.removeExercise(item.instanceId)}>
-        <Trash2 color={theme.danger} />
-      </Pressable>
-    </Pressable>
-  );
+const DIFFICULTY_COLORS: Record<string, { bg: string; text: string }> = {
+  Beginner:     { bg: "rgba(8,253,142,0.12)",  text: "#08fd8e" },
+  Intermediate: { bg: "rgba(255,159,10,0.12)", text: "#ff9f0a" },
+  Advanced:     { bg: "rgba(255,92,114,0.12)", text: "#ff5c72" },
+};
 
-  if (!s.currentWorkout.length)
-    return (
-      <View style={[styles.page, styles.center]}>
-        <Dumbbell color={theme.neon} size={42} />
-        <Text style={styles.title}>Empty rack</Text>
-        <Text style={styles.muted}>
-          Generate a workout or add moves from Library.
-        </Text>
-      </View>
-    );
+const ALL_MUSCLES_LABEL = "All";
+
+export function BuilderScreen() {
+  const [query, setQuery] = useState("");
+  const [selectedMuscle, setSelectedMuscle] = useState<string>(ALL_MUSCLES_LABEL);
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+
+  const allExercises = useMemo(() => filterExercises({ includeExcluded: true }), []);
+
+  const muscles = useMemo(() => {
+    const set = new Set(allExercises.map((e) => e.targets?.[0] ?? "Unknown"));
+    return [ALL_MUSCLES_LABEL, ...Array.from(set).filter(Boolean).sort()];
+  }, [allExercises]);
+
+  const categories = useMemo(() => {
+    const set = new Set(allExercises.map((e) => e.category));
+    return ["All", ...Array.from(set).filter(Boolean).sort()];
+  }, [allExercises]);
+
+  const filtered = useMemo(() => {
+    return allExercises.filter((e) => {
+      const matchesMuscle =
+        selectedMuscle === ALL_MUSCLES_LABEL ||
+        (e.targets?.[0] ?? "") === selectedMuscle;
+      const matchesCategory =
+        selectedCategory === "All" || e.category === selectedCategory;
+      const q = query.trim().toLowerCase();
+      const matchesQuery =
+        !q ||
+        e.title.toLowerCase().includes(q) ||
+        e.category.toLowerCase().includes(q) ||
+        e.targets.some((t) => t.toLowerCase().includes(q)) ||
+        e.equipment.some((eq) => eq.toLowerCase().includes(q));
+      return matchesMuscle && matchesCategory && matchesQuery;
+    });
+  }, [allExercises, selectedMuscle, selectedCategory, query]);
+
+  const muscleColor = (muscle: string) =>
+    MUSCLE_COLORS[muscle] ?? theme.neon;
 
   return (
-    <View style={styles.page}>
-      <TextInput
-        value={s.workoutName}
-        onChangeText={s.setWorkoutName}
-        style={styles.nameInput}
-        placeholder="Workout name"
-        placeholderTextColor={theme.muted}
-      />
-      <DraggableFlatList
-        data={s.currentWorkout}
-        keyExtractor={(x) => x.instanceId}
-        renderItem={render}
-        onDragEnd={({ data }) =>
-          s.reorderExercises(0, 0) ||
-          useWorkoutStore.setState({ currentWorkout: data })
-        }
-      />
-      <Pressable
-        style={styles.legacyButton}
-        onPress={() => {
-          s.saveCurrentWorkout();
-          s.startLiveSession();
-          router.push("/live");
-        }}
+    <SafeAreaView style={bStyles.root}>
+      <StatusBar barStyle="light-content" />
+
+      {/* ── Header ── */}
+      <View style={bStyles.header}>
+        <View>
+          <Text style={bStyles.headTitle}>EXERCISE</Text>
+          <Text style={bStyles.headSub}>LIBRARY</Text>
+        </View>
+        <View style={bStyles.countBadge}>
+          <Text style={bStyles.countText}>{filtered.length}</Text>
+        </View>
+      </View>
+
+      {/* ── Search ── */}
+      <View style={bStyles.searchRow}>
+        <Search color={theme.muted} size={16} />
+        <TextInput
+          value={query}
+          onChangeText={setQuery}
+          placeholder="Search exercises, muscles, equipment…"
+          placeholderTextColor={theme.muted}
+          style={bStyles.searchInput}
+          returnKeyType="search"
+        />
+        {query.length > 0 && (
+          <Pressable onPress={() => setQuery("")}>
+            <X color={theme.muted} size={16} />
+          </Pressable>
+        )}
+      </View>
+
+      {/* ── Muscle Filter Chips ── */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={bStyles.chipsRow}
+        style={bStyles.chipsScroll}
+        alwaysBounceHorizontal={false}
       >
-        <Play fill={theme.background} color={theme.background} />
-        <Text style={styles.legacyButtonText}>Start workout</Text>
-      </Pressable>
-      <AdBanner />
-    </View>
+        {muscles.map((m) => {
+          const active = m === selectedMuscle;
+          const color = m === ALL_MUSCLES_LABEL ? theme.neon : muscleColor(m);
+          return (
+            <Pressable
+              key={m}
+              onPress={() => setSelectedMuscle(m)}
+              style={[
+                bStyles.chip,
+                active && { backgroundColor: color + "22", borderColor: color },
+              ]}
+            >
+              {m !== ALL_MUSCLES_LABEL && (
+                <View style={[bStyles.chipDot, { backgroundColor: color }]} />
+              )}
+              <Text
+                style={[
+                  bStyles.chipText,
+                  active && { color },
+                ]}
+              >
+                {m}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+
+      {/* ── Category Chips ── */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={bStyles.catChipsRow}
+        style={bStyles.catChipsScroll}
+        alwaysBounceHorizontal={false}
+      >
+        {categories.map((cat) => {
+          const active = cat === selectedCategory;
+          return (
+            <Pressable
+              key={cat}
+              onPress={() => setSelectedCategory(cat)}
+              style={[
+                bStyles.catChip,
+                active && bStyles.catChipActive,
+              ]}
+            >
+              <Text
+                style={[
+                  bStyles.catChipText,
+                  active && bStyles.catChipTextActive,
+                ]}
+              >
+                {cat}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+
+      {/* ── Exercise List ── */}
+      <FlatList
+        data={filtered}
+        keyExtractor={(e) => e._id}
+        contentContainerStyle={bStyles.listContent}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          <View style={bStyles.empty}>
+            <Dumbbell color={theme.muted} size={40} />
+            <Text style={bStyles.emptyTitle}>No exercises found</Text>
+            <Text style={bStyles.emptyMuted}>Try a different search or filter</Text>
+          </View>
+        }
+        renderItem={({ item: e }) => {
+          const muscle = e.targets?.[0] ?? "Unknown";
+          const mColor = muscleColor(muscle);
+          const diff = DIFFICULTY_COLORS[e.difficulty] ?? DIFFICULTY_COLORS.Beginner;
+          return (
+            <Pressable
+              style={bStyles.card}
+              onPress={() => router.push(`/exercise/${e._id}` as any)}
+            >
+              {/* Left accent bar */}
+              <View style={[bStyles.accentBar, { backgroundColor: mColor }]} />
+
+              {/* Image */}
+              <View style={bStyles.imgWrap}>
+                {e.image ? (
+                  <Image
+                    source={{ uri: e.image }}
+                    style={bStyles.img}
+                    contentFit="contain"
+                    transition={200}
+                  />
+                ) : (
+                  <View style={bStyles.imgPlaceholder}>
+                    <Dumbbell color={theme.muted} size={24} />
+                  </View>
+                )}
+              </View>
+
+              {/* Text content */}
+              <View style={bStyles.cardBody}>
+                <Text style={bStyles.cardTitle} numberOfLines={2}>
+                  {e.title}
+                </Text>
+
+                {/* Muscle + Category row */}
+                <View style={bStyles.tagsRow}>
+                  <View style={[bStyles.muscleTag, { borderColor: mColor + "55" }]}>
+                    <View style={[bStyles.tagDot, { backgroundColor: mColor }]} />
+                    <Text style={[bStyles.muscleTagText, { color: mColor }]}>
+                      {muscle}
+                    </Text>
+                  </View>
+                  <View style={bStyles.catTag}>
+                    <Text style={bStyles.catTagText}>{e.category}</Text>
+                  </View>
+                </View>
+
+                {/* Equipment */}
+                {e.equipment?.length > 0 && (
+                  <Text style={bStyles.equipment} numberOfLines={1}>
+                    {e.equipment.join(" · ")}
+                  </Text>
+                )}
+              </View>
+
+              {/* Difficulty badge */}
+              <View style={[bStyles.diffBadge, { backgroundColor: diff.bg }]}>
+                <Text style={[bStyles.diffText, { color: diff.text }]}>
+                  {e.difficulty}
+                </Text>
+              </View>
+            </Pressable>
+          );
+        }}
+      />
+    </SafeAreaView>
   );
 }
 
@@ -1892,12 +2029,15 @@ const styles = StyleSheet.create({
   },
   discoverChips: {
     paddingHorizontal: 20,
+    paddingVertical: 6,
     gap: 12,
+    flexDirection: "row",
+    alignItems: "center",
   },
   discoverChip: {
     backgroundColor: "rgba(255,255,255,0.05)",
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 8,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.1)",
@@ -2218,5 +2358,270 @@ const detailStyles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.2)",
     alignItems: "center",
     justifyContent: "center",
+  },
+});
+
+/* ================================================================
+ *  BUILDER SCREEN — Exercise Library styles
+ * ================================================================ */
+const bStyles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: theme.background,
+  },
+
+  /* Header */
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 12,
+  },
+  headTitle: {
+    color: theme.text,
+    fontSize: 28,
+    fontWeight: "900",
+    letterSpacing: -0.5,
+    lineHeight: 30,
+  },
+  headSub: {
+    color: theme.neon,
+    fontSize: 28,
+    fontWeight: "900",
+    fontStyle: "italic",
+    letterSpacing: -0.5,
+    lineHeight: 30,
+    marginTop: -4,
+  },
+  countBadge: {
+    backgroundColor: "rgba(8,253,142,0.12)",
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: theme.neon,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+  },
+  countText: {
+    color: theme.neon,
+    fontSize: 16,
+    fontWeight: "900",
+  },
+
+  /* Search */
+  searchRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginHorizontal: 16,
+    marginBottom: 12,
+    backgroundColor: theme.surface,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: theme.border,
+    paddingHorizontal: 14,
+    height: 46,
+  },
+  searchInput: {
+    flex: 1,
+    color: theme.text,
+    fontSize: 14,
+  },
+
+  /* Chips */
+  chipsScroll: {
+    flexGrow: 0,
+    flexShrink: 0,
+    marginBottom: 8,
+  },
+  chipsRow: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    gap: 8,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  chip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.border,
+    backgroundColor: "rgba(255,255,255,0.03)",
+  },
+  chipDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  chipText: {
+    color: theme.muted,
+    fontSize: 13,
+    fontWeight: "700",
+  },
+
+  /* Category chips */
+  catChipsScroll: {
+    flexGrow: 0,
+    flexShrink: 0,
+    marginBottom: 8,
+  },
+  catChipsRow: {
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    gap: 8,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  catChip: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.border,
+    backgroundColor: "rgba(255,255,255,0.03)",
+  },
+  catChipActive: {
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderColor: "rgba(255,255,255,0.2)",
+  },
+  catChipText: {
+    color: theme.muted,
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 0.3,
+  },
+  catChipTextActive: {
+    color: theme.text,
+  },
+
+  /* List */
+  listContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 32,
+    gap: 10,
+  },
+
+  /* Exercise card */
+  card: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: theme.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: theme.border,
+    overflow: "hidden",
+    minHeight: 90,
+  },
+  accentBar: {
+    width: 4,
+    alignSelf: "stretch",
+  },
+  imgWrap: {
+    width: 80,
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.03)",
+    flexShrink: 0,
+  },
+  img: {
+    width: 76,
+    height: 76,
+  },
+  imgPlaceholder: {
+    width: 76,
+    height: 76,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cardBody: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingLeft: 12,
+    paddingRight: 8,
+    gap: 5,
+  },
+  cardTitle: {
+    color: theme.text,
+    fontSize: 15,
+    fontWeight: "800",
+    letterSpacing: -0.2,
+    lineHeight: 20,
+  },
+  tagsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    flexWrap: "wrap",
+  },
+  muscleTag: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+  tagDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  muscleTagText: {
+    fontSize: 11,
+    fontWeight: "800",
+  },
+  catTag: {
+    backgroundColor: "rgba(255,255,255,0.06)",
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+  catTagText: {
+    color: theme.muted,
+    fontSize: 11,
+    fontWeight: "700",
+  },
+  equipment: {
+    color: theme.muted,
+    fontSize: 11,
+    fontWeight: "500",
+  },
+
+  /* Difficulty badge */
+  diffBadge: {
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    marginRight: 12,
+    alignSelf: "center",
+  },
+  diffText: {
+    fontSize: 10,
+    fontWeight: "900",
+    letterSpacing: 0.5,
+  },
+
+  /* Empty state */
+  empty: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 80,
+    gap: 12,
+  },
+  emptyTitle: {
+    color: theme.text,
+    fontSize: 18,
+    fontWeight: "800",
+  },
+  emptyMuted: {
+    color: theme.muted,
+    fontSize: 14,
   },
 });
