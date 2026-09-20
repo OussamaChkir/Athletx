@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { Dumbbell, Library, ChartLine, ListMusic, Settings } from "lucide-react-native";
+import { Dumbbell, Library, ChartLine, BicepsFlexed, Settings } from "lucide-react-native";
 import { theme } from "@/lib/theme";
 
 export default function TabsLayout() {
@@ -33,15 +33,15 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="library"
         options={{
-          title: "Exercises",
-          tabBarIcon: (p) => <ListMusic {...p} />,
+          title: "Library",
+          tabBarIcon: (p) => <Library {...p} />,
         }}
       />
       <Tabs.Screen
         name="builder"
         options={{
-          title: "Library",
-          tabBarIcon: (p) => <Library {...p} />,
+          title: "Exercises",
+          tabBarIcon: (p) => <BicepsFlexed {...p} />,
         }}
       />
       <Tabs.Screen
