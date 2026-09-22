@@ -15,6 +15,7 @@ import {
   StatusBar,
 } from "react-native";
 import { Image } from "expo-image";
+import { getExerciseImageSource } from "@/lib/exercise-image";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { router } from "expo-router";
 import {
@@ -258,7 +259,7 @@ export function TrainScreen() {
                 <View style={styles.exerciseThumb}>
                   {ex.gif ? (
                     <Image
-                      source={{ uri: ex.gif }}
+                      source={getExerciseImageSource(ex.gif)}
                       style={styles.exerciseThumbImg}
                       contentFit="cover"
                     />
@@ -708,7 +709,7 @@ export function BuilderScreen() {
               <View style={bStyles.imgWrap}>
                 {e.image ? (
                   <Image
-                    source={{ uri: e.image }}
+                    source={getExerciseImageSource(e.image)}
                     style={bStyles.img}
                     contentFit="contain"
                     transition={200}
@@ -1071,7 +1072,7 @@ export function ExerciseDetail({ id }: { id: string }) {
             </View>
           ) : (
             <Image
-              source={{ uri: e.image }}
+              source={getExerciseImageSource(e.image)}
               style={detailStyles.detailImage}
               contentFit="cover"
               onLoadStart={() => { setImgLoading(true); setImgError(false); }}
@@ -1266,7 +1267,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
             >
               <View style={styles.exerciseThumb}>
                 {ex.gif ? (
-                  <Image source={{ uri: ex.gif }} style={styles.exerciseThumbImg} contentFit="cover" />
+                  <Image source={getExerciseImageSource(ex.gif)} style={styles.exerciseThumbImg} contentFit="cover" />
                 ) : (
                   <Dumbbell size={22} color={theme.neon} />
                 )}
