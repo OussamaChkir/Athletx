@@ -17,7 +17,7 @@ export default function Layout() {
         <Stack.Screen name="splash" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="live" options={{ headerShown: false, presentation: "fullScreenModal" }} />
-        <Stack.Screen name="exercise/[id]" options={{ title: "Exercise" }} />
+        <Stack.Screen name="exercise/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="plan/new" options={{ presentation: "modal", title: "New Plan" }} />
         <Stack.Screen name="edit-profile" options={{ headerShown: false, presentation: "card" }} />
       </Stack>

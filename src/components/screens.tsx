@@ -19,6 +19,16 @@ import { getExerciseImageSource } from "@/lib/exercise-image";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { router } from "expo-router";
 import {
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  format,
+  isSameDay,
+  getDay,
+  startOfWeek,
+  endOfWeek,
+} from "date-fns";
+import {
   ArrowLeft,
   Calendar,
   ChevronDown,
@@ -38,6 +48,9 @@ import {
   X,
   Minus,
   Leaf,
+  Trophy,
+  Activity,
+  Target
 } from "lucide-react-native";
 import { EQUIPMENT_LIST, FOCUS_PRESETS, MUSCLES, MUSCLE_COLORS } from "@/lib/constants";
 import { createWorkoutExercise, filterExercises, getExerciseById, generateWorkout } from "@/lib/exercises";
@@ -95,6 +108,29 @@ export function TrainScreen() {
   const weekDates = useMemo(() => getWeekDates(), []);
   const [selectedDay, setSelectedDay] = useState(() => new Date().getDay());
   const [planDropdownVisible, setPlanDropdownVisible] = useState(false);
+  const [calendarVisible, setCalendarVisible] = useState(false);
+
+  // Weekly Streak Calculation
+  const history = s.history;
+  const today = useMemo(() => new Date(), []);
+  const startOfCurrentWeek = startOfWeek(today, { weekStartsOn: 0 });
+  const endOfCurrentWeek = endOfWeek(today, { weekStartsOn: 0 });
+  
+  const workoutsThisWeek = useMemo(() => {
+    return history.filter((h) => {
+      const d = new Date(h.completedAt);
+      return d >= startOfCurrentWeek && d <= endOfCurrentWeek;
+    });
+  }, [history, startOfCurrentWeek, endOfCurrentWeek]);
+
+  // Calendar Grid (Current Month)
+  const calendarDays = useMemo(() => {
+    const monthStart = startOfMonth(today);
+    const monthEnd = endOfMonth(monthStart);
+    const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
+    const startingDayIndex = getDay(monthStart);
+    return Array(startingDayIndex).fill(null).concat(daysInMonth);
+  }, [today]);
 
   const weekPlan = s.plans.find((p) => p.id === s.activePlanId) ?? null;
   const todayPlan: DayPlan | null = weekPlan?.days[selectedDay] ?? null;
@@ -140,7 +176,7 @@ export function TrainScreen() {
             <ChevronDown size={16} color={theme.muted} />
           </Pressable>
           <View style={styles.homeHeaderRight}>
-            <Pressable style={styles.headerIcon}>
+            <Pressable style={styles.headerIcon} onPress={() => setCalendarVisible(true)}>
               <Calendar size={20} color={theme.text} />
             </Pressable>
           </View>
@@ -354,6 +390,55 @@ export function TrainScreen() {
           </View>
         </Pressable>
       </Modal>
+
+      {/* ---- Calendar Modal ---- */}
+      <Modal visible={calendarVisible} transparent animationType="fade">
+        <Pressable
+          style={styles.modalOverlay}
+          onPress={() => setCalendarVisible(false)}
+        >
+          <Pressable style={styles.calendarModalContent} onPress={() => {}}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+              <Text style={styles.calendarTitle}>{format(today, "MMMM yyyy")}</Text>
+              <Pressable onPress={() => setCalendarVisible(false)}>
+                <X size={24} color={theme.text} />
+              </Pressable>
+            </View>
+
+            <View style={styles.streakContainer}>
+              <Flame size={20} color={theme.neon} />
+              <Text style={styles.streakText}>
+                {workoutsThisWeek.length} {workoutsThisWeek.length === 1 ? 'workout' : 'workouts'} this week
+              </Text>
+            </View>
+
+            <View style={styles.calendarHeaderRow}>
+              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                <Text key={day} style={styles.calendarDayHeader}>
+                  {day}
+                </Text>
+              ))}
+            </View>
+
+            <View style={styles.calendarGrid}>
+              {calendarDays.map((d, i) => {
+                if (!d) return <View key={`empty-${i}`} style={styles.calendarCell} />;
+                
+                const hasWorkedOut = history.some((h) => isSameDay(new Date(h.completedAt), d));
+                const isToday = isSameDay(today, d);
+                
+                return (
+                  <View key={d.toString()} style={[styles.calendarCell, hasWorkedOut && styles.calendarCellWorkedOut]}>
+                    <Text style={[styles.calendarCellText, hasWorkedOut && styles.calendarCellTextWorkedOut, isToday && styles.calendarCellTextToday]}>
+                      {format(d, "d")}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 }
@@ -419,7 +504,7 @@ export function LibraryScreen() {
 
     s.addPlan(newPlan);
     Alert.alert("Enrolled", `You have successfully enrolled in ${workout.title}!`);
-    router.replace("/(tabs)/train" as any);
+    router.replace("/" as any);
   };
 
   const handlePlay = (workout: typeof PREPARED_WORKOUTS[0]) => {
@@ -534,9 +619,9 @@ export function LibraryScreen() {
 }
 
 const DIFFICULTY_COLORS: Record<string, { bg: string; text: string }> = {
-  Beginner:     { bg: "rgba(8,253,142,0.12)",  text: "#08fd8e" },
+  Beginner: { bg: "rgba(8,253,142,0.12)", text: "#08fd8e" },
   Intermediate: { bg: "rgba(255,159,10,0.12)", text: "#ff9f0a" },
-  Advanced:     { bg: "rgba(255,92,114,0.12)", text: "#ff5c72" },
+  Advanced: { bg: "rgba(255,92,114,0.12)", text: "#ff5c72" },
 };
 
 const ALL_MUSCLES_LABEL = "All";
@@ -765,35 +850,142 @@ export function BuilderScreen() {
 export function HistoryScreen() {
   const history = useWorkoutStore((s) => s.history);
 
+  // Compute stats
+  const totalWorkouts = history.length;
+  const totalTimeSeconds = history.reduce((acc, curr) => acc + curr.durationSeconds, 0);
+  const totalWeight = history.reduce((acc, curr) => acc + curr.totalVolume, 0);
+
+  // Compute Streak
+  const streak = useMemo(() => {
+    if (!history.length) return 0;
+    const dates = [...new Set(history.map(h => new Date(h.completedAt).toDateString()))]
+      .map(dStr => new Date(dStr))
+      .sort((a, b) => b.getTime() - a.getTime());
+
+    let currentStreak = 0;
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (dates[0].getTime() !== today.getTime() && dates[0].getTime() !== yesterday.getTime()) {
+      return 0;
+    }
+
+    let expectedDate = dates[0];
+    for (const date of dates) {
+      if (date.getTime() === expectedDate.getTime()) {
+        currentStreak++;
+        expectedDate = new Date(date);
+        expectedDate.setDate(expectedDate.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    return currentStreak;
+  }, [history]);
+
+  // Max volume for PR mock
+  const maxVolume = useMemo(() => Math.max(0, ...history.map(h => h.totalVolume)), [history]);
+
   return (
-    <FlatList
-      contentContainerStyle={styles.page}
-      data={history}
-      keyExtractor={(x) => x.id}
-      ListHeaderComponent={
-        <>
-          <Text style={styles.title}>History</Text>
-          <Text style={styles.muted}>{history.length} completed sessions</Text>
-        </>
-      }
-      ListEmptyComponent={
-        <Text style={styles.muted}>
-          Finish a live workout to see it here.
-        </Text>
-      }
-      renderItem={({ item }) => (
-        <View style={styles.libExercise}>
-          <Flame color={theme.ember} />
-          <View>
-            <Text style={styles.cardTitle}>{item.name}</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+      <FlatList
+        contentContainerStyle={[styles.page, { paddingHorizontal: 0 }]}
+        data={history}
+        keyExtractor={(x) => x.id}
+        ListHeaderComponent={
+          <View style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
+            <View style={{ marginBottom: 24 }}>
+              <Text style={[styles.title, { fontSize: 32 }]}>Progress</Text>
+              <Text style={styles.muted}>Your fitness journey</Text>
+            </View>
+
+            {/* Stats Grid */}
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 24 }}>
+              {/* Streak */}
+              <View style={{ flex: 1, minWidth: '45%', backgroundColor: 'rgba(255,159,10,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(255,159,10,0.2)' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <Flame size={20} color="#ff9f0a" />
+                  <Text style={{ color: '#ff9f0a', fontWeight: '800', fontSize: 13 }}>STREAK</Text>
+                </View>
+                <Text style={{ color: theme.text, fontSize: 28, fontWeight: '900' }}>{streak} <Text style={{ fontSize: 16, color: theme.muted }}>days</Text></Text>
+              </View>
+
+              {/* Workouts */}
+              <View style={{ flex: 1, minWidth: '45%', backgroundColor: 'rgba(8,253,142,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(8,253,142,0.2)' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <Activity size={20} color={theme.neon} />
+                  <Text style={{ color: theme.neon, fontWeight: '800', fontSize: 13 }}>WORKOUTS</Text>
+                </View>
+                <Text style={{ color: theme.text, fontSize: 28, fontWeight: '900' }}>{totalWorkouts}</Text>
+              </View>
+
+              {/* Volume */}
+              <View style={{ flex: 1, minWidth: '45%', backgroundColor: 'rgba(255,92,114,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(255,92,114,0.2)' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <Target size={20} color="#ff5c72" />
+                  <Text style={{ color: "#ff5c72", fontWeight: '800', fontSize: 13 }}>VOLUME</Text>
+                </View>
+                <Text style={{ color: theme.text, fontSize: 24, fontWeight: '900' }}>{totalWeight} <Text style={{ fontSize: 14, color: theme.muted }}>lbs</Text></Text>
+              </View>
+
+              {/* Time */}
+              <View style={{ flex: 1, minWidth: '45%', backgroundColor: 'rgba(179,136,255,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(179,136,255,0.2)' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                  <Clock size={20} color="#b388ff" />
+                  <Text style={{ color: "#b388ff", fontWeight: '800', fontSize: 13 }}>TIME</Text>
+                </View>
+                <Text style={{ color: theme.text, fontSize: 24, fontWeight: '900' }}>{Math.floor(totalTimeSeconds / 60)} <Text style={{ fontSize: 14, color: theme.muted }}>min</Text></Text>
+              </View>
+            </View>
+
+            <Text style={[styles.title, { fontSize: 20, marginBottom: 8 }]}>Recent Workouts</Text>
+          </View>
+        }
+        ListEmptyComponent={
+          <View style={{ padding: 40, alignItems: 'center' }}>
             <Text style={styles.muted}>
-              {new Date(item.completedAt).toLocaleDateString()} · {item.totalSets}{" "}
-              sets
+              Finish a live workout to see it here.
             </Text>
           </View>
-        </View>
-      )}
-    />
+        }
+        renderItem={({ item }) => {
+          const isPR = item.totalVolume > 0 && item.totalVolume === maxVolume;
+          
+          return (
+            <View style={[styles.libExercise, { marginHorizontal: 20, marginBottom: 12, backgroundColor: theme.surface, borderWidth: 1, borderColor: theme.border, borderRadius: 16 }]}>
+              <View style={{ backgroundColor: 'rgba(255,255,255,0.05)', padding: 12, borderRadius: 12 }}>
+                <Dumbbell color={theme.neon} size={24} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <Text style={styles.cardTitle}>{item.name}</Text>
+                  {isPR && (
+                    <View style={{ backgroundColor: 'rgba(255,215,0,0.15)', paddingHorizontal: 6, paddingVertical: 2, borderRadius: 6, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                      <Trophy size={12} color="#ffd700" />
+                      <Text style={{ color: '#ffd700', fontSize: 10, fontWeight: '900' }}>PR</Text>
+                    </View>
+                  )}
+                </View>
+                <Text style={styles.muted}>
+                  {new Date(item.completedAt).toLocaleDateString()} · {formatTime(item.durationSeconds)}
+                </Text>
+                <View style={{ flexDirection: 'row', gap: 12, marginTop: 8 }}>
+                  <Text style={{ color: theme.text, fontSize: 12, fontWeight: '700' }}>
+                    {item.totalSets} <Text style={{ color: theme.muted, fontWeight: '500' }}>sets</Text>
+                  </Text>
+                  <Text style={{ color: theme.text, fontSize: 12, fontWeight: '700' }}>
+                    {item.totalVolume} <Text style={{ color: theme.muted, fontWeight: '500' }}>lbs</Text>
+                  </Text>
+                </View>
+              </View>
+            </View>
+          );
+        }}
+      />
+    </SafeAreaView>
   );
 }
 
@@ -880,7 +1072,7 @@ export function LiveScreen() {
               style={styles.completeSetBtn}
               onPress={() => {
                 s.finishWorkout(elapsed);
-                router.replace("/(tabs)/train" as any);
+                router.replace("/" as any);
               }}
             >
               <Text style={styles.completeSetBtnText}>FINISH & GO HOME</Text>
@@ -902,7 +1094,7 @@ export function LiveScreen() {
           style: "destructive",
           onPress: () => {
             s.cancelWorkout();
-            router.replace("/(tabs)/train" as any);
+            router.replace("/" as any);
           }
         }
       ]
@@ -1027,10 +1219,6 @@ export function ExerciseDetail({ id }: { id: string }) {
         <View style={detailStyles.header}>
           <Pressable style={detailStyles.headerBtn} onPress={() => router.back()}>
             <ArrowLeft size={20} color={theme.text} />
-          </Pressable>
-          <Text style={detailStyles.headerTitle}>EXERCISE</Text>
-          <Pressable style={detailStyles.headerBtn}>
-            <Settings size={20} color={theme.text} />
           </Pressable>
         </View>
       </SafeAreaView>
@@ -1200,7 +1388,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
     });
     s.setActivePlan(planId);
     Alert.alert("Enrolled", `You have successfully enrolled in ${workout.title}!`);
-    router.replace("/(tabs)/train" as any);
+    router.replace("/" as any);
   };
 
   const estimatedMinutes = parseInt(workout.duration) ||
@@ -1299,6 +1487,77 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
  * ================================================================ */
 
 const styles = StyleSheet.create({
+  /* -- Calendar Modal -- */
+  calendarModalContent: {
+    backgroundColor: theme.surface,
+    borderRadius: 20,
+    padding: 24,
+    width: '90%',
+    maxWidth: 400,
+    borderWidth: 1,
+    borderColor: theme.border,
+  },
+  calendarTitle: {
+    color: theme.text,
+    fontSize: 20,
+    fontWeight: "900",
+  },
+  streakContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(8,253,142,0.1)',
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 20,
+  },
+  streakText: {
+    color: theme.neon,
+    fontWeight: '700',
+    fontSize: 16,
+    marginLeft: 8,
+  },
+  calendarHeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 10,
+  },
+  calendarDayHeader: {
+    color: theme.muted,
+    fontWeight: '700',
+    width: 32,
+    textAlign: 'center',
+  },
+  calendarGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  calendarCell: {
+    width: 36,
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    borderRadius: 18,
+  },
+  calendarCellWorkedOut: {
+    backgroundColor: 'rgba(8,253,142,0.2)',
+    borderWidth: 1,
+    borderColor: theme.neon,
+  },
+  calendarCellText: {
+    color: theme.text,
+    fontWeight: '500',
+  },
+  calendarCellTextWorkedOut: {
+    color: theme.neon,
+    fontWeight: '800',
+  },
+  calendarCellTextToday: {
+    color: '#fff',
+    textDecorationLine: 'underline',
+  },
+
   /* -- Shared -- */
   page: {
     flexGrow: 1,
@@ -2174,6 +2433,8 @@ const detailStyles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "900",
     letterSpacing: 3,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   /* Scroll body */

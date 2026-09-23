@@ -153,7 +153,7 @@ export default function SettingsScreen() {
           }}
         >
           <LogOut size={18} color={theme.danger} />
-          <Text style={styles.resetText}>Reset Onboarding</Text>
+          <Text style={styles.resetText}>Log out</Text>
         </Pressable>
 
         <Text style={styles.version}>ATHLETX v1.0.0</Text>
