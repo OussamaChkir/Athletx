@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, StyleSheet, Text, View, Modal, Switch, Alert } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View, Modal, Switch, Alert, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Notifications from 'expo-notifications';
 import { useState, useEffect } from "react";
@@ -166,7 +166,7 @@ export default function SettingsScreen() {
           <Text style={styles.sectionLabel}>PREFERENCES</Text>
           <View style={styles.section}>
             <SettingsRow icon={Bell} label="Notifications" onPress={() => setNotifModalVisible(true)} />
-            <SettingsRow icon={Shield} label="Privacy" />
+            <SettingsRow icon={Shield} label="Privacy" onPress={() => Linking.openURL('https://github.com/OussamaChkir/Athletx/blob/main/PRIVACY.md')} />
             <SettingsRow icon={HelpCircle} label="Help & Support" />
           </View>
         </View>
