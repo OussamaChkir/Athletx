@@ -1,5 +1,7 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View, Modal, Switch, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as Notifications from 'expo-notifications';
+import { useState, useEffect } from "react";
 import {
   Bell,
   ChevronRight,
@@ -103,6 +105,32 @@ function ProfileCard({ onPress }: { onPress: () => void }) {
 export default function SettingsScreen() {
   const store = useOnboardingStore();
   const profile = useProfileStore();
+  
+  const [notifModalVisible, setNotifModalVisible] = useState(false);
+
+  const requestPermissions = async () => {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      Alert.alert('Permission required', 'Please enable notifications in your phone settings.');
+      profile.updateProfile({ notificationsEnabled: false });
+      return false;
+    }
+    profile.updateProfile({ notificationsEnabled: true });
+    return true;
+  };
+
+  const handleToggleNotifications = async (val: boolean) => {
+    if (val) {
+      const granted = await requestPermissions();
+      if (!granted) return;
+    }
+    profile.updateProfile({ notificationsEnabled: val });
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -137,8 +165,7 @@ export default function SettingsScreen() {
         <View style={styles.sectionWrap}>
           <Text style={styles.sectionLabel}>PREFERENCES</Text>
           <View style={styles.section}>
-            <SettingsRow icon={Bell} label="Notifications" />
-            <SettingsRow icon={Moon} label="Appearance" />
+            <SettingsRow icon={Bell} label="Notifications" onPress={() => setNotifModalVisible(true)} />
             <SettingsRow icon={Shield} label="Privacy" />
             <SettingsRow icon={HelpCircle} label="Help & Support" />
           </View>
@@ -158,6 +185,54 @@ export default function SettingsScreen() {
 
         <Text style={styles.version}>ATHLETX v1.0.0</Text>
       </ScrollView>
+
+      {/* Notifications Modal */}
+      <Modal visible={notifModalVisible} transparent animationType="fade">
+        <Pressable style={styles.modalOverlay} onPress={() => setNotifModalVisible(false)}>
+          <Pressable style={styles.modalContent} onPress={() => {}}>
+            <Text style={styles.modalTitle}>Notifications</Text>
+            
+            <View style={styles.modalRow}>
+              <Text style={styles.modalRowText}>Enable Notifications</Text>
+              <Switch 
+                value={profile.notificationsEnabled} 
+                onValueChange={handleToggleNotifications} 
+                trackColor={{ true: theme.neon, false: theme.border }}
+              />
+            </View>
+
+            <View style={[styles.modalRow, { opacity: profile.notificationsEnabled ? 1 : 0.5 }]}>
+              <View>
+                <Text style={styles.modalRowText}>Workout Reminders</Text>
+                <Text style={styles.modalRowSubtext}>Daily reminder for your scheduled workout</Text>
+              </View>
+              <Switch 
+                value={profile.workoutReminders} 
+                onValueChange={(val) => profile.updateProfile({ workoutReminders: val })} 
+                disabled={!profile.notificationsEnabled}
+                trackColor={{ true: theme.neon, false: theme.border }}
+              />
+            </View>
+
+            <View style={[styles.modalRow, { opacity: profile.notificationsEnabled ? 1 : 0.5 }]}>
+              <View>
+                <Text style={styles.modalRowText}>Hydration & Motivation</Text>
+                <Text style={styles.modalRowSubtext}>Drink water and keep pushing!</Text>
+              </View>
+              <Switch 
+                value={profile.hydrationMotivation} 
+                onValueChange={(val) => profile.updateProfile({ hydrationMotivation: val })} 
+                disabled={!profile.notificationsEnabled}
+                trackColor={{ true: theme.neon, false: theme.border }}
+              />
+            </View>
+            
+            <Pressable style={styles.modalCloseBtn} onPress={() => setNotifModalVisible(false)}>
+              <Text style={styles.modalCloseText}>Done</Text>
+            </Pressable>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -166,6 +241,57 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: theme.background,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: theme.surface,
+    borderRadius: 20,
+    padding: 24,
+    width: '100%',
+    maxWidth: 400,
+    borderWidth: 1,
+    borderColor: theme.border,
+    gap: 16,
+  },
+  modalTitle: {
+    color: theme.text,
+    fontSize: 22,
+    fontWeight: "900",
+    marginBottom: 8,
+  },
+  modalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  modalRowText: {
+    color: theme.text,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  modalRowSubtext: {
+    color: theme.muted,
+    fontSize: 12,
+    marginTop: 2,
+    maxWidth: 200,
+  },
+  modalCloseBtn: {
+    backgroundColor: theme.neon,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  modalCloseText: {
+    color: theme.background,
+    fontSize: 16,
+    fontWeight: "800",
   },
   container: {
     padding: 20,

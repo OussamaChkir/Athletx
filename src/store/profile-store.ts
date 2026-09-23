@@ -29,6 +29,11 @@ export interface ProfileState {
   googleEmail: string | null;
   /** Whether the Google connection is in progress */
   isConnectingGoogle: boolean;
+  
+  /** Notification settings */
+  notificationsEnabled: boolean;
+  workoutReminders: boolean;
+  hydrationMotivation: boolean;
 
   /* Actions */
   updateProfile: (fields: Partial<Omit<ProfileState, "userId" | "updateProfile" | "connectGoogle" | "disconnectGoogle" | "isConnectingGoogle">>) => void;
@@ -51,6 +56,9 @@ export const useProfileStore = create<ProfileState>()(
       fitnessGoal: "Build Muscle",
       googleEmail: null,
       isConnectingGoogle: false,
+      notificationsEnabled: false,
+      workoutReminders: false,
+      hydrationMotivation: false,
 
       updateProfile: (fields) => set((state) => ({ ...state, ...fields })),
       connectGoogle: (email) => set({ googleEmail: email, isConnectingGoogle: false }),
