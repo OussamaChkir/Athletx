@@ -1,4 +1,4 @@
-package com.anonymous.athletx
+package com.gentlethugstudio.athletx
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

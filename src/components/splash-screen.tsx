@@ -59,7 +59,7 @@ export function SplashScreen() {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/gym-splash.png")}
+      source={require("../../assets/images/gymsplash.png")}
       style={styles.bg}
       resizeMode="cover"
     >

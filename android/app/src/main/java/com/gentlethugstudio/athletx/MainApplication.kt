@@ -1,4 +1,4 @@
-package com.anonymous.athletx
+package com.gentlethugstudio.athletx
 
 import android.app.Application
 import android.content.res.Configuration
