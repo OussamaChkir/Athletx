@@ -338,34 +338,6 @@ function AvatarCircle({ name, size = 90 }: { name: string; size?: number }) {
   );
 }
 
-/* Google connect block */
-function GoogleConnectSection({
-  email, isConnecting, onConnect, onDisconnect,
-}: { email: string | null; isConnecting: boolean; onConnect: () => void; onDisconnect: () => void; }) {
-  return (
-    <View style={s.googleCard}>
-      <View style={s.googleLogoWrap}>
-        <Text style={s.googleLogo}>G</Text>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Text style={s.googleTitle}>{email ? "Google Connected" : "Connect with Google"}</Text>
-        <Text style={s.googleSub}>{email ?? "Sync your account & enable Google sign‑in"}</Text>
-      </View>
-      {email ? (
-        <Pressable style={s.googleDisconnectBtn} onPress={onDisconnect}>
-          <X size={15} color={theme.danger} />
-        </Pressable>
-      ) : (
-        <Pressable style={[s.googleConnectBtn, isConnecting && { opacity: 0.6 }]} onPress={onConnect} disabled={isConnecting}>
-          {isConnecting
-            ? <ActivityIndicator size="small" color={theme.background} />
-            : <Text style={s.googleConnectText}>Connect</Text>
-          }
-        </Pressable>
-      )}
-    </View>
-  );
-}
 
 /* ─────────────────────────────────────────────
    MAIN SCREEN
@@ -467,21 +439,6 @@ export default function EditProfileScreen() {
     profile, ob,
   ]);
 
-  /* ── Google ── */
-  const handleGoogleConnect = useCallback(() => {
-    profile.setConnectingGoogle(true);
-    setTimeout(() => {
-      profile.connectGoogle("user@gmail.com");
-      Alert.alert("Connected!", "Your Google account has been linked.");
-    }, 1800);
-  }, [profile]);
-
-  const handleGoogleDisconnect = useCallback(() => {
-    Alert.alert("Disconnect Google?", "You won't be able to sign in with Google after this.", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Disconnect", style: "destructive", onPress: () => profile.disconnectGoogle() },
-    ]);
-  }, [profile]);
 
   const shortId = profile.userId.slice(0, 8).toUpperCase();
 
@@ -741,16 +698,6 @@ export default function EditProfileScreen() {
           />
         </FieldCard>
 
-        {/* ══════════════════════════════════
-            SECTION: CONNECTED ACCOUNTS
-        ══════════════════════════════════ */}
-        <SectionLabel text="CONNECTED ACCOUNTS" />
-        <GoogleConnectSection
-          email={profile.googleEmail}
-          isConnecting={profile.isConnectingGoogle}
-          onConnect={handleGoogleConnect}
-          onDisconnect={handleGoogleDisconnect}
-        />
 
         {/* ── Info notice ── */}
         <View style={s.notice}>

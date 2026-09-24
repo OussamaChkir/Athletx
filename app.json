@@ -15,8 +15,14 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713",
-      "package": "com.anonymous.athletx"
+      "googleMobileAdsAppId": "ca-app-pub-8362632054070515~7092240073",
+      "package": "com.gentlethugstudio.athletx",
+      "allowBackup": false,
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "ios": {
       "icon": "./assets/expo.icon",
@@ -41,7 +47,7 @@
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "androidAppId": "ca-app-pub-8362632054070515~7092240073",
           "iosAppId": "ca-app-pub-3940256099942544~1458002511"
         }
       ],
