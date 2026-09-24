@@ -1,7 +1,9 @@
 import { Pressable, ScrollView, StyleSheet, Text, View, Modal, Switch, Alert, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as Notifications from 'expo-notifications';
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import * as Notifications from "expo-notifications";
+
+
 import {
   Bell,
   ChevronRight,
@@ -124,6 +126,7 @@ export default function SettingsScreen() {
     return true;
   };
 
+
   const handleToggleNotifications = async (val: boolean) => {
     if (val) {
       const granted = await requestPermissions();
@@ -131,6 +134,7 @@ export default function SettingsScreen() {
     }
     profile.updateProfile({ notificationsEnabled: val });
   };
+
 
   return (
     <SafeAreaView style={styles.safe}>

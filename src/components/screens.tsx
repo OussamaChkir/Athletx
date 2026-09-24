@@ -11,9 +11,9 @@ import {
   View,
   ActivityIndicator,
   Modal,
-  SafeAreaView,
   StatusBar,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { getExerciseImageSource } from "@/lib/exercise-image";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
@@ -1248,25 +1248,29 @@ export function ExerciseDetail({ id }: { id: string }) {
 
         {/* GIF / Image preview */}
         <View style={detailStyles.imageCard}>
-          {imgLoading && !imgError && (
-            <View style={detailStyles.imagePlaceholder}>
-              <ActivityIndicator color={theme.neon} size="large" />
-            </View>
-          )}
           {imgError ? (
             <View style={detailStyles.imagePlaceholder}>
               <Dumbbell color={theme.muted} size={40} />
               <Text style={detailStyles.noImgText}>No image available</Text>
             </View>
           ) : (
-            <Image
-              source={getExerciseImageSource(e.image)}
-              style={detailStyles.detailImage}
-              contentFit="cover"
-              onLoadStart={() => { setImgLoading(true); setImgError(false); }}
-              onLoad={() => setImgLoading(false)}
-              onError={() => { setImgLoading(false); setImgError(true); }}
-            />
+            <View>
+              {/* Spinner shown while loading */}
+              {imgLoading && (
+                <View style={[detailStyles.imagePlaceholder, { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1 }]}>
+                  <ActivityIndicator color={theme.neon} size="large" />
+                </View>
+              )}
+              <Image
+                source={getExerciseImageSource(e.image)}
+                style={[detailStyles.detailImage, imgLoading && { opacity: 0 }]}
+                contentFit="contain"
+                transition={400}
+                onLoadStart={() => { setImgLoading(true); setImgError(false); }}
+                onLoad={() => setImgLoading(false)}
+                onError={() => { setImgLoading(false); setImgError(true); }}
+              />
+            </View>
           )}
         </View>
 
