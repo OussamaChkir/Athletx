@@ -57,7 +57,7 @@ import { createWorkoutExercise, filterExercises, getExerciseById, generateWorkou
 import { theme } from "@/lib/theme";
 import type { WorkoutExercise, WorkoutFocus } from "@/lib/types";
 import { useWorkoutStore, type DayPlan } from "@/store/workout-store";
-import { AdBanner } from "@/components/AdBanner";
+/*import { AdBanner } from "@/components/AdBanner"; */
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const DAY_NAMES = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -115,7 +115,7 @@ export function TrainScreen() {
   const today = useMemo(() => new Date(), []);
   const startOfCurrentWeek = startOfWeek(today, { weekStartsOn: 0 });
   const endOfCurrentWeek = endOfWeek(today, { weekStartsOn: 0 });
-  
+
   const workoutsThisWeek = useMemo(() => {
     return history.filter((h) => {
       const d = new Date(h.completedAt);
@@ -397,7 +397,7 @@ export function TrainScreen() {
           style={styles.modalOverlay}
           onPress={() => setCalendarVisible(false)}
         >
-          <Pressable style={styles.calendarModalContent} onPress={() => {}}>
+          <Pressable style={styles.calendarModalContent} onPress={() => { }}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
               <Text style={styles.calendarTitle}>{format(today, "MMMM yyyy")}</Text>
               <Pressable onPress={() => setCalendarVisible(false)}>
@@ -423,10 +423,10 @@ export function TrainScreen() {
             <View style={styles.calendarGrid}>
               {calendarDays.map((d, i) => {
                 if (!d) return <View key={`empty-${i}`} style={styles.calendarCell} />;
-                
+
                 const hasWorkedOut = history.some((h) => isSameDay(new Date(h.completedAt), d));
                 const isToday = isSameDay(today, d);
-                
+
                 return (
                   <View key={d.toString()} style={[styles.calendarCell, hasWorkedOut && styles.calendarCellWorkedOut]}>
                     <Text style={[styles.calendarCellText, hasWorkedOut && styles.calendarCellTextWorkedOut, isToday && styles.calendarCellTextToday]}>
@@ -613,7 +613,7 @@ export function LibraryScreen() {
           )}
         />
       </SafeAreaView>
-      <AdBanner />
+
     </View>
   );
 }
@@ -864,8 +864,8 @@ export function HistoryScreen() {
 
     let currentStreak = 0;
     const today = new Date();
-    today.setHours(0,0,0,0);
-    
+    today.setHours(0, 0, 0, 0);
+
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
 
@@ -953,7 +953,7 @@ export function HistoryScreen() {
         }
         renderItem={({ item }) => {
           const isPR = item.totalVolume > 0 && item.totalVolume === maxVolume;
-          
+
           return (
             <View style={[styles.libExercise, { marginHorizontal: 20, marginBottom: 12, backgroundColor: theme.surface, borderWidth: 1, borderColor: theme.border, borderRadius: 16 }]}>
               <View style={{ backgroundColor: 'rgba(255,255,255,0.05)', padding: 12, borderRadius: 12 }}>

@@ -59,7 +59,7 @@ export function SplashScreen() {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/gymsplash.png")}
+      source={require("../../assets/images/gymsplash.jpg")}
       style={styles.bg}
       resizeMode="cover"
     >
@@ -230,4 +230,3 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
 });
-
