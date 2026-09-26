@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
   Dimensions,
@@ -10,6 +10,7 @@ import {
   TextInput,
   View,
   ActivityIndicator,
+  Animated,
   Modal,
   StatusBar,
 } from "react-native";
@@ -998,6 +999,9 @@ function formatTime(totalSeconds: number) {
 export function LiveScreen() {
   const s = useWorkoutStore();
   const [elapsed, setElapsed] = useState(0);
+  const [restDuration, setRestDuration] = useState(0);
+  const restProgress = useRef(new Animated.Value(1)).current;
+  const previousRest = useRef(0);
   const ex = s.currentWorkout[s.liveIndex];
   const nextEx = s.currentWorkout[s.liveIndex + 1];
 
@@ -1013,13 +1017,42 @@ export function LiveScreen() {
   }, [s.liveIndex, s.liveSet, s.livePhase, ex]);
 
   useEffect(() => {
-    if (s.livePhase === "done") return;
+    if (s.livePhase === "done" || !s.sessionStartedAt) return;
+    const startedAt = new Date(s.sessionStartedAt).getTime();
+    const updateElapsed = () => setElapsed(Math.max(0, Math.floor((Date.now() - startedAt) / 1000)));
+    updateElapsed();
     const id = setInterval(() => {
-      setElapsed((n) => n + 1);
+      updateElapsed();
       s.tickRest();
     }, 1000);
     return () => clearInterval(id);
-  }, [s.livePhase, s]);
+  }, [s.livePhase, s.sessionStartedAt, s.tickRest]);
+
+  useEffect(() => {
+    if (s.livePhase !== "rest") {
+      previousRest.current = 0;
+      return;
+    }
+
+    // Capture a new rest interval once, then adjust its total when the user
+    // adds or removes time so the animated progress stays in sync.
+    if (previousRest.current === 0) {
+      setRestDuration(s.restRemaining);
+      restProgress.setValue(1);
+    } else if (s.restRemaining !== previousRest.current) {
+      setRestDuration((duration) => Math.max(s.restRemaining, duration + s.restRemaining - previousRest.current));
+    }
+    previousRest.current = s.restRemaining;
+  }, [s.livePhase, s.restRemaining, restProgress]);
+
+  useEffect(() => {
+    if (s.livePhase !== "rest" || restDuration <= 0) return;
+    Animated.timing(restProgress, {
+      toValue: Math.max(0, s.restRemaining / restDuration),
+      duration: 900,
+      useNativeDriver: true,
+    }).start();
+  }, [s.livePhase, s.restRemaining, restDuration, restProgress]);
 
   if (!ex) return null;
 
@@ -1118,6 +1151,14 @@ export function LiveScreen() {
               <Text style={styles.restEyebrow}>REST</Text>
               <View style={styles.restCircle}>
                 <Text style={styles.restTimeText}>{formatTime(s.restRemaining)}</Text>
+                <View style={styles.restProgressTrack}>
+                  <Animated.View
+                    style={[
+                      styles.restProgressFill,
+                      { transform: [{ scaleX: restProgress }] },
+                    ]}
+                  />
+                </View>
               </View>
 
               <View style={styles.restControls}>
@@ -1139,7 +1180,7 @@ export function LiveScreen() {
                 {s.liveSet >= ex.sets && nextEx ? (
                   <Text style={styles.nextUpText}>{nextEx.title} ({nextEx.sets}x{nextEx.reps})</Text>
                 ) : (
-                  <Text style={styles.nextUpText}>{ex.title} - Set {s.liveSet + 1}/{ex.sets}</Text>
+                  <Text style={styles.nextUpText}>{ex.title} - Set {s.liveSet}/{ex.sets}</Text>
                 )}
               </View>
             </View>
@@ -2179,6 +2220,21 @@ const styles = StyleSheet.create({
     fontSize: 64,
     fontWeight: "900",
     fontVariant: ["tabular-nums"],
+  },
+  restProgressTrack: {
+    position: "absolute",
+    left: 48,
+    right: 48,
+    bottom: 38,
+    height: 4,
+    overflow: "hidden",
+    borderRadius: 2,
+    backgroundColor: "rgba(255,255,255,0.15)",
+  },
+  restProgressFill: {
+    flex: 1,
+    backgroundColor: theme.neon,
+    borderRadius: 2,
   },
   restControls: {
     flexDirection: "row",
