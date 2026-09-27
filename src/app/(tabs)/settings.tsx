@@ -107,7 +107,7 @@ function ProfileCard({ onPress }: { onPress: () => void }) {
 export default function SettingsScreen() {
   const store = useOnboardingStore();
   const profile = useProfileStore();
-  
+
   const [notifModalVisible, setNotifModalVisible] = useState(false);
 
   const requestPermissions = async () => {
@@ -170,7 +170,7 @@ export default function SettingsScreen() {
           <Text style={styles.sectionLabel}>PREFERENCES</Text>
           <View style={styles.section}>
             <SettingsRow icon={Bell} label="Notifications" onPress={() => setNotifModalVisible(true)} />
-            <SettingsRow icon={Shield} label="Privacy" onPress={() => Linking.openURL('https://github.com/OussamaChkir/Athletx/blob/main/PRIVACY.md')} />
+            <SettingsRow icon={Shield} label="Privacy" onPress={() => Linking.openURL('https://oussamachkir.github.io/athletx-website/privacy.html')} />
             <SettingsRow icon={HelpCircle} label="Help & Support" />
           </View>
         </View>
@@ -187,20 +187,20 @@ export default function SettingsScreen() {
           <Text style={styles.resetText}>Log out</Text>
         </Pressable>
 
-        <Text style={styles.version}>ATHLETX v1.0.0</Text>
+        <Text style={styles.version}>ATHLETX v1.0.1</Text>
       </ScrollView>
 
       {/* Notifications Modal */}
       <Modal visible={notifModalVisible} transparent animationType="fade">
         <Pressable style={styles.modalOverlay} onPress={() => setNotifModalVisible(false)}>
-          <Pressable style={styles.modalContent} onPress={() => {}}>
+          <Pressable style={styles.modalContent} onPress={() => { }}>
             <Text style={styles.modalTitle}>Notifications</Text>
-            
+
             <View style={styles.modalRow}>
               <Text style={styles.modalRowText}>Enable Notifications</Text>
-              <Switch 
-                value={profile.notificationsEnabled} 
-                onValueChange={handleToggleNotifications} 
+              <Switch
+                value={profile.notificationsEnabled}
+                onValueChange={handleToggleNotifications}
                 trackColor={{ true: theme.neon, false: theme.border }}
               />
             </View>
@@ -210,9 +210,9 @@ export default function SettingsScreen() {
                 <Text style={styles.modalRowText}>Workout Reminders</Text>
                 <Text style={styles.modalRowSubtext}>Daily reminder for your scheduled workout</Text>
               </View>
-              <Switch 
-                value={profile.workoutReminders} 
-                onValueChange={(val) => profile.updateProfile({ workoutReminders: val })} 
+              <Switch
+                value={profile.workoutReminders}
+                onValueChange={(val) => profile.updateProfile({ workoutReminders: val })}
                 disabled={!profile.notificationsEnabled}
                 trackColor={{ true: theme.neon, false: theme.border }}
               />
@@ -223,14 +223,14 @@ export default function SettingsScreen() {
                 <Text style={styles.modalRowText}>Hydration & Motivation</Text>
                 <Text style={styles.modalRowSubtext}>Drink water and keep pushing!</Text>
               </View>
-              <Switch 
-                value={profile.hydrationMotivation} 
-                onValueChange={(val) => profile.updateProfile({ hydrationMotivation: val })} 
+              <Switch
+                value={profile.hydrationMotivation}
+                onValueChange={(val) => profile.updateProfile({ hydrationMotivation: val })}
                 disabled={!profile.notificationsEnabled}
                 trackColor={{ true: theme.neon, false: theme.border }}
               />
             </View>
-            
+
             <Pressable style={styles.modalCloseBtn} onPress={() => setNotifModalVisible(false)}>
               <Text style={styles.modalCloseText}>Done</Text>
             </Pressable>
