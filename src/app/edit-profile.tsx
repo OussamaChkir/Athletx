@@ -351,6 +351,11 @@ function AvatarCircle({ name, size = 90 }: { name: string; size?: number }) {
 /* ─────────────────────────────────────────────
    MAIN SCREEN
 ───────────────────────────────────────────── */
+/* Draft text for a stored height: ft values use 5.10 style (5 ft 10 in). */
+function heightToDraft(value: number, unit: HeightUnit): string {
+  return unit === "ft" ? formatHeightInput(value, unit) : String(value);
+}
+
 export default function EditProfileScreen() {
   const profile = useProfileStore();
   const ob = useOnboardingStore();
@@ -363,7 +368,9 @@ export default function EditProfileScreen() {
 
   /* ── Body metrics draft ── */
   const [age, setAge] = useState(ob.age !== null ? String(ob.age) : "");
-  const [heightVal, setHeightVal] = useState(ob.height.value !== null ? String(ob.height.value) : "");
+  const [heightVal, setHeightVal] = useState(
+    ob.height.value !== null ? heightToDraft(ob.height.value, ob.height.unit) : ""
+  );
   const [heightUnit, setHeightUnit] = useState<HeightUnit>(ob.height.unit);
   const [weightVal, setWeightVal] = useState(ob.weight.value !== null ? String(ob.weight.value) : "");
   const [weightUnit, setWeightUnit] = useState<BodyWeightUnit>(ob.weight.unit);
@@ -388,7 +395,7 @@ export default function EditProfileScreen() {
     username !== profile.username ||
     bio !== profile.bio ||
     age !== (ob.age !== null ? String(ob.age) : "") ||
-    heightVal !== (ob.height.value !== null ? String(ob.height.value) : "") ||
+    heightVal !== (ob.height.value !== null ? heightToDraft(ob.height.value, ob.height.unit) : "") ||
     heightUnit !== ob.height.unit ||
     weightVal !== (ob.weight.value !== null ? String(ob.weight.value) : "") ||
     weightUnit !== ob.weight.unit ||
@@ -428,7 +435,6 @@ export default function EditProfileScreen() {
     ob.setField("height", { value: heightVal ? Number(heightVal) : null, unit: heightUnit });
     ob.setField("weight", { value: weightVal ? Number(weightVal) : null, unit: weightUnit });
     ob.setField("goalWeight", goalWeight ? Number(goalWeight) : null);
-    profile.setWeightUnit(weightUnit === "kg" ? "kg" : "lbs");
     ob.setField("gender", gender);
     ob.setField("experience", experience);
     ob.setField("goal", goal);

@@ -2,7 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { convertHeight, convertWeight, roundWeight, type BodyWeightUnit, type HeightUnit } from "@/lib/weight";
-import { useProfileStore } from "@/store/profile-store";
 
 export type Gender = "male" | "female" | "other" | null;
 export type Experience = "beginner" | "intermediate" | "advanced" | null;
@@ -41,10 +40,6 @@ export interface OnboardingState extends OnboardingStateData {
   reset: () => void;
 }
 
-function syncLiftWeightUnit(unit: BodyWeightUnit) {
-  useProfileStore.getState().setWeightUnit(unit === "kg" ? "kg" : "lbs");
-}
-
 const initialState: OnboardingStateData & { currentStep: number } = {
   currentStep: 1,
   gender: null,
@@ -78,10 +73,7 @@ export const useOnboardingStore = create<OnboardingState>()(
       },
       setWeightUnit: (unit) => {
         const { weight, goalWeight } = get();
-        if (weight.unit === unit) {
-          syncLiftWeightUnit(unit);
-          return;
-        }
+        if (weight.unit === unit) return;
         const value =
           weight.value != null
             ? roundWeight(convertWeight(weight.value, weight.unit, unit), 1)
@@ -91,14 +83,10 @@ export const useOnboardingStore = create<OnboardingState>()(
             ? roundWeight(convertWeight(goalWeight, weight.unit, unit), 1)
             : null;
         set({ weight: { value, unit }, goalWeight: nextGoal });
-        syncLiftWeightUnit(unit);
       },
       nextStep: () => set((state) => ({ currentStep: Math.min(state.currentStep + 1, 14) })),
       prevStep: () => set((state) => ({ currentStep: Math.max(state.currentStep - 1, 1) })),
-      completeOnboarding: () => {
-        syncLiftWeightUnit(get().weight.unit);
-        set({ isCompleted: true });
-      },
+      completeOnboarding: () => set({ isCompleted: true }),
       reset: () => set(initialState),
     }),
     {
