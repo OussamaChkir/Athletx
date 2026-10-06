@@ -152,6 +152,7 @@ type State = {
   loadDayWorkout(dayIndex: number): void;
   setActivePlan(id: string): void;
   addPlan(plan: WeekPlan): void;
+  updatePlan(id: string, patch: Partial<Omit<WeekPlan, "id">>): void;
   deletePlan(id: string): void;
 };
 
@@ -451,6 +452,10 @@ export const useWorkoutStore = create<State>()(
       },
 
       addPlan: (plan) => set((s) => ({ plans: [...s.plans, plan], activePlanId: plan.id })),
+      updatePlan: (id, patch) =>
+        set((s) => ({
+          plans: s.plans.map((p) => (p.id === id ? { ...p, ...patch } : p)),
+        })),
       deletePlan: (id) => set((s) => ({ plans: s.plans.filter((p) => p.id !== id), activePlanId: s.activePlanId === id ? (s.plans.find(p => p.id !== id)?.id ?? null) : s.activePlanId })),
     }),
     {

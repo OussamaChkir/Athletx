@@ -2,30 +2,20 @@ import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 import { FormInput } from "@/components/onboarding/FormInput";
+import { heightToCm } from "@/lib/weight";
 
 export default function StepWeight() {
-  const { weight, height, setField } = useOnboardingStore();
+  const { weight, height, setField, setWeightUnit } = useOnboardingStore();
 
   const toggleUnit = () => {
-    setField("weight", { ...weight, unit: weight.unit === "kg" ? "lb" : "kg" });
+    setWeightUnit(weight.unit === "kg" ? "lb" : "kg");
   };
 
   const calculateBMI = () => {
     if (!weight.value || !height.value) return null;
 
-    let wKg = weight.value;
-    if (weight.unit === "lb") wKg = weight.value * 0.453592;
-
-    let hM = 0;
-    if (height.unit === "cm") {
-      hM = height.value / 100;
-    } else {
-      // Assuming 5.11 format -> 5 ft 11 in
-      const ft = Math.floor(height.value);
-      const inches = Math.round((height.value - ft) * 100);
-      const totalInches = (ft * 12) + inches;
-      hM = totalInches * 0.0254;
-    }
+    const wKg = weight.unit === "lb" ? weight.value * 0.453592 : weight.value;
+    const hM = heightToCm(height.value, height.unit) / 100;
 
     if (hM <= 0) return null;
     return wKg / (hM * hM);

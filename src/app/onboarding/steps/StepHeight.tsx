@@ -4,10 +4,10 @@ import { theme } from "@/lib/theme";
 import { FormInput } from "@/components/onboarding/FormInput";
 
 export default function StepHeight() {
-  const { height, setField } = useOnboardingStore();
+  const { height, setField, setHeightUnit } = useOnboardingStore();
 
   const toggleUnit = () => {
-    setField("height", { ...height, unit: height.unit === "cm" ? "ft" : "cm" });
+    setHeightUnit(height.unit === "cm" ? "ft" : "cm");
   };
 
   return (

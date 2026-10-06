@@ -187,7 +187,7 @@ export default function SettingsScreen() {
           <Text style={styles.resetText}>Log out</Text>
         </Pressable>
 
-        <Text style={styles.version}>ATHLETX v1.0.1</Text>
+        <Text style={styles.version}>ATHLETX v1.2.0</Text>
       </ScrollView>
 
       {/* Notifications Modal */}

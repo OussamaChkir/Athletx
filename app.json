@@ -2,7 +2,7 @@
   "expo": {
     "name": "Athletx",
     "slug": "athletx",
-    "version": "1.0.1",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "athletx",
@@ -15,7 +15,6 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "googleMobileAdsAppId": "ca-app-pub-8362632054070515~7092240073",
       "package": "com.gentlethugstudio.athletx",
       "allowBackup": false,
       "blockedPermissions": [
@@ -25,8 +24,11 @@
       ]
     },
     "ios": {
-      "icon": "./assets/expo.icon",
-      "googleMobileAdsAppId": "ca-app-pub-3940256099942544~1458002511"
+      "icon": "./assets/images/icon.png",
+      "bundleIdentifier": "com.gentlethugstudio.athletx",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "web": {
       "output": "static",
@@ -44,13 +46,6 @@
       ],
       "expo-video",
       "expo-web-browser",
-      [
-        "react-native-google-mobile-ads",
-        {
-          "androidAppId": "ca-app-pub-8362632054070515~7092240073",
-          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
-        }
-      ],
       "expo-image",
       "expo-font",
       "expo-status-bar"

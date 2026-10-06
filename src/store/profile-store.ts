@@ -35,11 +35,15 @@ export interface ProfileState {
   workoutReminders: boolean;
   hydrationMotivation: boolean;
 
+  /** Preferred weight unit used in the live workout screen */
+  weightUnit: "kg" | "lbs";
+
   /* Actions */
   updateProfile: (fields: Partial<Omit<ProfileState, "userId" | "updateProfile" | "connectGoogle" | "disconnectGoogle" | "isConnectingGoogle">>) => void;
   connectGoogle: (email: string) => void;
   disconnectGoogle: () => void;
   setConnectingGoogle: (val: boolean) => void;
+  setWeightUnit: (unit: "kg" | "lbs") => void;
 }
 
 const newUserId = createId();
@@ -59,11 +63,13 @@ export const useProfileStore = create<ProfileState>()(
       notificationsEnabled: false,
       workoutReminders: false,
       hydrationMotivation: false,
+      weightUnit: "kg",
 
       updateProfile: (fields) => set((state) => ({ ...state, ...fields })),
       connectGoogle: (email) => set({ googleEmail: email, isConnectingGoogle: false }),
       disconnectGoogle: () => set({ googleEmail: null }),
       setConnectingGoogle: (val) => set({ isConnectingGoogle: val }),
+      setWeightUnit: (unit) => set({ weightUnit: unit }),
     }),
     {
       name: "athletx-profile-store",
