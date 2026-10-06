@@ -165,10 +165,5 @@ export function getExerciseImageSource(
   if (!image) return undefined;
 
   const normalizedPath = image.replace(/\\/g, "/");
-  const localImage = LOCAL_EXERCISE_IMAGES[normalizedPath];
-  if (localImage) return localImage;
-
-  return image.startsWith("http://") || image.startsWith("https://")
-    ? { uri: image }
-    : undefined;
+  return LOCAL_EXERCISE_IMAGES[normalizedPath];
 }

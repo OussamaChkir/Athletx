@@ -14,7 +14,7 @@ import {
   Modal,
   StatusBar,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { getExerciseImageSource } from "@/lib/exercise-image";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
@@ -58,6 +58,8 @@ import { createWorkoutExercise, filterExercises, getExerciseById, generateWorkou
 import { theme } from "@/lib/theme";
 import type { WorkoutExercise, WorkoutFocus } from "@/lib/types";
 import { useWorkoutStore, type DayPlan } from "@/store/workout-store";
+import { useProfileStore } from "@/store/profile-store";
+import { BodyWeightCard } from "@/components/body-weight-card";
 /*import { AdBanner } from "@/components/AdBanner"; */
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -355,9 +357,19 @@ export function TrainScreen() {
                     {p.name}
                   </Text>
                 </Pressable>
+                {/* Edit plan button */}
+                <Pressable
+                  style={{ padding: 10 }}
+                  onPress={() => {
+                    setPlanDropdownVisible(false);
+                    router.push((`/plan/new?planId=${p.id}`) as any);
+                  }}
+                >
+                  <Edit3 size={16} color={theme.neon} />
+                </Pressable>
                 {s.plans.length > 1 && (
                   <Pressable
-                    style={{ padding: 12 }}
+                    style={{ padding: 10 }}
                     onPress={() => {
                       Alert.alert(
                         "Delete Plan",
@@ -848,15 +860,12 @@ export function BuilderScreen() {
   );
 }
 
-export function HistoryScreen() {
+function ProgressListHeader() {
   const history = useWorkoutStore((s) => s.history);
-
-  // Compute stats
   const totalWorkouts = history.length;
   const totalTimeSeconds = history.reduce((acc, curr) => acc + curr.durationSeconds, 0);
   const totalWeight = history.reduce((acc, curr) => acc + curr.totalVolume, 0);
 
-  // Compute Streak
   const streak = useMemo(() => {
     if (!history.length) return 0;
     const dates = [...new Set(history.map(h => new Date(h.completedAt).toDateString()))]
@@ -887,7 +896,56 @@ export function HistoryScreen() {
     return currentStreak;
   }, [history]);
 
-  // Max volume for PR mock
+  return (
+    <View style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
+      <View style={{ marginBottom: 24 }}>
+        <Text style={[styles.title, { fontSize: 32 }]}>Progress</Text>
+        <Text style={styles.muted}>Your fitness journey</Text>
+      </View>
+
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12, marginBottom: 24 }}>
+        <View style={{ flex: 1, minWidth: "45%", backgroundColor: "rgba(255,159,10,0.1)", padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(255,159,10,0.2)" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <Flame size={20} color="#ff9f0a" />
+            <Text style={{ color: "#ff9f0a", fontWeight: "800", fontSize: 13 }}>STREAK</Text>
+          </View>
+          <Text style={{ color: theme.text, fontSize: 28, fontWeight: "900" }}>{streak} <Text style={{ fontSize: 16, color: theme.muted }}>days</Text></Text>
+        </View>
+
+        <View style={{ flex: 1, minWidth: "45%", backgroundColor: "rgba(8,253,142,0.1)", padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(8,253,142,0.2)" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <Activity size={20} color={theme.neon} />
+            <Text style={{ color: theme.neon, fontWeight: "800", fontSize: 13 }}>WORKOUTS</Text>
+          </View>
+          <Text style={{ color: theme.text, fontSize: 28, fontWeight: "900" }}>{totalWorkouts}</Text>
+        </View>
+
+        <View style={{ flex: 1, minWidth: "45%", backgroundColor: "rgba(255,92,114,0.1)", padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(255,92,114,0.2)" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <Target size={20} color="#ff5c72" />
+            <Text style={{ color: "#ff5c72", fontWeight: "800", fontSize: 13 }}>VOLUME</Text>
+          </View>
+          <Text style={{ color: theme.text, fontSize: 24, fontWeight: "900" }}>{totalWeight} <Text style={{ fontSize: 14, color: theme.muted }}>lbs</Text></Text>
+        </View>
+
+        <View style={{ flex: 1, minWidth: "45%", backgroundColor: "rgba(179,136,255,0.1)", padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(179,136,255,0.2)" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <Clock size={20} color="#b388ff" />
+            <Text style={{ color: "#b388ff", fontWeight: "800", fontSize: 13 }}>TIME</Text>
+          </View>
+          <Text style={{ color: theme.text, fontSize: 24, fontWeight: "900" }}>{Math.floor(totalTimeSeconds / 60)} <Text style={{ fontSize: 14, color: theme.muted }}>min</Text></Text>
+        </View>
+      </View>
+
+      <BodyWeightCard />
+
+      <Text style={[styles.title, { fontSize: 20, marginBottom: 8 }]}>Recent Workouts</Text>
+    </View>
+  );
+}
+
+export function HistoryScreen() {
+  const history = useWorkoutStore((s) => s.history);
   const maxVolume = useMemo(() => Math.max(0, ...history.map(h => h.totalVolume)), [history]);
 
   return (
@@ -896,55 +954,7 @@ export function HistoryScreen() {
         contentContainerStyle={[styles.page, { paddingHorizontal: 0 }]}
         data={history}
         keyExtractor={(x) => x.id}
-        ListHeaderComponent={
-          <View style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
-            <View style={{ marginBottom: 24 }}>
-              <Text style={[styles.title, { fontSize: 32 }]}>Progress</Text>
-              <Text style={styles.muted}>Your fitness journey</Text>
-            </View>
-
-            {/* Stats Grid */}
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginBottom: 24 }}>
-              {/* Streak */}
-              <View style={{ flex: 1, minWidth: '45%', backgroundColor: 'rgba(255,159,10,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(255,159,10,0.2)' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                  <Flame size={20} color="#ff9f0a" />
-                  <Text style={{ color: '#ff9f0a', fontWeight: '800', fontSize: 13 }}>STREAK</Text>
-                </View>
-                <Text style={{ color: theme.text, fontSize: 28, fontWeight: '900' }}>{streak} <Text style={{ fontSize: 16, color: theme.muted }}>days</Text></Text>
-              </View>
-
-              {/* Workouts */}
-              <View style={{ flex: 1, minWidth: '45%', backgroundColor: 'rgba(8,253,142,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(8,253,142,0.2)' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                  <Activity size={20} color={theme.neon} />
-                  <Text style={{ color: theme.neon, fontWeight: '800', fontSize: 13 }}>WORKOUTS</Text>
-                </View>
-                <Text style={{ color: theme.text, fontSize: 28, fontWeight: '900' }}>{totalWorkouts}</Text>
-              </View>
-
-              {/* Volume */}
-              <View style={{ flex: 1, minWidth: '45%', backgroundColor: 'rgba(255,92,114,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(255,92,114,0.2)' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                  <Target size={20} color="#ff5c72" />
-                  <Text style={{ color: "#ff5c72", fontWeight: '800', fontSize: 13 }}>VOLUME</Text>
-                </View>
-                <Text style={{ color: theme.text, fontSize: 24, fontWeight: '900' }}>{totalWeight} <Text style={{ fontSize: 14, color: theme.muted }}>lbs</Text></Text>
-              </View>
-
-              {/* Time */}
-              <View style={{ flex: 1, minWidth: '45%', backgroundColor: 'rgba(179,136,255,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(179,136,255,0.2)' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                  <Clock size={20} color="#b388ff" />
-                  <Text style={{ color: "#b388ff", fontWeight: '800', fontSize: 13 }}>TIME</Text>
-                </View>
-                <Text style={{ color: theme.text, fontSize: 24, fontWeight: '900' }}>{Math.floor(totalTimeSeconds / 60)} <Text style={{ fontSize: 14, color: theme.muted }}>min</Text></Text>
-              </View>
-            </View>
-
-            <Text style={[styles.title, { fontSize: 20, marginBottom: 8 }]}>Recent Workouts</Text>
-          </View>
-        }
+        ListHeaderComponent={ProgressListHeader}
         ListEmptyComponent={
           <View style={{ padding: 40, alignItems: 'center' }}>
             <Text style={styles.muted}>
@@ -998,12 +1008,17 @@ function formatTime(totalSeconds: number) {
 
 export function LiveScreen() {
   const s = useWorkoutStore();
+  const profile = useProfileStore();
+  const insets = useSafeAreaInsets();
   const [elapsed, setElapsed] = useState(0);
   const [restDuration, setRestDuration] = useState(0);
   const restProgress = useRef(new Animated.Value(1)).current;
   const previousRest = useRef(0);
   const ex = s.currentWorkout[s.liveIndex];
   const nextEx = s.currentWorkout[s.liveIndex + 1];
+
+  // Weight unit toggle — reads/writes to the persisted profile store
+  const weightUnit = profile.weightUnit ?? "kg";
 
   const [currentReps, setCurrentReps] = useState("");
   const [currentWeight, setCurrentWeight] = useState("");
@@ -1065,7 +1080,7 @@ export function LiveScreen() {
     });
 
     return (
-      <View style={styles.livePage}>
+      <View style={[styles.livePage, { paddingTop: insets.top }]}>
         <SafeAreaView style={{ flex: 1 }}>
           <View style={styles.liveHeader}>
             <Text style={styles.liveTimer}>Workout Complete</Text>
@@ -1075,7 +1090,7 @@ export function LiveScreen() {
               <Flame size={48} color={theme.neon} />
               <Text style={[styles.hero, { marginTop: 16, fontSize: 32 }]}>Great Job!</Text>
               <Text style={[styles.muted, { marginTop: 8, fontSize: 18 }]}>Time: {formatTime(elapsed)}</Text>
-              {totalVolume > 0 && <Text style={[styles.muted, { marginTop: 4, fontSize: 16 }]}>Total Volume: {totalVolume} kg</Text>}
+              {totalVolume > 0 && <Text style={[styles.muted, { marginTop: 4, fontSize: 16 }]}>Total Volume: {weightUnit === "lbs" ? Math.round(totalVolume * 2.20462) : totalVolume} {weightUnit}</Text>}
             </View>
 
             <Text style={[styles.eyebrow, { marginBottom: 16 }]}>EXERCISE SUMMARY</Text>
@@ -1087,7 +1102,7 @@ export function LiveScreen() {
                     <View key={setIdx} style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 4 }}>
                       <Text style={styles.muted}>Set {setIdx + 1}</Text>
                       <Text style={{ color: theme.text }}>
-                        {set.reps} reps {set.weight ? `× ${set.weight} kg` : ""}
+                        {set.reps} reps {set.weight ? `× ${weightUnit === "lbs" ? Math.round(set.weight * 2.20462 * 10) / 10 : set.weight} ${weightUnit}` : ""}
                       </Text>
                     </View>
                   ))}
@@ -1135,7 +1150,7 @@ export function LiveScreen() {
   };
 
   return (
-    <View style={styles.livePage}>
+    <View style={[styles.livePage, { paddingTop: insets.top }]}>
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.liveHeader}>
           <Pressable onPress={handleCancelWorkout} style={styles.liveHeaderIcon}>
@@ -1203,7 +1218,48 @@ export function LiveScreen() {
                   />
                 </View>
                 <View style={styles.liveInputGroup}>
-                  <Text style={styles.liveInputLabel}>KGS</Text>
+                  {/* Label row with inline unit toggle */}
+                  <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                    <Text style={[styles.liveInputLabel, { marginBottom: 0 }]}>WEIGHT</Text>
+                    <View style={{ flexDirection: "row", borderRadius: 8, overflow: "hidden", borderWidth: 1, borderColor: theme.border }}>
+                      <Pressable
+                        onPress={() => {
+                          if (weightUnit !== "kg") {
+                            const parsed = parseFloat(currentWeight);
+                            if (!isNaN(parsed)) {
+                              setCurrentWeight((Math.round(parsed / 2.20462 * 10) / 10).toString());
+                            }
+                            profile.setWeightUnit("kg");
+                          }
+                        }}
+                        style={[{
+                          paddingHorizontal: 8,
+                          paddingVertical: 3,
+                          backgroundColor: weightUnit === "kg" ? theme.neon : "transparent",
+                        }]}
+                      >
+                        <Text style={{ fontSize: 10, fontWeight: "900", color: weightUnit === "kg" ? theme.background : theme.muted }}>KG</Text>
+                      </Pressable>
+                      <Pressable
+                        onPress={() => {
+                          if (weightUnit !== "lbs") {
+                            const parsed = parseFloat(currentWeight);
+                            if (!isNaN(parsed)) {
+                              setCurrentWeight((Math.round(parsed * 2.20462 * 10) / 10).toString());
+                            }
+                            profile.setWeightUnit("lbs");
+                          }
+                        }}
+                        style={[{
+                          paddingHorizontal: 8,
+                          paddingVertical: 3,
+                          backgroundColor: weightUnit === "lbs" ? theme.neon : "transparent",
+                        }]}
+                      >
+                        <Text style={{ fontSize: 10, fontWeight: "900", color: weightUnit === "lbs" ? theme.background : theme.muted }}>LBS</Text>
+                      </Pressable>
+                    </View>
+                  </View>
                   <TextInput
                     style={styles.liveInput}
                     keyboardType="decimal-pad"
@@ -1222,7 +1278,16 @@ export function LiveScreen() {
           <View style={styles.liveFooter}>
             <Pressable
               style={styles.completeSetBtn}
-              onPress={() => s.completeSet(Number(currentReps) || ex.reps, Number(currentWeight) || undefined)}
+              onPress={() => {
+                const rawWeight = parseFloat(currentWeight);
+                // Always store weight in kg internally
+                const weightInKg = isNaN(rawWeight)
+                  ? undefined
+                  : weightUnit === "lbs"
+                  ? Math.round(rawWeight / 2.20462 * 100) / 100
+                  : rawWeight;
+                s.completeSet(Number(currentReps) || ex.reps, weightInKg);
+              }}
             >
               <Text style={styles.completeSetBtnText}>COMPLETE SET</Text>
             </Pressable>

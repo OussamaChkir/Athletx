@@ -47,6 +47,15 @@ import {
   type DurationType,
   type LocationType,
 } from "@/store/onboarding-store";
+import {
+  convertHeight,
+  convertWeight,
+  formatHeightInput,
+  formatWeight,
+  roundWeight,
+  type BodyWeightUnit,
+  type HeightUnit,
+} from "@/lib/weight";
 
 /* ─────────────────────────────────────────────
    OPTION DATA
@@ -355,9 +364,9 @@ export default function EditProfileScreen() {
   /* ── Body metrics draft ── */
   const [age, setAge] = useState(ob.age !== null ? String(ob.age) : "");
   const [heightVal, setHeightVal] = useState(ob.height.value !== null ? String(ob.height.value) : "");
-  const [heightUnit, setHeightUnit] = useState<"cm" | "ft">(ob.height.unit);
+  const [heightUnit, setHeightUnit] = useState<HeightUnit>(ob.height.unit);
   const [weightVal, setWeightVal] = useState(ob.weight.value !== null ? String(ob.weight.value) : "");
-  const [weightUnit, setWeightUnit] = useState<"kg" | "lb">(ob.weight.unit);
+  const [weightUnit, setWeightUnit] = useState<BodyWeightUnit>(ob.weight.unit);
   const [goalWeight, setGoalWeight] = useState(ob.goalWeight !== null ? String(ob.goalWeight) : "");
 
   /* ── Training prefs draft ── */
@@ -419,6 +428,7 @@ export default function EditProfileScreen() {
     ob.setField("height", { value: heightVal ? Number(heightVal) : null, unit: heightUnit });
     ob.setField("weight", { value: weightVal ? Number(weightVal) : null, unit: weightUnit });
     ob.setField("goalWeight", goalWeight ? Number(goalWeight) : null);
+    profile.setWeightUnit(weightUnit === "kg" ? "kg" : "lbs");
     ob.setField("gender", gender);
     ob.setField("experience", experience);
     ob.setField("goal", goal);
@@ -561,7 +571,19 @@ export default function EditProfileScreen() {
                 <Text style={s.inputSuffix}>{heightUnit}</Text>
               </View>
             </View>
-            <UnitToggle unit={heightUnit} options={["cm", "ft"]} onChange={(u) => setHeightUnit(u as "cm" | "ft")} />
+            <UnitToggle
+              unit={heightUnit}
+              options={["cm", "ft"]}
+              onChange={(u) => {
+                const next = u as HeightUnit;
+                if (next === heightUnit) return;
+                const n = Number(heightVal);
+                if (Number.isFinite(n) && n > 0) {
+                  setHeightVal(formatHeightInput(convertHeight(n, heightUnit, next), next));
+                }
+                setHeightUnit(next);
+              }}
+            />
           </View>
           <Divider />
 
@@ -584,7 +606,23 @@ export default function EditProfileScreen() {
                 <Text style={s.inputSuffix}>{weightUnit}</Text>
               </View>
             </View>
-            <UnitToggle unit={weightUnit} options={["kg", "lb"]} onChange={(u) => setWeightUnit(u as "kg" | "lb")} />
+            <UnitToggle
+              unit={weightUnit}
+              options={["kg", "lb"]}
+              onChange={(u) => {
+                const next = u as BodyWeightUnit;
+                if (next === weightUnit) return;
+                const w = Number(weightVal);
+                if (Number.isFinite(w) && w > 0) {
+                  setWeightVal(formatWeight(convertWeight(w, weightUnit, next), 1));
+                }
+                const g = Number(goalWeight);
+                if (Number.isFinite(g) && g > 0) {
+                  setGoalWeight(formatWeight(convertWeight(g, weightUnit, next), 1));
+                }
+                setWeightUnit(next);
+              }}
+            />
           </View>
           <Divider />
 
