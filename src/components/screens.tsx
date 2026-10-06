@@ -58,7 +58,9 @@ import { createWorkoutExercise, filterExercises, getExerciseById, generateWorkou
 import { theme } from "@/lib/theme";
 import type { WorkoutExercise, WorkoutFocus } from "@/lib/types";
 import { useWorkoutStore, type DayPlan } from "@/store/workout-store";
-import { useProfileStore } from "@/store/profile-store";
+import { useOnboardingStore } from "@/store/onboarding-store";
+import { useWeightUnit } from "@/lib/units";
+import { convertWeight, fromKg, roundWeight, toKg } from "@/lib/weight";
 import { BodyWeightCard } from "@/components/body-weight-card";
 /*import { AdBanner } from "@/components/AdBanner"; */
 
@@ -865,6 +867,7 @@ function ProgressListHeader() {
   const totalWorkouts = history.length;
   const totalTimeSeconds = history.reduce((acc, curr) => acc + curr.durationSeconds, 0);
   const totalWeight = history.reduce((acc, curr) => acc + curr.totalVolume, 0);
+  const unit = useWeightUnit();
 
   const streak = useMemo(() => {
     if (!history.length) return 0;
@@ -925,7 +928,7 @@ function ProgressListHeader() {
             <Target size={20} color="#ff5c72" />
             <Text style={{ color: "#ff5c72", fontWeight: "800", fontSize: 13 }}>VOLUME</Text>
           </View>
-          <Text style={{ color: theme.text, fontSize: 24, fontWeight: "900" }}>{totalWeight} <Text style={{ fontSize: 14, color: theme.muted }}>lbs</Text></Text>
+          <Text style={{ color: theme.text, fontSize: 24, fontWeight: "900" }}>{Math.round(fromKg(totalWeight, unit))} <Text style={{ fontSize: 14, color: theme.muted }}>{unit}</Text></Text>
         </View>
 
         <View style={{ flex: 1, minWidth: "45%", backgroundColor: "rgba(179,136,255,0.1)", padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(179,136,255,0.2)" }}>
@@ -947,6 +950,7 @@ function ProgressListHeader() {
 export function HistoryScreen() {
   const history = useWorkoutStore((s) => s.history);
   const maxVolume = useMemo(() => Math.max(0, ...history.map(h => h.totalVolume)), [history]);
+  const unit = useWeightUnit();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
@@ -988,7 +992,7 @@ export function HistoryScreen() {
                     {item.totalSets} <Text style={{ color: theme.muted, fontWeight: '500' }}>sets</Text>
                   </Text>
                   <Text style={{ color: theme.text, fontSize: 12, fontWeight: '700' }}>
-                    {item.totalVolume} <Text style={{ color: theme.muted, fontWeight: '500' }}>lbs</Text>
+                    {Math.round(fromKg(item.totalVolume, unit))} <Text style={{ color: theme.muted, fontWeight: '500' }}>{unit}</Text>
                   </Text>
                 </View>
               </View>
@@ -1008,7 +1012,6 @@ function formatTime(totalSeconds: number) {
 
 export function LiveScreen() {
   const s = useWorkoutStore();
-  const profile = useProfileStore();
   const insets = useSafeAreaInsets();
   const [elapsed, setElapsed] = useState(0);
   const [restDuration, setRestDuration] = useState(0);
@@ -1017,8 +1020,9 @@ export function LiveScreen() {
   const ex = s.currentWorkout[s.liveIndex];
   const nextEx = s.currentWorkout[s.liveIndex + 1];
 
-  // Weight unit toggle — reads/writes to the persisted profile store
-  const weightUnit = profile.weightUnit ?? "kg";
+  // Weight unit is the single app-wide setting (onboarding / Edit Profile).
+  const weightUnit = useWeightUnit();
+  const setWeightUnit = useOnboardingStore((st) => st.setWeightUnit);
 
   const [currentReps, setCurrentReps] = useState("");
   const [currentWeight, setCurrentWeight] = useState("");
@@ -1090,7 +1094,7 @@ export function LiveScreen() {
               <Flame size={48} color={theme.neon} />
               <Text style={[styles.hero, { marginTop: 16, fontSize: 32 }]}>Great Job!</Text>
               <Text style={[styles.muted, { marginTop: 8, fontSize: 18 }]}>Time: {formatTime(elapsed)}</Text>
-              {totalVolume > 0 && <Text style={[styles.muted, { marginTop: 4, fontSize: 16 }]}>Total Volume: {weightUnit === "lbs" ? Math.round(totalVolume * 2.20462) : totalVolume} {weightUnit}</Text>}
+              {totalVolume > 0 && <Text style={[styles.muted, { marginTop: 4, fontSize: 16 }]}>Total Volume: {Math.round(fromKg(totalVolume, weightUnit))} {weightUnit}</Text>}
             </View>
 
             <Text style={[styles.eyebrow, { marginBottom: 16 }]}>EXERCISE SUMMARY</Text>
@@ -1102,7 +1106,7 @@ export function LiveScreen() {
                     <View key={setIdx} style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 4 }}>
                       <Text style={styles.muted}>Set {setIdx + 1}</Text>
                       <Text style={{ color: theme.text }}>
-                        {set.reps} reps {set.weight ? `× ${weightUnit === "lbs" ? Math.round(set.weight * 2.20462 * 10) / 10 : set.weight} ${weightUnit}` : ""}
+                        {set.reps} reps {set.weight ? `× ${roundWeight(fromKg(set.weight, weightUnit), 1)} ${weightUnit}` : ""}
                       </Text>
                     </View>
                   ))}
@@ -1227,9 +1231,9 @@ export function LiveScreen() {
                           if (weightUnit !== "kg") {
                             const parsed = parseFloat(currentWeight);
                             if (!isNaN(parsed)) {
-                              setCurrentWeight((Math.round(parsed / 2.20462 * 10) / 10).toString());
+                              setCurrentWeight(roundWeight(convertWeight(parsed, weightUnit, "kg"), 1).toString());
                             }
-                            profile.setWeightUnit("kg");
+                            setWeightUnit("kg");
                           }
                         }}
                         style={[{
@@ -1242,21 +1246,21 @@ export function LiveScreen() {
                       </Pressable>
                       <Pressable
                         onPress={() => {
-                          if (weightUnit !== "lbs") {
+                          if (weightUnit !== "lb") {
                             const parsed = parseFloat(currentWeight);
                             if (!isNaN(parsed)) {
-                              setCurrentWeight((Math.round(parsed * 2.20462 * 10) / 10).toString());
+                              setCurrentWeight(roundWeight(convertWeight(parsed, weightUnit, "lb"), 1).toString());
                             }
-                            profile.setWeightUnit("lbs");
+                            setWeightUnit("lb");
                           }
                         }}
                         style={[{
                           paddingHorizontal: 8,
                           paddingVertical: 3,
-                          backgroundColor: weightUnit === "lbs" ? theme.neon : "transparent",
+                          backgroundColor: weightUnit === "lb" ? theme.neon : "transparent",
                         }]}
                       >
-                        <Text style={{ fontSize: 10, fontWeight: "900", color: weightUnit === "lbs" ? theme.background : theme.muted }}>LBS</Text>
+                        <Text style={{ fontSize: 10, fontWeight: "900", color: weightUnit === "lb" ? theme.background : theme.muted }}>LB</Text>
                       </Pressable>
                     </View>
                   </View>
@@ -1283,9 +1287,7 @@ export function LiveScreen() {
                 // Always store weight in kg internally
                 const weightInKg = isNaN(rawWeight)
                   ? undefined
-                  : weightUnit === "lbs"
-                  ? Math.round(rawWeight / 2.20462 * 100) / 100
-                  : rawWeight;
+                  : roundWeight(toKg(rawWeight, weightUnit), 2);
                 s.completeSet(Number(currentReps) || ex.reps, weightInKg);
               }}
             >

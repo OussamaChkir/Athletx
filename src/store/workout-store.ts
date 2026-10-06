@@ -411,7 +411,15 @@ export const useWorkoutStore = create<State>()(
           completedAt: new Date().toISOString(),
           exerciseCount: s.currentWorkout.length,
           totalSets: s.currentWorkout.reduce((n, e) => n + e.loggedSets.length, 0),
-          totalVolume: 0,
+          // Canonical kilograms; screens convert to the user's unit for display.
+          totalVolume:
+            Math.round(
+              s.currentWorkout.reduce(
+                (sum, e) =>
+                  sum + e.loggedSets.reduce((n, set) => n + (set.weight ? set.weight * set.reps : 0), 0),
+                0
+              ) * 10
+            ) / 10,
           durationSeconds,
           muscles: [...new Set(s.currentWorkout.map((e) => e.mainMuscle))],
         };
