@@ -634,7 +634,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Dumbbells",
     "difficulty": "Intermediate",
@@ -659,7 +660,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Cables",
     "difficulty": "Intermediate",
@@ -683,7 +685,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Cables",
     "difficulty": "Intermediate",
@@ -708,7 +711,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Cables",
     "difficulty": "Intermediate",
@@ -733,7 +737,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Barbell",
     "difficulty": "Advanced",
@@ -758,7 +763,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Cables",
     "difficulty": "Intermediate",
@@ -782,7 +788,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Cables",
     "difficulty": "Intermediate",
@@ -806,7 +813,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Cables",
     "difficulty": "Intermediate",
@@ -831,7 +839,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Back",
     "difficulty": "Intermediate",
@@ -856,7 +865,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Barbell",
     "difficulty": "Advanced",
@@ -881,7 +891,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Bodyweight",
     "difficulty": "Beginner",
@@ -907,7 +918,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Bodyweight",
     "difficulty": "Beginner",
@@ -932,7 +944,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Bodyweight",
     "difficulty": "Beginner",
@@ -957,7 +970,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Cables",
     "difficulty": "Intermediate",
@@ -982,7 +996,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Dumbbells",
     "difficulty": "Intermediate",
@@ -1006,7 +1021,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Dumbbells",
     "difficulty": "Intermediate",
@@ -1031,7 +1047,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Lats"
     ],
     "category": "Barbell",
     "difficulty": "Advanced",
@@ -1061,7 +1078,8 @@
     "targets": [
       "Back",
       "Glutes",
-      "Legs"
+      "Legs",
+      "Lower Back"
     ],
     "category": "Barbell",
     "difficulty": "Advanced",
@@ -1091,7 +1109,8 @@
     "targets": [
       "Back",
       "Glutes",
-      "Legs"
+      "Legs",
+      "Lower Back"
     ],
     "category": "Barbell",
     "difficulty": "Advanced",
@@ -1120,7 +1139,8 @@
     "targets": [
       "Back",
       "Glutes",
-      "Legs"
+      "Legs",
+      "Lower Back"
     ],
     "category": "Barbell",
     "difficulty": "Advanced",
@@ -1149,7 +1169,8 @@
     "targets": [
       "Back",
       "Glutes",
-      "Legs"
+      "Legs",
+      "Lower Back"
     ],
     "category": "Dumbbells",
     "difficulty": "Intermediate",
@@ -1173,7 +1194,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Traps"
     ],
     "category": "Barbell",
     "difficulty": "Advanced",
@@ -1198,7 +1220,8 @@
     ],
     "secondary_muscles": [],
     "targets": [
-      "Back"
+      "Back",
+      "Traps"
     ],
     "category": "Dumbbells",
     "difficulty": "Intermediate",
@@ -2513,7 +2536,8 @@
     "targets": [
       "Legs",
       "Glutes",
-      "Back"
+      "Back",
+      "Lower Back"
     ],
     "category": "Dumbbells",
     "difficulty": "Intermediate",
@@ -2541,7 +2565,8 @@
     "targets": [
       "Legs",
       "Glutes",
-      "Back"
+      "Back",
+      "Lower Back"
     ],
     "category": "Barbell",
     "difficulty": "Advanced",
@@ -2858,7 +2883,8 @@
     "targets": [
       "Legs",
       "Glutes",
-      "Back"
+      "Back",
+      "Lower Back"
     ],
     "category": "Medicine Ball",
     "difficulty": "Intermediate",
@@ -2886,7 +2912,8 @@
     "targets": [
       "Legs",
       "Glutes",
-      "Back"
+      "Back",
+      "Lower Back"
     ],
     "category": "Bodyweight",
     "difficulty": "Beginner",
@@ -2914,7 +2941,8 @@
     "targets": [
       "Legs",
       "Glutes",
-      "Back"
+      "Back",
+      "Lower Back"
     ],
     "category": "Kettlebell",
     "difficulty": "Intermediate",
@@ -2942,7 +2970,8 @@
     "targets": [
       "Legs",
       "Glutes",
-      "Back"
+      "Back",
+      "Lower Back"
     ],
     "category": "Bodyweight",
     "difficulty": "Beginner",
