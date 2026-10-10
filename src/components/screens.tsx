@@ -1302,7 +1302,6 @@ export function LiveScreen() {
 
 export function ExerciseDetail({ id }: { id: string }) {
   const e = getExerciseById(id);
-  const [imgLoading, setImgLoading] = useState(true);
   const [imgError, setImgError] = useState(false);
 
   if (!e)
@@ -1363,20 +1362,12 @@ export function ExerciseDetail({ id }: { id: string }) {
             </View>
           ) : (
             <View>
-              {/* Spinner shown while loading */}
-              {imgLoading && (
-                <View style={[detailStyles.imagePlaceholder, { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1 }]}>
-                  <ActivityIndicator color={theme.neon} size="large" />
-                </View>
-              )}
               <Image
                 source={getExerciseImageSource(e.image)}
-                style={[detailStyles.detailImage, imgLoading && { opacity: 0 }]}
+                style={detailStyles.detailImage}
                 contentFit="contain"
                 transition={400}
-                onLoadStart={() => { setImgLoading(true); setImgError(false); }}
-                onLoad={() => setImgLoading(false)}
-                onError={() => { setImgLoading(false); setImgError(true); }}
+                onError={() => setImgError(true)}
               />
             </View>
           )}
