@@ -1362,7 +1362,7 @@ export function ExerciseDetail({ id }: { id: string }) {
 
         {/* GIF / Image preview */}
         <View style={detailStyles.imageCard}>
-          {imgError ? (
+          {imgError || !e.image ? (
             <View style={detailStyles.imagePlaceholder}>
               <Dumbbell color={theme.muted} size={40} />
               <Text style={detailStyles.noImgText}>No image available</Text>
