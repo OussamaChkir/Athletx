@@ -24,7 +24,7 @@ export default function StepWeight() {
   const bmi = calculateBMI();
 
   let bmiMsg = "";
-  let bmiColor = theme.muted;
+  let bmiColor: string = theme.muted;
 
   if (bmi) {
     if (bmi < 18.5) {

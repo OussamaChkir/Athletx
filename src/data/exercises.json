@@ -3,7 +3,7 @@
     "_id": "6c26f0a1f16b4c0cb078ea11",
     "title": "Barbell Bench Press",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -30,7 +30,7 @@
     "_id": "24c5b920e3cb4e168d966284",
     "title": "Incline Dumbbell Bench Press",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -56,7 +56,7 @@
     "_id": "606d1a1773a84a80924f1882",
     "title": "Peck Deck",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -80,7 +80,7 @@
     "_id": "4bd77467112f4c2d993d14cc",
     "title": "Cable Crossover",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -105,7 +105,7 @@
     "_id": "efdd093e070347e1bc3d9bcc",
     "title": "Incline Barbell Bench Press",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -131,7 +131,7 @@
     "_id": "8f0fd0124dd74c6b9d0dbd0c",
     "title": "Dumbbell Bench Press",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -156,7 +156,7 @@
     "_id": "da3384c2254840598997d053",
     "title": "Dumbbell Fly",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -181,7 +181,7 @@
     "_id": "dfdfb43c5aff41c7a33a0ffd",
     "title": "Incline Dumbbell Fly",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -206,7 +206,7 @@
     "_id": "5804039512d04f97844556e5",
     "title": "Chest Press Machine",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -230,7 +230,7 @@
     "_id": "0f02c2b5d1044ee49ee1ab59",
     "title": "Barbell Declined Bench Press",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -256,7 +256,7 @@
     "_id": "52b5bb91f524447eb78bf84d",
     "title": "Dumbbell Declined Bench Press",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -281,7 +281,7 @@
     "_id": "7e98a9f926a14828b088b1a6",
     "title": "Push Ups",
     "primary_muscles": [
-      "Pectoralis Major"
+      "Chest"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -305,7 +305,7 @@
     "_id": "bc2a45caa09346d59637137c",
     "title": "Lying Triceps Extension",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -330,7 +330,7 @@
     "_id": "0ce3f4311b0345a28a26870e",
     "title": "Triceps Pressdown",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -355,7 +355,7 @@
     "_id": "10c447dce93642099f172fc4",
     "title": "Cable Rope Pushdown",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -380,7 +380,7 @@
     "_id": "4dc7e3f4750a49b5bd75091b",
     "title": "Dumbbell Overhead Triceps Extension",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -404,7 +404,7 @@
     "_id": "32be94bcef13464785a886e2",
     "title": "Close Grip Bench Press",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -430,7 +430,7 @@
     "_id": "5614145190bf40989a47580c",
     "title": "Kickback",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -455,7 +455,7 @@
     "_id": "08d9deec571d4b28a9946693",
     "title": "Reverse Grip Cable Triceps Extension with Barbell",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -480,7 +480,7 @@
     "_id": "dfbd520d42d34b96b34318b6",
     "title": "Single-Arm Cable Triceps Extension",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -505,7 +505,7 @@
     "_id": "6780bce6223e44798d6b9f7e",
     "title": "Single-Arm Cable Triceps Extension with Supinated Grip",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -530,7 +530,7 @@
     "_id": "741ea2a2c22a439880907458",
     "title": "Lying Dumbbell Triceps Extension",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -555,7 +555,7 @@
     "_id": "7c679265b2ab434e9652aaea",
     "title": "Seated Barbell French Press",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -580,7 +580,7 @@
     "_id": "3c9b4fcac6fa472abba2a30f",
     "title": "Bench Dips",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -605,7 +605,7 @@
     "_id": "07ff5f83bb8d45948f3c7477",
     "title": "Parallel Dip Bar",
     "primary_muscles": [
-      "Triceps Brachii"
+      "Triceps"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -630,7 +630,7 @@
     "_id": "92dc15f8c78c4de9a38433a4",
     "title": "Dumbbell Bent-Over Row (Single Arm)",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -656,7 +656,7 @@
     "_id": "cc4187e70cd34865a99f4159",
     "title": "Wide-Grip Pulldown",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -681,7 +681,7 @@
     "_id": "05c884512a1d4f6684f8ed0e",
     "title": "Seated Cable Row",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -707,7 +707,7 @@
     "_id": "771e86eac943463d862a70f9",
     "title": "Close-Grip Pulldown",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -733,7 +733,7 @@
     "_id": "dd755011db094327bd571ff8",
     "title": "Barbell Row",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -759,7 +759,7 @@
     "_id": "7d52e04fc9564352abf1a3d1",
     "title": "Behind-Neck Pulldown",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -784,7 +784,7 @@
     "_id": "95728a2c067d4233997d0ed2",
     "title": "Reverse-Grip Pulldown",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -809,7 +809,7 @@
     "_id": "d96422d066694cc79db6dca1",
     "title": "Rope Pulldown",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -835,7 +835,7 @@
     "_id": "422baf0e474f4f06a72c1f7f",
     "title": "T-Bar Rows",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -861,7 +861,7 @@
     "_id": "b2fc14661390466382a02549",
     "title": "Barbell Bent Over Rows Supinated Grip",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -887,7 +887,7 @@
     "_id": "67a7495c7b8d4fffa573407d",
     "title": "Pull Up",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -914,7 +914,7 @@
     "_id": "4172cf4cb4864d3a8f92fb6a",
     "title": "Behind the Neck Pull Up",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -940,7 +940,7 @@
     "_id": "2abc33e47c084cb3b67d5f54",
     "title": "Pull Up with a Supinated Grip",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -966,7 +966,7 @@
     "_id": "09238da6f29244b4bd277ee4",
     "title": "Straight Arm Lat Pulldown",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -992,7 +992,7 @@
     "_id": "bb835e9eda0f4c9b9db7410b",
     "title": "Dumbbell Bent Over Rows",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -1017,7 +1017,7 @@
     "_id": "6057a66e57db4cae92772144",
     "title": "Dumbbell Pullover",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [
@@ -1043,7 +1043,7 @@
     "_id": "29ffcb49818d4b2f89f8ec03",
     "title": "Barbell Pullover",
     "primary_muscles": [
-      "Latissimus Dorsi"
+      "Lats"
     ],
     "secondary_muscles": [],
     "targets": [

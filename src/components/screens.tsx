@@ -523,21 +523,28 @@ export function LibraryScreen() {
   };
 
   const handlePlay = (workout: typeof PREPARED_WORKOUTS[0]) => {
-    const muscleMap: Record<string, string[]> = {
-      "FULL BODY": ["Chest", "Lats", "Quads"],
-      "CHEST": ["Chest"],
-      "LEGS": ["Quads", "Hamstrings"],
-      "MOBILITY": ["Lower back", "Abdominals"],
-      "BACK": ["Lats", "Traps"],
-      "HIIT": ["Quads", "Calves"],
-    };
-    const targetMuscles = muscleMap[workout.category] || ["Chest"];
+    let generated = workout.exercises
+      .map(id => getExerciseById(id))
+      .filter((e): e is NonNullable<typeof e> => e !== undefined)
+      .map(e => createWorkoutExercise(e, "hypertrophy"));
 
-    const generated = generateWorkout(["dumbbell", "bodyweight"], targetMuscles as any, {
-      exerciseCount: workout.exercises,
-      focus: "hypertrophy",
-      difficulties: [],
-    });
+    if (generated.length === 0) {
+      const muscleMap: Record<string, string[]> = {
+        "FULL BODY": ["Chest", "Lats", "Quads"],
+        "CHEST": ["Chest"],
+        "LEGS": ["Quads", "Hamstrings"],
+        "MOBILITY": ["Lower back", "Abdominals"],
+        "BACK": ["Lats", "Traps"],
+        "HIIT": ["Quads", "Calves"],
+      };
+      const targetMuscles = muscleMap[workout.category] || ["Chest"];
+
+      generated = generateWorkout(["dumbbell", "bodyweight"], targetMuscles as any, {
+        exerciseCount: workout.exercises.length,
+        focus: "hypertrophy",
+        difficulties: [],
+      });
+    }
 
     useWorkoutStore.setState({ currentWorkout: generated, workoutName: workout.title });
     s.startLiveSession();

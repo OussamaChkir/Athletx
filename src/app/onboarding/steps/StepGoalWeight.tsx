@@ -14,7 +14,7 @@ export default function StepGoalWeight() {
   const diffPerc = calculateDiff();
   
   let diffMsg = "";
-  let diffColor = theme.muted;
+  let diffColor: string = theme.muted;
 
   if (diffPerc !== null) {
     if (diffPerc < -15) {
