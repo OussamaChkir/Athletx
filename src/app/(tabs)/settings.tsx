@@ -7,6 +7,7 @@ import * as Notifications from "expo-notifications";
 import {
   Bell,
   ChevronRight,
+  Crown,
   Edit2,
   HelpCircle,
   Link2,
@@ -18,6 +19,8 @@ import {
 import { theme } from "@/lib/theme";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { useProfileStore } from "@/store/profile-store";
+import { usePremiumStore } from "@/store/premium-store";
+import { PremiumPopup } from "@/components/premium-popup";
 import { router } from "expo-router";
 
 /* ── Reusable settings row ── */
@@ -109,6 +112,8 @@ export default function SettingsScreen() {
   const profile = useProfileStore();
 
   const [notifModalVisible, setNotifModalVisible] = useState(false);
+  const [premiumVisible, setPremiumVisible] = useState(false);
+  const isPremium = usePremiumStore((s) => s.isPremium);
 
   const requestPermissions = async () => {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -152,6 +157,12 @@ export default function SettingsScreen() {
           <Text style={styles.sectionLabel}>ACCOUNT</Text>
           <View style={styles.section}>
             <SettingsRow
+              icon={Crown}
+              label="Athletx Premium"
+              badge={isPremium ? "Active" : undefined}
+              onPress={() => setPremiumVisible(true)}
+            />
+            <SettingsRow
               icon={User}
               label="Edit Profile"
               onPress={() => router.push("/edit-profile" as any)}
@@ -189,6 +200,8 @@ export default function SettingsScreen() {
 
         <Text style={styles.version}>ATHLETX v1.2.1</Text>
       </ScrollView>
+
+      <PremiumPopup visible={premiumVisible} onClose={() => setPremiumVisible(false)} />
 
       {/* Notifications Modal */}
       <Modal visible={notifModalVisible} transparent animationType="fade">

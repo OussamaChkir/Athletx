@@ -1,9 +1,12 @@
 import { Tabs } from "expo-router";
 import { Dumbbell, Library, ChartLine, BicepsFlexed, Settings } from "lucide-react-native";
 import { theme } from "@/lib/theme";
+import { PremiumLaunchPopup } from "@/components/premium-popup";
 
 export default function TabsLayout() {
   return (
+    <>
+    <PremiumLaunchPopup />
     <Tabs
       screenOptions={{
         headerShown: false,
@@ -59,5 +62,6 @@ export default function TabsLayout() {
         }}
       />
     </Tabs>
+    </>
   );
 }
