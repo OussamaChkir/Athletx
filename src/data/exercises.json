@@ -3681,7 +3681,7 @@
       "Lower the bar under control to your mid-chest, keeping your elbows at roughly 45 degrees from your torso.",
       "Press the bar back up until your arms are straight, then re-hook the bar when your set is finished."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Smith-Machine-Bench-Press.webp"
   },
   {
     "_id": "545e54ac671a011f777d1e9a",
@@ -3707,7 +3707,7 @@
       "Press the handles forward and slightly upward until your arms are almost fully extended.",
       "Slowly bring the handles back until you feel a stretch across your chest, keeping your shoulders down and back."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Incline-Chest-Press-Machine.webp"
   },
   {
     "_id": "df7f14ff05811cc1b70fa012",
@@ -3734,7 +3734,7 @@
       "Squeeze your chest for a moment at the top without letting your shoulders roll forward.",
       "Lower slowly along the same arc until you feel a stretch across your chest."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Low-to-High-Cable-Fly.webp"
   },
   {
     "_id": "671493493d02573aaebec1e3",
@@ -3761,7 +3761,7 @@
       "Press the dumbbells straight up until your arms are fully extended.",
       "Lower the weights slowly until the backs of your upper arms lightly touch the floor, then press again without bouncing."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Floor-Press.webp"
   },
   {
     "_id": "0598039e4f0f2a2214b405e7",
@@ -3789,7 +3789,7 @@
       "Press the floor away to return to the start without letting your hips sag.",
       "Elevating the feet shifts more of the load onto the upper chest and shoulders, so lower the bench height to make it easier."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Decline-Push-Up.webp"
   },
   {
     "_id": "5f2807404223c9cb408eabbe",
@@ -3816,7 +3816,7 @@
       "Lower your body slowly while your elbows flare slightly, until you feel a deep stretch in your chest and your upper arms are about parallel to the floor.",
       "Press back up to the start while keeping the forward lean. Stop short of the full depth if your shoulders feel pinched."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Chest-Dip.webp"
   },
   {
     "_id": "7eac4def64dd43e536987b63",
@@ -3842,7 +3842,7 @@
       "Press your hands forward until your arms are straight, keeping your core braced and your back from arching.",
       "Return slowly to the start, keeping tension in the band the whole time."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Resistance-Band-Chest-Press.webp"
   },
   {
     "_id": "771f8d1d5a156392da839331",
@@ -3871,7 +3871,7 @@
       "Pull your elbows up and back toward your hips, squeezing your shoulder blades together at the top.",
       "Lower the weights slowly until your arms are fully extended, keeping your chest on the pad throughout."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Chest-Supported-Dumbbell-Row.webp"
   },
   {
     "_id": "5bb0b1578d19a309dec689af",
@@ -3901,7 +3901,7 @@
       "Brace your core and pull the bar explosively to your lower chest or upper abdomen.",
       "Lower the bar back to the floor under control and reset before each rep, keeping your torso angle the same."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Pendlay-Row.webp"
   },
   {
     "_id": "ffe20be1666a98d294bf9b19",
@@ -3929,7 +3929,7 @@
       "With your heels on the floor and your body in a straight line, pull your chest up to the bar by driving your elbows back.",
       "Pause briefly at the top, then lower yourself until your arms are fully extended. Bend your knees to make it easier."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Inverted-Row.webp"
   },
   {
     "_id": "652e0bb87c9e5b2aae5df76a",
@@ -3957,7 +3957,7 @@
       "Pull your elbow down toward your ribcage until the handle is near shoulder level.",
       "Squeeze your lat at the bottom, then return slowly to the full stretch without letting your shoulder shrug up."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Single-Arm-Lat-Pulldown.webp"
   },
   {
     "_id": "833eb8262a69497afd864266",
@@ -3985,7 +3985,7 @@
       "Pull your elbows back until your hands are beside your torso, squeezing your shoulder blades together.",
       "Return slowly and let your shoulder blades spread apart while keeping your chest on the pad."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Seated-Row-Machine.webp"
   },
   {
     "_id": "da70b4eed86ef107e57c462f",
@@ -4012,7 +4012,7 @@
       "Pull your chest toward the handles by driving your elbows down until your chin clears the handles.",
       "Lower yourself slowly back to straight arms with your core braced."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Assisted-Pull-Up-Machine.webp"
   },
   {
     "_id": "44a627f891b67e8da6c67b25",
@@ -4039,7 +4039,7 @@
       "Squeeze your lower back and glutes to lift your arms, chest, and legs a few inches off the floor at the same time.",
       "Hold for one to two seconds, then lower slowly."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Superman.webp"
   },
   {
     "_id": "a969b3b2cf1b2118b2e5eb03",
@@ -4066,7 +4066,7 @@
       "Hinge at the hips to lower your torso until you feel a stretch in your hamstrings.",
       "Raise your torso back up until your body is in a straight line. Do not arch past neutral at the top."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Back-Extension.webp"
   },
   {
     "_id": "ebbb617d2afc185f26e01e20",
@@ -4098,7 +4098,7 @@
       "Extend your hips and knees to pull the bar up your thighs to a full lockout, squeezing your glutes at the top.",
       "Lower the bar under control back to the pins."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Rack-Pull.webp"
   },
   {
     "_id": "114a459160959cb662d1a6d1",
@@ -4126,7 +4126,7 @@
       "Pull the handles toward your ribs by driving your elbows straight back.",
       "Squeeze your shoulder blades together, then return slowly to the start."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Resistance-Band-Row.webp"
   },
   {
     "_id": "469a7dd5ff0da280c267c8cf",
@@ -4154,7 +4154,7 @@
       "Lower the dumbbells while rotating your palms back toward you until they return to chest height.",
       "Keep your core tight and avoid arching your lower back."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Arnold-Press.webp"
   },
   {
     "_id": "7be46b1f2e6bbef46a214b4e",
@@ -4181,7 +4181,7 @@
       "Press the handles overhead until your arms are nearly straight.",
       "Lower the handles slowly back to shoulder height."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Shoulder-Press-Machine.webp"
   },
   {
     "_id": "63c85b0ecca505b622dcc21d",
@@ -4209,7 +4209,7 @@
       "Pull the rope toward your face, splitting the ends apart beside your ears with your elbows high.",
       "Squeeze your rear delts and upper back for a moment, then return slowly."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Face-Pull.webp"
   },
   {
     "_id": "83bd44ff9ed093baca2cea13",
@@ -4234,7 +4234,7 @@
       "Sweep your arms back and out until they are in line with your torso.",
       "Squeeze your rear delts, then return slowly without letting the weight stack rest."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Reverse-Pec-Deck.webp"
   },
   {
     "_id": "58bb803a3232916ad247cd3f",
@@ -4257,7 +4257,7 @@
       "Raise your arms out to the sides until they are about shoulder height.",
       "Pause briefly, then lower slowly without letting the weight stack rest."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Lateral-Raise-Machine.webp"
   },
   {
     "_id": "3ecd557a48092d84c4646168",
@@ -4285,7 +4285,7 @@
       "Press back up until your arms are straight, keeping your hips high throughout.",
       "To make it harder, elevate your feet on a bench."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Pike-Push-Up.webp"
   },
   {
     "_id": "e2ab2d09195951cadddb5862",
@@ -4313,7 +4313,7 @@
       "Lower your head slowly toward the mat by bending your elbows.",
       "Press back up until your arms are straight. Build up to this with pike push ups first, and step down from the wall if you lose control."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Handstand-Push-Up.webp"
   },
   {
     "_id": "55381c401669adc2bbfda9ae",
@@ -4336,7 +4336,7 @@
       "Raise your arms out to the sides until they reach shoulder height.",
       "Lower slowly and avoid shrugging your shoulders toward your ears."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Resistance-Band-Lateral-Raise.webp"
   },
   {
     "_id": "73397f0e5e44974c1f9716e3",
@@ -4361,7 +4361,7 @@
       "Stop when your arms are in line with your shoulders and the band touches your chest.",
       "Return slowly to the start while keeping your ribs down."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Band-Pull-Apart.webp"
   },
   {
     "_id": "3cfc4486abbd14f8cbd72dfc",
@@ -4387,7 +4387,7 @@
       "Lift your shoulders straight up toward your ears without bending your elbows or rolling your shoulders.",
       "Pause at the top, then lower slowly."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Smith-Machine-Shrug.webp"
   },
   {
     "_id": "ac713c9b37d4cd9884e3ca67",
@@ -4414,7 +4414,7 @@
       "Walk with short, controlled steps for the set distance or time.",
       "Keep your shoulders level and do not lean to either side, then set the dumbbells down with a flat back."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Farmers-Walk.webp"
   },
   {
     "_id": "ba94b17084f7a9c036dea814",
@@ -4441,7 +4441,7 @@
       "Shrug your shoulders straight up toward your ears.",
       "Pause at the top, then lower slowly."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Cable-Shrug.webp"
   },
   {
     "_id": "8da5da65bc4d03b0f63d9ca7",
@@ -4469,7 +4469,7 @@
       "Raise your arms forward and up into a Y shape at about ear level, keeping a slight bend in your elbows.",
       "Squeeze the muscles between your shoulder blades, then lower slowly. Use light weights."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Incline-Bench-Y-Raise.webp"
   },
   {
     "_id": "a0cededf815f2c45cf0b022e",
@@ -4495,7 +4495,7 @@
       "Squeeze your biceps at the top.",
       "Lower slowly until your arms are almost straight, without letting the weight bounce."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Preacher-Curl-Machine.webp"
   },
   {
     "_id": "0d3fdb782ebf1304e0146f5d",
@@ -4522,7 +4522,7 @@
       "Squeeze your biceps at the top.",
       "Lower the dumbbell slowly until your arm is almost fully extended, then switch arms after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Preacher-Curl.webp"
   },
   {
     "_id": "66af569a12f701a5b80b6a94",
@@ -4549,7 +4549,7 @@
       "Curl the dumbbells toward your shoulders without moving your upper arms.",
       "Squeeze at the top, then lower slowly to full extension."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Spider-Curl.webp"
   },
   {
     "_id": "82a6a6820ad3b2c364512704",
@@ -4576,7 +4576,7 @@
       "Curl your hand toward your shoulder, keeping your elbow behind or beside your torso.",
       "Squeeze at the top, then lower slowly to a full stretch. Switch arms after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Cable-Bayesian-Curl.webp"
   },
   {
     "_id": "6aac308b3be3fd83434f6700",
@@ -4603,7 +4603,7 @@
       "At the top, rotate your wrists so your palms face down.",
       "Lower the dumbbells slowly with your palms down, then rotate your palms back up at the bottom and repeat."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Zottman-Curl.webp"
   },
   {
     "_id": "4d73534ffbffab7881183b5b",
@@ -4628,7 +4628,7 @@
       "Curl your hands up toward your shoulders.",
       "Squeeze at the top, then lower slowly."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Resistance-Band-Curl.webp"
   },
   {
     "_id": "ae8007f4ade4e00f1f42ab25",
@@ -4655,7 +4655,7 @@
       "Stop when the bar reaches your lower chest and squeeze your biceps.",
       "Lower the bar along the same path and avoid swinging your torso."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Barbell-Drag-Curl.webp"
   },
   {
     "_id": "c698fb4facf91a901c13350a",
@@ -4682,7 +4682,7 @@
       "Lower your chest toward your hands with your elbows tracking back close to your body.",
       "Press back up until your arms are straight. Drop to your knees to make it easier."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Diamond-Push-Up.webp"
   },
   {
     "_id": "6497a5a78ec1f7c722634bf0",
@@ -4706,7 +4706,7 @@
       "Extend your arms forward and up until they are straight, keeping your upper arms still.",
       "Squeeze your triceps, then return slowly and avoid arching your lower back."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Overhead-Cable-Triceps-Extension.webp"
   },
   {
     "_id": "71213c1e0e7b14524e730bdb",
@@ -4732,7 +4732,7 @@
       "Press the handles down until your arms are straight.",
       "Return slowly until your upper arms are about parallel to the floor, keeping your shoulders down."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Triceps-Dip-Machine.webp"
   },
   {
     "_id": "a06f35f42ae3fc5ca35af8cb",
@@ -4760,7 +4760,7 @@
       "Stop with the bar a few inches above your chest.",
       "Extend your elbows to press the bar back to the start."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/JM-Press.webp"
   },
   {
     "_id": "e60d91ab034f4e3557a75a62",
@@ -4783,7 +4783,7 @@
       "Push your hands down until your arms are fully straight.",
       "Squeeze your triceps, then return slowly without letting your elbows drift forward."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Resistance-Band-Triceps-Pushdown.webp"
   },
   {
     "_id": "0cd56e705aaccad3f6dc91b6",
@@ -4807,7 +4807,7 @@
       "Curl the dumbbell back up by flexing your wrist.",
       "Keep your forearm still and move slowly in both directions, then switch arms."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Wrist-Curl.webp"
   },
   {
     "_id": "6da23df9ca247313e8d2e70f",
@@ -4831,7 +4831,7 @@
       "Lift the dumbbell back up by extending your wrist.",
       "Keep your forearm still and use a light weight, then switch arms."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Wrist-Extension.webp"
   },
   {
     "_id": "24a82c1b8438136a8cdce01e",
@@ -4856,7 +4856,7 @@
       "Keep your shoulders slightly pulled down rather than shrugged up toward your ears.",
       "Hold for as long as you can with good form, then step down carefully."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dead-Hang.webp"
   },
   {
     "_id": "3765daab2f776ba2bf6ec22c",
@@ -4885,7 +4885,7 @@
       "Bend your hips and knees to lower until your thighs are at least parallel to the floor, keeping your chest up.",
       "Drive through your mid-foot to stand back up, then re-hook the bar when finished."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Smith-Machine-Squat.webp"
   },
   {
     "_id": "a740aa82a5e9a04c5a3e6071",
@@ -4913,7 +4913,7 @@
       "Push through your front heel and bring your back foot forward into the next step.",
       "Keep your torso upright and alternate legs for the set distance."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Walking-Lunge.webp"
   },
   {
     "_id": "f689d9bdbfea23a540712439",
@@ -4941,7 +4941,7 @@
       "Keep your front shin roughly vertical and your torso upright.",
       "Push through your front heel to return to standing, then repeat on the other leg."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Reverse-Lunge.webp"
   },
   {
     "_id": "bbe2b64ee35b003a07f4a670",
@@ -4970,7 +4970,7 @@
       "Keep your front knee tracking over your toes.",
       "Drive through your front heel to stand back up, then switch legs after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Bulgarian-Split-Squat.webp"
   },
   {
     "_id": "4e0e95bd8cc497a600f43b5e",
@@ -4994,7 +4994,7 @@
       "Push your knees forward and down while keeping a straight line from your knees to your shoulders, going only as low as feels comfortable.",
       "Extend your knees to return to standing. This puts high stress on the knees, so build range of motion gradually."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Sissy-Squat.webp"
   },
   {
     "_id": "775a019dbe580c70a5ae419e",
@@ -5022,7 +5022,7 @@
       "Lower as far as you can control, then drive through your standing foot to rise.",
       "Hold a support or squat to a box until you have the strength and mobility for the full range."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Pistol-Squat.webp"
   },
   {
     "_id": "a9d4e8f18332e4a0be3eeb55",
@@ -5050,7 +5050,7 @@
       "Press the platform back up without locking your knee.",
       "Complete your reps, then switch legs. Use a lighter weight than for the two-leg press."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Single-Leg-Press.webp"
   },
   {
     "_id": "94abfad6c367e52f8264f623",
@@ -5078,7 +5078,7 @@
       "Land softly on the box with both feet fully on it and your knees bent.",
       "Stand up tall, then step down one foot at a time and reset for the next rep."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Box-Jump.webp"
   },
   {
     "_id": "4c7e02af796a42d6cca1b70e",
@@ -5108,7 +5108,7 @@
       "Step one foot back and lower until both knees are at about 90 degrees, keeping your torso upright.",
       "Push through your front foot to return to standing, then alternate legs. Set the rack safeties just below your lowest position."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Barbell-Reverse-Lunge.webp"
   },
   {
     "_id": "2dbb51e358cd04db84d38ff6",
@@ -5135,7 +5135,7 @@
       "Lower your torso forward as slowly as you can, resisting with your hamstrings.",
       "When you can no longer control the lowering, catch yourself with your hands, then push off the floor to return to the start."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Nordic-Hamstring-Curl.webp"
   },
   {
     "_id": "68ffa4d8572636e45fe6235e",
@@ -5163,7 +5163,7 @@
       "Keep your back flat and the dumbbells close to your standing leg.",
       "Drive your hips forward to return to standing, then switch legs after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Single-Leg-Romanian-Deadlift.webp"
   },
   {
     "_id": "6a404f95d5103d8d857e4472",
@@ -5191,7 +5191,7 @@
       "Hinge your hips back with a flat back so the rope passes between your legs.",
       "Drive your hips forward and squeeze your glutes to stand tall, keeping your arms straight."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Cable-Pull-Through.webp"
   },
   {
     "_id": "3438cb4a386b7d241801ad74",
@@ -5218,7 +5218,7 @@
       "Slide your heels away from you to straighten your legs while keeping your hips raised.",
       "Pull your heels back toward you by bending your knees, keeping your hips high, then lower your hips between reps if needed."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Sliding-Leg-Curl.webp"
   },
   {
     "_id": "2b9f31fdc2c8d10b4c6fa06f",
@@ -5246,7 +5246,7 @@
       "Push your hips back and hinge forward with a flat back until you feel a stretch in your hamstrings.",
       "Drive your hips forward to stand tall again."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Resistance-Band-Good-Morning.webp"
   },
   {
     "_id": "b93804d7c10f4096eddea33b",
@@ -5275,7 +5275,7 @@
       "Push your hips back and slide the bar down your thighs until you feel a stretch in your hamstrings, keeping your back flat.",
       "Drive your hips forward to stand back up, then re-hook the bar when finished."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Smith-Machine-Romanian-Deadlift.webp"
   },
   {
     "_id": "c94f6f548e2b23807fed3e0b",
@@ -5301,7 +5301,7 @@
       "Drive through your heels to lift your hips until your torso and thighs form a straight line, with your chin tucked and your ribs down.",
       "Squeeze your glutes at the top, then lower under control."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Hip-Thrust.webp"
   },
   {
     "_id": "398915da412019fcc938ea9d",
@@ -5327,7 +5327,7 @@
       "Keep your hips level and your ribs down, and squeeze your glute at the top.",
       "Lower under control, then switch legs after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Single-Leg-Hip-Thrust.webp"
   },
   {
     "_id": "2853f8e7a83b86568c2cf48f",
@@ -5352,7 +5352,7 @@
       "Drive through your heels to lift your hips until your torso and thighs are in line.",
       "Squeeze your glutes at the top, then lower under control."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Hip-Thrust-Machine.webp"
   },
   {
     "_id": "ea7a4f37caa2e6a2e2734947",
@@ -5377,7 +5377,7 @@
       "Press your leg back and slightly up by extending your hip until it is in line with your torso.",
       "Squeeze your glute at the end of the movement, then return slowly without arching your lower back."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Glute-Kickback-Machine.webp"
   },
   {
     "_id": "358b2acbed7d108e1535d0cc",
@@ -5400,7 +5400,7 @@
       "Squeeze your legs together until the pads meet.",
       "Return slowly to the starting position without letting the weight stack rest."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Hip-Adduction-Machine.webp"
   },
   {
     "_id": "4589397818894e2263d4271b",
@@ -5428,7 +5428,7 @@
       "Squat down with your chest up and your knees tracking over your toes.",
       "Drive through your heels to stand and squeeze your glutes at the top."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Sumo-Squat.webp"
   },
   {
     "_id": "b4bc0a36a7d08bd68a564226",
@@ -5455,7 +5455,7 @@
       "Lower your back knee toward the floor while keeping your torso upright and your front knee tracking over your foot.",
       "Push through your front heel to return to standing, then repeat on the other leg."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Curtsy-Lunge.webp"
   },
   {
     "_id": "420beed971fa5ebbded4e089",
@@ -5483,7 +5483,7 @@
       "Keep your chest up and your working heel on the floor, going only as low as your mobility allows.",
       "Drive through your working foot to return to the center, then switch sides."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Cossack-Squat.webp"
   },
   {
     "_id": "f13a9f97b5e93798164f7bae",
@@ -5507,7 +5507,7 @@
       "Rise onto your toes as high as you can.",
       "Pause at the top, then lower your heels slowly for a full stretch."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Smith-Machine-Calf-Raise.webp"
   },
   {
     "_id": "a4d3e33835f9b690666ae12a",
@@ -5530,7 +5530,7 @@
       "Rise onto your toes as high as you can.",
       "Pause at the top, lower slowly, then switch legs after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Single-Leg-Calf-Raise.webp"
   },
   {
     "_id": "96436001ca266b8c8e3df626",
@@ -5553,7 +5553,7 @@
       "Press the platform away by pointing your toes as far as you can.",
       "Pause, then let your heels drop slowly for a full stretch."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Leg-Press-Calf-Raise.webp"
   },
   {
     "_id": "6a00c8d959456bde73600554",
@@ -5576,7 +5576,7 @@
       "Rise onto your toes as high as you can.",
       "Pause at the top, then lower slowly."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Standing-Calf-Raise.webp"
   },
   {
     "_id": "6c763a4c64fc83481813c636",
@@ -5599,7 +5599,7 @@
       "Pause briefly at the top.",
       "Lower your toes slowly back to the floor."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Tibialis-Raise.webp"
   },
   {
     "_id": "7c2f3f38ab05217bc41a1be0",
@@ -5625,7 +5625,7 @@
       "Roll the wheel forward, extending your arms only as far as you can without letting your lower back sag.",
       "Pull the wheel back toward your knees using your abs and lats. Shorten the range if your lower back arches."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Ab-Wheel-Rollout.webp"
   },
   {
     "_id": "9b1990f21beaf05d132b1a88",
@@ -5650,7 +5650,7 @@
       "Lower your opposite arm and leg toward the floor at the same time without letting your back arch.",
       "Return to the start and repeat on the other side."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dead-Bug.webp"
   },
   {
     "_id": "eca86819b5a5968624ee0777",
@@ -5676,7 +5676,7 @@
       "Press the handle straight out in front of you while resisting any twisting of your torso.",
       "Hold for one to two seconds, bring the handle back to your chest, and switch sides after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Pallof-Press.webp"
   },
   {
     "_id": "aa4534769cef69143a32bee6",
@@ -5703,7 +5703,7 @@
       "Pull the handle diagonally down across your body toward your opposite hip, rotating your torso and pivoting your back foot.",
       "Return slowly to the start under control, then switch sides after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Cable-Woodchop.webp"
   },
   {
     "_id": "f7aab483ddf780a345726382",
@@ -5730,7 +5730,7 @@
       "Rotate your torso to one side, tapping your hands on the floor beside your hip.",
       "Rotate to the other side and keep alternating with a straight back."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Russian-Twist.webp"
   },
   {
     "_id": "006d9909f645e7fdcc7cd1e8",
@@ -5757,7 +5757,7 @@
       "Switch sides in a smooth pedaling motion.",
       "Keep your lower back pressed down and avoid pulling on your neck."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Bicycle-Crunch.webp"
   },
   {
     "_id": "fdadc75ae13e9590086eca80",
@@ -5784,7 +5784,7 @@
       "Hold the position without letting your hips sag.",
       "Switch sides after your hold."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Side-Plank.webp"
   },
   {
     "_id": "026c012e443f0286f61a2d61",
@@ -5809,7 +5809,7 @@
       "Hold the position while breathing steadily.",
       "Bend your knees to make it easier, and stop if your lower back lifts off the floor."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Hollow-Body-Hold.webp"
   },
   {
     "_id": "17ecfd6280e8c286f9ca00db",
@@ -5836,7 +5836,7 @@
       "Raise your legs, with a slight knee bend if needed, until your toes touch the bar.",
       "Lower your legs under control without swinging. Start with hanging leg raises if this is too difficult."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Toes-to-Bar.webp"
   },
   {
     "_id": "dc3feba398928b05fa997bb7",
@@ -5861,7 +5861,7 @@
       "Lower slowly back down until your shoulder blades touch the bench.",
       "Avoid pulling on your neck."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Decline-Sit-Up.webp"
   },
   {
     "_id": "c06c94ad18f83ffd62ffd679",
@@ -5885,7 +5885,7 @@
       "Contract your obliques to return to upright.",
       "Avoid leaning forward or backward, and switch sides after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Side-Bend.webp"
   },
   {
     "_id": "d9c69bb1097dcfcae0972110",
@@ -5913,7 +5913,7 @@
       "Move your torso upright into a half-kneeling position, then stand up.",
       "Reverse each step to lower yourself back to the floor, keeping your arm locked out and the kettlebell vertical throughout. Switch sides after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Turkish-Get-Up.webp"
   },
   {
     "_id": "7e53fea827de442163ec4c88",
@@ -5942,7 +5942,7 @@
       "Press the kettlebell overhead until your arm is locked out.",
       "Lower it back to the rack position, then back down to the floor under control, and switch sides after your reps."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Kettlebell-Clean-and-Press.webp"
   },
   {
     "_id": "017350e8002c5ba94a63231f",
@@ -5970,7 +5970,7 @@
       "Drive up explosively through your legs and use that momentum to press the dumbbells overhead.",
       "Lock out your arms at the top, lower the dumbbells back to your shoulders, and flow into the next squat."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Thruster.webp"
   },
   {
     "_id": "70d5754fe078be44ac1ebeb7",
@@ -6001,7 +6001,7 @@
       "Pull yourself under the bar and catch it on the front of your shoulders in a quarter squat, with your elbows high.",
       "Stand up fully, then lower the bar under control back to your thighs and to the floor. Learn this with a coach and start light."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Barbell-Power-Clean.webp"
   },
   {
     "_id": "4a50b0d0ff2af5028d57e100",
@@ -6028,7 +6028,7 @@
       "Move your opposite hand and foot forward together in small, controlled steps.",
       "Keep your hips low and level and avoid swaying side to side."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Bear-Crawl.webp"
   },
   {
     "_id": "30d9de977c799f2252b18ee6",
@@ -6055,7 +6055,7 @@
       "Switch legs quickly in a running motion.",
       "Keep your hips level, your shoulders over your hands, and your core braced."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Mountain-Climbers.webp"
   },
   {
     "_id": "5ce27f435a004906d6595433",
@@ -6083,7 +6083,7 @@
       "Walk with controlled steps while keeping your shoulders level and your ribs down.",
       "Set the kettlebell down with a flat back and repeat on the other side."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Kettlebell-Suitcase-Carry.webp"
   },
   {
     "_id": "aaadbed2ac4d28ac2d38f75b",
@@ -6111,6 +6111,6 @@
       "Row one dumbbell up to your ribs, keeping your elbow close to your body.",
       "Lower the dumbbell under control and alternate sides without letting your hips rotate."
     ],
-    "image": ""
+    "image": "../../assets/images/workout/Dumbbell-Renegade-Row.webp"
   }
 ]
