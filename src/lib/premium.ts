@@ -8,7 +8,7 @@ export interface PremiumPlan {
   /** Product identifier to create in App Store Connect / Google Play Console. */
   productId: string;
   title: string;
-  /** Price in USD as shown in the paywall. Replace with the store-localized price once billing is wired. */
+  /** Fallback USD price shown until the store-localized price loads from RevenueCat. */
   price: number;
   /** Billing period label, e.g. "month" / "year". */
   period: string;
@@ -43,7 +43,7 @@ export function formatUsd(amount: number): string {
 export const PREMIUM_BENEFITS: { icon: LucideIcon; title: string; description: string }[] = [
   { icon: BanIcon, title: "No ads", description: "Train without interruptions" },
   { icon: InfinityIcon, title: "Unlimited custom plans", description: "Build as many routines as you want" },
-  { icon: Library, title: "Full library access", description: "Every exercise, unlocked" },
+  { icon: Library, title: "All prepared workouts", description: "Every ready-made program, unlocked" },
   { icon: ChartLine, title: "Advanced stats", description: "Deeper insight into your progress" },
 ];
 

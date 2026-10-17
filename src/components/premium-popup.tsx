@@ -16,6 +16,7 @@ import * as Haptics from "expo-haptics";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CheckIcon, CrownIcon, XIcon } from "lucide-react-native";
 import { theme } from "@/lib/theme";
+import { PAYWALL_MESSAGES, type PaywallReason } from "@/lib/entitlements";
 import {
   PREMIUM_BENEFITS,
   PREMIUM_PLANS,
@@ -25,7 +26,15 @@ import {
   formatUsd,
   type PlanId,
 } from "@/lib/premium";
-import { purchasePlan, restorePurchases, type PurchaseResult } from "@/lib/purchases";
+import {
+  loadPlanPrices,
+  openManageSubscriptions,
+  purchasePlan,
+  restorePurchases,
+  type PlanPrice,
+  type PlanPrices,
+  type PurchaseResult,
+} from "@/lib/purchases";
 import { usePremiumStore } from "@/store/premium-store";
 
 /* ── Plan card ── */
@@ -33,26 +42,33 @@ function PlanCard({
   planId,
   selected,
   onSelect,
+  livePrice,
+  savingsPercent,
 }: {
   planId: PlanId;
   selected: boolean;
   onSelect: () => void;
+  /** Store-localized price; falls back to the hardcoded USD price until it loads. */
+  livePrice?: PlanPrice;
+  savingsPercent: number;
 }) {
   const plan = PREMIUM_PLANS[planId];
   const isYearly = planId === "yearly";
-  const perMonth = isYearly ? `${formatUsd(plan.price / 12)} / month` : "Billed every month";
+  const priceText = livePrice?.priceString ?? formatUsd(plan.price);
+  const perMonthText = livePrice?.pricePerMonthString ?? formatUsd(plan.price / 12);
+  const perMonth = isYearly ? `${perMonthText} / month` : "Billed every month";
 
   return (
     <Pressable
       onPress={onSelect}
       accessibilityRole="radio"
       accessibilityState={{ selected }}
-      accessibilityLabel={`${plan.title} plan, ${formatUsd(plan.price)} per ${plan.period}`}
+      accessibilityLabel={`${plan.title} plan, ${priceText} per ${plan.period}`}
       style={[styles.planCard, selected && styles.planCardSelected]}
     >
       {isYearly && (
         <View style={styles.planBadge}>
-          <Text style={styles.planBadgeText}>BEST VALUE · SAVE {YEARLY_SAVINGS_PERCENT}%</Text>
+          <Text style={styles.planBadgeText}>BEST VALUE · SAVE {savingsPercent}%</Text>
         </View>
       )}
 
@@ -66,7 +82,7 @@ function PlanCard({
       </View>
 
       <View style={{ alignItems: "flex-end" }}>
-        <Text style={styles.planPrice}>{formatUsd(plan.price)}</Text>
+        <Text style={styles.planPrice}>{priceText}</Text>
         <Text style={styles.planPeriod}>per {plan.period}</Text>
       </View>
     </Pressable>
@@ -74,16 +90,44 @@ function PlanCard({
 }
 
 /* ── Popup ── */
-export function PremiumPopup({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+export function PremiumPopup({
+  visible,
+  onClose,
+  reason,
+}: {
+  visible: boolean;
+  onClose: () => void;
+  /** Why the paywall opened (plan limit, locked workout). Shown as a short explanation under the title. */
+  reason?: PaywallReason;
+}) {
   const insets = useSafeAreaInsets();
-  const setPremium = usePremiumStore((s) => s.setPremium);
+  const isPremium = usePremiumStore((s) => s.isPremium);
+  const activePlan = usePremiumStore((s) => s.activePlan);
 
   const [selected, setSelected] = useState<PlanId>("yearly");
   const [busy, setBusy] = useState(false);
+  const [prices, setPrices] = useState<PlanPrices>({});
   const [btnScale] = useState(() => new Animated.Value(1));
+
+  // Pull store-localized prices whenever the sheet opens. Failures are fine: we show the fallback prices.
+  useEffect(() => {
+    if (!visible) return;
+    let alive = true;
+    loadPlanPrices()
+      .then((p) => alive && setPrices(p))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [visible]);
 
   const plan = PREMIUM_PLANS[selected];
   const storeName = Platform.OS === "android" ? "Google Play" : "Apple ID";
+  const selectedPriceText = prices[selected]?.priceString ?? formatUsd(plan.price);
+  const savingsPercent =
+    prices.monthly && prices.yearly && prices.monthly.price > 0
+      ? Math.round((1 - prices.yearly.price / (prices.monthly.price * 12)) * 100)
+      : YEARLY_SAVINGS_PERCENT;
 
   const handleSelect = (id: PlanId) => {
     if (id === selected) return;
@@ -91,12 +135,35 @@ export function PremiumPopup({ visible, onClose }: { visible: boolean; onClose: 
     setSelected(id);
   };
 
+  // The entitlement itself is written to the premium store by the purchases layer.
   const handleResult = (result: PurchaseResult) => {
-    if (result.status === "success") {
-      setPremium(result.plan);
-      onClose();
-    } else if (result.status === "unavailable") {
-      Alert.alert("Coming soon", "Premium subscriptions aren't available in this version yet.");
+    switch (result.status) {
+      case "success":
+        onClose();
+        break;
+      case "cancelled":
+        break;
+      case "pending":
+        Alert.alert(
+          "Waiting for approval",
+          "Your purchase is pending approval. Premium unlocks automatically once it's approved.",
+        );
+        break;
+      case "nothing_to_restore":
+        Alert.alert("Nothing to restore", `We couldn't find an active subscription on this ${storeName} account.`);
+        break;
+      case "entitlement_missing":
+        Alert.alert(
+          "Almost there",
+          "Your purchase went through but Premium isn't active yet. Tap Restore in a moment, or contact support if this persists.",
+        );
+        break;
+      case "unavailable":
+        Alert.alert(
+          "Subscriptions unavailable",
+          "We couldn't reach the store right now. Check your connection and try again.",
+        );
+        break;
     }
   };
 
@@ -155,6 +222,7 @@ export function PremiumPopup({ visible, onClose }: { visible: boolean; onClose: 
               Unlock your{"\n"}
               <Text style={{ color: theme.neon }}>full potential</Text>
             </Text>
+            {reason && !isPremium && <Text style={styles.reason}>{PAYWALL_MESSAGES[reason]}</Text>}
 
             {/* Benefits */}
             <View style={styles.benefits}>
@@ -172,35 +240,69 @@ export function PremiumPopup({ visible, onClose }: { visible: boolean; onClose: 
               ))}
             </View>
 
-            {/* Plans */}
-            <View style={styles.plans} accessibilityRole="radiogroup">
-              <PlanCard planId="yearly" selected={selected === "yearly"} onSelect={() => handleSelect("yearly")} />
-              <PlanCard planId="monthly" selected={selected === "monthly"} onSelect={() => handleSelect("monthly")} />
-            </View>
+            {isPremium ? (
+              <>
+                {/* Already subscribed */}
+                <View style={styles.activeCard}>
+                  <CheckIcon size={18} color={theme.neon} strokeWidth={3} />
+                  <Text style={styles.activeText}>
+                    {"You're Premium"}
+                    {activePlan ? ` · ${PREMIUM_PLANS[activePlan].title}` : ""}
+                  </Text>
+                </View>
+                <Pressable
+                  style={styles.cta}
+                  onPress={() => openManageSubscriptions().catch(() => {})}
+                  accessibilityRole="button"
+                >
+                  <Text style={styles.ctaText}>MANAGE SUBSCRIPTION</Text>
+                </Pressable>
+              </>
+            ) : (
+              <>
+                {/* Plans */}
+                <View style={styles.plans} accessibilityRole="radiogroup">
+                  <PlanCard
+                    planId="yearly"
+                    selected={selected === "yearly"}
+                    onSelect={() => handleSelect("yearly")}
+                    livePrice={prices.yearly}
+                    savingsPercent={savingsPercent}
+                  />
+                  <PlanCard
+                    planId="monthly"
+                    selected={selected === "monthly"}
+                    onSelect={() => handleSelect("monthly")}
+                    livePrice={prices.monthly}
+                    savingsPercent={savingsPercent}
+                  />
+                </View>
 
-            {/* CTA */}
-            <Animated.View style={{ transform: [{ scale: btnScale }], width: "100%" }}>
-              <Pressable
-                style={[styles.cta, busy && { opacity: 0.7 }]}
-                onPressIn={pressIn}
-                onPressOut={pressOut}
-                onPress={() => run(() => purchasePlan(selected))}
-                disabled={busy}
-                accessibilityRole="button"
-              >
-                {busy ? (
-                  <ActivityIndicator color={theme.background} />
-                ) : (
-                  <Text style={styles.ctaText}>CONTINUE</Text>
-                )}
-              </Pressable>
-            </Animated.View>
+                {/* CTA */}
+                <Animated.View style={{ transform: [{ scale: btnScale }], width: "100%" }}>
+                  <Pressable
+                    style={[styles.cta, busy && { opacity: 0.7 }]}
+                    onPressIn={pressIn}
+                    onPressOut={pressOut}
+                    onPress={() => run(() => purchasePlan(selected))}
+                    disabled={busy}
+                    accessibilityRole="button"
+                  >
+                    {busy ? (
+                      <ActivityIndicator color={theme.background} />
+                    ) : (
+                      <Text style={styles.ctaText}>CONTINUE</Text>
+                    )}
+                  </Pressable>
+                </Animated.View>
 
-            <Text style={styles.finePrint}>
-              {formatUsd(plan.price)} per {plan.period}. Cancel anytime. Your subscription renews automatically
-              unless canceled at least 24 hours before the end of the current period, and payment is charged to
-              your {storeName} account.
-            </Text>
+                <Text style={styles.finePrint}>
+                  {selectedPriceText} per {plan.period}. Cancel anytime. Your subscription renews automatically
+                  unless canceled at least 24 hours before the end of the current period, and payment is charged to
+                  your {storeName} account.
+                </Text>
+              </>
+            )}
 
             {/* Footer */}
             <View style={styles.footer}>
@@ -325,6 +427,33 @@ const styles = StyleSheet.create({
     letterSpacing: -1,
     textAlign: "center",
     marginBottom: 16,
+  },
+  reason: {
+    color: theme.muted,
+    fontSize: 13,
+    lineHeight: 18,
+    textAlign: "center",
+    marginTop: -6,
+    marginBottom: 14,
+    paddingHorizontal: 8,
+  },
+  activeCard: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    backgroundColor: "rgba(8,253,142,0.07)",
+    borderWidth: 1.5,
+    borderColor: theme.neon,
+    borderRadius: 18,
+    paddingVertical: 16,
+    marginBottom: 14,
+  },
+  activeText: {
+    color: theme.text,
+    fontSize: 16,
+    fontWeight: "800",
   },
   benefits: {
     width: "100%",
