@@ -66,6 +66,16 @@ import { BodyWeightCard } from "@/components/body-weight-card";
 import { PremiumPopup } from "@/components/premium-popup";
 import type { PaywallReason } from "@/lib/entitlements";
 import { usePremiumAccess } from "@/lib/use-premium-access";
+import {
+  ADS_SUPPORTED,
+  REWARDED_UNLOCK_MS,
+  isMeaningfulSession,
+  preloadInterstitial,
+  preloadRewarded,
+  showInterstitialThen,
+  showRewardedForWorkout,
+  useRewardedStatus,
+} from "@/lib/ads";
 /*import { AdBanner } from "@/components/AdBanner"; */
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -499,8 +509,18 @@ export function LibraryScreen() {
   const s = useWorkoutStore();
   const access = usePremiumAccess();
 
+  // Warm the rewarded ad so "Watch an ad to unlock" is ready by the time a locked workout is opened.
+  useEffect(() => {
+    preloadRewarded();
+  }, []);
+
+  // Where ads run, a locked workout opens its page, which offers "Watch an ad to unlock" alongside Premium.
+  // Elsewhere (no ads) it goes straight to the paywall, as before.
+  const openLockedWorkout = (workoutId: string) =>
+    ADS_SUPPORTED ? router.push(`/workout/${workoutId}` as any) : setPaywallReason("prepared_workout");
+
   const handleEnroll = (workout: typeof PREPARED_WORKOUTS[0]) => {
-    if (access.isPreparedWorkoutLocked(preparedIndex(workout.id))) return setPaywallReason("prepared_workout");
+    if (access.isPreparedWorkoutLocked(preparedIndex(workout.id), workout.id)) return openLockedWorkout(workout.id);
     if (!access.canCreatePlan) return setPaywallReason("plan_limit");
 
     const allExs = workout.exercises.map(id => {
@@ -552,7 +572,7 @@ export function LibraryScreen() {
   };
 
   const handlePlay = (workout: typeof PREPARED_WORKOUTS[0]) => {
-    if (access.isPreparedWorkoutLocked(preparedIndex(workout.id))) return setPaywallReason("prepared_workout");
+    if (access.isPreparedWorkoutLocked(preparedIndex(workout.id), workout.id)) return openLockedWorkout(workout.id);
 
     let generated = workout.exercises
       .map(id => getExerciseById(id))
@@ -624,13 +644,11 @@ export function LibraryScreen() {
           contentContainerStyle={styles.discoverGridContent}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => {
-            const locked = access.isPreparedWorkoutLocked(preparedIndex(item.id));
+            const locked = access.isPreparedWorkoutLocked(preparedIndex(item.id), item.id);
             return (
             <Pressable
               style={[styles.discoverCard, locked && { opacity: 0.6 }]}
-              onPress={() =>
-                locked ? setPaywallReason("prepared_workout") : router.push(`/workout/${item.id}` as any)
-              }
+              onPress={() => (locked ? openLockedWorkout(item.id) : router.push(`/workout/${item.id}` as any))}
             >
               <View style={styles.discoverCardHeader}>
                 <View style={[styles.discoverCategoryPill,
@@ -1125,6 +1143,19 @@ export function LiveScreen() {
     }).start();
   }, [s.livePhase, s.restRemaining, restDuration, restProgress]);
 
+  // Load an interstitial while the user trains so it's ready at the end of the workout.
+  useEffect(() => {
+    preloadInterstitial();
+  }, []);
+
+  // Save the workout as soon as it's finished, before any ad can appear, and only once per session.
+  const savedRef = useRef(false);
+  useEffect(() => {
+    if (s.livePhase !== "done" || savedRef.current || s.currentWorkout.length === 0) return;
+    savedRef.current = true;
+    useWorkoutStore.getState().finishWorkout(elapsed);
+  }, [s.livePhase, s.currentWorkout.length, elapsed]);
+
   if (!ex) return null;
 
   if (s.livePhase === "done") {
@@ -1175,8 +1206,9 @@ export function LiveScreen() {
             <Pressable
               style={styles.completeSetBtn}
               onPress={() => {
-                s.finishWorkout(elapsed);
-                router.replace("/" as any);
+                // The workout was saved when this screen appeared, so an ad here can't cost the user data.
+                // If no ad is ready (or the frequency rules say no), this goes straight home.
+                showInterstitialThen("workout_complete", () => router.replace("/" as any));
               }}
             >
               <Text style={styles.completeSetBtnText}>FINISH & GO HOME</Text>
@@ -1197,8 +1229,15 @@ export function LiveScreen() {
           text: "End Workout",
           style: "destructive",
           onPress: () => {
+            const loggedSets = useWorkoutStore
+              .getState()
+              .currentWorkout.reduce((n, e) => n + e.loggedSets.length, 0);
+            const worthAnAd = isMeaningfulSession(loggedSets, elapsed);
             s.cancelWorkout();
-            router.replace("/" as any);
+            const goHome = () => router.replace("/" as any);
+            // Only after real effort in the session; if no ad is ready the user just leaves.
+            if (worthAnAd) showInterstitialThen("workout_exit", goHome);
+            else goHome();
           }
         }
       ]
@@ -1478,11 +1517,21 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
   const workout = PREPARED_WORKOUTS.find((w) => w.id === id);
   const s = useWorkoutStore();
   const access = usePremiumAccess();
-  const locked = workout ? access.isPreparedWorkoutLocked(preparedIndex(workout.id)) : false;
+  const locked = workout ? access.isPreparedWorkoutLocked(preparedIndex(workout.id), workout.id) : false;
+  // Where ads run, a locked workout shows the unlock options first and the paywall opens only when the
+  // user picks Premium. Without ads there is nothing else to offer, so it opens straight away, as before.
   const [paywallReason, setPaywallReason] = useState<PaywallReason | null>(
-    locked ? "prepared_workout" : null,
+    locked && !ADS_SUPPORTED ? "prepared_workout" : null,
   );
   const [exercises, setExercises] = useState<WorkoutExercise[]>([]);
+  const rewardedStatus = useRewardedStatus();
+  const [adBusy, setAdBusy] = useState(false);
+  const [adMessage, setAdMessage] = useState<string | null>(null);
+
+  // Keep a rewarded ad loading whenever the unlock options are on screen.
+  useEffect(() => {
+    if (locked) preloadRewarded();
+  }, [locked]);
 
   useEffect(() => {
     if (workout && !locked) {
@@ -1506,12 +1555,55 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
     );
   }
 
-  // Free users can't open prepared workouts beyond the first few, even via a direct link.
+  // Free users can't open prepared workouts beyond the first few, even via a direct link. They can unlock
+  // one by watching a rewarded ad (shown only after they tap the button) or by going Premium.
   if (locked) {
+    const adLoading = rewardedStatus === "idle" || rewardedStatus === "loading";
+    const watchDisabled = adBusy || adLoading;
+    const watchLabel = adBusy
+      ? "Opening ad…"
+      : adLoading
+        ? "Loading ad…"
+        : rewardedStatus === "unavailable"
+          ? "Ad unavailable. Tap to retry"
+          : "Watch an ad to unlock this workout";
+    const unlockHours = Math.round(REWARDED_UNLOCK_MS / (60 * 60 * 1000));
+
+    const handleWatchAd = async () => {
+      if (adBusy) return;
+      setAdMessage(null);
+      if (rewardedStatus === "unavailable") return preloadRewarded(); // retry loading
+      setAdBusy(true);
+      const result = await showRewardedForWorkout(workout.id);
+      setAdBusy(false);
+      // "earned": the unlock is already stored, so `locked` flips and this screen becomes the workout.
+      if (result === "not_earned") setAdMessage("Watch the whole ad to unlock this workout.");
+      if (result === "unavailable") setAdMessage("No ad is available right now. Please try again in a moment.");
+    };
+
     return (
       <View style={detailStyles.notFound}>
         <Lock color={theme.neon} size={48} />
         <Text style={detailStyles.notFoundText}>{workout.title} is a Premium workout</Text>
+        {ADS_SUPPORTED && (
+          <View style={detailStyles.unlockAdWrap}>
+            <Pressable
+              onPress={handleWatchAd}
+              disabled={watchDisabled}
+              accessibilityRole="button"
+              accessibilityState={{ disabled: watchDisabled, busy: watchDisabled }}
+              style={[detailStyles.unlockAdBtn, watchDisabled && { opacity: 0.55 }]}
+            >
+              {watchDisabled ? (
+                <ActivityIndicator size="small" color={theme.background} />
+              ) : (
+                <Play size={16} color={theme.background} />
+              )}
+              <Text style={detailStyles.unlockAdBtnText}>{watchLabel}</Text>
+            </Pressable>
+            <Text style={detailStyles.unlockAdNote}>{adMessage ?? `Free for ${unlockHours} hours`}</Text>
+          </View>
+        )}
         <Pressable onPress={() => setPaywallReason("prepared_workout")}>
           <Text style={{ color: theme.neon, marginTop: 20, fontWeight: "800" }}>Unlock with Premium</Text>
         </Pressable>
@@ -2609,6 +2701,35 @@ const detailStyles = StyleSheet.create({
     color: theme.muted,
     fontSize: 18,
     fontWeight: "700",
+  },
+
+  /* Locked workout: "Watch an ad to unlock" */
+  unlockAdWrap: {
+    alignItems: "center",
+    gap: 8,
+    marginTop: 8,
+    paddingHorizontal: 24,
+  },
+  unlockAdBtn: {
+    backgroundColor: theme.neon,
+    minHeight: 52,
+    borderRadius: 16,
+    paddingHorizontal: 22,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+  },
+  unlockAdBtnText: {
+    color: theme.background,
+    fontSize: 15,
+    fontWeight: "900",
+    letterSpacing: 0.5,
+  },
+  unlockAdNote: {
+    color: theme.muted,
+    fontSize: 13,
+    textAlign: "center",
   },
 
   /* Header */
