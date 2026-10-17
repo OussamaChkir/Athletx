@@ -12,20 +12,24 @@ import { Platform } from "react-native";
 type PlatformUnits = { interstitial: string; rewarded: string } | null;
 
 /**
- * Ads are Android-only for now: these units belong to the Android AdMob app. To enable iOS, create an
- * iOS app and two units in AdMob, fill in `ios` below, and replace the sample `iosAppId` in app.json.
+ * AdMob units belong to one platform's AdMob app. These two are under the iOS app "Athletx: Workout
+ * Planner" (App ID ca-app-pub-8362632054070515~1616962206, App Store id 6818331268).
+ *
+ * Android has no units yet, so ads are off there. To enable them: in AdMob, create an interstitial and a
+ * rewarded unit under the ANDROID app, then fill in `android` below (and keep `androidAppId` in app.json
+ * identical to the App ID in android/app/src/main/AndroidManifest.xml).
  */
 const AD_UNITS: Record<"android" | "ios", PlatformUnits> = {
-  android: {
+  android: null,
+  ios: {
     /** AdMob unit "athletx_workout_interstitial" */
     interstitial: "ca-app-pub-8362632054070515/4668439442",
     /** AdMob unit "athletx_prepared_workout_rewarded" */
     rewarded: "ca-app-pub-8362632054070515/7363630400",
   },
-  ios: null,
 };
 
-/** The units for the platform we're running on, or null where ads are not supported (iOS, web). */
+/** The units for the platform we're running on, or null where ads are not supported (Android for now, web). */
 export const PLATFORM_AD_UNITS: PlatformUnits =
   Platform.OS === "android" || Platform.OS === "ios" ? AD_UNITS[Platform.OS] : null;
 
