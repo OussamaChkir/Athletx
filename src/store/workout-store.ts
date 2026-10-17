@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { DEFAULT_EQUIPMENT, FOCUS_PRESETS } from "@/lib/constants";
+import { canCreatePlan } from "@/lib/entitlements";
 import { createId } from "@/lib/id";
 import { generateWorkout } from "@/lib/exercises";
 import type {
@@ -15,6 +16,7 @@ import type {
   WorkoutHistoryEntry,
 } from "@/lib/types";
 import type { OnboardingStateData } from "./onboarding-store";
+import { usePremiumStore } from "./premium-store";
 
 /* ---- Weekly plan types ---- */
 export interface DayPlan {
@@ -151,7 +153,8 @@ type State = {
   cancelWorkout(): void;
   loadDayWorkout(dayIndex: number): void;
   setActivePlan(id: string): void;
-  addPlan(plan: WeekPlan): void;
+  /** Returns false (and adds nothing) when a free user has reached the plan limit. */
+  addPlan(plan: WeekPlan): boolean;
   updatePlan(id: string, patch: Partial<Omit<WeekPlan, "id">>): void;
   deletePlan(id: string): void;
 };
@@ -459,7 +462,12 @@ export const useWorkoutStore = create<State>()(
         });
       },
 
-      addPlan: (plan) => set((s) => ({ plans: [...s.plans, plan], activePlanId: plan.id })),
+      addPlan: (plan) => {
+        const s = get();
+        if (!canCreatePlan(s.plans.length, usePremiumStore.getState().isPremium)) return false;
+        set({ plans: [...s.plans, plan], activePlanId: plan.id });
+        return true;
+      },
       updatePlan: (id, patch) =>
         set((s) => ({
           plans: s.plans.map((p) => (p.id === id ? { ...p, ...patch } : p)),

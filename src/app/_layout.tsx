@@ -1,8 +1,14 @@
+import { useEffect } from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { initPurchases } from "@/lib/purchases";
 
 export default function Layout() {
+  useEffect(() => {
+    initPurchases();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style="light" />

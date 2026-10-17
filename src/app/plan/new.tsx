@@ -26,6 +26,9 @@ import {
 import { theme } from "@/lib/theme";
 import { MUSCLES } from "@/lib/constants";
 import { createWorkoutExercise, filterExercises } from "@/lib/exercises";
+import { usePremiumAccess } from "@/lib/use-premium-access";
+import { PremiumPopup } from "@/components/premium-popup";
+import { usePremiumStore } from "@/store/premium-store";
 import { useWorkoutStore, type WeekPlan, type DayPlan } from "@/store/workout-store";
 import { createId } from "@/lib/id";
 import type { Exercise, MuscleId, WorkoutExercise } from "@/lib/types";
@@ -89,6 +92,28 @@ export default function NewPlanScreen() {
   const { planId } = useLocalSearchParams<{ planId?: string }>();
   const existingPlan = planId ? s.plans.find((p) => p.id === planId) ?? null : null;
   const isEditing = existingPlan !== null;
+
+  // Free users are capped on plan count. The home screen already blocks the button; this covers
+  // direct links. It's a snapshot taken once: saving a plan changes the count, which must not
+  // re-trigger the paywall while we navigate back.
+  const access = usePremiumAccess();
+  const [blockedOnEntry] = useState(() => !isEditing && !access.canCreatePlan);
+  const [paywallVisible, setPaywallVisible] = useState(false);
+
+  useEffect(() => {
+    if (!blockedOnEntry) return;
+    // Wait for the modal route's presentation animation before showing another modal on top.
+    const t = setTimeout(() => setPaywallVisible(true), 400);
+    return () => clearTimeout(t);
+  }, [blockedOnEntry]);
+
+  const closePaywall = () => {
+    setPaywallVisible(false);
+    // Still on the free tier after dismissing: there's nothing to do on this screen.
+    if (blockedOnEntry && !usePremiumStore.getState().isPremium) {
+      setTimeout(() => router.back(), 300);
+    }
+  };
 
   const [name, setName] = useState(existingPlan?.name ?? "My Custom Plan");
 
@@ -240,7 +265,11 @@ export default function NewPlanScreen() {
         phaseName: "Custom",
         days: dayPlans,
       };
-      s.addPlan(newPlan);
+      // The store refuses the add when a free user is at the limit; keep their work and show the paywall.
+      if (!s.addPlan(newPlan)) {
+        setPaywallVisible(true);
+        return;
+      }
     }
     router.back();
   };
@@ -295,6 +324,8 @@ export default function NewPlanScreen() {
             <Text style={ss.saveBtnText}>{isEditing ? "Save Changes" : "Save Plan"}</Text>
           </Pressable>
         </View>
+
+      <PremiumPopup visible={paywallVisible} reason="plan_limit" onClose={closePaywall} />
 
       {/* ────── Single Modal (Day Editor + Exercise Picker pages) ────── */}
       <Modal visible={editingDayIdx !== null} transparent animationType="slide">

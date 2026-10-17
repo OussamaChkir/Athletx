@@ -49,6 +49,7 @@ import {
   X,
   Minus,
   Leaf,
+  Lock,
   Trophy,
   Activity,
   Target
@@ -62,6 +63,9 @@ import { useOnboardingStore } from "@/store/onboarding-store";
 import { useWeightUnit } from "@/lib/units";
 import { convertWeight, fromKg, roundWeight, toKg } from "@/lib/weight";
 import { BodyWeightCard } from "@/components/body-weight-card";
+import { PremiumPopup } from "@/components/premium-popup";
+import type { PaywallReason } from "@/lib/entitlements";
+import { usePremiumAccess } from "@/lib/use-premium-access";
 /*import { AdBanner } from "@/components/AdBanner"; */
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -114,6 +118,8 @@ export function TrainScreen() {
   const [selectedDay, setSelectedDay] = useState(() => new Date().getDay());
   const [planDropdownVisible, setPlanDropdownVisible] = useState(false);
   const [calendarVisible, setCalendarVisible] = useState(false);
+  const [paywallReason, setPaywallReason] = useState<PaywallReason | null>(null);
+  const access = usePremiumAccess();
 
   // Weekly Streak Calculation
   const history = s.history;
@@ -396,15 +402,30 @@ export function TrainScreen() {
               style={styles.dropdownAddBtn}
               onPress={() => {
                 setPlanDropdownVisible(false);
+                if (!access.canCreatePlan) {
+                  // Let the dropdown modal finish dismissing before presenting the paywall (iOS can't stack modals).
+                  setTimeout(() => setPaywallReason("plan_limit"), 350);
+                  return;
+                }
                 router.push("/plan/new" as any);
               }}
             >
-              <Plus size={16} color={theme.neon} />
+              {access.canCreatePlan ? (
+                <Plus size={16} color={theme.neon} />
+              ) : (
+                <Lock size={16} color={theme.neon} />
+              )}
               <Text style={styles.dropdownAddText}>Add New Plan</Text>
             </Pressable>
           </View>
         </Pressable>
       </Modal>
+
+      <PremiumPopup
+        visible={paywallReason !== null}
+        reason={paywallReason ?? undefined}
+        onClose={() => setPaywallReason(null)}
+      />
 
       {/* ---- Calendar Modal ---- */}
       <Modal visible={calendarVisible} transparent animationType="fade">
@@ -469,11 +490,19 @@ const PREPARED_WORKOUTS = [
   { id: "6", category: "HIIT", title: "CARDIO SHRED", duration: "20M", programLength: 4, daysPerWeek: 3, exercises: ["93d9d9a4c7784c30bc61f212", "7e98a9f926a14828b088b1a6", "871005c833264f8089a581a3", "c02331ff2d714cccb2e30c4e", "292cb10f62224d51a4870bca"], icon: "Zap" },
 ];
 
+/** Position of a prepared workout in the list. The first FREE_PREPARED_WORKOUT_COUNT are free. */
+const preparedIndex = (id: string) => PREPARED_WORKOUTS.findIndex((w) => w.id === id);
+
 export function LibraryScreen() {
   const [query, setQuery] = useState("");
+  const [paywallReason, setPaywallReason] = useState<PaywallReason | null>(null);
   const s = useWorkoutStore();
+  const access = usePremiumAccess();
 
   const handleEnroll = (workout: typeof PREPARED_WORKOUTS[0]) => {
+    if (access.isPreparedWorkoutLocked(preparedIndex(workout.id))) return setPaywallReason("prepared_workout");
+    if (!access.canCreatePlan) return setPaywallReason("plan_limit");
+
     const allExs = workout.exercises.map(id => {
       const ex = getExerciseById(id);
       return ex ? createWorkoutExercise(ex, "hypertrophy") : null;
@@ -517,12 +546,14 @@ export function LibraryScreen() {
       days
     };
 
-    s.addPlan(newPlan);
+    if (!s.addPlan(newPlan)) return setPaywallReason("plan_limit");
     Alert.alert("Enrolled", `You have successfully enrolled in ${workout.title}!`);
     router.replace("/" as any);
   };
 
   const handlePlay = (workout: typeof PREPARED_WORKOUTS[0]) => {
+    if (access.isPreparedWorkoutLocked(preparedIndex(workout.id))) return setPaywallReason("prepared_workout");
+
     let generated = workout.exercises
       .map(id => getExerciseById(id))
       .filter((e): e is NonNullable<typeof e> => e !== undefined)
@@ -592,8 +623,15 @@ export function LibraryScreen() {
           columnWrapperStyle={styles.discoverGridRow}
           contentContainerStyle={styles.discoverGridContent}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <Pressable style={styles.discoverCard} onPress={() => router.push(`/workout/${item.id}` as any)}>
+          renderItem={({ item }) => {
+            const locked = access.isPreparedWorkoutLocked(preparedIndex(item.id));
+            return (
+            <Pressable
+              style={[styles.discoverCard, locked && { opacity: 0.6 }]}
+              onPress={() =>
+                locked ? setPaywallReason("prepared_workout") : router.push(`/workout/${item.id}` as any)
+              }
+            >
               <View style={styles.discoverCardHeader}>
                 <View style={[styles.discoverCategoryPill,
                 item.category === "LEGS" ? { backgroundColor: "#1c2a47" } :
@@ -610,7 +648,8 @@ export function LibraryScreen() {
                           { color: theme.text }
                   ]}>{item.category}</Text>
                 </View>
-                {item.icon === "Flame" ? <Flame size={14} color="#ff453a" /> :
+                {locked ? <Lock size={14} color={theme.neon} /> :
+                  item.icon === "Flame" ? <Flame size={14} color="#ff453a" /> :
                   item.icon === "Zap" ? <Zap size={14} color="#ff9f0a" /> :
                     <Leaf size={14} color="#30d158" />}
               </View>
@@ -628,14 +667,20 @@ export function LibraryScreen() {
                   <Text style={styles.discoverCardMetaText}>{item.exercises.length}X</Text>
                 </View>
                 <Pressable style={styles.discoverPlayBtn} onPress={() => handleEnroll(item)}>
-                  <Plus size={12} color={theme.text} />
+                  {locked ? <Lock size={12} color={theme.text} /> : <Plus size={12} color={theme.text} />}
                 </Pressable>
               </View>
             </Pressable>
-          )}
+            );
+          }}
         />
       </SafeAreaView>
 
+      <PremiumPopup
+        visible={paywallReason !== null}
+        reason={paywallReason ?? undefined}
+        onClose={() => setPaywallReason(null)}
+      />
     </View>
   );
 }
@@ -1432,17 +1477,22 @@ export function ExerciseDetail({ id }: { id: string }) {
 export function WorkoutDetailScreen({ id }: { id: string }) {
   const workout = PREPARED_WORKOUTS.find((w) => w.id === id);
   const s = useWorkoutStore();
+  const access = usePremiumAccess();
+  const locked = workout ? access.isPreparedWorkoutLocked(preparedIndex(workout.id)) : false;
+  const [paywallReason, setPaywallReason] = useState<PaywallReason | null>(
+    locked ? "prepared_workout" : null,
+  );
   const [exercises, setExercises] = useState<WorkoutExercise[]>([]);
 
   useEffect(() => {
-    if (workout) {
+    if (workout && !locked) {
       const generated = workout.exercises
         .map(id => getExerciseById(id))
         .filter((e): e is NonNullable<typeof e> => e !== undefined)
         .map(e => createWorkoutExercise(e, "hypertrophy"));
       setExercises(generated);
     }
-  }, [workout]);
+  }, [workout, locked]);
 
   if (!workout) {
     return (
@@ -1456,8 +1506,30 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
     );
   }
 
+  // Free users can't open prepared workouts beyond the first few, even via a direct link.
+  if (locked) {
+    return (
+      <View style={detailStyles.notFound}>
+        <Lock color={theme.neon} size={48} />
+        <Text style={detailStyles.notFoundText}>{workout.title} is a Premium workout</Text>
+        <Pressable onPress={() => setPaywallReason("prepared_workout")}>
+          <Text style={{ color: theme.neon, marginTop: 20, fontWeight: "800" }}>Unlock with Premium</Text>
+        </Pressable>
+        <Pressable onPress={() => router.back()}>
+          <Text style={{ color: theme.muted, marginTop: 16 }}>Go Back</Text>
+        </Pressable>
+        <PremiumPopup
+          visible={paywallReason !== null}
+          reason={paywallReason ?? undefined}
+          onClose={() => setPaywallReason(null)}
+        />
+      </View>
+    );
+  }
+
   const handleEnroll = () => {
     if (!exercises.length || !workout) return;
+    if (!access.canCreatePlan) return setPaywallReason("plan_limit");
 
     const days: DayPlan[] = [];
     const activeDays = [1, 3, 5, 2, 4, 6].slice(0, workout.daysPerWeek).sort();
@@ -1488,7 +1560,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
     }
 
     const planId = Math.random().toString(36).slice(2);
-    s.addPlan({
+    const added = s.addPlan({
       id: planId,
       name: workout.title,
       weekNumber: 1,
@@ -1496,6 +1568,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
       phaseName: workout.category,
       days,
     });
+    if (!added) return setPaywallReason("plan_limit");
     s.setActivePlan(planId);
     Alert.alert("Enrolled", `You have successfully enrolled in ${workout.title}!`);
     router.replace("/" as any);
@@ -1588,6 +1661,12 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
           </View>
         </Pressable>
       </View>
+
+      <PremiumPopup
+        visible={paywallReason !== null}
+        reason={paywallReason ?? undefined}
+        onClose={() => setPaywallReason(null)}
+      />
     </View>
   );
 }

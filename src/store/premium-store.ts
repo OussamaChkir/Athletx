@@ -12,7 +12,8 @@ export interface PremiumState {
   hasHydrated: boolean;
 
   /* Actions */
-  setPremium: (plan: PlanId | null) => void;
+  /** Mirrors RevenueCat's entitlement state. RevenueCat is the source of truth; this is a local cache. */
+  setEntitlement: (isPremium: boolean, plan: PlanId | null) => void;
   setHasHydrated: (val: boolean) => void;
 }
 
@@ -23,7 +24,7 @@ export const usePremiumStore = create<PremiumState>()(
       activePlan: null,
       hasHydrated: false,
 
-      setPremium: (plan) => set({ isPremium: plan !== null, activePlan: plan }),
+      setEntitlement: (isPremium, plan) => set({ isPremium, activePlan: isPremium ? plan : null }),
       setHasHydrated: (val) => set({ hasHydrated: val }),
     }),
     {
