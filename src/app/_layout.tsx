@@ -2,11 +2,14 @@ import { useEffect } from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { initAds } from "@/lib/ads";
 import { initPurchases } from "@/lib/purchases";
 
 export default function Layout() {
   useEffect(() => {
     initPurchases();
+    // Consent form (where required) and SDK start; also preloads the first interstitial.
+    void initAds();
   }, []);
 
   return (
