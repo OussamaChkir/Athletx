@@ -101,6 +101,14 @@ export function initPurchases(): boolean {
     return false;
   }
 
+  // RevenueCat's Test Store keys ("test_...") only work in debug/dev-client builds: the SDK deliberately
+  // crashes the app when one is found in a release binary (EAS `preview` and `production` are release builds).
+  // Stay in free mode instead of crashing; set the real "appl_..." / "goog_..." key for those builds.
+  if (!__DEV__ && API_KEY.startsWith("test_")) {
+    console.warn("[purchases] Test Store API key in a release build; skipping RevenueCat. Use the real store key.");
+    return false;
+  }
+
   try {
     if (__DEV__) Purchases.setLogLevel(LOG_LEVEL.DEBUG);
     Purchases.configure({ apiKey: API_KEY });
