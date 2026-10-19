@@ -14,10 +14,11 @@ import {
 } from "react-native";
 import * as Haptics from "expo-haptics";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { CheckIcon, CrownIcon, XIcon } from "lucide-react-native";
+import { CheckIcon, CrownIcon, GiftIcon, XIcon } from "lucide-react-native";
 import { theme } from "@/lib/theme";
 import { PAYWALL_MESSAGES, type PaywallReason } from "@/lib/entitlements";
 import {
+  FREE_TRIAL_DAYS,
   PREMIUM_BENEFITS,
   PREMIUM_PLANS,
   PRIVACY_URL,
@@ -56,7 +57,9 @@ function PlanCard({
   const isYearly = planId === "yearly";
   const priceText = livePrice?.priceString ?? formatUsd(plan.price);
   const perMonthText = livePrice?.pricePerMonthString ?? formatUsd(plan.price / 12);
-  const perMonth = isYearly ? `${perMonthText} / month` : "Billed every month";
+  const perMonth = isYearly
+    ? `${FREE_TRIAL_DAYS} days free · then ${perMonthText} / month`
+    : `${FREE_TRIAL_DAYS} days free · then billed monthly`;
 
   return (
     <Pressable
@@ -222,6 +225,12 @@ export function PremiumPopup({
               Unlock your{"\n"}
               <Text style={{ color: theme.neon }}>full potential</Text>
             </Text>
+            {!isPremium && (
+              <View style={styles.trialPill} accessibilityLabel={`${FREE_TRIAL_DAYS} days free trial`}>
+                <GiftIcon size={14} color={theme.background} strokeWidth={2.6} />
+                <Text style={styles.trialPillText}>{FREE_TRIAL_DAYS} DAYS FREE</Text>
+              </View>
+            )}
             {reason && !isPremium && <Text style={styles.reason}>{PAYWALL_MESSAGES[reason]}</Text>}
 
             {/* Benefits */}
@@ -291,15 +300,18 @@ export function PremiumPopup({
                     {busy ? (
                       <ActivityIndicator color={theme.background} />
                     ) : (
-                      <Text style={styles.ctaText}>CONTINUE</Text>
+                      <Text style={styles.ctaText} numberOfLines={1} adjustsFontSizeToFit>
+                        START {FREE_TRIAL_DAYS}-DAY FREE TRIAL
+                      </Text>
                     )}
                   </Pressable>
                 </Animated.View>
 
                 <Text style={styles.finePrint}>
-                  {selectedPriceText} per {plan.period}. Cancel anytime. Your subscription renews automatically
-                  unless canceled at least 24 hours before the end of the current period, and payment is charged to
-                  your {storeName} account.
+                  Try free for {FREE_TRIAL_DAYS} days, then {selectedPriceText} per {plan.period}. Cancel anytime
+                  before the trial ends and you won&apos;t be charged. Your subscription renews automatically unless
+                  canceled at least 24 hours before the end of the trial or current period, and payment is charged
+                  to your {storeName} account once the free trial ends.
                 </Text>
               </>
             )}
@@ -427,6 +439,23 @@ const styles = StyleSheet.create({
     letterSpacing: -1,
     textAlign: "center",
     marginBottom: 16,
+  },
+  trialPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: theme.neon,
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    marginTop: -6,
+    marginBottom: 14,
+  },
+  trialPillText: {
+    color: theme.background,
+    fontSize: 12,
+    fontWeight: "900",
+    letterSpacing: 1.2,
   },
   reason: {
     color: theme.muted,
