@@ -34,6 +34,7 @@ import {
   Calendar,
   ChevronDown,
   Clock,
+  Crown,
   Dumbbell,
   Edit3,
   Flame,
@@ -129,6 +130,7 @@ export function TrainScreen() {
   const [planDropdownVisible, setPlanDropdownVisible] = useState(false);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [paywallReason, setPaywallReason] = useState<PaywallReason | null>(null);
+  const [premiumVisible, setPremiumVisible] = useState(false);
   const access = usePremiumAccess();
 
   // Weekly Streak Calculation
@@ -197,6 +199,14 @@ export function TrainScreen() {
             <ChevronDown size={16} color={theme.muted} />
           </Pressable>
           <View style={styles.homeHeaderRight}>
+            <Pressable
+              style={[styles.headerIcon, styles.headerIconPremium]}
+              onPress={() => setPremiumVisible(true)}
+              accessibilityRole="button"
+              accessibilityLabel={access.isPremium ? "Premium" : "Go Premium"}
+            >
+              <Crown size={20} color={theme.neon} />
+            </Pressable>
             <Pressable style={styles.headerIcon} onPress={() => setCalendarVisible(true)}>
               <Calendar size={20} color={theme.text} />
             </Pressable>
@@ -432,9 +442,12 @@ export function TrainScreen() {
       </Modal>
 
       <PremiumPopup
-        visible={paywallReason !== null}
+        visible={paywallReason !== null || premiumVisible}
         reason={paywallReason ?? undefined}
-        onClose={() => setPaywallReason(null)}
+        onClose={() => {
+          setPaywallReason(null);
+          setPremiumVisible(false);
+        }}
       />
 
       {/* ---- Calendar Modal ---- */}
@@ -1919,6 +1932,10 @@ const styles = StyleSheet.create({
     borderColor: theme.border,
     alignItems: "center",
     justifyContent: "center",
+  },
+  headerIconPremium: {
+    backgroundColor: "rgba(8,253,142,0.10)",
+    borderColor: theme.neon,
   },
 
   /* -- Filter chips -- */

@@ -31,6 +31,13 @@ export const PREMIUM_PLANS: Record<PlanId, PremiumPlan> = {
   },
 };
 
+/**
+ * Length of the free trial advertised on the paywall. This is display text only: the trial itself must be
+ * configured in the stores (App Store Connect introductory offer / Google Play base plan free-trial offer)
+ * with the same length, otherwise users would be charged immediately.
+ */
+export const FREE_TRIAL_DAYS = 7;
+
 /** Percentage saved by choosing yearly over twelve monthly payments. */
 export const YEARLY_SAVINGS_PERCENT = Math.round(
   (1 - PREMIUM_PLANS.yearly.price / (PREMIUM_PLANS.monthly.price * 12)) * 100,
