@@ -198,7 +198,7 @@ export default function SettingsScreen() {
           <Text style={styles.resetText}>Log out</Text>
         </Pressable>
 
-        <Text style={styles.version}>ATHLETX v1.2.1</Text>
+        <Text style={styles.version}>ATHLETX v1.2.2</Text>
       </ScrollView>
 
       <PremiumPopup visible={premiumVisible} onClose={() => setPremiumVisible(false)} />
