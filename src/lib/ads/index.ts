@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import type * as AdsSdkModule from "react-native-google-mobile-ads";
 import { useAdsStore, todayKey, type RewardedStatus } from "@/store/ads-store";
 import { usePremiumStore } from "@/store/premium-store";
@@ -81,7 +82,29 @@ function createAd(s: AdsSdk, kind: Kind, unitId: string): FullscreenAd {
 let initPromise: Promise<boolean> | null = null;
 
 /**
- * Gathers consent (Google's UMP form, shown only where required, e.g. EEA/UK), then starts the SDK.
+ * iOS App Tracking Transparency: shows Apple's system prompt the first time (the text comes from
+ * NSUserTrackingUsageDescription, set in app.json). Must run before the ad SDK collects any data used to
+ * track the user. Never throws; if the user declines or the prompt can't be shown, ads are still served
+ * (non-personalized) and the app works the same.
+ */
+async function requestTrackingPermission(): Promise<void> {
+  if (Platform.OS !== "ios") return;
+  try {
+    // Loaded lazily so a binary built before the package was added doesn't crash at import time.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const att = require("expo-tracking-transparency") as typeof import("expo-tracking-transparency");
+    const { status, canAskAgain } = await att.getTrackingPermissionsAsync();
+    if (status === att.PermissionStatus.UNDETERMINED && canAskAgain) {
+      await att.requestTrackingPermissionsAsync();
+    }
+  } catch {
+    // Continue without tracking permission; the SDK then treats the user as not having granted it.
+  }
+}
+
+/**
+ * Asks for tracking permission (iOS), gathers consent (Google's UMP form, shown only where required,
+ * e.g. EEA/UK), then starts the SDK.
  * Safe to call repeatedly: concurrent calls share one run, and a failed run is retried on the next call.
  * Resolves to whether ads can be requested.
  */
@@ -91,6 +114,9 @@ export function initAds(): Promise<boolean> {
   if (initPromise) return initPromise;
 
   initPromise = (async () => {
+    // ATT must be answered before consent gathering and SDK start (Apple guideline 5.1.2(i)).
+    await requestTrackingPermission();
+
     let canRequestAds = false;
     try {
       canRequestAds = (await s.AdsConsent.gatherConsent()).canRequestAds;
