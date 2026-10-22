@@ -3,9 +3,17 @@ import { useOnboardingStore } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 import { FormInput } from "@/components/onboarding/FormInput";
 import { heightToCm } from "@/lib/weight";
+import { HealthSourcesLink } from "@/components/health-sources";
+import {
+  BMI_CATEGORY_TEXT,
+  MINOR_BMI_TEXT,
+  adultBmiCategory,
+  isUnderAdultAge,
+  type BmiCategory,
+} from "@/lib/health-sources";
 
 export default function StepWeight() {
-  const { weight, height, setField, setWeightUnit } = useOnboardingStore();
+  const { weight, height, age, setField, setWeightUnit } = useOnboardingStore();
 
   const toggleUnit = () => {
     setWeightUnit(weight.unit === "kg" ? "lb" : "kg");
@@ -23,22 +31,25 @@ export default function StepWeight() {
 
   const bmi = calculateBMI();
 
+  const BMI_COLORS: Record<BmiCategory, string> = {
+    underweight: theme.ember,
+    healthy: theme.neon,
+    overweight: theme.ember,
+    obese: theme.danger,
+  };
+
+  // Adult cut-offs (WHO / CDC) don't apply under 18, so no category is shown for minors.
+  const isMinor = isUnderAdultAge(age);
   let bmiMsg = "";
   let bmiColor: string = theme.muted;
 
   if (bmi) {
-    if (bmi < 18.5) {
-      bmiMsg = "Underweight - Focus on a caloric surplus and strength training.";
-      bmiColor = theme.ember;
-    } else if (bmi < 25) {
-      bmiMsg = "Healthy weight - Great! Focus on body recomposition or maintaining.";
-      bmiColor = theme.neon;
-    } else if (bmi < 30) {
-      bmiMsg = "Overweight - A slight caloric deficit is recommended.";
-      bmiColor = theme.ember;
+    if (isMinor) {
+      bmiMsg = MINOR_BMI_TEXT;
     } else {
-      bmiMsg = "Obese - Focus on a sustainable caloric deficit and daily activity.";
-      bmiColor = theme.danger;
+      const category = adultBmiCategory(bmi);
+      bmiMsg = BMI_CATEGORY_TEXT[category];
+      bmiColor = BMI_COLORS[category];
     }
   }
 
@@ -75,6 +86,10 @@ export default function StepWeight() {
         <View style={[styles.bmiCard, { borderColor: bmiColor }]}>
           <Text style={[styles.bmiLabel, { color: bmiColor }]}>ESTIMATED BMI: {bmi.toFixed(1)}</Text>
           <Text style={styles.bmiMsg}>{bmiMsg}</Text>
+          <Text style={styles.bmiNote}>
+            Estimate only, not medical advice. Ranges based on WHO and CDC BMI classifications.
+          </Text>
+          <HealthSourcesLink />
         </View>
       )}
     </View>
@@ -153,5 +168,11 @@ const styles = StyleSheet.create({
     color: theme.text,
     fontSize: 14,
     lineHeight: 20,
+  },
+  bmiNote: {
+    color: theme.muted,
+    fontSize: 12,
+    lineHeight: 17,
+    marginTop: 8,
   },
 });

@@ -13,7 +13,7 @@ ATHLETX is designed to respect your privacy. The app stores your workout data, s
 All personal and sensitive data remains securely on your device. We encourage you to use your device's built-in security features (such as a passcode or biometrics) to protect your local data.
 
 ## 4. Third-Party Services
-We use Google AdMob for advertising. Google may use the advertising ID from the device on which the ad is serving to generate interests and demographics. You can learn more about how Google uses information from sites or apps that use their services [here](https://policies.google.com/technologies/partner-sites). If applicable based on your region (e.g., EU or UK), you will be asked for your consent before personalized ads are shown.
+We use Google AdMob for advertising. Google may use the advertising ID from the device on which the ad is serving to generate interests and demographics. You can learn more about how Google uses information from sites or apps that use their services [here](https://policies.google.com/technologies/partner-sites). If applicable based on your region (e.g., EU or UK), you will be asked for your consent before personalized ads are shown. On iOS, we ask for your permission through Apple's App Tracking Transparency prompt before the advertising identifier is used to personalize ads; if you decline, you will still see ads, but they will not be personalized using that identifier.
 
 ## 5. Your Rights
 You have full control over your local data. You can delete your workouts, custom plans, or reset the app entirely from the Settings menu, which will clear all local data. You may also reset your Advertising ID or opt-out of personalized ads through your device settings.

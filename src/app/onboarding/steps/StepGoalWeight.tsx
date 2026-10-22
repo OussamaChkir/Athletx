@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { theme } from "@/lib/theme";
 import { FormInput } from "@/components/onboarding/FormInput";
+import { HealthSourcesLink } from "@/components/health-sources";
 
 export default function StepGoalWeight() {
   const { weight, goalWeight, setField } = useOnboardingStore();
@@ -18,16 +19,16 @@ export default function StepGoalWeight() {
 
   if (diffPerc !== null) {
     if (diffPerc < -15) {
-      diffMsg = `You are aiming to lose ${Math.abs(diffPerc).toFixed(1)}% of your body weight. This is a significant goal that requires a steady, long-term approach.`;
+      diffMsg = `You are aiming to lose ${Math.abs(diffPerc).toFixed(1)}% of your body weight. This is a significant goal that takes a steady, long-term approach. Check with a healthcare professional if unsure.`;
       diffColor = theme.ember;
     } else if (diffPerc < 0) {
-      diffMsg = `You are aiming to lose ${Math.abs(diffPerc).toFixed(1)}% of your body weight. This is a healthy and achievable target!`;
+      diffMsg = `You are aiming to lose ${Math.abs(diffPerc).toFixed(1)}% of your body weight. This is a moderate goal that can be approached gradually.`;
       diffColor = theme.neon;
     } else if (diffPerc > 15) {
-      diffMsg = `You are aiming to gain ${diffPerc.toFixed(1)}% of your body weight. A structured bulking phase will help you achieve this safely.`;
+      diffMsg = `You are aiming to gain ${diffPerc.toFixed(1)}% of your body weight. This is a large change, so a gradual, structured approach is usually recommended. Check with a healthcare professional if unsure.`;
       diffColor = theme.ember;
     } else if (diffPerc > 0) {
-      diffMsg = `You are aiming to gain ${diffPerc.toFixed(1)}% of your body weight. Great for building lean mass!`;
+      diffMsg = `You are aiming to gain ${diffPerc.toFixed(1)}% of your body weight. A gradual gain can support building lean mass.`;
       diffColor = theme.neon;
     } else {
       diffMsg = "You are aiming to maintain your current weight. We'll focus on body recomposition.";
@@ -62,6 +63,7 @@ export default function StepGoalWeight() {
             {diffPerc > 0 ? "TARGET GAIN" : diffPerc < 0 ? "TARGET LOSS" : "MAINTENANCE"}
           </Text>
           <Text style={styles.diffMsg}>{diffMsg}</Text>
+          <HealthSourcesLink />
         </View>
       )}
     </View>

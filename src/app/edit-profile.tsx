@@ -37,6 +37,7 @@ import {
 } from "lucide-react-native";
 import { router } from "expo-router";
 import { theme } from "@/lib/theme";
+import { HealthSourcesLink } from "@/components/health-sources";
 import { useProfileStore } from "@/store/profile-store";
 import {
   useOnboardingStore,
@@ -751,6 +752,17 @@ export default function EditProfileScreen() {
             data can be edited at any time.
           </Text>
         </View>
+
+        {/* ── Health information sources (App Store guideline 1.4.1) ── */}
+        <SectionLabel text="HEALTH INFORMATION" />
+        <FieldCard>
+          <View style={{ padding: 16 }}>
+            <Text style={[s.noticeText, { flex: 0 }]}>
+              BMI and weight-goal information in Athletx is general guidance, not medical advice.
+            </Text>
+            <HealthSourcesLink />
+          </View>
+        </FieldCard>
 
         <View style={{ height: 50 }} />
       </ScrollView>
