@@ -161,6 +161,12 @@ export function PremiumPopup({
           "Your purchase went through but Premium isn't active yet. Tap Restore in a moment, or contact support if this persists.",
         );
         break;
+      case "error":
+        Alert.alert(
+          "Purchase couldn't be completed",
+          `The store returned an error, so you haven't been charged. Please try again in a moment.\n\n${result.detail}`,
+        );
+        break;
       case "unavailable":
         Alert.alert(
           "Subscriptions unavailable",

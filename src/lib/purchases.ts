@@ -33,7 +33,9 @@ export type PurchaseResult =
   /** Restore ran fine but the account has no active subscription. */
   | { status: "nothing_to_restore" }
   /** The store charged the user but the entitlement isn't active, which points to a dashboard misconfiguration. */
-  | { status: "entitlement_missing" };
+  | { status: "entitlement_missing" }
+  /** The SDK reported an error. `detail` is a short "CODE: message" string for support and debugging. */
+  | { status: "error"; detail: string };
 
 export interface PlanPrice {
   /** Localized price string from the store, e.g. "$4.99" or "4,99 €". */
@@ -158,12 +160,27 @@ export async function loadPlanPrices(): Promise<PlanPrices> {
   return prices;
 }
 
+/** Short "CODE: message" text for a RevenueCat error (or any thrown value). */
+export function describePurchasesError(error: unknown): string {
+  const e = error as Partial<PurchasesError> | null;
+  const name = Object.entries(PURCHASES_ERROR_CODE).find(([, value]) => value === e?.code)?.[0];
+  const code = name ? `${name} (${e?.code})` : String(e?.code ?? "UNKNOWN");
+  const message = e?.underlyingErrorMessage || e?.message || String(error);
+  return `${code}: ${message}`.slice(0, 240);
+}
+
 /* ── Purchase flows used by the paywall ── */
 
 export async function purchasePlan(plan: PlanId): Promise<PurchaseResult> {
   if (!initPurchases()) return { status: "unavailable" };
 
-  if (!packages[plan]) await loadPlanPrices();
+  try {
+    if (!packages[plan]) await loadPlanPrices();
+  } catch (error) {
+    // e.g. CONFIGURATION_ERROR when the store can't return the products configured in RevenueCat.
+    console.warn("[purchases] loading offerings failed", error);
+    return { status: "error", detail: describePurchasesError(error) };
+  }
   const pkg = packages[plan];
   if (!pkg) return { status: "unavailable" };
 
@@ -177,15 +194,21 @@ export async function purchasePlan(plan: PlanId): Promise<PurchaseResult> {
       return { status: "cancelled" };
     }
     if (e.code === PURCHASES_ERROR_CODE.PAYMENT_PENDING_ERROR) return { status: "pending" };
-    throw error;
+    console.warn("[purchases] purchase failed", error);
+    return { status: "error", detail: describePurchasesError(error) };
   }
 }
 
 export async function restorePurchases(): Promise<PurchaseResult> {
   if (!initPurchases()) return { status: "unavailable" };
 
-  const { isPremium, plan } = syncCustomerInfo(await Purchases.restorePurchases());
-  return isPremium ? { status: "success", plan } : { status: "nothing_to_restore" };
+  try {
+    const { isPremium, plan } = syncCustomerInfo(await Purchases.restorePurchases());
+    return isPremium ? { status: "success", plan } : { status: "nothing_to_restore" };
+  } catch (error) {
+    console.warn("[purchases] restore failed", error);
+    return { status: "error", detail: describePurchasesError(error) };
+  }
 }
 
 /** Opens the system subscription management page (required so users can cancel). */
