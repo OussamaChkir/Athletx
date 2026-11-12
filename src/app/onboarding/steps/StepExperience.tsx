@@ -9,7 +9,7 @@ export default function StepExperience() {
 
   return (
     <View>
-      <Text style={styles.title1}>WHAT'S YOUR</Text>
+      <Text style={styles.title1}>WHAT&apos;S YOUR</Text>
       <Text style={styles.title2}>LEVEL?</Text>
       
       <Text style={styles.subtitle}>

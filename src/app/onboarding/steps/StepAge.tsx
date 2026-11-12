@@ -16,7 +16,7 @@ export default function StepAge() {
           <Text style={styles.infoIcon}>i</Text>
         </View>
         <Text style={styles.infoText}>
-          Your age helps us calculate your metabolic rate and design a workout intensity that's safe for your joints and recovery capacity.
+          Your age helps us calculate your metabolic rate and design a workout intensity that&apos;s safe for your joints and recovery capacity.
         </Text>
       </View>
 

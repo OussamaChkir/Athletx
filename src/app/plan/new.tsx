@@ -140,7 +140,7 @@ export default function NewPlanScreen() {
   // Keep plan name in sync if the plan changes externally (unlikely but safe)
   useEffect(() => {
     if (existingPlan && name === "My Custom Plan") setName(existingPlan.name);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ── Single modal with internal page state ───────────────────────
@@ -319,11 +319,11 @@ export default function NewPlanScreen() {
       </ScrollView>
 
       <View style={ss.footer}>
-          <Pressable style={ss.saveBtn} onPress={handleSavePlan}>
-            <Save size={20} color={theme.background} />
-            <Text style={ss.saveBtnText}>{isEditing ? "Save Changes" : "Save Plan"}</Text>
-          </Pressable>
-        </View>
+        <Pressable style={ss.saveBtn} onPress={handleSavePlan}>
+          <Save size={20} color={theme.background} />
+          <Text style={ss.saveBtnText}>{isEditing ? "Save Changes" : "Save Plan"}</Text>
+        </Pressable>
+      </View>
 
       <PremiumPopup visible={paywallVisible} reason="plan_limit" onClose={closePaywall} />
 
@@ -344,172 +344,172 @@ export default function NewPlanScreen() {
                   </Pressable>
                 </View>
 
-            <ScrollView contentContainerStyle={ss.modalScroll} keyboardShouldPersistTaps="handled">
-              {/* Rest / Workout toggle */}
-              <View style={ss.toggleRow}>
-                <Pressable
-                  style={[ss.toggleBtn, editIsRest && ss.toggleBtnActive]}
-                  onPress={() => setEditIsRest(true)}
-                >
-                  <Text style={[ss.toggleText, editIsRest && ss.toggleTextActive]}>Rest Day</Text>
-                </Pressable>
-                <Pressable
-                  style={[ss.toggleBtn, !editIsRest && ss.toggleBtnActive]}
-                  onPress={() => setEditIsRest(false)}
-                >
-                  <Text style={[ss.toggleText, !editIsRest && ss.toggleTextActive]}>
-                    Workout Day
-                  </Text>
-                </Pressable>
-              </View>
-
-              {!editIsRest && (
-                <>
-                  {/* Workout type label */}
-                  <Text style={ss.label}>Workout Type</Text>
-                  <TextInput
-                    style={ss.input}
-                    value={editLabel}
-                    onChangeText={setEditLabel}
-                    placeholder="E.g., Push, Upper, Legs..."
-                    placeholderTextColor={theme.muted}
-                  />
-                  <View style={ss.presetsRow}>
-                    {PRESET_LABELS.map((p) => (
-                      <Pressable
-                        key={p}
-                        style={[ss.presetChip, editLabel === p && ss.presetChipActive]}
-                        onPress={() => setEditLabel(p)}
-                      >
-                        <Text style={[ss.presetChipText, editLabel === p && ss.presetChipTextActive]}>
-                          {p}
-                        </Text>
-                      </Pressable>
-                    ))}
-                  </View>
-
-                  {/* Target muscles */}
-                  <Text style={[ss.label, { marginTop: 20 }]}>Target Muscles</Text>
-                  <View style={ss.musclesGrid}>
-                    {MUSCLES.map((m) => {
-                      const active = editMuscles.includes(m.id);
-                      return (
-                        <Pressable
-                          key={m.id}
-                          style={[ss.muscleChip, active && ss.muscleChipActive]}
-                          onPress={() => toggleEditMuscle(m.id)}
-                        >
-                          {active && (
-                            <Check size={14} color={theme.background} style={{ marginRight: 4 }} />
-                          )}
-                          <Text style={[ss.muscleText, active && ss.muscleTextActive]}>
-                            {m.label}
-                          </Text>
-                        </Pressable>
-                      );
-                    })}
-                  </View>
-
-                  {/* ── Exercises section ── */}
-                  <View style={ss.exercisesSectionHeader}>
-                    <Text style={[ss.label, { marginTop: 0, marginBottom: 0, flex: 1 }]}>
-                      Exercises ({editExercises.length})
-                    </Text>
+                <ScrollView contentContainerStyle={ss.modalScroll} keyboardShouldPersistTaps="handled">
+                  {/* Rest / Workout toggle */}
+                  <View style={ss.toggleRow}>
                     <Pressable
-                      style={ss.addExBtn}
-                      onPress={openPicker}
+                      style={[ss.toggleBtn, editIsRest && ss.toggleBtnActive]}
+                      onPress={() => setEditIsRest(true)}
                     >
-                      <Plus size={14} color={theme.background} />
-                      <Text style={ss.addExBtnText}>Add</Text>
+                      <Text style={[ss.toggleText, editIsRest && ss.toggleTextActive]}>Rest Day</Text>
                     </Pressable>
-                  </View>
-
-                  {editExercises.length === 0 ? (
                     <Pressable
-                      style={ss.emptyExercises}
-                      onPress={openPicker}
+                      style={[ss.toggleBtn, !editIsRest && ss.toggleBtnActive]}
+                      onPress={() => setEditIsRest(false)}
                     >
-                      <Dumbbell size={28} color={theme.muted} />
-                      <Text style={ss.emptyExText}>Tap to add exercises</Text>
-                      <Text style={ss.emptyExSub}>
-                        {editMuscles.length > 0
-                          ? `Filtered by: ${editMuscles.join(", ")}`
-                          : "Select muscles above to filter exercises"}
+                      <Text style={[ss.toggleText, !editIsRest && ss.toggleTextActive]}>
+                        Workout Day
                       </Text>
                     </Pressable>
-                  ) : (
-                    <View style={ss.exerciseList}>
-                      {editExercises.map((item, idx) => (
-                        <View key={item.exercise.instanceId} style={ss.exerciseCard}>
-                          {/* Header row */}
-                          <View style={ss.exCardHeader}>
-                            <View style={ss.exNumBadge}>
-                              <Text style={ss.exNumText}>{idx + 1}</Text>
-                            </View>
-                            <Text style={ss.exTitle} numberOfLines={2}>
-                              {item.exercise.title}
+                  </View>
+
+                  {!editIsRest && (
+                    <>
+                      {/* Workout type label */}
+                      <Text style={ss.label}>Workout Type</Text>
+                      <TextInput
+                        style={ss.input}
+                        value={editLabel}
+                        onChangeText={setEditLabel}
+                        placeholder="E.g., Push, Upper, Legs..."
+                        placeholderTextColor={theme.muted}
+                      />
+                      <View style={ss.presetsRow}>
+                        {PRESET_LABELS.map((p) => (
+                          <Pressable
+                            key={p}
+                            style={[ss.presetChip, editLabel === p && ss.presetChipActive]}
+                            onPress={() => setEditLabel(p)}
+                          >
+                            <Text style={[ss.presetChipText, editLabel === p && ss.presetChipTextActive]}>
+                              {p}
                             </Text>
+                          </Pressable>
+                        ))}
+                      </View>
+
+                      {/* Target muscles */}
+                      <Text style={[ss.label, { marginTop: 20 }]}>Target Muscles</Text>
+                      <View style={ss.musclesGrid}>
+                        {MUSCLES.map((m) => {
+                          const active = editMuscles.includes(m.id);
+                          return (
                             <Pressable
-                              onPress={() => removeExercise(item.exercise.instanceId)}
-                              style={ss.exDeleteBtn}
+                              key={m.id}
+                              style={[ss.muscleChip, active && ss.muscleChipActive]}
+                              onPress={() => toggleEditMuscle(m.id)}
                             >
-                              <Trash2 size={16} color={theme.muted} />
+                              {active && (
+                                <Check size={14} color={theme.background} style={{ marginRight: 4 }} />
+                              )}
+                              <Text style={[ss.muscleText, active && ss.muscleTextActive]}>
+                                {m.label}
+                              </Text>
                             </Pressable>
-                          </View>
+                          );
+                        })}
+                      </View>
 
-                          {/* Muscle tag */}
-                          <Text style={ss.exMuscleTag}>{item.exercise.mainMuscle}</Text>
+                      {/* ── Exercises section ── */}
+                      <View style={ss.exercisesSectionHeader}>
+                        <Text style={[ss.label, { marginTop: 0, marginBottom: 0, flex: 1 }]}>
+                          Exercises ({editExercises.length})
+                        </Text>
+                        <Pressable
+                          style={ss.addExBtn}
+                          onPress={openPicker}
+                        >
+                          <Plus size={14} color={theme.background} />
+                          <Text style={ss.addExBtnText}>Add</Text>
+                        </Pressable>
+                      </View>
 
-                          {/* Config row: sets / reps / rest */}
-                          <View style={ss.exConfigRow}>
-                            <View style={ss.exConfigItem}>
-                              <Text style={ss.exConfigLabel}>Sets</Text>
-                              <Stepper
-                                value={item.exercise.sets}
-                                min={1}
-                                max={10}
-                                onChange={(v) =>
-                                  updateExerciseParam(item.exercise.instanceId, "sets", v)
-                                }
-                              />
+                      {editExercises.length === 0 ? (
+                        <Pressable
+                          style={ss.emptyExercises}
+                          onPress={openPicker}
+                        >
+                          <Dumbbell size={28} color={theme.muted} />
+                          <Text style={ss.emptyExText}>Tap to add exercises</Text>
+                          <Text style={ss.emptyExSub}>
+                            {editMuscles.length > 0
+                              ? `Filtered by: ${editMuscles.join(", ")}`
+                              : "Select muscles above to filter exercises"}
+                          </Text>
+                        </Pressable>
+                      ) : (
+                        <View style={ss.exerciseList}>
+                          {editExercises.map((item, idx) => (
+                            <View key={item.exercise.instanceId} style={ss.exerciseCard}>
+                              {/* Header row */}
+                              <View style={ss.exCardHeader}>
+                                <View style={ss.exNumBadge}>
+                                  <Text style={ss.exNumText}>{idx + 1}</Text>
+                                </View>
+                                <Text style={ss.exTitle} numberOfLines={2}>
+                                  {item.exercise.title}
+                                </Text>
+                                <Pressable
+                                  onPress={() => removeExercise(item.exercise.instanceId)}
+                                  style={ss.exDeleteBtn}
+                                >
+                                  <Trash2 size={16} color={theme.muted} />
+                                </Pressable>
+                              </View>
+
+                              {/* Muscle tag */}
+                              <Text style={ss.exMuscleTag}>{item.exercise.mainMuscle}</Text>
+
+                              {/* Config row: sets / reps / rest */}
+                              <View style={ss.exConfigRow}>
+                                <View style={ss.exConfigItem}>
+                                  <Text style={ss.exConfigLabel}>Sets</Text>
+                                  <Stepper
+                                    value={item.exercise.sets}
+                                    min={1}
+                                    max={10}
+                                    onChange={(v) =>
+                                      updateExerciseParam(item.exercise.instanceId, "sets", v)
+                                    }
+                                  />
+                                </View>
+
+                                <View style={ss.exConfigDivider} />
+
+                                <View style={ss.exConfigItem}>
+                                  <Text style={ss.exConfigLabel}>Reps</Text>
+                                  <Stepper
+                                    value={item.exercise.reps}
+                                    min={1}
+                                    max={50}
+                                    onChange={(v) =>
+                                      updateExerciseParam(item.exercise.instanceId, "reps", v)
+                                    }
+                                  />
+                                </View>
+
+                                <View style={ss.exConfigDivider} />
+
+                                <View style={ss.exConfigItem}>
+                                  <Text style={ss.exConfigLabel}>Rest</Text>
+                                  <Stepper
+                                    value={item.exercise.restSeconds}
+                                    min={15}
+                                    max={300}
+                                    step={15}
+                                    onChange={(v) =>
+                                      updateExerciseParam(item.exercise.instanceId, "restSeconds", v)
+                                    }
+                                    format={(v) => `${v}s`}
+                                  />
+                                </View>
+                              </View>
                             </View>
-
-                            <View style={ss.exConfigDivider} />
-
-                            <View style={ss.exConfigItem}>
-                              <Text style={ss.exConfigLabel}>Reps</Text>
-                              <Stepper
-                                value={item.exercise.reps}
-                                min={1}
-                                max={50}
-                                onChange={(v) =>
-                                  updateExerciseParam(item.exercise.instanceId, "reps", v)
-                                }
-                              />
-                            </View>
-
-                            <View style={ss.exConfigDivider} />
-
-                            <View style={ss.exConfigItem}>
-                              <Text style={ss.exConfigLabel}>Rest</Text>
-                              <Stepper
-                                value={item.exercise.restSeconds}
-                                min={15}
-                                max={300}
-                                step={15}
-                                onChange={(v) =>
-                                  updateExerciseParam(item.exercise.instanceId, "restSeconds", v)
-                                }
-                                format={(v) => `${v}s`}
-                              />
-                            </View>
-                          </View>
+                          ))}
                         </View>
-                      ))}
-                    </View>
+                      )}
+                    </>
                   )}
-                </>
-              )}
                 </ScrollView>
 
                 <View style={ss.modalFooter}>

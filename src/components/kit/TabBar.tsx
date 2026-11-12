@@ -10,7 +10,7 @@ type BottomTabBarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>["tab
 export const TAB_BAR_HEIGHT = 72;
 
 /** Tab Bar from Figma: floating dark pill, the active tab is a lime pill with icon and label. */
-export function TabBar({ state, descriptors, navigation, insets }: BottomTabBarProps) {
+export function TabBar({ state, descriptors, emitter, navigateToTab, insets }: BottomTabBarProps) {
   return (
     <View
       pointerEvents="box-none"
@@ -24,8 +24,8 @@ export function TabBar({ state, descriptors, navigation, insets }: BottomTabBarP
           const iconColor = focused ? colors.textOnAccent : colors.textSecondary;
 
           const onPress = () => {
-            const event = navigation.emit({ type: "tabPress", target: route.key, canPreventDefault: true });
-            if (!focused && !event.defaultPrevented) navigation.navigate(route.name, route.params);
+            const event = emitter.emit({ type: "tabPress", target: route.key, canPreventDefault: true });
+            if (!focused && !event.defaultPrevented) navigateToTab(route.key);
           };
 
           return (
@@ -35,7 +35,7 @@ export function TabBar({ state, descriptors, navigation, insets }: BottomTabBarP
               accessibilityState={{ selected: focused }}
               accessibilityLabel={label}
               onPress={onPress}
-              onLongPress={() => navigation.emit({ type: "tabLongPress", target: route.key })}
+              onLongPress={() => emitter.emit({ type: "tabLongPress", target: route.key })}
               style={[styles.item, focused && styles.itemActive]}
             >
               {options.tabBarIcon?.({ focused, color: iconColor, size: 20 })}
