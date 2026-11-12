@@ -32,6 +32,7 @@ import {
 import {
   ArrowLeft,
   Calendar,
+  CalendarCheck,
   ChevronDown,
   Clock,
   Crown,
@@ -54,10 +55,20 @@ import {
   Target
 } from "lucide-react-native";
 import { EQUIPMENT_LIST, FOCUS_PRESETS, MUSCLES, MUSCLE_COLORS } from "@/lib/constants";
-import { createWorkoutExercise, filterExercises, getExerciseById } from "@/lib/exercises";
+import { filterExercises, getExerciseById } from "@/lib/exercises";
 import { colors, fonts, radius, spacing, theme } from "@/lib/theme";
-import { AppText, Button, Chip } from "@/components/kit";
-import type { WorkoutExercise, WorkoutFocus } from "@/lib/types";
+import {
+  PROGRAMS,
+  buildDayExercises,
+  dayMinutes,
+  getProgram,
+  programEquipment,
+  programIndex,
+  programMinutes,
+  type ProgramLevel,
+} from "@/lib/programs";
+import { AppText, Button, Chip, StatCard } from "@/components/kit";
+import type { WorkoutFocus } from "@/lib/types";
 import { useWorkoutStore, type DayPlan } from "@/store/workout-store";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { useWeightUnit } from "@/lib/units";
@@ -659,20 +670,6 @@ const libStyles = StyleSheet.create({
 
 /* ===== OTHER SCREENS (unchanged logic) ===== */
 
-type Level = "Beginner" | "Intermediate" | "Advanced";
-
-const PREPARED_WORKOUTS = [
-  { id: "1", subtitle: "Full Body Split", equipment: "Full Gym", focus: "Full Body", level: "Beginner" as Level, category: "FULL BODY", title: "TITAN AWAKENING", duration: "45M", programLength: 4, daysPerWeek: 3, exercises: ["6c26f0a1f16b4c0cb078ea11", "93d9d9a4c7784c30bc61f212", "7e98a9f926a14828b088b1a6", "5e1a164552484a30a6fdd9ae", "92dc15f8c78c4de9a38433a4", "292cb10f62224d51a4870bca", "bc2a45caa09346d59637137c", "871005c833264f8089a581a3"], icon: "Flame" },
-  { id: "2", subtitle: "Chest Focus", equipment: "Full Gym", focus: "Chest", level: "Intermediate" as Level, category: "CHEST", title: "PEC DESTROYER", duration: "30M", programLength: 4, daysPerWeek: 2, exercises: ["6c26f0a1f16b4c0cb078ea11", "24c5b920e3cb4e168d966284", "4bd77467112f4c2d993d14cc", "606d1a1773a84a80924f1882", "7e98a9f926a14828b088b1a6"], icon: "Zap" },
-  { id: "3", subtitle: "Leg Day", equipment: "Full Gym", focus: "Legs", level: "Intermediate" as Level, category: "LEGS", title: "SQUAT PROTOCOL", duration: "60M", programLength: 6, daysPerWeek: 2, exercises: ["292cb10f62224d51a4870bca", "93d9d9a4c7784c30bc61f212", "5e1a164552484a30a6fdd9ae", "44a8b8d5df0941a39fac6a01", "c02331ff2d714cccb2e30c4e", "fb1c1f88ceaf409e9ef2e235"], icon: "Zap" },
-  { id: "4", subtitle: "Mobility Routine", equipment: "At Home", focus: "Mobility", level: "Beginner" as Level, category: "MOBILITY", title: "MORNING FLOW", duration: "15M", programLength: 4, daysPerWeek: 5, exercises: ["871005c833264f8089a581a3", "c02331ff2d714cccb2e30c4e", "44a8b8d5df0941a39fac6a01", "292cb10f62224d51a4870bca"], icon: "Leaf" },
-  { id: "5", subtitle: "Back Focus", equipment: "Full Gym", focus: "Back", level: "Advanced" as Level, category: "BACK", title: "V-TAPER BUILD", duration: "45M", programLength: 8, daysPerWeek: 2, exercises: ["92dc15f8c78c4de9a38433a4", "cc4187e70cd34865a99f4159", "05c884512a1d4f6684f8ed0e", "771e86eac943463d862a70f9", "dd755011db094327bd571ff8", "7d52e04fc9564352abf1a3d1"], icon: "Flame" },
-  { id: "6", subtitle: "HIIT Circuit", equipment: "At Home", focus: "HIIT", level: "Intermediate" as Level, category: "HIIT", title: "CARDIO SHRED", duration: "20M", programLength: 4, daysPerWeek: 3, exercises: ["93d9d9a4c7784c30bc61f212", "7e98a9f926a14828b088b1a6", "871005c833264f8089a581a3", "c02331ff2d714cccb2e30c4e", "292cb10f62224d51a4870bca"], icon: "Zap" },
-];
-
-/** Position of a prepared workout in the list. The first FREE_PREPARED_WORKOUT_COUNT are free. */
-const preparedIndex = (id: string) => PREPARED_WORKOUTS.findIndex((w) => w.id === id);
-
 const LIBRARY_LEVELS = ["All", "Beginner", "Intermediate", "Advanced"] as const;
 const LIBRARY_DAYS = [
   { label: "All", match: (_n: number) => true },
@@ -681,7 +678,20 @@ const LIBRARY_DAYS = [
   { label: "3 Days", match: (n: number) => n === 3 },
   { label: "4+ Days", match: (n: number) => n >= 4 },
 ] as const;
-const LEVEL_BARS: Record<Level, number> = { Beginner: 1, Intermediate: 2, Advanced: 3 };
+const LEVEL_BARS: Record<ProgramLevel, number> = { Beginner: 1, Intermediate: 2, Advanced: 3 };
+function LevelBars({ level }: { level: ProgramLevel }) {
+  const filled = LEVEL_BARS[level];
+  return (
+    <View style={libStyles.bars}>
+      {[6, 10, 14].map((h, i) => (
+        <View
+          key={h}
+          style={{ width: 3, height: h, borderRadius: 2, backgroundColor: i < filled ? colors.accent : colors.textMuted }}
+        />
+      ))}
+    </View>
+  );
+}
 const toTitleCase = (t: string) => t.toLowerCase().replace(/(^|[\s-])([a-z])/g, (_, sep, c) => sep + c.toUpperCase());
 
 export function LibraryScreen() {
@@ -705,9 +715,9 @@ export function LibraryScreen() {
   const programs = useMemo(() => {
     const q = query.trim().toLowerCase();
     const dayFilter = LIBRARY_DAYS.find((d) => d.label === days)!;
-    return PREPARED_WORKOUTS.filter((w) => {
+    return PROGRAMS.filter((w) => {
       if (level !== "All" && w.level !== level) return false;
-      if (!dayFilter.match(w.daysPerWeek)) return false;
+      if (!dayFilter.match(w.days.length)) return false;
       if (!q) return true;
       return [w.title, w.subtitle, w.category, w.equipment, w.focus, w.level].some((t) =>
         t.toLowerCase().includes(q),
@@ -768,8 +778,7 @@ export function LibraryScreen() {
             </AppText>
           }
           renderItem={({ item }) => {
-            const locked = access.isPreparedWorkoutLocked(preparedIndex(item.id), item.id);
-            const bars = LEVEL_BARS[item.level];
+            const locked = access.isPreparedWorkoutLocked(programIndex(item.id), item.id);
             return (
               <Pressable
                 style={libStyles.card}
@@ -807,7 +816,7 @@ export function LibraryScreen() {
                       item.equipment,
                       item.focus,
                       `${item.programLength} weeks`,
-                      `${item.daysPerWeek} days/week`,
+                      `${item.days.length} days/week`,
                     ].map((t) => (
                       <View key={t} style={libStyles.tag}>
                         <AppText variant="labelMedium" color="textSecondary">
@@ -817,19 +826,7 @@ export function LibraryScreen() {
                     ))}
                   </View>
                   <View style={libStyles.levelRow}>
-                    <View style={libStyles.bars}>
-                      {[6, 10, 14].map((h, i) => (
-                        <View
-                          key={h}
-                          style={{
-                            width: 3,
-                            height: h,
-                            borderRadius: 2,
-                            backgroundColor: i < bars ? colors.accent : colors.textMuted,
-                          }}
-                        />
-                      ))}
-                    </View>
+                    <LevelBars level={item.level} />
                     <AppText variant="labelMedium" color="textSecondary">
                       {item.level === "Beginner" ? "Easy" : item.level}
                     </AppText>
@@ -1661,16 +1658,16 @@ export function ExerciseDetail({ id }: { id: string }) {
 }
 
 export function WorkoutDetailScreen({ id }: { id: string }) {
-  const workout = PREPARED_WORKOUTS.find((w) => w.id === id);
+  const workout = getProgram(id);
   const s = useWorkoutStore();
+  const insets = useSafeAreaInsets();
   const access = usePremiumAccess();
-  const locked = workout ? access.isPreparedWorkoutLocked(preparedIndex(workout.id), workout.id) : false;
+  const locked = workout ? access.isPreparedWorkoutLocked(programIndex(workout.id), workout.id) : false;
   // Where ads run, a locked workout shows the unlock options first and the paywall opens only when the
   // user picks Premium. Without ads there is nothing else to offer, so it opens straight away, as before.
   const [paywallReason, setPaywallReason] = useState<PaywallReason | null>(
     locked && !ADS_SUPPORTED ? "prepared_workout" : null,
   );
-  const [exercises, setExercises] = useState<WorkoutExercise[]>([]);
   const rewardedStatus = useRewardedStatus();
   const [adBusy, setAdBusy] = useState(false);
   const [adMessage, setAdMessage] = useState<string | null>(null);
@@ -1679,16 +1676,6 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
   useEffect(() => {
     if (locked) preloadRewarded();
   }, [locked]);
-
-  useEffect(() => {
-    if (workout && !locked) {
-      const generated = workout.exercises
-        .map(id => getExerciseById(id))
-        .filter((e): e is NonNullable<typeof e> => e !== undefined)
-        .map(e => createWorkoutExercise(e, "hypertrophy"));
-      setExercises(generated);
-    }
-  }, [workout, locked]);
 
   if (!workout) {
     return (
@@ -1767,36 +1754,14 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
   }
 
   const handleEnroll = () => {
-    if (!exercises.length || !workout) return;
     if (!access.canCreatePlan) return setPaywallReason("plan_limit");
 
-    const days: DayPlan[] = [];
-    const activeDays = [1, 3, 5, 2, 4, 6].slice(0, workout.daysPerWeek).sort();
-
-    const chunks: WorkoutExercise[][] = Array.from({ length: workout.daysPerWeek }, () => []);
-    exercises.forEach((ex, idx) => {
-      chunks[idx % workout.daysPerWeek].push({ ...ex, instanceId: Math.random().toString() });
+    const days: DayPlan[] = Array.from({ length: 7 }, (_, dayIndex) => {
+      const programDay = workout.days[workout.recommendedDays.indexOf(dayIndex)];
+      return programDay
+        ? { dayIndex, label: programDay.label, isRest: false, exercises: buildDayExercises(programDay) }
+        : { dayIndex, label: "Rest", isRest: true, exercises: [] };
     });
-
-    let chunkIdx = 0;
-    for (let i = 0; i < 7; i++) {
-      if (activeDays.includes(i)) {
-        days.push({
-          dayIndex: i,
-          label: `Day ${chunkIdx + 1}`,
-          isRest: false,
-          exercises: chunks[chunkIdx]
-        });
-        chunkIdx++;
-      } else {
-        days.push({
-          dayIndex: i,
-          label: "Rest",
-          isRest: true,
-          exercises: []
-        });
-      }
-    }
 
     const planId = Math.random().toString(36).slice(2);
     const added = s.addPlan({
@@ -1813,92 +1778,170 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
     router.replace("/" as any);
   };
 
-  const estimatedMinutes = parseInt(workout.duration) ||
-    Math.round(exercises.reduce((t, e) => t + e.sets * (0.75 + e.restSeconds / 60), 0));
-
-  const words = workout.title.trim().split(" ");
-  const firstWord = words[0];
-  const restWords = words.slice(1).join(" ");
-
   return (
-    <View style={detailStyles.root}>
+    <View style={progStyles.root}>
       <StatusBar barStyle="light-content" />
 
-      <SafeAreaView style={detailStyles.headerSafe}>
-        <View style={detailStyles.header}>
-          <Pressable style={detailStyles.headerBtn} onPress={() => router.back()}>
-            <ArrowLeft size={20} color={theme.text} />
+      <SafeAreaView edges={["top"]}>
+        <View style={progStyles.header}>
+          <Pressable
+            style={progStyles.backButton}
+            onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+          >
+            <ArrowLeft size={20} color={colors.textPrimary} />
           </Pressable>
-          <Text style={detailStyles.headerTitle}>WORKOUT PLAN</Text>
-          <View style={{ width: 42 }} />
+          <AppText variant="titleSmall" style={progStyles.headerTitle}>
+            Program
+          </AppText>
+          <View style={progStyles.backButton} />
         </View>
       </SafeAreaView>
 
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={detailStyles.scrollBody} showsVerticalScrollIndicator={false}>
-        <Text style={detailStyles.titleRow}>
-          <Text style={detailStyles.titleWhite}>{firstWord}</Text>
-          {restWords ? (
-            <Text style={detailStyles.titleNeon}>{" "}{restWords}</Text>
-          ) : null}
-        </Text>
-
-        <View style={detailStyles.metaRow}>
-          <Text style={detailStyles.metaMuscle}>{workout.category}</Text>
-          <Text style={detailStyles.metaDot}>·</Text>
-          <Text style={detailStyles.metaDiff}>{workout.duration}</Text>
-          <Text style={detailStyles.metaDot}>·</Text>
-          <Text style={detailStyles.metaMuscle}>{workout.programLength} WEEKS</Text>
-          <Text style={detailStyles.metaDot}>·</Text>
-          <Text style={detailStyles.metaDiff}>{workout.daysPerWeek} DAYS/WK</Text>
-        </View>
-
-        <View style={styles.statsRow}>
-          <View style={styles.statItem}>
-            <Zap size={14} color={theme.neon} />
-            <Text style={styles.statText}>{exercises.length} Exercises</Text>
+      <ScrollView
+        contentContainerStyle={[progStyles.content, { paddingBottom: 96 + insets.bottom }]}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Cover: images are added later, until then an inset placeholder. */}
+        <View style={progStyles.cover}>
+          <View style={progStyles.coverBadge}>
+            <Dumbbell size={16} color={colors.accent} />
+            <AppText variant="labelMedium">{workout.equipment}</AppText>
           </View>
-          <View style={styles.statItem}>
-            <Clock size={14} color={theme.neon} />
-            <Text style={styles.statText}>{estimatedMinutes} Min</Text>
+          <Dumbbell size={48} color={colors.textMuted} />
+        </View>
+
+        <View style={{ gap: spacing.sm }}>
+          <AppText variant="titleLarge">{toTitleCase(workout.title)}</AppText>
+          <AppText variant="bodyLarge" color="textSecondary">
+            {workout.description}
+          </AppText>
+        </View>
+
+        <View style={progStyles.infoCard}>
+          <View style={progStyles.infoRow}>
+            <View style={progStyles.infoIcon}>
+              <LevelBars level={workout.level} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <AppText variant="caption" color="textSecondary">
+                Level
+              </AppText>
+              <AppText variant="titleSmall">{workout.level}</AppText>
+            </View>
+          </View>
+          <View style={progStyles.divider} />
+          <View style={progStyles.infoRow}>
+            <View style={progStyles.infoIcon}>
+              <Dumbbell size={18} color={colors.accent} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <AppText variant="caption" color="textSecondary">
+                Equipment
+              </AppText>
+              <AppText variant="titleSmall">{workout.equipment}</AppText>
+            </View>
+            <AppText variant="bodyMedium" color="textSecondary" numberOfLines={2} style={progStyles.equipmentList}>
+              {programEquipment(workout).join(" · ")}
+            </AppText>
           </View>
         </View>
 
-        <View style={detailStyles.howToHeader}>
-          <ListOrdered size={16} color={theme.neon} />
-          <Text style={detailStyles.howToLabel}>EXERCISES</Text>
+        <View style={progStyles.statsRow}>
+          <StatCard
+            icon={<Calendar size={20} color={colors.accent} />}
+            value={String(workout.programLength)}
+            unit="weeks"
+            label="Length"
+          />
+          <StatCard
+            icon={<CalendarCheck size={20} color={colors.accent} />}
+            value={String(workout.days.length)}
+            unit="days"
+            label="Days / week"
+          />
+          <StatCard
+            icon={<Clock size={20} color={colors.accent} />}
+            value={String(programMinutes(workout))}
+            unit="min"
+            label="Per workout"
+          />
         </View>
 
-        <View style={{ gap: 8, marginTop: 8 }}>
-          {exercises.map((ex) => (
-            <Pressable
-              key={ex.instanceId}
-              style={styles.exerciseCard}
-              onPress={() => router.push(`/exercise/${ex.exerciseId}` as any)}
-            >
-              <View style={styles.exerciseThumb}>
-                {ex.gif ? (
-                  <Image source={getExerciseImageSource(ex.gif)} style={styles.exerciseThumbImg} contentFit="cover" />
-                ) : (
-                  <Dumbbell size={22} color={theme.neon} />
-                )}
-              </View>
-              <View style={styles.exerciseInfo}>
-                <Text style={styles.exerciseName} numberOfLines={1}>{ex.title}</Text>
-                <Text style={styles.exerciseMeta}>{ex.sets} sets x {ex.reps} reps</Text>
-              </View>
-            </Pressable>
-          ))}
+        <View style={{ gap: spacing.md }}>
+          <AppText variant="titleSmall">Recommended days</AppText>
+          <View style={progStyles.weekRow}>
+            {WEEK_ORDER.map((dayIndex) => {
+              const on = workout.recommendedDays.includes(dayIndex);
+              return (
+                <View
+                  key={dayIndex}
+                  style={[progStyles.weekPill, { backgroundColor: on ? colors.accent : colors.bgSurface }]}
+                >
+                  <AppText variant="labelMedium" color={on ? "textOnAccent" : "textSecondary"}>
+                    {WEEKDAY_LABELS[dayIndex]}
+                  </AppText>
+                </View>
+              );
+            })}
+          </View>
         </View>
-        <View style={{ height: 100 }} />
+
+        <View style={progStyles.planHeader}>
+          <AppText variant="titleSmall">Workout plan</AppText>
+          <AppText variant="labelMedium" color="textSecondary">
+            {workout.days.length} days
+          </AppText>
+        </View>
+
+        {workout.days.map((day, dayIdx) => (
+          <View key={`${day.label}-${dayIdx}`} style={progStyles.dayCard}>
+            <View style={progStyles.dayHeader}>
+              <View style={progStyles.dayNumber}>
+                <AppText variant="titleSmall" color="textOnAccent">
+                  {dayIdx + 1}
+                </AppText>
+              </View>
+              <View style={{ flex: 1 }}>
+                <AppText variant="titleSmall">{day.label}</AppText>
+                <AppText variant="bodyMedium" color="textSecondary" numberOfLines={1}>
+                  {day.muscles}
+                </AppText>
+              </View>
+              <AppText variant="labelMedium" color="textSecondary">
+                {dayMinutes(workout, day)} min
+              </AppText>
+            </View>
+            <View style={progStyles.divider} />
+            {buildDayExercises(day).map((item) => (
+              <Pressable
+                key={item.instanceId}
+                style={progStyles.exerciseRow}
+                onPress={() => router.push(`/exercise/${item.exerciseId}` as any)}
+                accessibilityRole="button"
+              >
+                <View style={progStyles.exerciseThumb}>
+                  {item.gif ? (
+                    <Image source={getExerciseImageSource(item.gif)} style={progStyles.exerciseThumbImg} contentFit="cover" />
+                  ) : (
+                    <Dumbbell size={20} color={colors.textMuted} />
+                  )}
+                </View>
+                <AppText variant="labelLarge" numberOfLines={1} style={{ flex: 1 }}>
+                  {item.title}
+                </AppText>
+                <AppText variant="bodyMedium" color="textSecondary">
+                  {item.sets} × {item.reps}
+                </AppText>
+              </Pressable>
+            ))}
+          </View>
+        ))}
       </ScrollView>
 
-      <View style={detailStyles.ctaContainer}>
-        <Pressable style={detailStyles.startBtn} onPress={handleEnroll}>
-          <Text style={detailStyles.startBtnText}>ENROLL & ADD PLAN</Text>
-          <View style={detailStyles.startBtnIcon}>
-            <Plus size={18} color={theme.background} />
-          </View>
-        </Pressable>
+      <View style={[progStyles.cta, { paddingBottom: Math.max(insets.bottom, spacing.lg) }]}>
+        <Button label="Start program" onPress={handleEnroll} />
       </View>
 
       <PremiumPopup
@@ -1909,6 +1952,95 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
     </View>
   );
 }
+
+const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];
+const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+const progStyles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: colors.bgApp },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.sm,
+  },
+  backButton: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgSurface,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerTitle: { flex: 1, textAlign: "center" },
+  content: { paddingHorizontal: spacing.xl, gap: spacing["2xl"] },
+  cover: {
+    height: 200,
+    borderRadius: radius.lg,
+    backgroundColor: colors.bgSurface,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  coverBadge: {
+    position: "absolute",
+    top: spacing.md,
+    left: spacing.md,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
+    height: 28,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgInset,
+  },
+  infoCard: { backgroundColor: colors.bgSurface, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md },
+  infoRow: { flexDirection: "row", alignItems: "center", gap: spacing.md },
+  infoIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgInset,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  equipmentList: { flexShrink: 1, maxWidth: "45%", textAlign: "right" },
+  divider: { height: 1, backgroundColor: colors.bgInset },
+  statsRow: { flexDirection: "row", gap: spacing.sm },
+  weekRow: { flexDirection: "row", justifyContent: "space-between", gap: spacing.xs },
+  weekPill: { flex: 1, height: 64, borderRadius: radius.full, alignItems: "center", justifyContent: "center" },
+  planHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  dayCard: { backgroundColor: colors.bgSurface, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md },
+  dayHeader: { flexDirection: "row", alignItems: "center", gap: spacing.md },
+  dayNumber: {
+    width: 40,
+    height: 40,
+    borderRadius: radius.full,
+    backgroundColor: colors.accent,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  exerciseRow: { flexDirection: "row", alignItems: "center", gap: spacing.md },
+  exerciseThumb: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.md,
+    backgroundColor: colors.bgInset,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  exerciseThumbImg: { width: 44, height: 44 },
+  cta: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.md,
+    backgroundColor: colors.bgApp,
+  },
+});
 
 /* ================================================================
  *  STYLES
@@ -2588,14 +2720,6 @@ const detailStyles = StyleSheet.create({
     backgroundColor: theme.surface,
     borderWidth: 1,
     borderColor: theme.border,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerTitle: {
-    color: theme.text,
-    fontSize: 16,
-    fontWeight: "900",
-    letterSpacing: 3,
     alignItems: "center",
     justifyContent: "center",
   },
