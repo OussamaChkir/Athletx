@@ -39,6 +39,8 @@ export interface Exercise {
   category: string;
   difficulty: Difficulty | string;
   targets: string[];
+  primary_muscles?: string[];
+  secondary_muscles?: string[];
   image: string;
   equipment: string[];
   mainMuscle?: string;
