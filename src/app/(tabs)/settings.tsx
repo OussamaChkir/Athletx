@@ -1,110 +1,40 @@
-import { Pressable, ScrollView, StyleSheet, Text, View, Modal, Switch, Alert, Linking } from "react-native";
+import { Alert, Image, Linking, Modal, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import * as Notifications from "expo-notifications";
-
-
-import {
-  Bell,
-  ChevronRight,
-  Crown,
-  Edit2,
-  HelpCircle,
-  Link2,
-  LogOut,
-  Moon,
-  Shield,
-  User,
-} from "lucide-react-native";
-import { theme } from "@/lib/theme";
-import { useOnboardingStore } from "@/store/onboarding-store";
-import { useProfileStore } from "@/store/profile-store";
-import { usePremiumStore } from "@/store/premium-store";
-import { PremiumPopup } from "@/components/premium-popup";
 import { router } from "expo-router";
+import { Bell, Camera, CircleUser, Crown, LifeBuoy, LogOut, ShieldCheck, User } from "lucide-react-native";
+import { colors, radius, spacing, theme } from "@/lib/theme";
+import { formatHeightInput } from "@/lib/weight";
+import { AppText, Button, ListRow } from "@/components/kit";
+import { PremiumPopup } from "@/components/premium-popup";
+import { useOnboardingStore } from "@/store/onboarding-store";
+import { usePremiumStore } from "@/store/premium-store";
+import { useProfileStore } from "@/store/profile-store";
 
-/* ── Reusable settings row ── */
-function SettingsRow({
-  icon: Icon,
-  label,
-  onPress,
-  badge,
-}: {
-  icon: any;
-  label: string;
-  onPress?: () => void;
-  badge?: string;
-}) {
+const WEBSITE_URL = "https://oussamachkir.github.io/athletx-website/";
+const PRIVACY_URL = `${WEBSITE_URL}privacy.html`;
+
+function ProfileStat({ value, unit, label }: { value: string; unit?: string; label: string }) {
   return (
-    <Pressable style={styles.row} onPress={onPress}>
-      <View style={styles.rowIcon}>
-        <Icon size={20} color={theme.neon} />
-      </View>
-      <Text style={styles.rowLabel}>{label}</Text>
-      {badge && (
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>{badge}</Text>
-        </View>
-      )}
-      <ChevronRight size={18} color={theme.muted} />
-    </Pressable>
+    <View style={styles.stat}>
+      <AppText variant="statNumber" color="accent">
+        {value}
+        {unit ? (
+          <AppText variant="labelMedium" color="textSecondary">
+            {" "}
+            {unit}
+          </AppText>
+        ) : null}
+      </AppText>
+      <AppText variant="bodyMedium" color="textSecondary">
+        {label}
+      </AppText>
+    </View>
   );
 }
 
-/* ── Profile hero card ── */
-function ProfileCard({ onPress }: { onPress: () => void }) {
-  const profile = useProfileStore();
-
-  const displayLabel = profile.displayName.trim() || profile.username;
-  const handle = `@${profile.username}`;
-  const shortId = profile.userId.slice(0, 8).toUpperCase();
-  const initials = displayLabel
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w: string) => w[0].toUpperCase())
-    .join("") || "?";
-
-  return (
-    <Pressable style={styles.profileCard} onPress={onPress}>
-      {/* Avatar */}
-      <View style={styles.profileAvatar}>
-        <Text style={styles.profileInitials}>{initials}</Text>
-        {/* Neon ring glow */}
-        <View style={styles.profileAvatarGlow} />
-      </View>
-
-      {/* Info */}
-      <View style={{ flex: 1, gap: 2 }}>
-        <Text style={styles.profileName} numberOfLines={1}>
-          {displayLabel || "Set your name"}
-        </Text>
-        <Text style={styles.profileHandle} numberOfLines={1}>
-          {handle}
-        </Text>
-
-        {/* Tags row */}
-        <View style={styles.profileTagsRow}>
-          <View style={styles.profileTag}>
-            <Text style={styles.profileTagText}>#{shortId}</Text>
-          </View>
-          {profile.googleEmail && (
-            <View style={[styles.profileTag, styles.profileTagGoogle]}>
-              <Text style={[styles.profileTagText, { color: "#4285F4" }]}>
-                G Connected
-              </Text>
-            </View>
-          )}
-        </View>
-      </View>
-
-      {/* Edit icon */}
-      <View style={styles.profileEditBtn}>
-        <Edit2 size={16} color={theme.neon} />
-      </View>
-    </Pressable>
-  );
-}
+const iconProps = { size: 20, color: colors.accent } as const;
 
 /* ── Main screen ── */
 export default function SettingsScreen() {
@@ -114,6 +44,9 @@ export default function SettingsScreen() {
   const [notifModalVisible, setNotifModalVisible] = useState(false);
   const [premiumVisible, setPremiumVisible] = useState(false);
   const isPremium = usePremiumStore((s) => s.isPremium);
+
+  const displayName = profile.displayName.trim() || profile.username;
+  const dash = "–";
 
   const requestPermissions = async () => {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
@@ -141,64 +74,131 @@ export default function SettingsScreen() {
   };
 
 
+  const handleLogOut = () => {
+    Alert.alert("Log out", "This clears your onboarding answers and takes you back to the start.", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Log out",
+        style: "destructive",
+        onPress: () => {
+          store.reset();
+          router.replace("/onboarding" as any);
+        },
+      },
+    ]);
+  };
+
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView
-        contentContainerStyle={styles.container}
-        showsVerticalScrollIndicator={false}
-      >
-        <Text style={styles.title}>Settings</Text>
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <AppText variant="titleLarge" style={{ paddingTop: spacing.md }}>
+          Settings
+        </AppText>
 
-        {/* Profile preview → tap to edit */}
-        <ProfileCard onPress={() => router.push("/edit-profile" as any)} />
+        {/* Profile */}
+        <View style={styles.profile}>
+          <Pressable
+            style={styles.avatarRing}
+            onPress={() => router.push("/edit-profile" as any)}
+            accessibilityRole="button"
+            accessibilityLabel="Edit profile photo"
+          >
+            <View style={styles.avatar}>
+              {profile.avatarUri ? (
+                <Image source={{ uri: profile.avatarUri }} style={styles.avatarImg} />
+              ) : (
+                <User size={44} color={colors.textMuted} />
+              )}
+            </View>
+            <View style={styles.cameraBadge}>
+              <Camera size={16} color={colors.textPrimary} />
+            </View>
+          </Pressable>
+          <AppText variant="titleMedium">{displayName}</AppText>
+
+          <View style={styles.statsRow}>
+            <ProfileStat value={store.age != null ? String(store.age) : dash} unit={store.age != null ? "yr" : undefined} label="Age" />
+            <View style={styles.statDivider} />
+            <ProfileStat
+              value={store.weight.value != null ? String(store.weight.value) : dash}
+              unit={store.weight.value != null ? store.weight.unit : undefined}
+              label="Weight"
+            />
+            <View style={styles.statDivider} />
+            <ProfileStat
+              value={store.height.value != null ? formatHeightInput(store.height.value, store.height.unit) : dash}
+              unit={store.height.value != null ? store.height.unit : undefined}
+              label="Height"
+            />
+          </View>
+        </View>
+
+        {/* Premium */}
+        <View style={styles.premiumCard}>
+          <View style={styles.premiumHeader}>
+            <View style={styles.premiumIcon}>
+              <Crown size={22} color={colors.accent} />
+            </View>
+            <AppText variant="titleMedium" color="textOnAccent">
+              {isPremium ? "Premium active" : "Go Premium"}
+            </AppText>
+          </View>
+          <AppText variant="bodyLarge" color="textOnAccent">
+            {isPremium
+              ? "Thanks for supporting Athletx. Every program and feature is unlocked."
+              : "Unlock every program, advanced stats and body tracking."}
+          </AppText>
+          {!isPremium && <Button label="Upgrade to Premium" variant="dark" onPress={() => setPremiumVisible(true)} />}
+        </View>
 
         {/* General */}
-        <View style={styles.sectionWrap}>
-          <Text style={styles.sectionLabel}>ACCOUNT</Text>
-          <View style={styles.section}>
-            <SettingsRow
-              icon={Crown}
-              label="Athletx Premium"
-              badge={isPremium ? "Active" : undefined}
-              onPress={() => setPremiumVisible(true)}
-            />
-            <SettingsRow
-              icon={User}
-              label="Edit Profile"
-              onPress={() => router.push("/edit-profile" as any)}
-            />
-            <SettingsRow
-              icon={Link2}
-              label="Connected Accounts"
-              badge={profile.googleEmail ? "Google" : undefined}
-              onPress={() => router.push("/edit-profile" as any)}
-            />
-          </View>
+        <View style={styles.group}>
+          <AppText variant="labelLarge" color="textSecondary">
+            General
+          </AppText>
+          <ListRow
+            icon={<CircleUser {...iconProps} />}
+            title="Personal information"
+            subtitle="Name, age, weight and height"
+            onPress={() => router.push("/edit-profile" as any)}
+          />
+          <ListRow
+            icon={<Bell {...iconProps} />}
+            title="Notification"
+            subtitle="Reminders and workout alerts"
+            onPress={() => setNotifModalVisible(true)}
+          />
+          <ListRow
+            icon={<ShieldCheck {...iconProps} />}
+            title="Privacy"
+            subtitle="Data, permissions and security"
+            onPress={() => Linking.openURL(PRIVACY_URL)}
+          />
         </View>
 
-        {/* Preferences */}
-        <View style={styles.sectionWrap}>
-          <Text style={styles.sectionLabel}>PREFERENCES</Text>
-          <View style={styles.section}>
-            <SettingsRow icon={Bell} label="Notifications" onPress={() => setNotifModalVisible(true)} />
-            <SettingsRow icon={Shield} label="Privacy" onPress={() => Linking.openURL('https://oussamachkir.github.io/athletx-website/privacy.html')} />
-            <SettingsRow icon={HelpCircle} label="Help & Support" />
-          </View>
+        {/* Support */}
+        <View style={styles.group}>
+          <AppText variant="labelLarge" color="textSecondary">
+            Support
+          </AppText>
+          <ListRow
+            icon={<LifeBuoy {...iconProps} />}
+            title="Help & support"
+            subtitle="FAQ, contact and feedback"
+            onPress={() => Linking.openURL(WEBSITE_URL)}
+          />
+          <ListRow
+            icon={<LogOut size={20} color={colors.danger} />}
+            title="Log out"
+            subtitle="Sign out of your account"
+            danger
+            onPress={handleLogOut}
+          />
         </View>
 
-        {/* Reset */}
-        <Pressable
-          style={styles.resetBtn}
-          onPress={() => {
-            store.reset();
-            router.replace("/onboarding" as any);
-          }}
-        >
-          <LogOut size={18} color={theme.danger} />
-          <Text style={styles.resetText}>Log out</Text>
-        </Pressable>
-
-        <Text style={styles.version}>ATHLETX v1.2.2</Text>
+        <AppText variant="caption" color="textMuted" style={{ textAlign: "center" }}>
+          Athletx v1.2.2
+        </AppText>
       </ScrollView>
 
       <PremiumPopup visible={premiumVisible} onClose={() => setPremiumVisible(false)} />
@@ -255,10 +255,57 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: theme.background,
+  safe: { flex: 1, backgroundColor: colors.bgApp },
+  container: { paddingHorizontal: spacing.xl, gap: spacing["2xl"], paddingBottom: 120 },
+
+  profile: { alignItems: "center", gap: spacing.md },
+  avatarRing: {
+    width: 104,
+    height: 104,
+    borderRadius: radius.full,
+    borderWidth: 2,
+    borderColor: colors.accent,
+    alignItems: "center",
+    justifyContent: "center",
   },
+  avatar: {
+    width: 92,
+    height: 92,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgSurface,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  avatarImg: { width: 92, height: 92 },
+  cameraBadge: {
+    position: "absolute",
+    right: -2,
+    bottom: -2,
+    width: 32,
+    height: 32,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgApp,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  statsRow: { flexDirection: "row", alignItems: "center", alignSelf: "stretch", paddingTop: spacing.sm },
+  stat: { flex: 1, alignItems: "center", gap: spacing.xs },
+  statDivider: { width: 1, height: 36, backgroundColor: colors.bgSurface },
+
+  premiumCard: { backgroundColor: colors.accent, borderRadius: radius.lg, padding: spacing.xl, gap: spacing.lg },
+  premiumHeader: { flexDirection: "row", alignItems: "center", gap: spacing.md },
+  premiumIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgApp,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  group: { backgroundColor: colors.bgSurface, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.lg },
+
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.7)',
@@ -309,181 +356,5 @@ const styles = StyleSheet.create({
     color: theme.background,
     fontSize: 16,
     fontWeight: "800",
-  },
-  container: {
-    padding: 20,
-    gap: 20,
-    paddingBottom: 40,
-  },
-  title: {
-    color: theme.text,
-    fontSize: 28,
-    fontWeight: "900",
-    paddingTop: 8,
-  },
-
-  /* ── Profile card ── */
-  profileCard: {
-    backgroundColor: theme.surface,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: theme.border,
-    padding: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
-    shadowColor: theme.neon,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 4,
-  },
-  profileAvatar: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    backgroundColor: "#1a3d28",
-    borderWidth: 2,
-    borderColor: theme.neon,
-    alignItems: "center",
-    justifyContent: "center",
-    flexShrink: 0,
-    overflow: "hidden",
-  },
-  profileAvatarGlow: {
-    position: "absolute",
-    inset: -4,
-    borderRadius: 33,
-    borderWidth: 1,
-    borderColor: "rgba(8,253,142,0.2)",
-  },
-  profileInitials: {
-    color: theme.neon,
-    fontSize: 22,
-    fontWeight: "900",
-    letterSpacing: 1,
-  },
-  profileName: {
-    color: theme.text,
-    fontSize: 17,
-    fontWeight: "800",
-  },
-  profileHandle: {
-    color: theme.muted,
-    fontSize: 13,
-    fontWeight: "500",
-  },
-  profileTagsRow: {
-    flexDirection: "row",
-    gap: 6,
-    marginTop: 4,
-  },
-  profileTag: {
-    backgroundColor: "rgba(8,253,142,0.07)",
-    borderRadius: 6,
-    paddingHorizontal: 7,
-    paddingVertical: 3,
-    borderWidth: 1,
-    borderColor: "rgba(8,253,142,0.15)",
-  },
-  profileTagGoogle: {
-    backgroundColor: "rgba(66,133,244,0.07)",
-    borderColor: "rgba(66,133,244,0.2)",
-  },
-  profileTagText: {
-    color: theme.neon,
-    fontSize: 10,
-    fontWeight: "800",
-    letterSpacing: 0.5,
-    fontFamily: "monospace",
-  },
-  profileEditBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: "rgba(8,253,142,0.08)",
-    borderWidth: 1,
-    borderColor: "rgba(8,253,142,0.2)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  /* ── Section groups ── */
-  sectionWrap: {
-    gap: 8,
-  },
-  sectionLabel: {
-    color: theme.muted,
-    fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 2,
-    paddingHorizontal: 4,
-  },
-  section: {
-    backgroundColor: theme.surface,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: theme.border,
-    overflow: "hidden",
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    gap: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(255,255,255,0.04)",
-  },
-  rowIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: "rgba(8, 253, 142, 0.08)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  rowLabel: {
-    flex: 1,
-    color: theme.text,
-    fontSize: 15,
-    fontWeight: "600",
-  },
-  badge: {
-    backgroundColor: "rgba(8,253,142,0.12)",
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    marginRight: 4,
-  },
-  badgeText: {
-    color: theme.neon,
-    fontSize: 11,
-    fontWeight: "800",
-  },
-
-  /* ── Reset ── */
-  resetBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    padding: 16,
-    backgroundColor: theme.surface,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: theme.danger,
-  },
-  resetText: {
-    color: theme.danger,
-    fontSize: 15,
-    fontWeight: "700",
-  },
-
-  /* ── Footer ── */
-  version: {
-    color: theme.muted,
-    fontSize: 12,
-    textAlign: "center",
-    letterSpacing: 2,
   },
 });
