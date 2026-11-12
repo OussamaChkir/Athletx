@@ -40,7 +40,6 @@ import {
   Edit3,
   Flame,
   Info,
-  ListOrdered,
   Play,
   Plus,
   Search,
@@ -54,7 +53,7 @@ import {
   Activity,
   Target
 } from "lucide-react-native";
-import { EQUIPMENT_LIST, FOCUS_PRESETS, MUSCLES, MUSCLE_COLORS } from "@/lib/constants";
+import { EQUIPMENT_LIST, FOCUS_PRESETS, MUSCLES } from "@/lib/constants";
 import { filterExercises, getExerciseById } from "@/lib/exercises";
 import { colors, fonts, radius, spacing, theme } from "@/lib/theme";
 import {
@@ -665,7 +664,6 @@ const libStyles = StyleSheet.create({
     justifyContent: "center",
   },
   levelRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm, paddingTop: spacing.xs },
-  bars: { flexDirection: "row", alignItems: "flex-end", gap: 2, height: 14 },
 });
 
 /* ===== OTHER SCREENS (unchanged logic) ===== */
@@ -679,11 +677,15 @@ const LIBRARY_DAYS = [
   { label: "4+ Days", match: (n: number) => n >= 4 },
 ] as const;
 const LEVEL_BARS: Record<ProgramLevel, number> = { Beginner: 1, Intermediate: 2, Advanced: 3 };
-function LevelBars({ level }: { level: ProgramLevel }) {
-  const filled = LEVEL_BARS[level];
+const BAR_HEIGHTS = { sm: [4, 7, 10], md: [6, 10, 14] } as const;
+
+/** Three-bar difficulty indicator; `level` is Beginner / Intermediate / Advanced (anything else shows one bar). */
+function LevelBars({ level, size = "md" }: { level: string; size?: "sm" | "md" }) {
+  const filled = LEVEL_BARS[level as ProgramLevel] ?? 1;
+  const heights = BAR_HEIGHTS[size];
   return (
-    <View style={libStyles.bars}>
-      {[6, 10, 14].map((h, i) => (
+    <View style={{ flexDirection: "row", alignItems: "flex-end", gap: 2, height: heights[2] }}>
+      {heights.map((h, i) => (
         <View
           key={h}
           style={{ width: 3, height: h, borderRadius: 2, backgroundColor: i < filled ? colors.accent : colors.textMuted }}
@@ -847,13 +849,9 @@ export function LibraryScreen() {
   );
 }
 
-const DIFFICULTY_COLORS: Record<string, { bg: string; text: string }> = {
-  Beginner: { bg: "rgba(213,255,95,0.12)", text: theme.neon },
-  Intermediate: { bg: "rgba(255,159,10,0.12)", text: "#ff9f0a" },
-  Advanced: { bg: "rgba(255,92,114,0.12)", text: "#ff5c72" },
-};
-
 const ALL_MUSCLES_LABEL = "All";
+
+const DIFFICULTY_LABEL: Record<string, string> = { Beginner: "Easy", Intermediate: "Intermediate", Advanced: "Hard" };
 
 export function BuilderScreen() {
   const [query, setQuery] = useState("");
@@ -890,183 +888,115 @@ export function BuilderScreen() {
     });
   }, [allExercises, selectedMuscle, selectedCategory, query]);
 
-  const muscleColor = (muscle: string) =>
-    MUSCLE_COLORS[muscle] ?? theme.neon;
-
   return (
-    <SafeAreaView style={bStyles.root}>
+    <SafeAreaView style={exStyles.root}>
       <StatusBar barStyle="light-content" />
-
-      {/* ── Header ── */}
-      <View style={bStyles.header}>
-        <View>
-          <Text style={bStyles.headTitle}>EXERCISE</Text>
-          <Text style={bStyles.headSub}>LIBRARY</Text>
-        </View>
-        <View style={bStyles.countBadge}>
-          <Text style={bStyles.countText}>{filtered.length}</Text>
-        </View>
-      </View>
-
-      {/* ── Search ── */}
-      <View style={bStyles.searchRow}>
-        <Search color={theme.muted} size={16} />
-        <TextInput
-          value={query}
-          onChangeText={setQuery}
-          placeholder="Search exercises, muscles, equipment…"
-          placeholderTextColor={theme.muted}
-          style={bStyles.searchInput}
-          returnKeyType="search"
-        />
-        {query.length > 0 && (
-          <Pressable onPress={() => setQuery("")}>
-            <X color={theme.muted} size={16} />
-          </Pressable>
-        )}
-      </View>
-
-      {/* ── Muscle Filter Chips ── */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={bStyles.chipsRow}
-        style={bStyles.chipsScroll}
-        alwaysBounceHorizontal={false}
-      >
-        {muscles.map((m) => {
-          const active = m === selectedMuscle;
-          const color = m === ALL_MUSCLES_LABEL ? theme.neon : muscleColor(m);
-          return (
-            <Pressable
-              key={m}
-              onPress={() => setSelectedMuscle(m)}
-              style={[
-                bStyles.chip,
-                active && { backgroundColor: color + "22", borderColor: color },
-              ]}
-            >
-              {m !== ALL_MUSCLES_LABEL && (
-                <View style={[bStyles.chipDot, { backgroundColor: color }]} />
-              )}
-              <Text
-                style={[
-                  bStyles.chipText,
-                  active && { color },
-                ]}
-              >
-                {m}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
-
-      {/* ── Category Chips ── */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={bStyles.catChipsRow}
-        style={bStyles.catChipsScroll}
-        alwaysBounceHorizontal={false}
-      >
-        {categories.map((cat) => {
-          const active = cat === selectedCategory;
-          return (
-            <Pressable
-              key={cat}
-              onPress={() => setSelectedCategory(cat)}
-              style={[
-                bStyles.catChip,
-                active && bStyles.catChipActive,
-              ]}
-            >
-              <Text
-                style={[
-                  bStyles.catChipText,
-                  active && bStyles.catChipTextActive,
-                ]}
-              >
-                {cat}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
-
-      {/* ── Exercise List ── */}
       <FlatList
         data={filtered}
         keyExtractor={(e) => e._id}
-        contentContainerStyle={bStyles.listContent}
+        contentContainerStyle={exStyles.listContent}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        ListHeaderComponent={
+          <View style={exStyles.headerBlock}>
+            <AppText variant="titleLarge" style={{ paddingTop: spacing.md }}>
+              Exercise <AppText variant="titleLarge" color="accent">Library</AppText>
+            </AppText>
+
+            <View style={libStyles.search}>
+              <TextInput
+                value={query}
+                onChangeText={setQuery}
+                placeholder="Search exercises, muscles, equipment…"
+                placeholderTextColor={colors.textMuted}
+                style={libStyles.searchInput}
+                returnKeyType="search"
+              />
+              {query.length > 0 ? (
+                <Pressable onPress={() => setQuery("")} accessibilityRole="button" accessibilityLabel="Clear search">
+                  <X color={colors.textSecondary} size={20} />
+                </Pressable>
+              ) : (
+                <Search color={colors.textSecondary} size={20} />
+              )}
+            </View>
+
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={libStyles.chipRow}>
+              {muscles.map((m) => (
+                <Chip key={m} dot label={m} selected={m === selectedMuscle} onPress={() => setSelectedMuscle(m)} />
+              ))}
+            </ScrollView>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={libStyles.chipRow}>
+              {categories.map((cat) => (
+                <Chip key={cat} label={cat} selected={cat === selectedCategory} onPress={() => setSelectedCategory(cat)} />
+              ))}
+            </ScrollView>
+
+            <View style={exStyles.legend}>
+              <AppText variant="caption" color="textSecondary">
+                Difficulty
+              </AppText>
+              {(["Beginner", "Intermediate", "Advanced"] as const).map((level) => (
+                <View key={level} style={exStyles.legendItem}>
+                  <LevelBars level={level} size="sm" />
+                  <AppText variant="caption" color="textSecondary">
+                    {DIFFICULTY_LABEL[level]}
+                  </AppText>
+                </View>
+              ))}
+            </View>
+          </View>
+        }
         ListEmptyComponent={
-          <View style={bStyles.empty}>
-            <Dumbbell color={theme.muted} size={40} />
-            <Text style={bStyles.emptyTitle}>No exercises found</Text>
-            <Text style={bStyles.emptyMuted}>Try a different search or filter</Text>
+          <View style={exStyles.empty}>
+            <Dumbbell color={colors.textMuted} size={40} />
+            <AppText variant="titleSmall">No exercises found</AppText>
+            <AppText variant="bodyMedium" color="textSecondary">
+              Try a different search or filter
+            </AppText>
           </View>
         }
         renderItem={({ item: e }) => {
           const muscle = e.targets?.[0] ?? "Unknown";
-          const mColor = muscleColor(muscle);
-          const diff = DIFFICULTY_COLORS[e.difficulty] ?? DIFFICULTY_COLORS.Beginner;
           return (
             <Pressable
-              style={bStyles.card}
+              style={exStyles.card}
               onPress={() => router.push(`/exercise/${e._id}` as any)}
+              accessibilityRole="button"
+              accessibilityLabel={`${e.title}, ${DIFFICULTY_LABEL[e.difficulty] ?? e.difficulty}`}
             >
-              {/* Left accent bar */}
-              <View style={[bStyles.accentBar, { backgroundColor: mColor }]} />
-
-              {/* Image */}
-              <View style={bStyles.imgWrap}>
+              <View style={exStyles.thumb}>
                 {e.image ? (
-                  <Image
-                    source={getExerciseImageSource(e.image)}
-                    style={bStyles.img}
-                    contentFit="contain"
-                    transition={200}
-                  />
+                  <Image source={getExerciseImageSource(e.image)} style={exStyles.thumbImg} contentFit="contain" transition={200} />
                 ) : (
-                  <View style={bStyles.imgPlaceholder}>
-                    <Dumbbell color={theme.muted} size={24} />
-                  </View>
+                  <Dumbbell color={colors.textMuted} size={32} />
                 )}
               </View>
 
-              {/* Text content */}
-              <View style={bStyles.cardBody}>
-                <Text style={bStyles.cardTitle} numberOfLines={2}>
+              <View style={exStyles.cardBody}>
+                <AppText variant="titleSmall" numberOfLines={2}>
                   {e.title}
-                </Text>
-
-                {/* Muscle + Category row */}
-                <View style={bStyles.tagsRow}>
-                  <View style={[bStyles.muscleTag, { borderColor: mColor + "55" }]}>
-                    <View style={[bStyles.tagDot, { backgroundColor: mColor }]} />
-                    <Text style={[bStyles.muscleTagText, { color: mColor }]}>
+                </AppText>
+                <View style={exStyles.tags}>
+                  <View style={exStyles.tag}>
+                    <View style={exStyles.tagDot} />
+                    <AppText variant="labelMedium" color="accent">
                       {muscle}
-                    </Text>
+                    </AppText>
                   </View>
-                  <View style={bStyles.catTag}>
-                    <Text style={bStyles.catTagText}>{e.category}</Text>
+                  <View style={exStyles.tag}>
+                    <AppText variant="labelMedium">{e.category}</AppText>
                   </View>
                 </View>
-
-                {/* Equipment */}
-                {e.equipment?.length > 0 && (
-                  <Text style={bStyles.equipment} numberOfLines={1}>
+                {e.equipment?.length > 0 ? (
+                  <AppText variant="caption" color="textSecondary" numberOfLines={1}>
                     {e.equipment.join(" · ")}
-                  </Text>
-                )}
+                  </AppText>
+                ) : null}
               </View>
 
-              {/* Difficulty badge */}
-              <View style={[bStyles.diffBadge, { backgroundColor: diff.bg }]}>
-                <Text style={[bStyles.diffText, { color: diff.text }]}>
-                  {e.difficulty}
-                </Text>
+              <View style={exStyles.diffCircle}>
+                <LevelBars level={e.difficulty} />
               </View>
             </Pressable>
           );
@@ -1535,9 +1465,27 @@ export function LiveScreen() {
   );
 }
 
+const LIFTER_NOTE: Record<string, string> = {
+  Beginner: "Beginner friendly",
+  Intermediate: "Some experience",
+  Advanced: "Advanced lifters",
+};
+
+function MuscleTag({ label, primary }: { label: string; primary?: boolean }) {
+  return (
+    <View style={[exStyles.muscleTag, { backgroundColor: primary ? colors.accent : colors.bgSurface }]}>
+      <View style={[exStyles.tagDot, { backgroundColor: primary ? colors.textOnAccent : colors.accent }]} />
+      <AppText variant="labelLarge" color={primary ? "textOnAccent" : "textPrimary"}>
+        {label}
+      </AppText>
+    </View>
+  );
+}
+
 export function ExerciseDetail({ id }: { id: string }) {
   const e = getExerciseById(id);
   const [imgError, setImgError] = useState(false);
+  const insets = useSafeAreaInsets();
 
   if (!e)
     return (
@@ -1547,112 +1495,133 @@ export function ExerciseDetail({ id }: { id: string }) {
       </View>
     );
 
-  // Split title: first word white, rest neon
-  const words = e.title.trim().split(" ");
-  const firstWord = words[0];
-  const restWords = words.slice(1).join(" ");
+  const primary = e.primary_muscles?.length ? e.primary_muscles : [e.mainMuscle ?? e.targets?.[0]].filter(Boolean) as string[];
+  const secondary = e.secondary_muscles ?? [];
+  const difficultyLabel = DIFFICULTY_LABEL[e.difficulty] ?? e.difficulty;
 
   return (
-    <View style={detailStyles.root}>
+    <View style={exStyles.root}>
       <StatusBar barStyle="light-content" />
 
-      {/* ── Header ── */}
-      <SafeAreaView style={detailStyles.headerSafe}>
-        <View style={detailStyles.header}>
-          <Pressable style={detailStyles.headerBtn} onPress={() => router.back()}>
-            <ArrowLeft size={20} color={theme.text} />
+      <SafeAreaView edges={["top"]}>
+        <View style={progStyles.header}>
+          <Pressable
+            style={progStyles.backButton}
+            onPress={() => router.back()}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+          >
+            <ArrowLeft size={20} color={colors.textPrimary} />
           </Pressable>
+          <AppText variant="titleSmall" style={progStyles.headerTitle}>
+            Exercise
+          </AppText>
+          <View style={progStyles.backButton} />
         </View>
       </SafeAreaView>
 
-      {/* ── Scrollable body ── */}
       <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={detailStyles.scrollBody}
+        contentContainerStyle={[exStyles.detailContent, { paddingBottom: spacing["3xl"] + insets.bottom }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Title */}
-        <Text style={detailStyles.titleRow}>
-          <Text style={detailStyles.titleWhite}>{firstWord}</Text>
-          {restWords ? (
-            <Text style={detailStyles.titleNeon}>{" "}{restWords}</Text>
-          ) : null}
-        </Text>
-
-        {/* Meta tags */}
-        <View style={detailStyles.metaRow}>
-          <Text style={detailStyles.metaMuscle}>{(e.mainMuscle ?? "").toUpperCase()}</Text>
-          <Text style={detailStyles.metaDot}>·</Text>
-          <Text style={detailStyles.metaDiff}>{e.difficulty.toUpperCase()}</Text>
-          <Text style={detailStyles.metaDot}>·</Text>
-          <Text style={detailStyles.metaMuscle}>{(e.category ?? "").toUpperCase()}</Text>
+        <View style={exStyles.cover}>
+          {imgError || !e.image ? (
+            <Dumbbell color={colors.textMuted} size={48} />
+          ) : (
+            <Image
+              source={getExerciseImageSource(e.image)}
+              style={exStyles.coverImg}
+              contentFit="contain"
+              transition={400}
+              onError={() => setImgError(true)}
+            />
+          )}
         </View>
 
-        {/* GIF / Image preview */}
-        <View style={detailStyles.imageCard}>
-          {imgError || !e.image ? (
-            <View style={detailStyles.imagePlaceholder}>
-              <Dumbbell color={theme.muted} size={40} />
-              <Text style={detailStyles.noImgText}>No image available</Text>
+        <View style={{ gap: spacing.sm }}>
+          <AppText variant="titleLarge">{e.title}</AppText>
+          <AppText variant="bodyLarge" color="textSecondary">
+            {e.category} exercise for {primary.join(", ").toLowerCase()}.
+          </AppText>
+        </View>
+
+        <View style={exStyles.diffCard}>
+          <View style={exStyles.diffIcon}>
+            <LevelBars level={e.difficulty} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <AppText variant="caption" color="textSecondary">
+              Difficulty
+            </AppText>
+            <AppText variant="titleSmall">{difficultyLabel}</AppText>
+          </View>
+          <AppText variant="bodyMedium" color="textSecondary">
+            {LIFTER_NOTE[e.difficulty] ?? ""}
+          </AppText>
+        </View>
+
+        {e.equipment?.length > 0 && (
+          <View style={{ gap: spacing.md }}>
+            <AppText variant="titleSmall">Equipment</AppText>
+            <View style={exStyles.wrapRow}>
+              {e.equipment.map((eq) => (
+                <View key={eq} style={exStyles.equipTag}>
+                  <AppText variant="labelLarge">{eq}</AppText>
+                </View>
+              ))}
             </View>
-          ) : (
-            <View>
-              <Image
-                source={getExerciseImageSource(e.image)}
-                style={detailStyles.detailImage}
-                contentFit="contain"
-                transition={400}
-                onError={() => setImgError(true)}
-              />
+          </View>
+        )}
+
+        <View style={{ gap: spacing.md }}>
+          <AppText variant="titleSmall">Muscles worked</AppText>
+          <View style={{ gap: spacing.sm }}>
+            <AppText variant="caption" color="textSecondary">
+              Primary
+            </AppText>
+            <View style={exStyles.wrapRow}>
+              {primary.map((m) => (
+                <MuscleTag key={m} label={m} primary />
+              ))}
+            </View>
+          </View>
+          {secondary.length > 0 && (
+            <View style={{ gap: spacing.sm }}>
+              <AppText variant="caption" color="textSecondary">
+                Secondary
+              </AppText>
+              <View style={exStyles.wrapRow}>
+                {secondary.map((m) => (
+                  <MuscleTag key={m} label={m} />
+                ))}
+              </View>
             </View>
           )}
         </View>
 
-        {/* Equipment pills */}
-        {e.equipment?.length > 0 && (
-          <View style={detailStyles.pillsRow}>
-            {e.equipment.map((eq) => (
-              <View key={eq} style={detailStyles.equipPill}>
-                <Dumbbell size={13} color={theme.muted} />
-                <Text style={detailStyles.equipPillText}>{eq.toUpperCase()}</Text>
+        <View style={{ gap: spacing.md }}>
+          <View style={exStyles.howHeader}>
+            <AppText variant="titleSmall">How to</AppText>
+            <AppText variant="labelMedium" color="textSecondary">
+              {e.steps.length} steps
+            </AppText>
+          </View>
+          <View style={exStyles.steps}>
+            {e.steps.map((step, i) => (
+              <View key={i} style={exStyles.stepRow}>
+                <View style={exStyles.stepNum}>
+                  <AppText variant="labelLarge" color="textOnAccent">
+                    {i + 1}
+                  </AppText>
+                </View>
+                <AppText variant="bodyLarge" style={{ flex: 1 }}>
+                  {step}
+                </AppText>
               </View>
             ))}
           </View>
-        )}
-
-        {/* HOW TO */}
-        <View style={detailStyles.howToHeader}>
-          <ListOrdered size={16} color={theme.neon} />
-          <Text style={detailStyles.howToLabel}>HOW TO</Text>
         </View>
-
-        <View style={detailStyles.stepsContainer}>
-          {e.steps.map((step, i) => (
-            <View key={i} style={detailStyles.stepRow}>
-              <View style={detailStyles.stepNum}>
-                <Text style={detailStyles.stepNumText}>{i + 1}</Text>
-              </View>
-              <Text style={detailStyles.stepText}>{step}</Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Bottom spacer for the fixed CTA */}
-        <View style={{ height: 100 }} />
       </ScrollView>
-
-      {/* ── Fixed START EXERCISE button ── */}
-      <View style={detailStyles.ctaContainer}>
-        <Pressable
-          style={detailStyles.startBtn}
-          onPress={() => router.back()}
-        >
-          <Text style={detailStyles.startBtnText}>START EXERCISE</Text>
-          <View style={detailStyles.startBtnIcon}>
-            <Play size={18} color={theme.background} fill={theme.background} />
-          </View>
-        </Pressable>
-      </View>
     </View>
   );
 }
@@ -2654,10 +2623,6 @@ const styles = StyleSheet.create({
  *  EXERCISE DETAIL — dedicated styles
  * ================================================================ */
 const detailStyles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.background,
-  },
 
   /* Not-found state */
   notFound: {
@@ -2703,474 +2668,124 @@ const detailStyles = StyleSheet.create({
   },
 
   /* Header */
-  headerSafe: {
-    backgroundColor: theme.background,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  headerBtn: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: theme.surface,
-    borderWidth: 1,
-    borderColor: theme.border,
-    alignItems: "center",
-    justifyContent: "center",
-  },
 
   /* Scroll body */
-  scrollBody: {
-    paddingHorizontal: 20,
-    paddingTop: 8,
-    paddingBottom: 20,
-    gap: 16,
-  },
 
   /* Title */
-  titleRow: {
-    fontSize: 34,
-    fontWeight: "900",
-    letterSpacing: 1,
-    lineHeight: 40,
-    flexWrap: "wrap",
-  },
-  titleWhite: {
-    color: theme.text,
-    fontSize: 34,
-    fontWeight: "900",
-  },
-  titleNeon: {
-    color: theme.neon,
-    fontSize: 34,
-    fontWeight: "900",
-  },
 
   /* Meta */
-  metaRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    flexWrap: "wrap",
-  },
-  metaMuscle: {
-    color: theme.muted,
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 0.5,
-  },
-  metaDiff: {
-    color: theme.neon,
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 0.5,
-  },
-  metaDot: {
-    color: theme.muted,
-    fontSize: 12,
-    fontWeight: "700",
-  },
 
   /* GIF / image card */
-  imageCard: {
-    backgroundColor: theme.surface,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: theme.border,
-    overflow: "hidden",
-  },
-  detailImage: {
-    width: "100%",
-    height: 220,
-  },
-  imagePlaceholder: {
-    height: 220,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-  noImgText: {
-    color: theme.muted,
-    fontSize: 13,
-    marginTop: 4,
-  },
 
   /* Equipment pills */
-  pillsRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
-  },
-  equipPill: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    borderWidth: 1,
-    borderColor: theme.border,
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 9,
-    backgroundColor: theme.surface,
-  },
-  equipPillText: {
-    color: theme.muted,
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 0.5,
-  },
 
   /* HOW TO header */
-  howToHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginTop: 4,
-    marginBottom: -4,
-  },
-  howToLabel: {
-    color: theme.neon,
-    fontSize: 13,
-    fontWeight: "900",
-    letterSpacing: 2,
-  },
 
   /* Steps */
-  stepsContainer: {
-    gap: 18,
-  },
-  stepRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 14,
-  },
-  stepNum: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: theme.neon,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 2,
-    flexShrink: 0,
-  },
-  stepNumText: {
-    color: theme.background,
-    fontWeight: "900",
-    fontSize: 14,
-  },
-  stepText: {
-    color: theme.text,
-    lineHeight: 24,
-    fontSize: 15,
-    flex: 1,
-    fontWeight: "500",
-  },
 
   /* CTA */
-  ctaContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 32,
-    paddingTop: 12,
-    backgroundColor: theme.background,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(255,255,255,0.04)",
-  },
-  startBtn: {
-    backgroundColor: theme.neon,
-    height: 60,
-    borderRadius: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    shadowColor: theme.neon,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.4,
-    shadowRadius: 16,
-    elevation: 10,
-  },
-  startBtnText: {
-    color: theme.background,
-    fontSize: 17,
-    fontWeight: "900",
-    letterSpacing: 2.5,
-  },
-  startBtnIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "rgba(0,0,0,0.2)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 });
 
 /* ================================================================
  *  BUILDER SCREEN — Exercise Library styles
  * ================================================================ */
-const bStyles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: theme.background,
-  },
-
-  /* Header */
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 12,
-  },
-  headTitle: {
-    color: theme.text,
-    fontSize: 28,
-    fontWeight: "900",
-    letterSpacing: -0.5,
-    lineHeight: 30,
-  },
-  headSub: {
-    color: theme.neon,
-    fontSize: 28,
-    fontWeight: "900",
-    fontStyle: "italic",
-    letterSpacing: -0.5,
-    lineHeight: 30,
-    marginTop: -4,
-  },
-  countBadge: {
-    backgroundColor: "rgba(8,253,142,0.12)",
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: theme.neon,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-  },
-  countText: {
-    color: theme.neon,
-    fontSize: 16,
-    fontWeight: "900",
-  },
-
-  /* Search */
-  searchRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    marginHorizontal: 16,
-    marginBottom: 12,
-    backgroundColor: theme.surface,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: theme.border,
-    paddingHorizontal: 14,
-    height: 46,
-  },
-  searchInput: {
-    flex: 1,
-    color: theme.text,
-    fontSize: 14,
-  },
-
-  /* Chips */
-  chipsScroll: {
-    flexGrow: 0,
-    flexShrink: 0,
-    marginBottom: 8,
-  },
-  chipsRow: {
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    gap: 8,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  chip: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: theme.border,
-    backgroundColor: "rgba(255,255,255,0.03)",
-  },
-  chipDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  chipText: {
-    color: theme.muted,
-    fontSize: 13,
-    fontWeight: "700",
-  },
-
-  /* Category chips */
-  catChipsScroll: {
-    flexGrow: 0,
-    flexShrink: 0,
-    marginBottom: 8,
-  },
-  catChipsRow: {
-    paddingHorizontal: 16,
-    paddingVertical: 4,
-    gap: 8,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  catChip: {
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: theme.border,
-    backgroundColor: "rgba(255,255,255,0.03)",
-  },
-  catChipActive: {
-    backgroundColor: "rgba(255,255,255,0.08)",
-    borderColor: "rgba(255,255,255,0.2)",
-  },
-  catChipText: {
-    color: theme.muted,
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 0.3,
-  },
-  catChipTextActive: {
-    color: theme.text,
-  },
-
-  /* List */
-  listContent: {
-    paddingHorizontal: 16,
-    paddingBottom: 32,
-    gap: 10,
-  },
-
-  /* Exercise card */
+const exStyles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: colors.bgApp },
+  listContent: { paddingHorizontal: spacing.xl, paddingBottom: 120, gap: spacing.md },
+  headerBlock: { gap: spacing.md, paddingBottom: spacing.xs },
+  legend: { flexDirection: "row", alignItems: "center", gap: spacing.lg },
+  legendItem: { flexDirection: "row", alignItems: "center", gap: spacing.xs },
+  empty: { alignItems: "center", gap: spacing.sm, paddingTop: spacing["3xl"] },
   card: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: theme.surface,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: theme.border,
+    backgroundColor: colors.bgSurface,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    gap: spacing.md,
+  },
+  thumb: {
+    width: 84,
+    height: 84,
+    borderRadius: radius.md,
+    backgroundColor: colors.bgInset,
+    alignItems: "center",
+    justifyContent: "center",
     overflow: "hidden",
-    minHeight: 90,
   },
-  accentBar: {
-    width: 4,
-    alignSelf: "stretch",
-  },
-  imgWrap: {
-    width: 80,
-    height: 80,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.03)",
-    flexShrink: 0,
-  },
-  img: {
-    width: 76,
-    height: 76,
-  },
-  imgPlaceholder: {
-    width: 76,
-    height: 76,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  cardBody: {
-    flex: 1,
-    paddingVertical: 12,
-    paddingLeft: 12,
-    paddingRight: 8,
-    gap: 5,
-  },
-  cardTitle: {
-    color: theme.text,
-    fontSize: 15,
-    fontWeight: "800",
-    letterSpacing: -0.2,
-    lineHeight: 20,
-  },
-  tagsRow: {
+  thumbImg: { width: 84, height: 84 },
+  cardBody: { flex: 1, gap: spacing.sm },
+  tags: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
+  tag: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    flexWrap: "wrap",
+    gap: spacing.xs,
+    height: 28,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.sm,
+    backgroundColor: colors.bgInset,
+  },
+  tagDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.accent },
+  diffCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgInset,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  detailContent: { paddingHorizontal: spacing.xl, gap: spacing["2xl"] },
+  cover: {
+    height: 220,
+    borderRadius: radius.lg,
+    backgroundColor: colors.bgSurface,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  coverImg: { width: "100%", height: "100%" },
+  diffCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.md,
+    backgroundColor: colors.bgSurface,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+  },
+  diffIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgInset,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  wrapRow: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
+  equipTag: {
+    height: 36,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.sm,
+    backgroundColor: colors.bgSurface,
+    justifyContent: "center",
   },
   muscleTag: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+    gap: spacing.sm,
+    height: 36,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.sm,
   },
-  tagDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-  },
-  muscleTagText: {
-    fontSize: 11,
-    fontWeight: "800",
-  },
-  catTag: {
-    backgroundColor: "rgba(255,255,255,0.06)",
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-  },
-  catTagText: {
-    color: theme.muted,
-    fontSize: 11,
-    fontWeight: "700",
-  },
-  equipment: {
-    color: theme.muted,
-    fontSize: 11,
-    fontWeight: "500",
-  },
-
-  /* Difficulty badge */
-  diffBadge: {
-    borderRadius: 10,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-    marginRight: 12,
-    alignSelf: "center",
-  },
-  diffText: {
-    fontSize: 10,
-    fontWeight: "900",
-    letterSpacing: 0.5,
-  },
-
-  /* Empty state */
-  empty: {
+  howHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  steps: { backgroundColor: colors.bgSurface, borderRadius: radius.lg, padding: spacing.xl, gap: spacing.lg },
+  stepRow: { flexDirection: "row", alignItems: "flex-start", gap: spacing.lg },
+  stepNum: {
+    width: 32,
+    height: 32,
+    borderRadius: radius.full,
+    backgroundColor: colors.accent,
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 80,
-    gap: 12,
-  },
-  emptyTitle: {
-    color: theme.text,
-    fontSize: 18,
-    fontWeight: "800",
-  },
-  emptyMuted: {
-    color: theme.muted,
-    fontSize: 14,
   },
 });
