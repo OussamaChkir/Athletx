@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { Dumbbell, Library, ChartLine, BicepsFlexed, Settings } from "lucide-react-native";
-import { theme } from "@/lib/theme";
+import { TabBar } from "@/components/kit";
 import { PremiumLaunchPopup } from "@/components/premium-popup";
 
 export default function TabsLayout() {
@@ -8,23 +8,8 @@ export default function TabsLayout() {
     <>
     <PremiumLaunchPopup />
     <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: theme.surface,
-          borderTopColor: theme.border,
-          borderTopWidth: 1,
-          height: 80,
-          paddingBottom: 20,
-          paddingTop: 8,
-        },
-        tabBarActiveTintColor: theme.neon,
-        tabBarInactiveTintColor: theme.muted,
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: "600",
-        },
-      }}
+      tabBar={(props) => <TabBar {...props} />}
+      screenOptions={{ headerShown: false }}
     >
       <Tabs.Screen
         name="index"
