@@ -1,4 +1,5 @@
 import { View, StyleSheet } from "react-native";
+import { theme } from "@/lib/theme";
 
 export function AdBanner() {
   return (
@@ -11,7 +12,7 @@ export function AdBanner() {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: "#070b09",
+    backgroundColor: theme.background,
     paddingBottom: 4,
   },
 });
