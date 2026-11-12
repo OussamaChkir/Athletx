@@ -674,8 +674,8 @@ export function LibraryScreen() {
                   <Text style={[styles.discoverCategoryText,
                   item.category === "LEGS" ? { color: "#6b9cf6" } :
                     item.category === "MOBILITY" ? { color: "#b388ff" } :
-                      item.category === "CHEST" ? { color: "#08fd8e" } :
-                        item.category === "BACK" ? { color: "#08fd8e" } :
+                      item.category === "CHEST" ? { color: theme.neon } :
+                        item.category === "BACK" ? { color: theme.neon } :
                           { color: theme.text }
                   ]}>{item.category}</Text>
                 </View>
@@ -717,7 +717,7 @@ export function LibraryScreen() {
 }
 
 const DIFFICULTY_COLORS: Record<string, { bg: string; text: string }> = {
-  Beginner: { bg: "rgba(8,253,142,0.12)", text: "#08fd8e" },
+  Beginner: { bg: "rgba(213,255,95,0.12)", text: theme.neon },
   Intermediate: { bg: "rgba(255,159,10,0.12)", text: "#ff9f0a" },
   Advanced: { bg: "rgba(255,92,114,0.12)", text: "#ff5c72" },
 };
