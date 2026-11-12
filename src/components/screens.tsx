@@ -44,21 +44,19 @@ import {
   Plus,
   Search,
   Settings,
-  SlidersHorizontal,
   Trash2,
   Zap,
   X,
   Minus,
-  Leaf,
   Lock,
   Trophy,
   Activity,
   Target
 } from "lucide-react-native";
 import { EQUIPMENT_LIST, FOCUS_PRESETS, MUSCLES, MUSCLE_COLORS } from "@/lib/constants";
-import { createWorkoutExercise, filterExercises, getExerciseById, generateWorkout } from "@/lib/exercises";
-import { colors, radius, spacing, theme } from "@/lib/theme";
-import { AppText, Button } from "@/components/kit";
+import { createWorkoutExercise, filterExercises, getExerciseById } from "@/lib/exercises";
+import { colors, fonts, radius, spacing, theme } from "@/lib/theme";
+import { AppText, Button, Chip } from "@/components/kit";
 import type { WorkoutExercise, WorkoutFocus } from "@/lib/types";
 import { useWorkoutStore, type DayPlan } from "@/store/workout-store";
 import { useOnboardingStore } from "@/store/onboarding-store";
@@ -590,24 +588,105 @@ const trainStyles = StyleSheet.create({
   },
 });
 
+const libStyles = StyleSheet.create({
+  content: { paddingHorizontal: spacing.xl, paddingBottom: 120, gap: spacing.md },
+  headerBlock: { gap: spacing.md, paddingBottom: spacing.xs },
+  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingTop: spacing.md },
+  crownButton: {
+    width: 48,
+    height: 48,
+    borderRadius: radius.md,
+    backgroundColor: colors.accent,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  search: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 52,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgSurface,
+    paddingHorizontal: spacing.xl,
+    gap: spacing.md,
+  },
+  searchInput: { flex: 1, color: colors.textPrimary, fontFamily: fonts.jakartaRegular, fontSize: 14, padding: 0 },
+  chipRow: { gap: spacing.sm },
+  card: {
+    flexDirection: "row",
+    backgroundColor: colors.bgSurface,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    gap: spacing.lg,
+  },
+  cover: {
+    width: 96,
+    alignSelf: "stretch",
+    minHeight: 132,
+    borderRadius: radius.md,
+    backgroundColor: colors.bgInset,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  lockCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgSurface,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cardBody: { flex: 1, gap: spacing.xs },
+  titleRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
+  crownBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: radius.full,
+    backgroundColor: colors.accent,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tags: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, paddingTop: spacing.sm },
+  tag: {
+    height: 28,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.sm,
+    backgroundColor: colors.bgInset,
+    justifyContent: "center",
+  },
+  levelRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm, paddingTop: spacing.xs },
+  bars: { flexDirection: "row", alignItems: "flex-end", gap: 2, height: 14 },
+});
+
 /* ===== OTHER SCREENS (unchanged logic) ===== */
 
+type Level = "Beginner" | "Intermediate" | "Advanced";
+
 const PREPARED_WORKOUTS = [
-  { id: "1", category: "FULL BODY", title: "TITAN AWAKENING", duration: "45M", programLength: 4, daysPerWeek: 3, exercises: ["6c26f0a1f16b4c0cb078ea11", "93d9d9a4c7784c30bc61f212", "7e98a9f926a14828b088b1a6", "5e1a164552484a30a6fdd9ae", "92dc15f8c78c4de9a38433a4", "292cb10f62224d51a4870bca", "bc2a45caa09346d59637137c", "871005c833264f8089a581a3"], icon: "Flame" },
-  { id: "2", category: "CHEST", title: "PEC DESTROYER", duration: "30M", programLength: 4, daysPerWeek: 2, exercises: ["6c26f0a1f16b4c0cb078ea11", "24c5b920e3cb4e168d966284", "4bd77467112f4c2d993d14cc", "606d1a1773a84a80924f1882", "7e98a9f926a14828b088b1a6"], icon: "Zap" },
-  { id: "3", category: "LEGS", title: "SQUAT PROTOCOL", duration: "60M", programLength: 6, daysPerWeek: 2, exercises: ["292cb10f62224d51a4870bca", "93d9d9a4c7784c30bc61f212", "5e1a164552484a30a6fdd9ae", "44a8b8d5df0941a39fac6a01", "c02331ff2d714cccb2e30c4e", "fb1c1f88ceaf409e9ef2e235"], icon: "Zap" },
-  { id: "4", category: "MOBILITY", title: "MORNING FLOW", duration: "15M", programLength: 4, daysPerWeek: 5, exercises: ["871005c833264f8089a581a3", "c02331ff2d714cccb2e30c4e", "44a8b8d5df0941a39fac6a01", "292cb10f62224d51a4870bca"], icon: "Leaf" },
-  { id: "5", category: "BACK", title: "V-TAPER BUILD", duration: "45M", programLength: 8, daysPerWeek: 2, exercises: ["92dc15f8c78c4de9a38433a4", "cc4187e70cd34865a99f4159", "05c884512a1d4f6684f8ed0e", "771e86eac943463d862a70f9", "dd755011db094327bd571ff8", "7d52e04fc9564352abf1a3d1"], icon: "Flame" },
-  { id: "6", category: "HIIT", title: "CARDIO SHRED", duration: "20M", programLength: 4, daysPerWeek: 3, exercises: ["93d9d9a4c7784c30bc61f212", "7e98a9f926a14828b088b1a6", "871005c833264f8089a581a3", "c02331ff2d714cccb2e30c4e", "292cb10f62224d51a4870bca"], icon: "Zap" },
+  { id: "1", subtitle: "Full Body Split", equipment: "Full Gym", focus: "Full Body", level: "Beginner" as Level, category: "FULL BODY", title: "TITAN AWAKENING", duration: "45M", programLength: 4, daysPerWeek: 3, exercises: ["6c26f0a1f16b4c0cb078ea11", "93d9d9a4c7784c30bc61f212", "7e98a9f926a14828b088b1a6", "5e1a164552484a30a6fdd9ae", "92dc15f8c78c4de9a38433a4", "292cb10f62224d51a4870bca", "bc2a45caa09346d59637137c", "871005c833264f8089a581a3"], icon: "Flame" },
+  { id: "2", subtitle: "Chest Focus", equipment: "Full Gym", focus: "Chest", level: "Intermediate" as Level, category: "CHEST", title: "PEC DESTROYER", duration: "30M", programLength: 4, daysPerWeek: 2, exercises: ["6c26f0a1f16b4c0cb078ea11", "24c5b920e3cb4e168d966284", "4bd77467112f4c2d993d14cc", "606d1a1773a84a80924f1882", "7e98a9f926a14828b088b1a6"], icon: "Zap" },
+  { id: "3", subtitle: "Leg Day", equipment: "Full Gym", focus: "Legs", level: "Intermediate" as Level, category: "LEGS", title: "SQUAT PROTOCOL", duration: "60M", programLength: 6, daysPerWeek: 2, exercises: ["292cb10f62224d51a4870bca", "93d9d9a4c7784c30bc61f212", "5e1a164552484a30a6fdd9ae", "44a8b8d5df0941a39fac6a01", "c02331ff2d714cccb2e30c4e", "fb1c1f88ceaf409e9ef2e235"], icon: "Zap" },
+  { id: "4", subtitle: "Mobility Routine", equipment: "At Home", focus: "Mobility", level: "Beginner" as Level, category: "MOBILITY", title: "MORNING FLOW", duration: "15M", programLength: 4, daysPerWeek: 5, exercises: ["871005c833264f8089a581a3", "c02331ff2d714cccb2e30c4e", "44a8b8d5df0941a39fac6a01", "292cb10f62224d51a4870bca"], icon: "Leaf" },
+  { id: "5", subtitle: "Back Focus", equipment: "Full Gym", focus: "Back", level: "Advanced" as Level, category: "BACK", title: "V-TAPER BUILD", duration: "45M", programLength: 8, daysPerWeek: 2, exercises: ["92dc15f8c78c4de9a38433a4", "cc4187e70cd34865a99f4159", "05c884512a1d4f6684f8ed0e", "771e86eac943463d862a70f9", "dd755011db094327bd571ff8", "7d52e04fc9564352abf1a3d1"], icon: "Flame" },
+  { id: "6", subtitle: "HIIT Circuit", equipment: "At Home", focus: "HIIT", level: "Intermediate" as Level, category: "HIIT", title: "CARDIO SHRED", duration: "20M", programLength: 4, daysPerWeek: 3, exercises: ["93d9d9a4c7784c30bc61f212", "7e98a9f926a14828b088b1a6", "871005c833264f8089a581a3", "c02331ff2d714cccb2e30c4e", "292cb10f62224d51a4870bca"], icon: "Zap" },
 ];
 
 /** Position of a prepared workout in the list. The first FREE_PREPARED_WORKOUT_COUNT are free. */
 const preparedIndex = (id: string) => PREPARED_WORKOUTS.findIndex((w) => w.id === id);
 
+const LIBRARY_LEVELS = ["All", "Beginner", "Intermediate", "Advanced"] as const;
+const LIBRARY_DAYS = [
+  { label: "All", match: (_n: number) => true },
+  { label: "1 Day", match: (n: number) => n === 1 },
+  { label: "2 Days", match: (n: number) => n === 2 },
+  { label: "3 Days", match: (n: number) => n === 3 },
+  { label: "4+ Days", match: (n: number) => n >= 4 },
+] as const;
+const LEVEL_BARS: Record<Level, number> = { Beginner: 1, Intermediate: 2, Advanced: 3 };
+const toTitleCase = (t: string) => t.toLowerCase().replace(/(^|[\s-])([a-z])/g, (_, sep, c) => sep + c.toUpperCase());
+
 export function LibraryScreen() {
   const [query, setQuery] = useState("");
   const [paywallReason, setPaywallReason] = useState<PaywallReason | null>(null);
-  const s = useWorkoutStore();
   const access = usePremiumAccess();
 
   // Warm the rewarded ad so "Watch an ad to unlock" is ready by the time a locked workout is opened.
@@ -620,176 +699,143 @@ export function LibraryScreen() {
   const openLockedWorkout = (workoutId: string) =>
     ADS_SUPPORTED ? router.push(`/workout/${workoutId}` as any) : setPaywallReason("prepared_workout");
 
-  const handleEnroll = (workout: typeof PREPARED_WORKOUTS[0]) => {
-    if (access.isPreparedWorkoutLocked(preparedIndex(workout.id), workout.id)) return openLockedWorkout(workout.id);
-    if (!access.canCreatePlan) return setPaywallReason("plan_limit");
+  const [level, setLevel] = useState<(typeof LIBRARY_LEVELS)[number]>("All");
+  const [days, setDays] = useState<(typeof LIBRARY_DAYS)[number]["label"]>("All");
 
-    const allExs = workout.exercises.map(id => {
-      const ex = getExerciseById(id);
-      return ex ? createWorkoutExercise(ex, "hypertrophy") : null;
-    }).filter(Boolean) as typeof s.currentWorkout;
-
-    const days: DayPlan[] = [];
-    const activeDays = [1, 3, 5, 2, 4, 6].slice(0, workout.daysPerWeek).sort();
-
-    const chunks: (typeof s.currentWorkout)[] = Array.from({ length: workout.daysPerWeek }, () => []);
-    allExs.forEach((ex, idx) => {
-      // Create new instance ID for each exercise so they are unique if repeated
-      chunks[idx % workout.daysPerWeek].push({ ...ex, instanceId: Math.random().toString() });
+  const programs = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const dayFilter = LIBRARY_DAYS.find((d) => d.label === days)!;
+    return PREPARED_WORKOUTS.filter((w) => {
+      if (level !== "All" && w.level !== level) return false;
+      if (!dayFilter.match(w.daysPerWeek)) return false;
+      if (!q) return true;
+      return [w.title, w.subtitle, w.category, w.equipment, w.focus, w.level].some((t) =>
+        t.toLowerCase().includes(q),
+      );
     });
-
-    let chunkIdx = 0;
-    for (let i = 0; i < 7; i++) {
-      if (activeDays.includes(i)) {
-        days.push({
-          dayIndex: i,
-          label: `Day ${chunkIdx + 1}`,
-          isRest: false,
-          exercises: chunks[chunkIdx]
-        });
-        chunkIdx++;
-      } else {
-        days.push({
-          dayIndex: i,
-          label: "Rest",
-          isRest: true,
-          exercises: []
-        });
-      }
-    }
-
-    const newPlan = {
-      id: Math.random().toString(),
-      name: workout.title,
-      weekNumber: 1,
-      totalWeeks: workout.programLength,
-      phaseName: workout.category,
-      days
-    };
-
-    if (!s.addPlan(newPlan)) return setPaywallReason("plan_limit");
-    Alert.alert("Enrolled", `You have successfully enrolled in ${workout.title}!`);
-    router.replace("/" as any);
-  };
-
-  const handlePlay = (workout: typeof PREPARED_WORKOUTS[0]) => {
-    if (access.isPreparedWorkoutLocked(preparedIndex(workout.id), workout.id)) return openLockedWorkout(workout.id);
-
-    let generated = workout.exercises
-      .map(id => getExerciseById(id))
-      .filter((e): e is NonNullable<typeof e> => e !== undefined)
-      .map(e => createWorkoutExercise(e, "hypertrophy"));
-
-    if (generated.length === 0) {
-      const muscleMap: Record<string, string[]> = {
-        "FULL BODY": ["Chest", "Lats", "Quads"],
-        "CHEST": ["Chest"],
-        "LEGS": ["Quads", "Hamstrings"],
-        "MOBILITY": ["Lower back", "Abdominals"],
-        "BACK": ["Lats", "Traps"],
-        "HIIT": ["Quads", "Calves"],
-      };
-      const targetMuscles = muscleMap[workout.category] || ["Chest"];
-
-      generated = generateWorkout(["dumbbell", "bodyweight"], targetMuscles as any, {
-        exerciseCount: workout.exercises.length,
-        focus: "hypertrophy",
-        difficulties: [],
-      });
-    }
-
-    useWorkoutStore.setState({ currentWorkout: generated, workoutName: workout.title });
-    s.startLiveSession();
-    router.push("/live" as any);
-  };
+  }, [query, level, days]);
 
   return (
     <View style={styles.discoverPage}>
       <SafeAreaView style={{ flex: 1 }}>
-        {/* Header */}
-        <View style={styles.discoverHeader}>
-          <View>
-            <Text style={styles.discoverTitleWhite}>DISCOVER</Text>
-            <Text style={styles.discoverTitleNeon}>WORKOUTS</Text>
-          </View>
-        </View>
-
-        {/* Search */}
-        <View style={styles.discoverSearchContainer}>
-          <Search color={theme.muted} size={18} />
-          <TextInput
-            placeholder="Search workouts, muscles..."
-            placeholderTextColor={theme.muted}
-            value={query}
-            onChangeText={setQuery}
-            style={styles.discoverInput}
-          />
-          <SlidersHorizontal color={theme.muted} size={18} />
-        </View>
-
-        {/* Filter Chips */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0, flexShrink: 0, marginBottom: 20 }} contentContainerStyle={styles.discoverChips}>
-          {["ALL", "STRENGTH", "CARDIO", "MOBILITY"].map((chip, idx) => (
-            <Pressable key={chip} style={[styles.discoverChip, idx === 0 && styles.discoverChipActive]}>
-              <Text style={[styles.discoverChipText, idx === 0 && styles.discoverChipTextActive]}>{chip}</Text>
-            </Pressable>
-          ))}
-        </ScrollView>
-
-        {/* Grid */}
         <FlatList
-          data={PREPARED_WORKOUTS}
-          keyExtractor={item => item.id}
-          numColumns={2}
-          columnWrapperStyle={styles.discoverGridRow}
-          contentContainerStyle={styles.discoverGridContent}
+          data={programs}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={libStyles.content}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => {
-            const locked = access.isPreparedWorkoutLocked(preparedIndex(item.id), item.id);
-            return (
-            <Pressable
-              style={[styles.discoverCard, locked && { opacity: 0.6 }]}
-              onPress={() => (locked ? openLockedWorkout(item.id) : router.push(`/workout/${item.id}` as any))}
-            >
-              <View style={styles.discoverCardHeader}>
-                <View style={[styles.discoverCategoryPill,
-                item.category === "LEGS" ? { backgroundColor: "#1c2a47" } :
-                  item.category === "MOBILITY" ? { backgroundColor: "#2d1b4e" } :
-                    item.category === "CHEST" ? { backgroundColor: "#173d2a" } :
-                      item.category === "BACK" ? { backgroundColor: "#173d2a" } :
-                        { backgroundColor: "rgba(255,255,255,0.1)" }
-                ]}>
-                  <Text style={[styles.discoverCategoryText,
-                  item.category === "LEGS" ? { color: "#6b9cf6" } :
-                    item.category === "MOBILITY" ? { color: "#b388ff" } :
-                      item.category === "CHEST" ? { color: theme.neon } :
-                        item.category === "BACK" ? { color: theme.neon } :
-                          { color: theme.text }
-                  ]}>{item.category}</Text>
-                </View>
-                {locked ? <Lock size={14} color={theme.neon} /> :
-                  item.icon === "Flame" ? <Flame size={14} color="#ff453a" /> :
-                  item.icon === "Zap" ? <Zap size={14} color="#ff9f0a" /> :
-                    <Leaf size={14} color="#30d158" />}
-              </View>
-
-              <View style={{ flex: 1, justifyContent: "center" }}>
-                <Text style={styles.discoverCardTitle}>{item.title}</Text>
-              </View>
-
-              <View style={styles.discoverCardFooter}>
-                <View style={styles.discoverCardMeta}>
-                  <Clock size={10} color={theme.muted} />
-                  <Text style={styles.discoverCardMetaText}>{item.duration}</Text>
-                  <Text style={styles.discoverCardMetaDot}>·</Text>
-                  <ListOrdered size={10} color={theme.muted} />
-                  <Text style={styles.discoverCardMetaText}>{item.exercises.length}X</Text>
-                </View>
-                <Pressable style={styles.discoverPlayBtn} onPress={() => handleEnroll(item)}>
-                  {locked ? <Lock size={12} color={theme.text} /> : <Plus size={12} color={theme.text} />}
+          keyboardShouldPersistTaps="handled"
+          ListHeaderComponent={
+            <View style={libStyles.headerBlock}>
+              <View style={libStyles.header}>
+                <AppText variant="titleLarge">Library</AppText>
+                <Pressable
+                  style={libStyles.crownButton}
+                  onPress={() => setPaywallReason("prepared_workout")}
+                  accessibilityRole="button"
+                  accessibilityLabel={access.isPremium ? "Premium" : "Go Premium"}
+                >
+                  <Crown size={22} color={colors.textOnAccent} />
                 </Pressable>
               </View>
-            </Pressable>
+
+              <View style={libStyles.search}>
+                <TextInput
+                  placeholder="Search programs, exercises"
+                  placeholderTextColor={colors.textMuted}
+                  value={query}
+                  onChangeText={setQuery}
+                  returnKeyType="search"
+                  style={libStyles.searchInput}
+                />
+                <Search color={colors.textSecondary} size={20} />
+              </View>
+
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={libStyles.chipRow}>
+                {LIBRARY_LEVELS.map((l) => (
+                  <Chip key={l} label={l} selected={level === l} onPress={() => setLevel(l)} />
+                ))}
+              </ScrollView>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={libStyles.chipRow}>
+                {LIBRARY_DAYS.map((d) => (
+                  <Chip key={d.label} label={d.label} selected={days === d.label} onPress={() => setDays(d.label)} />
+                ))}
+              </ScrollView>
+            </View>
+          }
+          ListEmptyComponent={
+            <AppText variant="bodyMedium" color="textSecondary" style={{ textAlign: "center", paddingTop: spacing["3xl"] }}>
+              No programs match your filters.
+            </AppText>
+          }
+          renderItem={({ item }) => {
+            const locked = access.isPreparedWorkoutLocked(preparedIndex(item.id), item.id);
+            const bars = LEVEL_BARS[item.level];
+            return (
+              <Pressable
+                style={libStyles.card}
+                onPress={() => (locked ? openLockedWorkout(item.id) : router.push(`/workout/${item.id}` as any))}
+                accessibilityRole="button"
+                accessibilityLabel={`${item.title}, ${item.level}${locked ? ", Premium" : ""}`}
+              >
+                {/* Image slot: programs get cover images later; until then an inset placeholder. */}
+                <View style={libStyles.cover}>
+                  {locked ? (
+                    <View style={libStyles.lockCircle}>
+                      <Lock size={22} color={colors.accent} />
+                    </View>
+                  ) : (
+                    <Dumbbell size={40} color={colors.textMuted} />
+                  )}
+                </View>
+
+                <View style={libStyles.cardBody}>
+                  <View style={libStyles.titleRow}>
+                    <AppText variant="titleSmall" numberOfLines={1} style={{ flex: 1 }}>
+                      {toTitleCase(item.title)}
+                    </AppText>
+                    {locked ? (
+                      <View style={libStyles.crownBadge}>
+                        <Crown size={14} color={colors.textOnAccent} />
+                      </View>
+                    ) : null}
+                  </View>
+                  <AppText variant="bodyMedium" color="textSecondary">
+                    {item.subtitle}
+                  </AppText>
+                  <View style={libStyles.tags}>
+                    {[
+                      item.equipment,
+                      item.focus,
+                      `${item.programLength} weeks`,
+                      `${item.daysPerWeek} days/week`,
+                    ].map((t) => (
+                      <View key={t} style={libStyles.tag}>
+                        <AppText variant="labelMedium" color="textSecondary">
+                          {t}
+                        </AppText>
+                      </View>
+                    ))}
+                  </View>
+                  <View style={libStyles.levelRow}>
+                    <View style={libStyles.bars}>
+                      {[6, 10, 14].map((h, i) => (
+                        <View
+                          key={h}
+                          style={{
+                            width: 3,
+                            height: h,
+                            borderRadius: 2,
+                            backgroundColor: i < bars ? colors.accent : colors.textMuted,
+                          }}
+                        />
+                      ))}
+                    </View>
+                    <AppText variant="labelMedium" color="textSecondary">
+                      {item.level === "Beginner" ? "Easy" : item.level}
+                    </AppText>
+                  </View>
+                </View>
+              </Pressable>
             );
           }}
         />
@@ -2469,151 +2515,6 @@ const styles = StyleSheet.create({
   discoverPage: {
     flex: 1,
     backgroundColor: theme.background,
-  },
-  discoverHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10,
-  },
-  discoverTitleWhite: {
-    color: theme.text,
-    fontSize: 32,
-    fontWeight: "900",
-    fontStyle: "italic",
-    letterSpacing: -1,
-  },
-  discoverTitleNeon: {
-    color: theme.neon,
-    fontSize: 32,
-    fontWeight: "900",
-    fontStyle: "italic",
-    letterSpacing: -1,
-    marginTop: -8,
-  },
-  discoverCloseBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "rgba(255,255,255,0.05)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.1)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  discoverSearchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.05)",
-    borderRadius: 16,
-    paddingHorizontal: 16,
-    marginHorizontal: 20,
-    marginTop: 10,
-    marginBottom: 20,
-    height: 50,
-    gap: 12,
-  },
-  discoverInput: {
-    flex: 1,
-    color: theme.text,
-    fontSize: 15,
-  },
-  discoverChips: {
-    paddingHorizontal: 20,
-    paddingVertical: 6,
-    gap: 12,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  discoverChip: {
-    backgroundColor: "rgba(255,255,255,0.05)",
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.1)",
-  },
-  discoverChipActive: {
-    backgroundColor: theme.neon,
-    borderColor: theme.neon,
-  },
-  discoverChipText: {
-    color: theme.muted,
-    fontSize: 13,
-    fontWeight: "800",
-  },
-  discoverChipTextActive: {
-    color: theme.background,
-  },
-  discoverGridRow: {
-    justifyContent: "space-between",
-  },
-  discoverGridContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 40,
-    gap: 16,
-  },
-  discoverCard: {
-    width: "48%",
-    backgroundColor: "rgba(255,255,255,0.03)",
-    borderRadius: 16,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.05)",
-    minHeight: 180,
-    justifyContent: "space-between",
-  },
-  discoverCardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
-  discoverCategoryPill: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  discoverCategoryText: {
-    fontSize: 10,
-    fontWeight: "900",
-  },
-  discoverCardTitle: {
-    color: theme.text,
-    fontSize: 20,
-    fontWeight: "900",
-    fontStyle: "italic",
-    letterSpacing: -0.5,
-    marginTop: 16,
-  },
-  discoverCardFooter: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 16,
-  },
-  discoverCardMeta: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  discoverCardMetaText: {
-    color: theme.muted,
-    fontSize: 11,
-    fontWeight: "700",
-  },
-  discoverCardMetaDot: {
-    color: theme.muted,
-    fontSize: 10,
-  },
-  discoverPlayBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "rgba(255,255,255,0.1)",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
 
