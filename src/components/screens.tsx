@@ -57,7 +57,8 @@ import {
 } from "lucide-react-native";
 import { EQUIPMENT_LIST, FOCUS_PRESETS, MUSCLES, MUSCLE_COLORS } from "@/lib/constants";
 import { createWorkoutExercise, filterExercises, getExerciseById, generateWorkout } from "@/lib/exercises";
-import { theme } from "@/lib/theme";
+import { colors, radius, spacing, theme } from "@/lib/theme";
+import { AppText, Button } from "@/components/kit";
 import type { WorkoutExercise, WorkoutFocus } from "@/lib/types";
 import { useWorkoutStore, type DayPlan } from "@/store/workout-store";
 import { useOnboardingStore } from "@/store/onboarding-store";
@@ -190,25 +191,32 @@ export function TrainScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* ---- Header ---- */}
-        <View style={styles.homeHeader}>
+        <View style={trainStyles.header}>
           <Pressable
-            style={styles.homeHeaderLeft}
+            style={trainStyles.headerTitle}
             onPress={() => setPlanDropdownVisible(true)}
           >
-            <Text style={styles.homePlanTitle}>{weekPlan?.name || "My Plan"}</Text>
-            <ChevronDown size={16} color={theme.muted} />
+            <AppText variant="titleLarge" numberOfLines={1} style={{ flexShrink: 1 }}>
+              {weekPlan?.name || "My Plan"}
+            </AppText>
+            <ChevronDown size={20} color={colors.textPrimary} />
           </Pressable>
-          <View style={styles.homeHeaderRight}>
+          <View style={trainStyles.headerActions}>
             <Pressable
-              style={[styles.headerIcon, styles.headerIconPremium]}
+              style={[trainStyles.iconButton, { backgroundColor: colors.accent }]}
               onPress={() => setPremiumVisible(true)}
               accessibilityRole="button"
               accessibilityLabel={access.isPremium ? "Premium" : "Go Premium"}
             >
-              <Crown size={20} color={theme.neon} />
+              <Crown size={20} color={colors.textOnAccent} />
             </Pressable>
-            <Pressable style={styles.headerIcon} onPress={() => setCalendarVisible(true)}>
-              <Calendar size={20} color={theme.text} />
+            <Pressable
+              style={[trainStyles.iconButton, { backgroundColor: colors.bgSurface }]}
+              onPress={() => setCalendarVisible(true)}
+              accessibilityRole="button"
+              accessibilityLabel="Open calendar"
+            >
+              <Calendar size={20} color={colors.textPrimary} />
             </Pressable>
           </View>
         </View>
@@ -217,22 +225,24 @@ export function TrainScreen() {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.filtersRow}
+          contentContainerStyle={trainStyles.filtersRow}
         >
-          <View style={styles.filterChip}>
-            <Text style={styles.filterChipText}>
-              Muscles ({exercises.reduce((s, e) => { s.add(e.mainMuscle); return s; }, new Set<string>()).size})
-            </Text>
-            <ChevronDown size={12} color={theme.muted} />
+          <View style={trainStyles.filterChip}>
+            <AppText variant="labelLarge">
+              Muscles ({new Set(exercises.map((e) => e.mainMuscle)).size})
+            </AppText>
+            <ChevronDown size={14} color={colors.textSecondary} />
           </View>
-          <View style={styles.filterChip}>
-            <Text style={styles.filterChipText}>{estimatedMinutes > 0 ? `${estimatedMinutes}-${estimatedMinutes + 10} Min` : "—"}</Text>
-            <ChevronDown size={12} color={theme.muted} />
+          <View style={trainStyles.filterChip}>
+            <AppText variant="labelLarge">
+              {estimatedMinutes > 0 ? `${estimatedMinutes}–${estimatedMinutes + 10} Min` : "—"}
+            </AppText>
+            <ChevronDown size={14} color={colors.textSecondary} />
           </View>
         </ScrollView>
 
         {/* ---- Week calendar strip ---- */}
-        <View style={styles.weekStrip}>
+        <View style={trainStyles.weekStrip}>
           {weekDates.map((d) => {
             const isSelected = d.dayIndex === selectedDay;
             const dayPlan = weekPlan?.days[d.dayIndex];
@@ -241,35 +251,32 @@ export function TrainScreen() {
             return (
               <Pressable
                 key={d.dayIndex}
-                style={styles.dayCol}
+                style={[
+                  trainStyles.dayPill,
+                  { backgroundColor: isSelected ? colors.accent : "transparent" },
+                ]}
                 onPress={() => handleDayPress(d.dayIndex)}
+                accessibilityRole="button"
+                accessibilityState={{ selected: isSelected }}
               >
-                <Text style={[styles.dayName, isSelected && styles.dayNameActive]}>
+                <AppText variant="caption" color={isSelected ? "textOnAccent" : "textSecondary"}>
                   {d.day}
-                </Text>
+                </AppText>
+                <AppText variant="titleSmall" color={isSelected ? "textOnAccent" : "textPrimary"}>
+                  {d.date}
+                </AppText>
                 <View
                   style={[
-                    styles.dayCircle,
-                    isSelected && styles.dayCircleActive,
+                    trainStyles.dayDot,
+                    {
+                      backgroundColor: !hasWorkout
+                        ? "transparent"
+                        : isSelected
+                          ? colors.textOnAccent
+                          : colors.accent,
+                    },
                   ]}
-                >
-                  <Text
-                    style={[
-                      styles.dayDate,
-                      isSelected && styles.dayDateActive,
-                    ]}
-                  >
-                    {d.date}
-                  </Text>
-                </View>
-                {hasWorkout && (
-                  <View
-                    style={[
-                      styles.dayDot,
-                      isSelected && styles.dayDotActive,
-                    ]}
-                  />
-                )}
+                />
               </Pressable>
             );
           })}
@@ -277,90 +284,88 @@ export function TrainScreen() {
 
         {/* ---- Week / Phase label ---- */}
         {weekPlan && (
-          <Text style={styles.weekLabel}>
+          <AppText variant="labelLarge" color="accent" style={{ textAlign: "center" }}>
             Week {weekPlan.weekNumber}/{weekPlan.totalWeeks} – {weekPlan.phaseName}
-          </Text>
+          </AppText>
         )}
 
         {/* ---- TODAY'S WORKOUT ---- */}
-        <View style={styles.todaySection}>
-          <View style={styles.todayRow}>
-            <Text style={styles.todayTitle}>TODAY&apos;S WORKOUT</Text>
-          </View>
-          <Text style={styles.workoutTypeLabel}>{workoutLabel}</Text>
+        <View style={trainStyles.todaySection}>
+          <AppText variant="caption" color="textSecondary" style={{ letterSpacing: 1 }}>
+            TODAY&apos;S WORKOUT
+          </AppText>
+          <AppText variant="titleMedium">{workoutLabel}</AppText>
         </View>
 
         {isRest ? (
-          <View style={styles.restCard}>
-            <Text style={styles.restEmoji}>😴</Text>
-            <Text style={styles.restTitle}>Rest Day</Text>
-            <Text style={styles.restSubtitle}>
+          <View style={trainStyles.restCard}>
+            <Text style={{ fontSize: 48 }}>😴</Text>
+            <AppText variant="titleMedium">Rest Day</AppText>
+            <AppText variant="bodyMedium" color="textSecondary" style={{ textAlign: "center" }}>
               Recovery is part of the plan. Take it easy today.
-            </Text>
+            </AppText>
           </View>
         ) : (
           <>
             {/* ---- Stats row ---- */}
-            <View style={styles.statsRow}>
-              <View style={styles.statItem}>
-                <Zap size={14} color={theme.neon} />
-                <Text style={styles.statText}>{exercises.length} Exercises</Text>
+            <View style={trainStyles.statsRow}>
+              <View style={trainStyles.statItem}>
+                <Zap size={16} color={colors.accent} />
+                <AppText variant="labelLarge">{exercises.length} Exercises</AppText>
               </View>
-              <View style={styles.statItem}>
-                <Clock size={14} color={theme.neon} />
-                <Text style={styles.statText}>{estimatedMinutes} Min</Text>
+              <View style={trainStyles.statItem}>
+                <Clock size={16} color={colors.accent} />
+                <AppText variant="labelLarge">{estimatedMinutes} Min</AppText>
               </View>
-              <View style={styles.statItem}>
-                <Flame size={14} color={theme.neon} />
-                <Text style={styles.statText}>{estimatedCal} Cal</Text>
+              <View style={trainStyles.statItem}>
+                <Flame size={16} color={colors.accent} />
+                <AppText variant="labelLarge">{estimatedCal} Cal</AppText>
               </View>
             </View>
 
             {/* ---- Exercise cards ---- */}
-            {exercises.map((ex, idx) => (
+            {exercises.map((ex) => (
               <Pressable
                 key={ex.instanceId}
-                style={styles.exerciseCard}
+                style={trainStyles.exerciseCard}
                 onPress={() => router.push(`/exercise/${ex.exerciseId}`)}
               >
-                <View style={styles.exerciseThumb}>
+                <View style={trainStyles.exerciseThumb}>
                   {ex.gif ? (
                     <Image
                       source={getExerciseImageSource(ex.gif)}
-                      style={styles.exerciseThumbImg}
+                      style={trainStyles.exerciseThumbImg}
                       contentFit="cover"
                     />
                   ) : (
-                    <Dumbbell size={22} color={theme.neon} />
+                    <Dumbbell size={22} color={colors.accent} />
                   )}
                 </View>
-                <View style={styles.exerciseInfo}>
-                  <Text style={styles.exerciseName} numberOfLines={1}>
+                <View style={trainStyles.exerciseInfo}>
+                  <AppText variant="titleSmall" numberOfLines={1}>
                     {ex.title}
-                  </Text>
-                  <Text style={styles.exerciseMeta}>
-                    {ex.sets} sets x {ex.reps} reps
-                    {ex.restSeconds ? ` x ${ex.restSeconds}s rest` : ""}
-                  </Text>
+                  </AppText>
+                  <AppText variant="bodyMedium" color="textSecondary">
+                    {ex.sets} sets × {ex.reps} reps
+                    {ex.restSeconds ? ` × ${ex.restSeconds}s rest` : ""}
+                  </AppText>
                 </View>
-                <Pressable style={styles.exercisePlayBtn}>
-                  <Info size={18} color={theme.neon} />
-                </Pressable>
+                <View style={trainStyles.infoButton}>
+                  <Info size={18} color={colors.accent} />
+                </View>
               </Pressable>
             ))}
           </>
         )}
 
-        {/* Spacer for bottom button */}
-        <View style={{ height: 100 }} />
+        {/* Spacer so the last card clears the button and the floating tab bar */}
+        <View style={{ height: 160 }} />
       </ScrollView>
 
-      {/* ---- START WORKOUT CTA ---- */}
+      {/* ---- Start workout CTA ---- */}
       {!isRest && exercises.length > 0 && (
-        <View style={styles.ctaContainer}>
-          <Pressable style={styles.startBtn} onPress={handleStartWorkout}>
-            <Text style={styles.startBtnText}>START WORKOUT</Text>
-          </Pressable>
+        <View style={trainStyles.ctaContainer} pointerEvents="box-none">
+          <Button label="Start workout" onPress={handleStartWorkout} />
         </View>
       )}
 
@@ -501,6 +506,89 @@ export function TrainScreen() {
     </View>
   );
 }
+
+const trainStyles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: 40,
+    gap: spacing.md,
+  },
+  headerTitle: { flexDirection: "row", alignItems: "center", gap: spacing.sm, flexShrink: 1 },
+  headerActions: { flexDirection: "row", gap: spacing.sm },
+  iconButton: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.full,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  filtersRow: { flexDirection: "row", gap: spacing.sm, paddingVertical: spacing.xs },
+  filterChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+    height: 36,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgSurface,
+  },
+  weekStrip: { flexDirection: "row", justifyContent: "space-between", paddingVertical: spacing.sm },
+  dayPill: {
+    width: 44,
+    alignItems: "center",
+    gap: spacing.xs,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.full,
+  },
+  dayDot: { width: 5, height: 5, borderRadius: 3 },
+  todaySection: { gap: spacing.xs, paddingTop: spacing.sm },
+  restCard: {
+    backgroundColor: colors.bgSurface,
+    borderRadius: radius.md,
+    padding: spacing["3xl"],
+    alignItems: "center",
+    gap: spacing.sm,
+  },
+  statsRow: { flexDirection: "row", gap: spacing.xl, paddingVertical: spacing.sm },
+  statItem: { flexDirection: "row", alignItems: "center", gap: spacing.sm },
+  exerciseCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.bgSurface,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    gap: spacing.md,
+  },
+  exerciseThumb: {
+    width: 56,
+    height: 56,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgInset,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  exerciseThumbImg: { width: 56, height: 56 },
+  exerciseInfo: { flex: 1, gap: spacing.xs },
+  infoButton: {
+    width: 36,
+    height: 36,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgInset,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  // Sits above the floating tab bar (see src/app/(tabs)/_layout.tsx).
+  ctaContainer: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 104,
+    paddingHorizontal: spacing.xl,
+  },
+});
 
 /* ===== OTHER SCREENS (unchanged logic) ===== */
 
@@ -1860,7 +1948,7 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: 110, // clears the floating tab bar
     gap: 8,
   },
   center: {
@@ -1902,27 +1990,6 @@ const styles = StyleSheet.create({
   },
 
   /* -- Homepage header -- */
-  homeHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingTop: 50,
-    paddingBottom: 8,
-  },
-  homeHeaderLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  homePlanTitle: {
-    color: theme.text,
-    fontSize: 22,
-    fontWeight: "900",
-  },
-  homeHeaderRight: {
-    flexDirection: "row",
-    gap: 12,
-  },
   headerIcon: {
     width: 40,
     height: 40,
@@ -1933,17 +2000,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  headerIconPremium: {
-    backgroundColor: "rgba(8,253,142,0.10)",
-    borderColor: theme.neon,
-  },
 
   /* -- Filter chips -- */
-  filtersRow: {
-    flexDirection: "row",
-    gap: 8,
-    paddingVertical: 8,
-  },
   filterChip: {
     flexDirection: "row",
     alignItems: "center",
@@ -1962,114 +2020,12 @@ const styles = StyleSheet.create({
   },
 
   /* -- Week strip -- */
-  weekStrip: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(255,255,255,0.04)",
-  },
-  dayCol: {
-    alignItems: "center",
-    gap: 6,
-    minWidth: 40,
-  },
-  dayName: {
-    color: theme.muted,
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  dayNameActive: {
-    color: theme.neon,
-  },
-  dayCircle: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  dayCircleActive: {
-    backgroundColor: theme.neon,
-  },
-  dayDate: {
-    color: theme.text,
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  dayDateActive: {
-    color: theme.background,
-    fontWeight: "900",
-  },
-  dayDot: {
-    width: 5,
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: theme.muted,
-  },
-  dayDotActive: {
-    backgroundColor: theme.neon,
-  },
 
   /* -- Week label -- */
-  weekLabel: {
-    color: theme.neon,
-    fontSize: 13,
-    fontWeight: "700",
-    textAlign: "center",
-    paddingVertical: 6,
-    letterSpacing: 0.3,
-  },
 
   /* -- Today section -- */
-  todaySection: {
-    gap: 4,
-    paddingTop: 8,
-  },
-  todayRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  todayTitle: {
-    color: theme.text,
-    fontSize: 24,
-    fontWeight: "900",
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-  },
-  editIcon: {
-    padding: 6,
-  },
-  workoutTypeLabel: {
-    color: theme.muted,
-    fontSize: 15,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
 
   /* -- Rest day card -- */
-  restCard: {
-    ...card,
-    padding: 32,
-    alignItems: "center",
-    gap: 8,
-    marginTop: 8,
-  },
-  restEmoji: {
-    fontSize: 48,
-  },
-  restTitle: {
-    color: theme.text,
-    fontSize: 22,
-    fontWeight: "900",
-  },
-  restSubtitle: {
-    color: theme.muted,
-    fontSize: 14,
-    textAlign: "center",
-    lineHeight: 22,
-  },
 
   /* -- Stats row -- */
   statsRow: {
@@ -2129,44 +2085,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "500",
   },
-  exercisePlayBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "rgba(8, 253, 142, 0.08)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 
   /* -- CTA Button -- */
-  ctaContainer: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 20,
-    paddingBottom: 24,
-    paddingTop: 12,
-    backgroundColor: theme.background,
-  },
-  startBtn: {
-    backgroundColor: theme.neon,
-    height: 60,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: theme.neon,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.35,
-    shadowRadius: 12,
-    elevation: 8,
-  },
-  startBtnText: {
-    color: theme.background,
-    fontSize: 18,
-    fontWeight: "900",
-    letterSpacing: 2,
-  },
 
   /* -- Shared pill -- */
   pill: {
