@@ -1,1 +1,1 @@
-export { LiveScreen as default } from "@/components/screens";
+export { LiveScreen as default } from "@/components/workout/LiveScreen";
