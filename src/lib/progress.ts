@@ -71,24 +71,63 @@ function bestOneRepMax(sets: HistoryExercise["sets"]): number {
   return best;
 }
 
+export interface PersonalRecord {
+  exerciseId: string;
+  title: string;
+  /** Heaviest set of the workout, in kilograms. */
+  weight: number;
+  reps: number;
+  /** The heaviest weight logged for this exercise before. */
+  previousWeight: number;
+}
+
+/** Heaviest set of an exercise (most reps wins a tie). */
+function heaviestSet(sets: HistoryExercise["sets"]): { weight: number; reps: number } | null {
+  let best: { weight: number; reps: number } | null = null;
+  for (const set of sets) {
+    if (!set.weight || set.weight <= 0) continue;
+    if (!best || set.weight > best.weight || (set.weight === best.weight && set.reps > best.reps)) {
+      best = { weight: set.weight, reps: set.reps };
+    }
+  }
+  return best;
+}
+
+/** Latest logged set for an exercise, newest workout first (the "Last time" hint while training). */
+export function lastLoggedSet(history: WorkoutHistoryEntry[], exerciseId: string): { weight?: number; reps: number } | null {
+  for (const entry of history) {
+    const ex = entry.exercises?.find((e) => e.exerciseId === exerciseId);
+    const last = ex?.sets[ex.sets.length - 1];
+    if (last) return last;
+  }
+  return null;
+}
+
 /**
- * Number of exercises whose best set beats every earlier workout. An exercise needs an earlier
- * recorded best to count, so the first time you log a lift is not a record.
+ * Exercises where the heaviest set beats every earlier workout. An exercise needs an earlier
+ * recorded weight to count, so the first time you log a lift is not a record.
  */
-export function countPersonalRecords(exercises: HistoryExercise[], history: WorkoutHistoryEntry[]): number {
+export function detectRecords(exercises: HistoryExercise[], history: WorkoutHistoryEntry[]): PersonalRecord[] {
   const previousBest = new Map<string, number>();
   for (const entry of history) {
     for (const ex of entry.exercises ?? []) {
-      previousBest.set(ex.exerciseId, Math.max(previousBest.get(ex.exerciseId) ?? 0, bestOneRepMax(ex.sets)));
+      const best = heaviestSet(ex.sets);
+      if (best) previousBest.set(ex.exerciseId, Math.max(previousBest.get(ex.exerciseId) ?? 0, best.weight));
     }
   }
-  let count = 0;
+  const records: PersonalRecord[] = [];
   for (const ex of exercises) {
     const before = previousBest.get(ex.exerciseId);
-    if (before && before > 0 && bestOneRepMax(ex.sets) > before + 0.05) count++;
+    const best = heaviestSet(ex.sets);
+    if (before && best && best.weight > before + 0.001) {
+      records.push({ exerciseId: ex.exerciseId, title: ex.title, weight: best.weight, reps: best.reps, previousWeight: before });
+    }
   }
-  return count;
+  return records;
 }
+
+export const countPersonalRecords = (exercises: HistoryExercise[], history: WorkoutHistoryEntry[]) =>
+  detectRecords(exercises, history).length;
 
 /* ───────────────────────── muscle groups ───────────────────────── */
 
