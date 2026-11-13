@@ -1,1 +1,1 @@
-export { HistoryScreen as default } from "@/components/screens";
+export { ProgressScreen as default } from "@/components/progress/ProgressScreen";

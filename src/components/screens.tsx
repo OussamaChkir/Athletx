@@ -49,9 +49,6 @@ import {
   X,
   Minus,
   Lock,
-  Trophy,
-  Activity,
-  Target
 } from "lucide-react-native";
 import { EQUIPMENT_LIST, FOCUS_PRESETS, MUSCLES } from "@/lib/constants";
 import { filterExercises, getExerciseById } from "@/lib/exercises";
@@ -72,7 +69,6 @@ import { useWorkoutStore, type DayPlan } from "@/store/workout-store";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { useWeightUnit } from "@/lib/units";
 import { convertWeight, fromKg, roundWeight, toKg } from "@/lib/weight";
-import { BodyWeightCard } from "@/components/body-weight-card";
 import { PremiumPopup } from "@/components/premium-popup";
 import type { PaywallReason } from "@/lib/entitlements";
 import { usePremiumAccess } from "@/lib/use-premium-access";
@@ -999,148 +995,6 @@ export function BuilderScreen() {
                 <LevelBars level={e.difficulty} />
               </View>
             </Pressable>
-          );
-        }}
-      />
-    </SafeAreaView>
-  );
-}
-
-function ProgressListHeader() {
-  const history = useWorkoutStore((s) => s.history);
-  const totalWorkouts = history.length;
-  const totalTimeSeconds = history.reduce((acc, curr) => acc + curr.durationSeconds, 0);
-  const totalWeight = history.reduce((acc, curr) => acc + curr.totalVolume, 0);
-  const unit = useWeightUnit();
-
-  const streak = useMemo(() => {
-    if (!history.length) return 0;
-    const dates = [...new Set(history.map(h => new Date(h.completedAt).toDateString()))]
-      .map(dStr => new Date(dStr))
-      .sort((a, b) => b.getTime() - a.getTime());
-
-    let currentStreak = 0;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    if (dates[0].getTime() !== today.getTime() && dates[0].getTime() !== yesterday.getTime()) {
-      return 0;
-    }
-
-    let expectedDate = dates[0];
-    for (const date of dates) {
-      if (date.getTime() === expectedDate.getTime()) {
-        currentStreak++;
-        expectedDate = new Date(date);
-        expectedDate.setDate(expectedDate.getDate() - 1);
-      } else {
-        break;
-      }
-    }
-    return currentStreak;
-  }, [history]);
-
-  return (
-    <View style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
-      <View style={{ marginBottom: 24 }}>
-        <Text style={[styles.title, { fontSize: 32 }]}>Progress</Text>
-        <Text style={styles.muted}>Your fitness journey</Text>
-      </View>
-
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12, marginBottom: 24 }}>
-        <View style={{ flex: 1, minWidth: "45%", backgroundColor: "rgba(255,159,10,0.1)", padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(255,159,10,0.2)" }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 8 }}>
-            <Flame size={20} color="#ff9f0a" />
-            <Text style={{ color: "#ff9f0a", fontWeight: "800", fontSize: 13 }}>STREAK</Text>
-          </View>
-          <Text style={{ color: theme.text, fontSize: 28, fontWeight: "900" }}>{streak} <Text style={{ fontSize: 16, color: theme.muted }}>days</Text></Text>
-        </View>
-
-        <View style={{ flex: 1, minWidth: "45%", backgroundColor: "rgba(8,253,142,0.1)", padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(8,253,142,0.2)" }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 8 }}>
-            <Activity size={20} color={theme.neon} />
-            <Text style={{ color: theme.neon, fontWeight: "800", fontSize: 13 }}>WORKOUTS</Text>
-          </View>
-          <Text style={{ color: theme.text, fontSize: 28, fontWeight: "900" }}>{totalWorkouts}</Text>
-        </View>
-
-        <View style={{ flex: 1, minWidth: "45%", backgroundColor: "rgba(255,92,114,0.1)", padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(255,92,114,0.2)" }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 8 }}>
-            <Target size={20} color="#ff5c72" />
-            <Text style={{ color: "#ff5c72", fontWeight: "800", fontSize: 13 }}>VOLUME</Text>
-          </View>
-          <Text style={{ color: theme.text, fontSize: 24, fontWeight: "900" }}>{Math.round(fromKg(totalWeight, unit))} <Text style={{ fontSize: 14, color: theme.muted }}>{unit}</Text></Text>
-        </View>
-
-        <View style={{ flex: 1, minWidth: "45%", backgroundColor: "rgba(179,136,255,0.1)", padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(179,136,255,0.2)" }}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 8 }}>
-            <Clock size={20} color="#b388ff" />
-            <Text style={{ color: "#b388ff", fontWeight: "800", fontSize: 13 }}>TIME</Text>
-          </View>
-          <Text style={{ color: theme.text, fontSize: 24, fontWeight: "900" }}>{Math.floor(totalTimeSeconds / 60)} <Text style={{ fontSize: 14, color: theme.muted }}>min</Text></Text>
-        </View>
-      </View>
-
-      <BodyWeightCard />
-
-      <Text style={[styles.title, { fontSize: 20, marginBottom: 8 }]}>Recent Workouts</Text>
-    </View>
-  );
-}
-
-export function HistoryScreen() {
-  const history = useWorkoutStore((s) => s.history);
-  const maxVolume = useMemo(() => Math.max(0, ...history.map(h => h.totalVolume)), [history]);
-  const unit = useWeightUnit();
-
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
-      <FlatList
-        contentContainerStyle={[styles.page, { paddingHorizontal: 0 }]}
-        data={history}
-        keyExtractor={(x) => x.id}
-        ListHeaderComponent={ProgressListHeader}
-        ListEmptyComponent={
-          <View style={{ padding: 40, alignItems: 'center' }}>
-            <Text style={styles.muted}>
-              Finish a live workout to see it here.
-            </Text>
-          </View>
-        }
-        renderItem={({ item }) => {
-          const isPR = item.totalVolume > 0 && item.totalVolume === maxVolume;
-
-          return (
-            <View style={[styles.libExercise, { marginHorizontal: 20, marginBottom: 12, backgroundColor: theme.surface, borderWidth: 1, borderColor: theme.border, borderRadius: 16 }]}>
-              <View style={{ backgroundColor: 'rgba(255,255,255,0.05)', padding: 12, borderRadius: 12 }}>
-                <Dumbbell color={theme.neon} size={24} />
-              </View>
-              <View style={{ flex: 1 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                  <Text style={styles.cardTitle}>{item.name}</Text>
-                  {isPR && (
-                    <View style={{ backgroundColor: 'rgba(255,215,0,0.15)', paddingHorizontal: 6, paddingVertical: 2, borderRadius: 6, flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                      <Trophy size={12} color="#ffd700" />
-                      <Text style={{ color: '#ffd700', fontSize: 10, fontWeight: '900' }}>PR</Text>
-                    </View>
-                  )}
-                </View>
-                <Text style={styles.muted}>
-                  {new Date(item.completedAt).toLocaleDateString()} · {formatTime(item.durationSeconds)}
-                </Text>
-                <View style={{ flexDirection: 'row', gap: 12, marginTop: 8 }}>
-                  <Text style={{ color: theme.text, fontSize: 12, fontWeight: '700' }}>
-                    {item.totalSets} <Text style={{ color: theme.muted, fontWeight: '500' }}>sets</Text>
-                  </Text>
-                  <Text style={{ color: theme.text, fontSize: 12, fontWeight: '700' }}>
-                    {Math.round(fromKg(item.totalVolume, unit))} <Text style={{ color: theme.muted, fontWeight: '500' }}>{unit}</Text>
-                  </Text>
-                </View>
-              </View>
-            </View>
           );
         }}
       />

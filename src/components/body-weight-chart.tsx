@@ -9,10 +9,8 @@ import Svg, {
   Stop,
   Text as SvgText,
 } from "react-native-svg";
-import { theme } from "@/lib/theme";
+import { colors } from "@/lib/theme";
 import { formatWeight, parseDateKey } from "@/lib/weight";
-
-const GOAL_GOLD = "#e8c84a";
 
 export interface ChartPoint {
   date: string;
@@ -139,8 +137,8 @@ export function BodyWeightChart({
     <Svg width={width} height={height}>
       <Defs>
         <LinearGradient id="weightFill" x1="0" y1="0" x2="0" y2="1">
-          <Stop offset="0" stopColor={theme.neon} stopOpacity="0.28" />
-          <Stop offset="1" stopColor={theme.neon} stopOpacity="0.02" />
+          <Stop offset="0" stopColor={colors.accent} stopOpacity="0.28" />
+          <Stop offset="1" stopColor={colors.accent} stopOpacity="0.02" />
         </LinearGradient>
       </Defs>
 
@@ -151,7 +149,7 @@ export function BodyWeightChart({
             key={`t-${tick}`}
             x={0}
             y={y + 4}
-            fill={theme.muted}
+            fill={colors.textMuted}
             fontSize={11}
             fontWeight="600"
           >
@@ -167,14 +165,14 @@ export function BodyWeightChart({
             y1={goalY}
             x2={width - 8}
             y2={goalY}
-            stroke={GOAL_GOLD}
+            stroke={colors.accent}
             strokeWidth={1.5}
-            strokeDasharray="5 6"
+            strokeDasharray="6 6"
           />
           <SvgText
             x={width - 4}
             y={goalY + 4}
-            fill={GOAL_GOLD}
+            fill={colors.accent}
             fontSize={11}
             fontWeight="800"
             textAnchor="end"
@@ -185,17 +183,17 @@ export function BodyWeightChart({
       ) : null}
 
       <Path d={fill} fill="url(#weightFill)" />
-      <Path d={line} fill="none" stroke={theme.neon} strokeWidth={2.4} />
+      <Path d={line} fill="none" stroke={colors.accent} strokeWidth={2.4} />
 
-      <Circle cx={last.x} cy={last.y} r={6} fill={theme.neon} />
-      <Circle cx={last.x} cy={last.y} r={3.2} fill={theme.background} />
+      <Circle cx={last.x} cy={last.y} r={6} fill={colors.accent} />
+      <Circle cx={last.x} cy={last.y} r={3.2} fill={colors.bgSurface} />
 
       {months.map((m) => (
         <SvgText
           key={m.label}
           x={m.x}
           y={height - 6}
-          fill={theme.muted}
+          fill={colors.textMuted}
           fontSize={12}
           fontWeight="600"
           textAnchor="middle"
@@ -213,7 +211,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   emptyText: {
-    color: theme.muted,
+    color: colors.textMuted,
     fontSize: 13,
   },
 });

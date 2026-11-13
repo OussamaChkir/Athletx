@@ -81,6 +81,14 @@ export interface SavedWorkout {
   durationSeconds?: number;
 }
 
+/** Sets logged for one exercise in a finished workout (weights are kilograms). */
+export interface HistoryExercise {
+  exerciseId: string;
+  title: string;
+  mainMuscle: string;
+  sets: { reps: number; weight?: number }[];
+}
+
 export interface WorkoutHistoryEntry {
   id: string;
   workoutId: string;
@@ -91,6 +99,10 @@ export interface WorkoutHistoryEntry {
   totalVolume: number;
   durationSeconds: number;
   muscles: string[];
+  /** Per-exercise sets. Missing on workouts saved before this was recorded. */
+  exercises?: HistoryExercise[];
+  /** Exercises where the best set beat every earlier workout. Missing on older workouts. */
+  prCount?: number;
 }
 
 export interface GeneratorOptions {

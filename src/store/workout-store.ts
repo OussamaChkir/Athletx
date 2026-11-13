@@ -4,11 +4,13 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { DEFAULT_EQUIPMENT, FOCUS_PRESETS } from "@/lib/constants";
 import { canCreatePlan } from "@/lib/entitlements";
 import { createId } from "@/lib/id";
+import { countPersonalRecords } from "@/lib/progress";
 import { generateWorkout } from "@/lib/exercises";
 import type {
   Difficulty,
   EquipmentId,
   GeneratorOptions,
+  HistoryExercise,
   MuscleId,
   SavedWorkout,
   WorkoutExercise,
@@ -407,6 +409,14 @@ export const useWorkoutStore = create<State>()(
 
       finishWorkout: (durationSeconds) => {
         const s = get();
+        const exercises: HistoryExercise[] = s.currentWorkout
+          .filter((e) => e.loggedSets.length > 0)
+          .map((e) => ({
+            exerciseId: e.exerciseId,
+            title: e.title,
+            mainMuscle: e.mainMuscle,
+            sets: e.loggedSets.map((set) => ({ reps: set.reps, weight: set.weight })),
+          }));
         const entry: WorkoutHistoryEntry = {
           id: createId(),
           workoutId: createId(),
@@ -425,6 +435,8 @@ export const useWorkoutStore = create<State>()(
             ) / 10,
           durationSeconds,
           muscles: [...new Set(s.currentWorkout.map((e) => e.mainMuscle))],
+          exercises,
+          prCount: countPersonalRecords(exercises, s.history),
         };
         set({ history: [entry, ...s.history], livePhase: "done" });
       },

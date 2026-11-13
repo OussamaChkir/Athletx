@@ -10,9 +10,11 @@ import {
   View,
 } from "react-native";
 import { ChevronLeft, ChevronRight, Plus, Target } from "lucide-react-native";
-import { format } from "date-fns";
+import { format, subDays } from "date-fns";
 import { Href, router } from "expo-router";
-import { theme } from "@/lib/theme";
+import { colors, radius, spacing, theme } from "@/lib/theme";
+import { AppText } from "@/components/kit";
+import { SegmentedTabs } from "@/components/progress/SegmentedTabs";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { useWeightStore } from "@/store/weight-store";
 import {
@@ -27,8 +29,6 @@ import {
   type BodyWeightUnit,
 } from "@/lib/weight";
 import { BodyWeightChart } from "@/components/body-weight-chart";
-
-const GOAL_GOLD = "#e8c84a";
 
 export function LogWeightModal({
   visible,
@@ -142,6 +142,14 @@ export function LogWeightModal({
   );
 }
 
+const RANGES = [
+  { value: "1M", label: "1M", days: 30 },
+  { value: "3M", label: "3M", days: 90 },
+  { value: "1Y", label: "1Y", days: 365 },
+  { value: "All", label: "All", days: null },
+] as const;
+type RangeValue = (typeof RANGES)[number]["value"];
+
 export function BodyWeightCard() {
   const weight = useOnboardingStore((s) => s.weight);
   const goalWeight = useOnboardingStore((s) => s.goalWeight);
@@ -150,6 +158,7 @@ export function BodyWeightCard() {
 
   const [logOpen, setLogOpen] = useState(false);
   const [chartWidth, setChartWidth] = useState(0);
+  const [range, setRange] = useState<RangeValue>("3M");
 
   const unit: BodyWeightUnit = unitLabel(weight.unit);
 
@@ -164,120 +173,51 @@ export function BodyWeightCard() {
   }, [seedFromProfile, weight.value, unit]);
 
   const latest = entries[entries.length - 1];
-  const previous = entries[entries.length - 2];
-
-  const currentDisplay = latest
-    ? fromKg(latest.kg, unit)
-    : weight.value != null
-      ? weight.value
-      : null;
-
   const goalDisplay = goalWeight != null ? goalWeight : null;
 
-  const delta = useMemo(() => {
-    if (!latest || !previous) return null;
-    return fromKg(latest.kg, unit) - fromKg(previous.kg, unit);
-  }, [latest, previous, unit]);
-
-  const goalDelta =
-    currentDisplay != null && goalDisplay != null
-      ? roundWeight(currentDisplay - goalDisplay, 1)
-      : null;
-
-  const towardGoalGood =
-    goalDelta == null
-      ? true
-      : goalDelta > 0
-        ? (delta ?? 0) < 0
-        : goalDelta < 0
-          ? (delta ?? 0) > 0
-          : true;
-
-  const chartPoints = entries.map((e) => ({
-    date: e.date,
-    value: fromKg(e.kg, unit),
-  }));
+  const chartPoints = useMemo(() => {
+    const days = RANGES.find((r) => r.value === range)?.days ?? null;
+    const cutoff = days == null ? null : localDateKey(subDays(new Date(), days));
+    return entries
+      .filter((e) => cutoff == null || e.date >= cutoff)
+      .map((e) => ({ date: e.date, value: fromKg(e.kg, unit) }));
+  }, [entries, range, unit]);
 
   return (
-    <View style={styles.card}>
-      <View style={styles.topRow}>
-        <Text style={styles.cardTitle}>Body weight</Text>
-        <View style={styles.topRight}>
+    <View style={cardStyles.card}>
+      <View style={cardStyles.topRow}>
+        <AppText variant="labelLarge" color="textSecondary">
+          Body weight
+        </AppText>
+        <View style={cardStyles.topRight}>
           {goalDisplay != null ? (
-            <View style={styles.goalChip}>
-              <Target size={12} color={GOAL_GOLD} />
-              <Text style={styles.goalChipText}>
+            <View style={cardStyles.goalChip}>
+              <Target size={18} color={colors.accent} />
+              <AppText variant="labelLarge" color="accent">
                 {formatWeight(goalDisplay, goalDisplay % 1 === 0 ? 0 : 1)}
-              </Text>
+              </AppText>
             </View>
           ) : null}
-          <Pressable onPress={() => setLogOpen(true)} style={styles.logBtn} hitSlop={6}>
-            <Plus size={14} color={theme.neon} />
-            <Text style={styles.logBtnText}>Log</Text>
+          <Pressable onPress={() => setLogOpen(true)} style={cardStyles.logBtn} hitSlop={8} accessibilityRole="button">
+            <Plus size={16} color={colors.accent} />
+            <AppText variant="labelLarge" color="accent">
+              Log
+            </AppText>
           </Pressable>
         </View>
       </View>
 
-      {currentDisplay != null ? (
-        <View style={styles.heroRow}>
-          <View style={{ flex: 1 }}>
-            <View style={styles.currentRow}>
-              <Text style={styles.currentValue}>{formatWeight(currentDisplay, 1)}</Text>
-              <Text style={styles.currentUnit}>{unit}</Text>
-              {delta != null && Math.abs(delta) >= 0.05 ? (
-                <Text
-                  style={[
-                    styles.delta,
-                    { color: towardGoalGood ? theme.neon : theme.ember },
-                  ]}
-                >
-                  {delta > 0 ? "↑" : "↓"} {formatWeight(Math.abs(delta), 1)}
-                </Text>
-              ) : null}
-            </View>
-          </View>
-          {latest ? (
-            <Text style={styles.heroDate}>
-              {format(parseDateKey(latest.date), "EEE d MMM")}
-            </Text>
-          ) : null}
-        </View>
-      ) : (
-        <Text style={styles.emptyCopy}>Log today’s weight to start your trend.</Text>
-      )}
+      <SegmentedTabs tone="inset" options={RANGES} value={range} onChange={setRange} />
 
-      {goalDisplay != null && currentDisplay != null && goalDelta != null ? (
-        <View style={styles.goalRow}>
-          <Target size={14} color={GOAL_GOLD} />
-          <Text style={styles.goalLine}>
-            Goal {formatWeight(goalDisplay, goalDisplay % 1 === 0 ? 0 : 1)} {unit}
-            {" · "}
-            {Math.abs(goalDelta) < 0.05
-              ? "Goal reached"
-              : goalDelta > 0
-                ? `${formatWeight(goalDelta, 1)} ${unit} to lose`
-                : `${formatWeight(Math.abs(goalDelta), 1)} ${unit} to gain`}
-          </Text>
-        </View>
-      ) : null}
-
-      <View
-        style={styles.chartWrap}
-        onLayout={(e) => setChartWidth(e.nativeEvent.layout.width)}
-      >
-        <BodyWeightChart
-          points={chartPoints}
-          goal={goalDisplay}
-          width={chartWidth}
-        />
+      <View style={cardStyles.chartWrap} onLayout={(e) => setChartWidth(e.nativeEvent.layout.width)}>
+        <BodyWeightChart points={chartPoints} goal={goalDisplay} width={chartWidth} />
       </View>
 
-      <Pressable
-        onPress={() => router.push("/weigh-ins" as Href)}
-        style={styles.allLink}
-      >
-        <Text style={styles.allLinkText}>All weigh-ins</Text>
-        <Text style={styles.allLinkChevron}>›</Text>
+      <Pressable onPress={() => router.push("/weigh-ins" as Href)} style={cardStyles.allLink} accessibilityRole="button">
+        <AppText variant="labelLarge" color="accent">
+          All weigh-ins
+        </AppText>
+        <ChevronRight size={16} color={colors.accent} />
       </Pressable>
 
       <LogWeightModal
@@ -289,124 +229,17 @@ export function BodyWeightCard() {
   );
 }
 
+const cardStyles = StyleSheet.create({
+  card: { backgroundColor: colors.bgSurface, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md },
+  topRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  topRight: { flexDirection: "row", alignItems: "center", gap: spacing.lg },
+  goalChip: { flexDirection: "row", alignItems: "center", gap: spacing.xs },
+  logBtn: { flexDirection: "row", alignItems: "center", gap: spacing.xs },
+  chartWrap: { width: "100%", minHeight: 168 },
+  allLink: { flexDirection: "row", alignItems: "center", justifyContent: "flex-end", gap: spacing.xs },
+});
+
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: theme.surface,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: theme.border,
-    padding: 16,
-    marginBottom: 24,
-  },
-  topRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-  cardTitle: {
-    color: theme.muted,
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  topRight: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  goalChip: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
-  goalChipText: {
-    color: GOAL_GOLD,
-    fontWeight: "800",
-    fontSize: 14,
-  },
-  logBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  logBtnText: {
-    color: theme.neon,
-    fontWeight: "800",
-    fontSize: 15,
-  },
-  heroRow: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-  currentRow: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    gap: 6,
-    flexWrap: "wrap",
-  },
-  currentValue: {
-    color: theme.text,
-    fontSize: 34,
-    fontWeight: "800",
-    letterSpacing: -0.5,
-  },
-  currentUnit: {
-    color: theme.muted,
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  delta: {
-    fontSize: 15,
-    fontWeight: "800",
-    marginLeft: 4,
-  },
-  heroDate: {
-    color: theme.muted,
-    fontSize: 13,
-    marginBottom: 6,
-  },
-  emptyCopy: {
-    color: theme.muted,
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  goalRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    marginBottom: 8,
-  },
-  goalLine: {
-    color: GOAL_GOLD,
-    fontSize: 13,
-    fontWeight: "700",
-    flex: 1,
-  },
-  chartWrap: {
-    width: "100%",
-    minHeight: 168,
-  },
-  allLink: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    gap: 2,
-    marginTop: 4,
-    paddingTop: 4,
-  },
-  allLinkText: {
-    color: theme.neon,
-    fontWeight: "700",
-    fontSize: 15,
-  },
-  allLinkChevron: {
-    color: theme.neon,
-    fontSize: 18,
-    fontWeight: "700",
-    marginTop: -1,
-  },
   modalRoot: {
     flex: 1,
     justifyContent: "flex-end",
