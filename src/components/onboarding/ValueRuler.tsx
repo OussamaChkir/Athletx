@@ -32,7 +32,7 @@ export function ValueRuler({ config, value, initial, onCommit }: Props) {
   return (
     <View style={styles.wrap}>
       <View style={styles.readout} accessibilityLiveRegion="polite">
-        <AppText style={styles.main} color="accent">
+        <AppText style={styles.main} color="accent" numberOfLines={1} allowFontScaling={false}>
           {readout.main}
         </AppText>
         <AppText variant="titleMedium">{readout.unit}</AppText>

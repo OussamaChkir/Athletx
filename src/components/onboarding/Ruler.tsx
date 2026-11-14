@@ -76,7 +76,7 @@ export function Ruler({ min, max, step, value, majorEvery, formatLabel, onScrub,
             <Path d={paths.major} stroke={colors.textPrimary} strokeWidth={2} strokeLinecap="round" />
           </Svg>
           {labels.map((l) => (
-            <AppText key={l.x} variant="labelLarge" color="textSecondary" style={[styles.label, { left: l.x - 30 }]}>
+            <AppText key={l.x} variant="labelLarge" color="textSecondary" numberOfLines={1} allowFontScaling={false} style={[styles.label, { left: l.x - 30 }]}>
               {l.text}
             </AppText>
           ))}
