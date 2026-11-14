@@ -5,7 +5,8 @@ import { AppText } from "@/components/kit";
 import { useSnapScroll } from "@/components/onboarding/useSnapScroll";
 import { colors, fonts, radius, spacing } from "@/lib/theme";
 
-const ITEM_W = 72;
+// Wide enough for a two-digit number at the largest size, with room to spare.
+const ITEM_W = 84;
 const HEIGHT = 240;
 
 type Props = {
@@ -21,9 +22,9 @@ type Props = {
 
 // Size and opacity by distance from the selected number.
 const LOOK = [
-  { size: 64, opacity: 1 },
-  { size: 34, opacity: 0.5 },
-  { size: 28, opacity: 0.28 },
+  { size: 56, opacity: 1 },
+  { size: 32, opacity: 0.5 },
+  { size: 26, opacity: 0.28 },
 ] as const;
 
 /** Horizontal number wheel: the selected number is large and centered, with a soft lime glow behind it. */
@@ -73,7 +74,13 @@ export function NumberPicker({ min, max, value, onChange, unit }: Props) {
               accessibilityLabel={`${v} ${unit}`}
               accessibilityState={{ selected: i === active }}
             >
-              <AppText style={[styles.number, { fontSize: look.size, lineHeight: look.size * 1.2, opacity: look.opacity }]}>{v}</AppText>
+              <AppText
+                numberOfLines={1}
+                allowFontScaling={false}
+                style={[styles.number, { fontSize: look.size, lineHeight: look.size * 1.25, opacity: look.opacity }]}
+              >
+                {v}
+              </AppText>
             </Pressable>
           );
         })}
@@ -91,7 +98,7 @@ export function NumberPicker({ min, max, value, onChange, unit }: Props) {
 
 const styles = StyleSheet.create({
   item: { width: ITEM_W, height: 96, alignItems: "center", justifyContent: "center" },
-  number: { fontFamily: fonts.jostMedium, textAlign: "center" },
+  number: { fontFamily: fonts.jostMedium, textAlign: "center", width: "100%" },
   footer: { alignItems: "center", gap: spacing.sm, marginTop: spacing.sm },
   indicator: { width: 32, height: 4, borderRadius: radius.full, backgroundColor: colors.accent },
 });
