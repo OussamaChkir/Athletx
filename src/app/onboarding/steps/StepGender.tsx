@@ -1,39 +1,40 @@
-import { StyleSheet, Text, View } from "react-native";
-import { User, Users } from "lucide-react-native";
+import { StyleSheet, View } from "react-native";
+import { Mars, Venus } from "lucide-react-native";
 import { useOnboardingStore } from "@/store/onboarding-store";
-import { theme } from "@/lib/theme";
-import { RadioCard } from "@/components/onboarding/RadioCard";
+import { GenderCard } from "@/components/onboarding/GenderCard";
+import { StepTitle } from "@/components/onboarding/StepTitle";
+import { spacing } from "@/lib/theme";
+
+// Symbol colors come from the design reference and are not part of the app palette.
+const MALE_TINT = "#7d98ff";
+const FEMALE_TINT = "#ff7fba";
 
 export default function StepGender() {
   const { gender, setField } = useOnboardingStore();
 
   return (
     <View>
-      <Text style={styles.title1}>WHAT IS YOUR</Text>
-      <Text style={styles.title2}>GENDER?</Text>
-      
-      <Text style={styles.subtitle}>
-        This helps us accurately calculate your metabolic rate and personalize your caloric recommendations.
-      </Text>
-
-      <View style={styles.options}>
-        <RadioCard
-          title="Male"
-          icon={User}
+      <StepTitle
+        title="Tell us your"
+        highlight="gender"
+        subtitle="We use this to estimate your metabolic rate and personalize your calorie targets."
+      />
+      <View style={styles.row}>
+        <GenderCard
+          label="Male"
+          description="Estimates tuned for a male profile"
+          icon={Mars}
+          tint={MALE_TINT}
           selected={gender === "male"}
-          onSelect={() => setField("gender", "male")}
+          onPress={() => setField("gender", "male")}
         />
-        <RadioCard
-          title="Female"
-          icon={User}
+        <GenderCard
+          label="Female"
+          description="Estimates tuned for a female profile"
+          icon={Venus}
+          tint={FEMALE_TINT}
           selected={gender === "female"}
-          onSelect={() => setField("gender", "female")}
-        />
-        <RadioCard
-          title="Other"
-          icon={Users}
-          selected={gender === "other"}
-          onSelect={() => setField("gender", "other")}
+          onPress={() => setField("gender", "female")}
         />
       </View>
     </View>
@@ -41,28 +42,5 @@ export default function StepGender() {
 }
 
 const styles = StyleSheet.create({
-  title1: {
-    color: theme.text,
-    fontSize: 32,
-    fontWeight: "900",
-    letterSpacing: -1,
-    lineHeight: 36,
-  },
-  title2: {
-    color: theme.neon,
-    fontSize: 32,
-    fontWeight: "900",
-    letterSpacing: -1,
-    lineHeight: 36,
-    marginBottom: 16,
-  },
-  subtitle: {
-    color: theme.muted,
-    fontSize: 14,
-    lineHeight: 22,
-    marginBottom: 32,
-  },
-  options: {
-    gap: 12,
-  },
+  row: { flexDirection: "row", gap: spacing.md },
 });

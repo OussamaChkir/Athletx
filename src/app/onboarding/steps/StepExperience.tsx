@@ -1,71 +1,42 @@
-import { StyleSheet, Text, View } from "react-native";
-import { Sparkles, Dumbbell, Flame } from "lucide-react-native";
+import { View } from "react-native";
+import { Dumbbell, Flame, Sparkles } from "lucide-react-native";
 import { useOnboardingStore } from "@/store/onboarding-store";
-import { theme } from "@/lib/theme";
-import { RadioCard } from "@/components/onboarding/RadioCard";
+import { SelectList, SelectRow } from "@/components/onboarding/SelectRow";
+import { StepTitle } from "@/components/onboarding/StepTitle";
 
 export default function StepExperience() {
   const { experience, setField } = useOnboardingStore();
 
   return (
     <View>
-      <Text style={styles.title1}>WHAT&apos;S YOUR</Text>
-      <Text style={styles.title2}>LEVEL?</Text>
-      
-      <Text style={styles.subtitle}>
-        This helps us tailor your daily workouts to match your current physical capabilities.
-      </Text>
-
-      <View style={styles.options}>
-        <RadioCard
+      <StepTitle
+        title="What's your"
+        highlight="level?"
+        subtitle="This helps us match your workouts to what you can do today."
+      />
+      <SelectList>
+        <SelectRow
           title="Beginner"
-          description="New to working out or back after a long break."
+          description="New to working out, or back after a long break."
           icon={Sparkles}
           selected={experience === "beginner"}
-          onSelect={() => setField("experience", "beginner")}
+          onPress={() => setField("experience", "beginner")}
         />
-        <RadioCard
+        <SelectRow
           title="Intermediate"
           description="Active 2-3 times a week for at least 6 months."
           icon={Dumbbell}
           selected={experience === "intermediate"}
-          onSelect={() => setField("experience", "intermediate")}
+          onPress={() => setField("experience", "intermediate")}
         />
-        <RadioCard
+        <SelectRow
           title="Advanced"
           description="Consistent training 4+ days a week with high intensity."
           icon={Flame}
           selected={experience === "advanced"}
-          onSelect={() => setField("experience", "advanced")}
+          onPress={() => setField("experience", "advanced")}
         />
-      </View>
+      </SelectList>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  title1: {
-    color: theme.text,
-    fontSize: 32,
-    fontWeight: "900",
-    letterSpacing: -1,
-    lineHeight: 36,
-  },
-  title2: {
-    color: theme.neon,
-    fontSize: 32,
-    fontWeight: "900",
-    letterSpacing: -1,
-    lineHeight: 36,
-    marginBottom: 16,
-  },
-  subtitle: {
-    color: theme.muted,
-    fontSize: 14,
-    lineHeight: 22,
-    marginBottom: 32,
-  },
-  options: {
-    gap: 12,
-  },
-});

@@ -1,83 +1,35 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useEffect } from "react";
+import { StyleSheet, View } from "react-native";
 import { useOnboardingStore } from "@/store/onboarding-store";
-import { theme } from "@/lib/theme";
-import { FormInput } from "@/components/onboarding/FormInput";
+import { NumberPicker } from "@/components/onboarding/NumberPicker";
+import { StepTitle } from "@/components/onboarding/StepTitle";
+
+const DEFAULT_AGE = 25;
 
 export default function StepAge() {
   const { age, setField } = useOnboardingStore();
 
-  return (
-    <View>
-      <Text style={styles.title1}>WHAT IS YOUR</Text>
-      <Text style={styles.title2}>CURRENT AGE?</Text>
-      
-      <View style={styles.infoBox}>
-        <View style={styles.infoIconContainer}>
-          <Text style={styles.infoIcon}>i</Text>
-        </View>
-        <Text style={styles.infoText}>
-          Your age helps us calculate your metabolic rate and design a workout intensity that&apos;s safe for your joints and recovery capacity.
-        </Text>
-      </View>
+  // The picker always shows a number, so make sure one is stored and Continue works right away.
+  useEffect(() => {
+    if (age == null) setField("age", DEFAULT_AGE);
+  }, [age, setField]);
 
-      <FormInput
-        label="ENTER VALUE"
-        placeholder="Your answer..."
-        unit="YEARS OLD"
-        keyboardType="number-pad"
-        value={age ? age.toString() : ""}
-        onChangeText={(text) => {
-          const num = parseInt(text.replace(/[^0-9]/g, ""), 10);
-          setField("age", isNaN(num) ? null : num);
-        }}
+  return (
+    <View style={styles.root}>
+      <StepTitle
+        title="How old"
+        highlight="are you?"
+        subtitle="Your age helps us choose a safe workout intensity and estimate your metabolic rate."
       />
+      <View style={styles.center}>
+        <NumberPicker min={10} max={99} value={age ?? DEFAULT_AGE} onChange={(v) => setField("age", v)} unit="years" />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  title1: {
-    color: theme.text,
-    fontSize: 32,
-    fontWeight: "900",
-    letterSpacing: -1,
-    lineHeight: 36,
-  },
-  title2: {
-    color: theme.neon,
-    fontSize: 32,
-    fontWeight: "900",
-    letterSpacing: -1,
-    lineHeight: 36,
-    marginBottom: 24,
-  },
-  infoBox: {
-    flexDirection: "row",
-    backgroundColor: theme.surface,
-    padding: 16,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: theme.border,
-    marginBottom: 32,
-    gap: 16,
-  },
-  infoIconContainer: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: "rgba(8, 253, 142, 0.1)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  infoIcon: {
-    color: theme.neon,
-    fontSize: 14,
-    fontWeight: "900",
-  },
-  infoText: {
-    flex: 1,
-    color: theme.muted,
-    fontSize: 13,
-    lineHeight: 20,
-  },
+  root: { flex: 1 },
+  // The picker runs edge to edge, so cancel the 24px side padding of the step.
+  center: { flex: 1, justifyContent: "center", marginHorizontal: -24 },
 });
