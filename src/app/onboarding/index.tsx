@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { router } from "expo-router";
-import { theme } from "@/lib/theme";
+import { Button } from "@/components/kit";
+import { colors, spacing } from "@/lib/theme";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { useWorkoutStore } from "@/store/workout-store";
-import { ProgressBar } from "@/components/onboarding/ProgressBar";
+import { OnboardingHeader } from "@/components/onboarding/OnboardingHeader";
 
 // Step placeholders
 import StepGender from "./steps/StepGender";
@@ -99,122 +99,28 @@ export default function OnboardingScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.header}>
-        <Pressable style={styles.backButton} onPress={handleBack}>
-          <ArrowLeft size={20} color={theme.text} />
-        </Pressable>
-        <Text style={styles.headerTitle}>Profile Setup</Text>
-      </View>
+      <OnboardingHeader step={currentStep} total={TOTAL_STEPS} onBack={handleBack} />
 
-      <View style={styles.progressContainer}>
-        <ProgressBar currentStep={currentStep} totalSteps={TOTAL_STEPS} />
-      </View>
-
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-        <View style={styles.stepIndicator}>
-          <View style={styles.stepLine} />
-          <Text style={styles.stepText}>
-            STEP {currentStep.toString().padStart(2, "0")}
-          </Text>
-        </View>
-
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         {renderStep()}
       </ScrollView>
 
       <View style={styles.footer}>
-        <Pressable 
-          style={[styles.continueButton, !isValid && styles.continueButtonDisabled]} 
-          onPress={handleContinue}
-        >
-          <Text style={[styles.continueText, !isValid && styles.continueTextDisabled]}>CONTINUE</Text>
-          <ArrowRight size={20} color={isValid ? theme.background : theme.muted} />
-        </Pressable>
+        <Button label="Continue" disabled={!isValid} onPress={handleContinue} />
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: theme.background,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 24,
-    paddingTop: 16,
-    paddingBottom: 8,
-    gap: 16,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: theme.surfaceRaised,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerTitle: {
-    color: theme.text,
-    fontSize: 18,
-    fontWeight: "800",
-  },
-  progressContainer: {
-    paddingHorizontal: 24,
-    marginBottom: 24,
-  },
-  content: {
-    flex: 1,
-  },
-  contentContainer: {
-    paddingHorizontal: 24,
-    paddingBottom: 40,
-  },
-  stepIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginBottom: 16,
-  },
-  stepLine: {
-    width: 24,
-    height: 2,
-    backgroundColor: theme.neon,
-    borderRadius: 2,
-  },
-  stepText: {
-    color: theme.neon,
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 2,
-  },
-  footer: {
-    padding: 24,
-    paddingTop: 16,
-    backgroundColor: theme.background,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(255,255,255,0.05)",
-  },
-  continueButton: {
-    backgroundColor: theme.neon,
-    height: 56,
-    borderRadius: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-  continueButtonDisabled: {
-    backgroundColor: theme.surfaceRaised,
-  },
-  continueText: {
-    color: theme.background,
-    fontSize: 16,
-    fontWeight: "900",
-    letterSpacing: 1,
-  },
-  continueTextDisabled: {
-    color: theme.muted,
-  },
+  safeArea: { flex: 1, backgroundColor: colors.bgApp },
+  content: { flex: 1 },
+  // flexGrow lets steps with a centered picker use the full height.
+  contentContainer: { flexGrow: 1, paddingHorizontal: spacing["2xl"], paddingBottom: spacing["2xl"] },
+  footer: { paddingHorizontal: spacing["2xl"], paddingTop: spacing.md, paddingBottom: spacing.lg },
 });

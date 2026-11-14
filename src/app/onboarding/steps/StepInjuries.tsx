@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import { useOnboardingStore } from "@/store/onboarding-store";
-import { theme } from "@/lib/theme";
-import { CheckboxCard } from "@/components/onboarding/CheckboxCard";
+import { SelectList, SelectRow } from "@/components/onboarding/SelectRow";
+import { StepTitle } from "@/components/onboarding/StepTitle";
+
+const MAX_INJURIES = 3;
 
 const INJURY_OPTIONS = [
   { id: "shoulders", title: "Shoulders" },
@@ -15,68 +17,33 @@ const INJURY_OPTIONS = [
 export default function StepInjuries() {
   const { injuries, setField } = useOnboardingStore();
 
-  const toggleInjury = (id: string) => {
-    if (injuries.includes(id)) {
-      setField("injuries", injuries.filter((i) => i !== id));
-    } else {
-      if (injuries.length < 3) {
-        setField("injuries", [...injuries, id]);
-      }
-    }
+  const toggle = (id: string) => {
+    if (injuries.includes(id)) setField("injuries", injuries.filter((i) => i !== id));
+    else if (injuries.length < MAX_INJURIES) setField("injuries", [...injuries, id]);
   };
 
   return (
     <View>
-      <Text style={styles.title1}>ANY ACTIVE</Text>
-      <Text style={styles.title2}>INJURIES?</Text>
-      
-      <Text style={styles.subtitle}>
-        Select up to 3 areas. We will adapt your exercises to avoid straining these joints.
-      </Text>
-
-      <View style={styles.options}>
-        {INJURY_OPTIONS.map((opt) => {
-          const isSelected = injuries.includes(opt.id);
-          const isDisabled = !isSelected && injuries.length >= 3;
-          
+      <StepTitle
+        title="Any active"
+        highlight="injuries?"
+        subtitle={`Select up to ${MAX_INJURIES} areas. We'll adapt your exercises to avoid straining them.`}
+      />
+      <SelectList>
+        {INJURY_OPTIONS.map((o) => {
+          const selected = injuries.includes(o.id);
           return (
-            <CheckboxCard
-              key={opt.id}
-              title={opt.title}
-              selected={isSelected}
-              onToggle={() => toggleInjury(opt.id)}
-              disabled={isDisabled}
+            <SelectRow
+              key={o.id}
+              role="checkbox"
+              title={o.title}
+              selected={selected}
+              disabled={!selected && injuries.length >= MAX_INJURIES}
+              onPress={() => toggle(o.id)}
             />
           );
         })}
-      </View>
+      </SelectList>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  title1: {
-    color: theme.text,
-    fontSize: 32,
-    fontWeight: "900",
-    letterSpacing: -1,
-    lineHeight: 36,
-  },
-  title2: {
-    color: theme.neon,
-    fontSize: 32,
-    fontWeight: "900",
-    letterSpacing: -1,
-    lineHeight: 36,
-    marginBottom: 16,
-  },
-  subtitle: {
-    color: theme.muted,
-    fontSize: 14,
-    lineHeight: 22,
-    marginBottom: 32,
-  },
-  options: {
-    gap: 12,
-  },
-});
