@@ -132,6 +132,8 @@ type State = {
   livePhase: "exercise" | "rest" | "done";
   liveSet: number;
   restRemaining: number;
+  /** Epoch ms when the rest ends. The countdown follows the clock, so it stays right while the app is suspended. */
+  restEndsAt: number | null;
   sessionStartedAt: string | null;
   toggleEquipment(id: EquipmentId): void;
   toggleMuscle(id: MuscleId): void;
@@ -179,6 +181,7 @@ export const useWorkoutStore = create<State>()(
       livePhase: "exercise",
       liveSet: 1,
       restRemaining: 0,
+      restEndsAt: null,
       sessionStartedAt: null,
 
       toggleEquipment: (id) =>
@@ -345,6 +348,7 @@ export const useWorkoutStore = create<State>()(
           livePhase: "exercise",
           liveSet: 1,
           restRemaining: 0,
+          restEndsAt: null,
           sessionStartedAt: new Date().toISOString(),
           currentWorkout: s.currentWorkout.map((e) => ({
             ...e,
@@ -377,6 +381,7 @@ export const useWorkoutStore = create<State>()(
             liveSet: 1,
             livePhase: "rest",
             restRemaining: e.restSeconds,
+            restEndsAt: Date.now() + e.restSeconds * 1000,
           });
         }
         set({
@@ -384,27 +389,34 @@ export const useWorkoutStore = create<State>()(
           liveSet: s.liveSet + 1,
           livePhase: "rest",
           restRemaining: e.restSeconds,
+          restEndsAt: Date.now() + e.restSeconds * 1000,
         });
       },
 
-      skipRest: () => set({ livePhase: "exercise", restRemaining: 0 }),
+      skipRest: () => set({ livePhase: "exercise", restRemaining: 0, restEndsAt: null }),
       
       addRestTime: (seconds) => set((s) => ({
         restRemaining: s.restRemaining + seconds,
+        restEndsAt: s.restEndsAt ? s.restEndsAt + seconds * 1000 : s.restEndsAt,
       })),
 
       reduceRestTime: (seconds) => set((s) => ({
         restRemaining: Math.max(0, s.restRemaining - seconds),
+        restEndsAt: s.restEndsAt ? s.restEndsAt - seconds * 1000 : s.restEndsAt,
       })),
 
       tickRest: () => {
         const s = get();
-        if (s.livePhase === "rest")
-          set(
-            s.restRemaining <= 1
-              ? { livePhase: "exercise", restRemaining: 0 }
-              : { restRemaining: s.restRemaining - 1 }
-          );
+        if (s.livePhase !== "rest") return;
+        // Follow the clock when we have an end time, so seconds missed while suspended are caught up.
+        const remaining = s.restEndsAt
+          ? Math.ceil((s.restEndsAt - Date.now()) / 1000)
+          : s.restRemaining - 1;
+        set(
+          remaining <= 0
+            ? { livePhase: "exercise", restRemaining: 0, restEndsAt: null }
+            : { restRemaining: remaining }
+        );
       },
 
       finishWorkout: (durationSeconds) => {

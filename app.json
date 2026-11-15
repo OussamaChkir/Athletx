@@ -50,6 +50,12 @@
       "expo-font",
       "expo-status-bar",
       [
+        "expo-widgets",
+        {
+          "frequentUpdates": false
+        }
+      ],
+      [
         "react-native-google-mobile-ads",
         {
           "androidAppId": "ca-app-pub-8362632054070515~7092240073",

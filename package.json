@@ -27,6 +27,7 @@
     "expo-tracking-transparency": "~58.1.0",
     "expo-video": "~58.0.14",
     "expo-web-browser": "~58.0.8",
+    "expo-widgets": "~58.0.28",
     "lucide-react-native": "^1.25.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",

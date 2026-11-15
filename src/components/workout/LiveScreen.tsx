@@ -13,6 +13,7 @@ import {
 } from "@/lib/ads";
 import { detectRecords, lastLoggedSet } from "@/lib/progress";
 import { colors } from "@/lib/theme";
+import { useWorkoutLiveActivity } from "@/lib/use-workout-live-activity";
 import { useWeightUnit } from "@/lib/units";
 import type { HistoryExercise } from "@/lib/types";
 import { useOnboardingStore } from "@/store/onboarding-store";
@@ -28,6 +29,9 @@ export function LiveScreen() {
   const setWeightUnit = useOnboardingStore((st) => st.setWeightUnit);
 
   const ex = s.currentWorkout[s.liveIndex];
+
+  // Keep the workout visible on the lock screen (iOS) while the phone is locked.
+  useWorkoutLiveActivity();
 
   // Workout clock and rest countdown share one timer.
   useEffect(() => {
