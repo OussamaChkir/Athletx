@@ -50,6 +50,15 @@
       "expo-font",
       "expo-status-bar",
       [
+        "expo-localization",
+        {
+          "supportedLocales": {
+            "ios": ["en", "fr", "es"],
+            "android": ["en", "fr", "es"]
+          }
+        }
+      ],
+      [
         "expo-widgets",
         {
           "frequentUpdates": false

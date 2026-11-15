@@ -1,0 +1,9 @@
+{
+  "language": {
+    "title": "Langue",
+    "auto": "Automatique",
+    "autoHint": "Suit votre téléphone",
+    "choose": "Choisir la langue",
+    "close": "Fermer"
+  }
+}
