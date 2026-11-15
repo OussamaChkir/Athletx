@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 /**
  * Single source of truth for what the free tier can and can't do.
  * Pure functions only (no store or UI imports) so stores, screens and tests can all share them.
@@ -22,6 +23,12 @@ export function isPreparedWorkoutLocked(index: number, isPremium: boolean): bool
 }
 
 export type PaywallReason = "plan_limit" | "prepared_workout";
+
+/** Translated paywall message (keys `premium:paywall.plan_limit` / `premium:paywall.prepared_workout`, both take `{{count}}`). */
+export function paywallMessage(reason: PaywallReason): string {
+  const count = reason === "plan_limit" ? FREE_MAX_PLANS : FREE_PREPARED_WORKOUT_COUNT;
+  return i18n.t(`premium:paywall.${reason}`, { count });
+}
 
 export const PAYWALL_MESSAGES: Record<PaywallReason, string> = {
   plan_limit: `Free accounts can have up to ${FREE_MAX_PLANS} plans. Go Premium for unlimited plans.`,
