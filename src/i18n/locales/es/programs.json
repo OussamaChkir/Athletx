@@ -1,1 +1,285 @@
-{}
+{
+  "gym-starter": {
+    "title": "Empieza en el gimnasio",
+    "subtitle": "Bases de cuerpo completo",
+    "description": "Tu primer programa de gimnasio. Tres sesiones fáciles de cuerpo completo con máquinas y ejercicios sencillos con mancuernas, para que aprendas los movimientos y ganes confianza.",
+    "focus": "Cuerpo completo",
+    "category": "CUERPO COMPLETO",
+    "days": {
+      "0": {
+        "label": "Cuerpo completo A",
+        "muscles": "Piernas · Pecho · Espalda"
+      },
+      "1": {
+        "label": "Cuerpo completo B",
+        "muscles": "Piernas · Espalda · Pecho"
+      },
+      "2": {
+        "label": "Cuerpo completo C",
+        "muscles": "Piernas · Pecho · Espalda"
+      }
+    }
+  },
+  "her-strong-start": {
+    "title": "Empieza con fuerza",
+    "subtitle": "Plan para mujeres principiantes",
+    "description": "Un primer plan amigable para mujeres que empiezan en el gimnasio. Trabajo de glúteos y piernas, un día completo de tren superior y core, todo con máquinas y mancuernas fáciles de aprender.",
+    "focus": "Glúteos y cuerpo completo",
+    "category": "CUERPO COMPLETO",
+    "days": {
+      "0": {
+        "label": "Glúteos y piernas",
+        "muscles": "Glúteos · Cuádriceps · Isquiotibiales"
+      },
+      "1": {
+        "label": "Parte superior",
+        "muscles": "Espalda · Pecho · Hombros · Brazos"
+      },
+      "2": {
+        "label": "Cuerpo completo y core",
+        "muscles": "Piernas · Espalda · Glúteos · Core"
+      }
+    }
+  },
+  "upper-lower": {
+    "title": "Torso / Pierna",
+    "subtitle": "Rutina de 4 días",
+    "description": "Cuatro días a la semana: dos sesiones de tren superior y dos de tren inferior. Primero los levantamientos compuestos pesados y después el trabajo de volumen. Un gran paso después del entrenamiento de cuerpo completo.",
+    "focus": "Fuerza y volumen",
+    "category": "TORSO PIERNA",
+    "days": {
+      "0": {
+        "label": "Torso A",
+        "muscles": "Pecho · Espalda · Hombros · Brazos"
+      },
+      "1": {
+        "label": "Pierna A",
+        "muscles": "Cuádriceps · Isquiotibiales · Gemelos · Abdominales"
+      },
+      "2": {
+        "label": "Torso B",
+        "muscles": "Pecho · Espalda · Hombros · Tríceps"
+      },
+      "3": {
+        "label": "Pierna B",
+        "muscles": "Glúteos · Cuádriceps · Isquiotibiales · Gemelos"
+      }
+    }
+  },
+  "push-pull-legs": {
+    "title": "Empuje Tirón Pierna",
+    "subtitle": "Rutina de 6 días",
+    "description": "El clásico PPL: empuje, tirón y pierna, repetido dos veces por semana. Cada músculo se trabaja dos veces para ganar músculo de forma constante. Ideal si puedes entrenar seis días.",
+    "focus": "Ganancia muscular",
+    "category": "EMPUJE TIRÓN PIERNA",
+    "days": {
+      "0": {
+        "label": "Empuje A",
+        "muscles": "Pecho · Hombros · Tríceps"
+      },
+      "1": {
+        "label": "Tirón A",
+        "muscles": "Espalda · Bíceps"
+      },
+      "2": {
+        "label": "Pierna A",
+        "muscles": "Cuádriceps · Isquiotibiales · Gemelos"
+      },
+      "3": {
+        "label": "Empuje B",
+        "muscles": "Pecho · Hombros · Tríceps"
+      },
+      "4": {
+        "label": "Tirón B",
+        "muscles": "Espalda · Deltoides posterior · Bíceps"
+      },
+      "5": {
+        "label": "Pierna B",
+        "muscles": "Glúteos · Cuádriceps · Isquiotibiales · Gemelos"
+      }
+    }
+  },
+  "bro-split": {
+    "title": "Split por músculo",
+    "subtitle": "Rutina de 5 días por grupo muscular",
+    "description": "Un grupo muscular por día: pecho, espalda, hombros, piernas y brazos. Mucho volumen en cada músculo, perfecto para el pump y para una semana de gimnasio muy ocupada.",
+    "focus": "Culturismo",
+    "category": "SPLIT POR MÚSCULO",
+    "days": {
+      "0": {
+        "label": "Día de pecho",
+        "muscles": "Pecho"
+      },
+      "1": {
+        "label": "Día de espalda",
+        "muscles": "Dorsales · Espalda · Trapecios"
+      },
+      "2": {
+        "label": "Día de hombros",
+        "muscles": "Hombros · Trapecios"
+      },
+      "3": {
+        "label": "Día de pierna",
+        "muscles": "Cuádriceps · Isquiotibiales · Gemelos"
+      },
+      "4": {
+        "label": "Día de brazos",
+        "muscles": "Bíceps · Tríceps"
+      }
+    }
+  },
+  "glute-sculpt": {
+    "title": "Glúteos y definición",
+    "subtitle": "4 días centrados en glúteos",
+    "description": "Cuatro días centrados en unos glúteos y piernas fuertes y definidos, con dos días de tren superior para equilibrar. Para mujeres con unos meses de experiencia en el gimnasio.",
+    "focus": "Glúteos y piernas",
+    "category": "GLÚTEOS",
+    "days": {
+      "0": {
+        "label": "Día de glúteos A",
+        "muscles": "Glúteos · Isquiotibiales"
+      },
+      "1": {
+        "label": "Parte superior",
+        "muscles": "Espalda · Hombros · Pecho · Brazos"
+      },
+      "2": {
+        "label": "Día de glúteos B",
+        "muscles": "Cuádriceps · Glúteos · Isquiotibiales"
+      },
+      "3": {
+        "label": "Parte superior y core",
+        "muscles": "Espalda · Hombros · Pecho · Core"
+      }
+    }
+  },
+  "iron-strength": {
+    "title": "Fuerza de hierro",
+    "subtitle": "Rutina de fuerza de 4 días",
+    "description": "Hazte fuerte en los cuatro grandes levantamientos: sentadilla, press de banca, peso muerto y press militar. Series pesadas con descansos largos y después ejercicios accesorios que los apoyan. Para atletas con experiencia.",
+    "focus": "Fuerza",
+    "category": "FUERZA",
+    "days": {
+      "0": {
+        "label": "Día de sentadilla",
+        "muscles": "Sentadilla · Piernas"
+      },
+      "1": {
+        "label": "Día de press de banca",
+        "muscles": "Press de banca · Pecho · Espalda"
+      },
+      "2": {
+        "label": "Día de peso muerto",
+        "muscles": "Peso muerto · Espalda · Isquiotibiales"
+      },
+      "3": {
+        "label": "Día de press militar",
+        "muscles": "Press militar · Hombros · Brazos"
+      }
+    }
+  },
+  "golden-era": {
+    "title": "Era dorada",
+    "subtitle": "Rutina clásica de 6 días",
+    "description": "Culturismo de la vieja escuela: pecho y espalda juntos, hombros y brazos juntos, y piernas, todo dos veces por semana. Mucho volumen para atletas avanzados que se recuperan bien.",
+    "focus": "Culturismo",
+    "category": "CULTURISMO",
+    "days": {
+      "0": {
+        "label": "Pecho y espalda A",
+        "muscles": "Pecho · Espalda"
+      },
+      "1": {
+        "label": "Hombros y brazos A",
+        "muscles": "Hombros · Bíceps · Tríceps"
+      },
+      "2": {
+        "label": "Pierna A",
+        "muscles": "Cuádriceps · Isquiotibiales · Gemelos"
+      },
+      "3": {
+        "label": "Pecho y espalda B",
+        "muscles": "Pecho · Espalda"
+      },
+      "4": {
+        "label": "Hombros y brazos B",
+        "muscles": "Hombros · Bíceps · Tríceps"
+      },
+      "5": {
+        "label": "Pierna B",
+        "muscles": "Glúteos · Cuádriceps · Isquiotibiales · Gemelos"
+      }
+    }
+  },
+  "dumbbell-home": {
+    "title": "Mancuernas en casa",
+    "subtitle": "3 días: empuje, tirón, pierna",
+    "description": "Gana músculo en casa solo con mancuernas y un banco. Tres sesiones a la semana: empuje, tirón y pierna.",
+    "focus": "Ganancia muscular",
+    "category": "CASA",
+    "days": {
+      "0": {
+        "label": "Empuje",
+        "muscles": "Pecho · Hombros · Tríceps"
+      },
+      "1": {
+        "label": "Tirón",
+        "muscles": "Espalda · Bíceps"
+      },
+      "2": {
+        "label": "Pierna",
+        "muscles": "Cuádriceps · Isquiotibiales · Glúteos · Gemelos"
+      }
+    }
+  },
+  "morning-flow": {
+    "title": "Flow matutino",
+    "subtitle": "Rutina de movilidad",
+    "description": "Sesiones cortas con el peso del cuerpo cada mañana entre semana para despertar tus articulaciones y moverte mejor.",
+    "focus": "Movilidad",
+    "category": "MOVILIDAD",
+    "days": {
+      "0": {
+        "label": "Caderas y glúteos",
+        "muscles": "Glúteos · Caderas · Piernas"
+      },
+      "1": {
+        "label": "Control del core",
+        "muscles": "Abdominales · Core · Zona lumbar"
+      },
+      "2": {
+        "label": "Piernas y equilibrio",
+        "muscles": "Cuádriceps · Isquiotibiales · Glúteos"
+      },
+      "3": {
+        "label": "Parte superior",
+        "muscles": "Pecho · Hombros · Tríceps"
+      },
+      "4": {
+        "label": "Flow de cuerpo completo",
+        "muscles": "Cuerpo completo · Abdominales"
+      }
+    }
+  },
+  "cardio-shred": {
+    "title": "Cardio quemagrasa",
+    "subtitle": "Circuito HIIT",
+    "description": "Tres circuitos rápidos y sudorosos a la semana, sin necesidad de gimnasio. Descansos cortos, mucho esfuerzo, cuerpo completo.",
+    "focus": "HIIT",
+    "category": "HIIT",
+    "days": {
+      "0": {
+        "label": "Circuito A",
+        "muscles": "Cuerpo completo"
+      },
+      "1": {
+        "label": "Circuito B",
+        "muscles": "Piernas · Core"
+      },
+      "2": {
+        "label": "Circuito C",
+        "muscles": "Parte superior · Core"
+      }
+    }
+  }
+}

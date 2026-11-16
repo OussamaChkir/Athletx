@@ -30,7 +30,12 @@ export function paywallMessage(reason: PaywallReason): string {
   return i18n.t(`premium:paywall.${reason}`, { count });
 }
 
+/** @deprecated Use `paywallMessage(reason)`. Kept as a getter-based object so old call sites stay translated. */
 export const PAYWALL_MESSAGES: Record<PaywallReason, string> = {
-  plan_limit: `Free accounts can have up to ${FREE_MAX_PLANS} plans. Go Premium for unlimited plans.`,
-  prepared_workout: `Free accounts include the first ${FREE_PREPARED_WORKOUT_COUNT} prepared workouts. Go Premium to unlock them all.`,
+  get plan_limit() {
+    return paywallMessage("plan_limit");
+  },
+  get prepared_workout() {
+    return paywallMessage("prepared_workout");
+  },
 };

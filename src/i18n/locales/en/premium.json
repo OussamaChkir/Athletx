@@ -1,1 +1,68 @@
-{}
+{
+  "paywall": {
+    "plan_limit": "Free accounts can have up to {{count}} plans. Go Premium for unlimited plans.",
+    "prepared_workout": "Free accounts include the first {{count}} prepared workouts. Go Premium to unlock them all."
+  },
+  "benefits": {
+    "noAds": { "title": "No ads", "description": "Train without interruptions" },
+    "unlimitedPlans": { "title": "Unlimited custom plans", "description": "Build as many routines as you want" },
+    "allWorkouts": { "title": "All prepared workouts", "description": "Every ready-made program, unlocked" },
+    "advancedStats": { "title": "Advanced stats", "description": "Deeper insight into your progress" }
+  },
+  "plans": {
+    "monthly": { "title": "Monthly", "period": "month" },
+    "yearly": { "title": "Yearly", "period": "year" },
+    "per": "per {{period}}",
+    "subYearly_other": "{{count}} days free · then {{price}} / month",
+    "subYearly_one": "{{count}} day free · then {{price}} / month",
+    "subMonthly_other": "{{count}} days free · then billed monthly",
+    "subMonthly_one": "{{count}} day free · then billed monthly",
+    "a11y": "{{title}} plan, {{price}} per {{period}}",
+    "bestValue": "BEST VALUE · SAVE {{percent}}%"
+  },
+  "popup": {
+    "close": "Close",
+    "titleLine1": "Unlock your",
+    "titleHighlight": "full potential",
+    "trialPill_one": "{{count}} DAY FREE",
+    "trialPill_other": "{{count}} DAYS FREE",
+    "trialA11y_one": "{{count}} day free trial",
+    "trialA11y_other": "{{count}} days free trial",
+    "youArePremium": "You're Premium",
+    "manage": "MANAGE SUBSCRIPTION",
+    "startTrial_one": "START {{count}}-DAY FREE TRIAL",
+    "startTrial_other": "START {{count}}-DAY FREE TRIAL",
+    "finePrint_one": "Try free for {{count}} day, then {{price}} per {{period}}. Cancel anytime before the trial ends and you won't be charged. Your subscription renews automatically unless canceled at least 24 hours before the end of the trial or current period, and payment is charged to your {{store}} account once the free trial ends.",
+    "finePrint_other": "Try free for {{count}} days, then {{price}} per {{period}}. Cancel anytime before the trial ends and you won't be charged. Your subscription renews automatically unless canceled at least 24 hours before the end of the trial or current period, and payment is charged to your {{store}} account once the free trial ends.",
+    "restore": "Restore",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "maybeLater": "Maybe later"
+  },
+  "alerts": {
+    "pendingTitle": "Waiting for approval",
+    "pendingMessage": "Your purchase is pending approval. Premium unlocks automatically once it's approved.",
+    "nothingToRestoreTitle": "Nothing to restore",
+    "nothingToRestoreMessage": "We couldn't find an active subscription on this {{store}} account.",
+    "entitlementMissingTitle": "Almost there",
+    "entitlementMissingMessage": "Your purchase went through but Premium isn't active yet. Tap Restore in a moment, or contact support if this persists.",
+    "errorTitle": "Purchase couldn't be completed",
+    "errorMessage": "The store returned an error, so you haven't been charged. Please try again in a moment.\n\n{{detail}}",
+    "unavailableTitle": "Subscriptions unavailable",
+    "unavailableMessage": "We couldn't reach the store right now. Check your connection and try again.",
+    "genericTitle": "Something went wrong",
+    "genericMessage": "We couldn't complete that. Please try again."
+  },
+  "rewarded": {
+    "opening": "Opening ad…",
+    "loading": "Loading ad…",
+    "retry": "Ad unavailable. Tap to retry",
+    "watch": "Watch an ad to unlock this workout",
+    "notEarned": "Watch the whole ad to unlock this workout.",
+    "noAd": "No ad is available right now. Please try again in a moment.",
+    "freeFor_one": "Free for {{count}} hour",
+    "freeFor_other": "Free for {{count}} hours",
+    "premiumWorkout": "{{title}} is a Premium workout",
+    "unlockWithPremium": "Unlock with Premium"
+  }
+}

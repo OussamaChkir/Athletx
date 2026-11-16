@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react-native";
 import { BanIcon, ChartLine, InfinityIcon, Library } from "lucide-react-native";
+import i18n from "@/i18n";
 
 export type PlanId = "monthly" | "yearly";
 
@@ -7,27 +8,30 @@ export interface PremiumPlan {
   id: PlanId;
   /** Product identifier to create in App Store Connect / Google Play Console. */
   productId: string;
-  title: string;
   /** Fallback USD price shown until the store-localized price loads from RevenueCat. */
   price: number;
-  /** Billing period label, e.g. "month" / "year". */
-  period: string;
+}
+
+/** Translated plan name (keys `premium:plans.<id>.title`). */
+export function planTitle(id: PlanId): string {
+  return i18n.t(`premium:plans.${id}.title`);
+}
+
+/** Translated billing period noun, e.g. "month" / "year" (keys `premium:plans.<id>.period`). */
+export function planPeriod(id: PlanId): string {
+  return i18n.t(`premium:plans.${id}.period`);
 }
 
 export const PREMIUM_PLANS: Record<PlanId, PremiumPlan> = {
   monthly: {
     id: "monthly",
     productId: "athletx_premium_monthly",
-    title: "Monthly",
     price: 4.99,
-    period: "month",
   },
   yearly: {
     id: "yearly",
     productId: "athletx_premium_yearly",
-    title: "Yearly",
     price: 29.99,
-    period: "year",
   },
 };
 
@@ -47,11 +51,12 @@ export function formatUsd(amount: number): string {
   return `$${amount.toFixed(2)}`;
 }
 
-export const PREMIUM_BENEFITS: { icon: LucideIcon; title: string; description: string }[] = [
-  { icon: BanIcon, title: "No ads", description: "Train without interruptions" },
-  { icon: InfinityIcon, title: "Unlimited custom plans", description: "Build as many routines as you want" },
-  { icon: Library, title: "All prepared workouts", description: "Every ready-made program, unlocked" },
-  { icon: ChartLine, title: "Advanced stats", description: "Deeper insight into your progress" },
+/** Display text lives in `premium:benefits.<id>.title` / `.description`. */
+export const PREMIUM_BENEFITS: { id: string; icon: LucideIcon }[] = [
+  { id: "noAds", icon: BanIcon },
+  { id: "unlimitedPlans", icon: InfinityIcon },
+  { id: "allWorkouts", icon: Library },
+  { id: "advancedStats", icon: ChartLine },
 ];
 
 export const TERMS_URL = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/";

@@ -3,10 +3,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import * as Notifications from "expo-notifications";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { Bell, Camera, CircleUser, Crown, LifeBuoy, LogOut, ShieldCheck, User } from "lucide-react-native";
 import { colors, radius, spacing, theme } from "@/lib/theme";
 import { formatHeightInput } from "@/lib/weight";
 import { AppText, Button, ListRow } from "@/components/kit";
+import { LanguageSetting } from "@/components/LanguageSetting";
 import { PremiumPopup } from "@/components/premium-popup";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { usePremiumStore } from "@/store/premium-store";
@@ -38,6 +40,7 @@ const iconProps = { size: 20, color: colors.accent } as const;
 
 /* ── Main screen ── */
 export default function SettingsScreen() {
+  const { t } = useTranslation("settings");
   const store = useOnboardingStore();
   const profile = useProfileStore();
 
@@ -56,7 +59,7 @@ export default function SettingsScreen() {
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
-      Alert.alert('Permission required', 'Please enable notifications in your phone settings.');
+      Alert.alert(t("permission.title"), t("permission.message"));
       profile.updateProfile({ notificationsEnabled: false });
       return false;
     }
@@ -75,10 +78,10 @@ export default function SettingsScreen() {
 
 
   const handleLogOut = () => {
-    Alert.alert("Log out", "This clears your onboarding answers and takes you back to the start.", [
-      { text: "Cancel", style: "cancel" },
+    Alert.alert(t("logOutAlert.title"), t("logOutAlert.message"), [
+      { text: t("logOutAlert.cancel"), style: "cancel" },
       {
-        text: "Log out",
+        text: t("logOutAlert.confirm"),
         style: "destructive",
         onPress: () => {
           store.reset();
@@ -92,7 +95,7 @@ export default function SettingsScreen() {
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         <AppText variant="titleLarge" style={{ paddingTop: spacing.md }}>
-          Settings
+          {t("title")}
         </AppText>
 
         {/* Profile */}
@@ -101,7 +104,7 @@ export default function SettingsScreen() {
             style={styles.avatarRing}
             onPress={() => router.push("/edit-profile" as any)}
             accessibilityRole="button"
-            accessibilityLabel="Edit profile photo"
+            accessibilityLabel={t("editPhoto")}
           >
             <View style={styles.avatar}>
               {profile.avatarUri ? (
@@ -117,18 +120,22 @@ export default function SettingsScreen() {
           <AppText variant="titleMedium">{displayName}</AppText>
 
           <View style={styles.statsRow}>
-            <ProfileStat value={store.age != null ? String(store.age) : dash} unit={store.age != null ? "yr" : undefined} label="Age" />
+            <ProfileStat
+              value={store.age != null ? String(store.age) : dash}
+              unit={store.age != null ? t("stats.yearsUnit") : undefined}
+              label={t("stats.age")}
+            />
             <View style={styles.statDivider} />
             <ProfileStat
               value={store.weight.value != null ? String(store.weight.value) : dash}
               unit={store.weight.value != null ? store.weight.unit : undefined}
-              label="Weight"
+              label={t("stats.weight")}
             />
             <View style={styles.statDivider} />
             <ProfileStat
               value={store.height.value != null ? formatHeightInput(store.height.value, store.height.unit) : dash}
               unit={store.height.value != null ? store.height.unit : undefined}
-              label="Height"
+              label={t("stats.height")}
             />
           </View>
         </View>
@@ -140,57 +147,58 @@ export default function SettingsScreen() {
               <Crown size={22} color={colors.accent} />
             </View>
             <AppText variant="titleMedium" color="textOnAccent">
-              {isPremium ? "Premium active" : "Go Premium"}
+              {isPremium ? t("premium.active") : t("premium.go")}
             </AppText>
           </View>
           <AppText variant="bodyLarge" color="textOnAccent">
             {isPremium
-              ? "Thanks for supporting Athletx. Every program and feature is unlocked."
-              : "Unlock every program, advanced stats and body tracking."}
+              ? t("premium.activeBody")
+              : t("premium.unlockBody")}
           </AppText>
-          {!isPremium && <Button label="Upgrade to Premium" variant="dark" onPress={() => setPremiumVisible(true)} />}
+          {!isPremium && <Button label={t("premium.upgrade")} variant="dark" onPress={() => setPremiumVisible(true)} />}
         </View>
 
         {/* General */}
         <View style={styles.group}>
           <AppText variant="labelLarge" color="textSecondary">
-            General
+            {t("general.title")}
           </AppText>
           <ListRow
             icon={<CircleUser {...iconProps} />}
-            title="Personal information"
-            subtitle="Name, age, weight and height"
+            title={t("general.personalInfo")}
+            subtitle={t("general.personalInfoHint")}
             onPress={() => router.push("/edit-profile" as any)}
           />
           <ListRow
             icon={<Bell {...iconProps} />}
-            title="Notification"
-            subtitle="Reminders and workout alerts"
+            title={t("general.notification")}
+            subtitle={t("general.notificationHint")}
             onPress={() => setNotifModalVisible(true)}
           />
           <ListRow
             icon={<ShieldCheck {...iconProps} />}
-            title="Privacy"
-            subtitle="Data, permissions and security"
+            title={t("general.privacy")}
+            subtitle={t("general.privacyHint")}
             onPress={() => Linking.openURL(PRIVACY_URL)}
           />
+          <LanguageSetting />
         </View>
 
         {/* Support */}
         <View style={styles.group}>
           <AppText variant="labelLarge" color="textSecondary">
-            Support
+            {t("support.title")}
           </AppText>
           <ListRow
             icon={<LifeBuoy {...iconProps} />}
-            title="Help & support"
-            subtitle="FAQ, contact and feedback"
+            title={t("support.help")}
+            subtitle={t("support.helpHint")}
             onPress={() => Linking.openURL(WEBSITE_URL)}
           />
           <ListRow
             icon={<LogOut size={20} color={colors.danger} />}
-            title="Log out"
-            subtitle="Sign out of your account"
+            title={t("support.logOut")}
+            subtitle={t("support.logOutHint")}
             danger
             onPress={handleLogOut}
           />
@@ -207,10 +215,10 @@ export default function SettingsScreen() {
       <Modal visible={notifModalVisible} transparent animationType="fade">
         <Pressable style={styles.modalOverlay} onPress={() => setNotifModalVisible(false)}>
           <Pressable style={styles.modalContent} onPress={() => { }}>
-            <Text style={styles.modalTitle}>Notifications</Text>
+            <Text style={styles.modalTitle}>{t("notifications.title")}</Text>
 
             <View style={styles.modalRow}>
-              <Text style={styles.modalRowText}>Enable Notifications</Text>
+              <Text style={styles.modalRowText}>{t("notifications.enable")}</Text>
               <Switch
                 value={profile.notificationsEnabled}
                 onValueChange={handleToggleNotifications}
@@ -220,8 +228,8 @@ export default function SettingsScreen() {
 
             <View style={[styles.modalRow, { opacity: profile.notificationsEnabled ? 1 : 0.5 }]}>
               <View>
-                <Text style={styles.modalRowText}>Workout Reminders</Text>
-                <Text style={styles.modalRowSubtext}>Daily reminder for your scheduled workout</Text>
+                <Text style={styles.modalRowText}>{t("notifications.workoutReminders")}</Text>
+                <Text style={styles.modalRowSubtext}>{t("notifications.workoutRemindersHint")}</Text>
               </View>
               <Switch
                 value={profile.workoutReminders}
@@ -233,8 +241,8 @@ export default function SettingsScreen() {
 
             <View style={[styles.modalRow, { opacity: profile.notificationsEnabled ? 1 : 0.5 }]}>
               <View>
-                <Text style={styles.modalRowText}>Hydration & Motivation</Text>
-                <Text style={styles.modalRowSubtext}>Drink water and keep pushing!</Text>
+                <Text style={styles.modalRowText}>{t("notifications.hydration")}</Text>
+                <Text style={styles.modalRowSubtext}>{t("notifications.hydrationHint")}</Text>
               </View>
               <Switch
                 value={profile.hydrationMotivation}
@@ -245,7 +253,7 @@ export default function SettingsScreen() {
             </View>
 
             <Pressable style={styles.modalCloseBtn} onPress={() => setNotifModalVisible(false)}>
-              <Text style={styles.modalCloseText}>Done</Text>
+              <Text style={styles.modalCloseText}>{t("notifications.done")}</Text>
             </Pressable>
           </Pressable>
         </Pressable>

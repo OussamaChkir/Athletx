@@ -1,1 +1,112 @@
-{}
+{
+  "title": "MODIFIER LE PROFIL",
+  "save": "Enregistrer",
+  "back": "Retour",
+  "copy": "Copier",
+  "changePhoto": "Touche pour changer de photo",
+  "tapToSelect": "Touche pour choisir",
+  "example": "ex. {{value}}",
+  "sections": {
+    "accountIdentity": "IDENTITÉ DU COMPTE",
+    "personalInfo": "INFOS PERSONNELLES",
+    "bodyMetrics": "MESURES CORPORELLES",
+    "trainingProfile": "PROFIL D'ENTRAÎNEMENT",
+    "gymEquipment": "SALLE ET MATÉRIEL",
+    "focusAreas": "ZONES CIBLÉES",
+    "injuries": "BLESSURES ET LIMITES",
+    "healthInfo": "INFORMATIONS DE SANTÉ"
+  },
+  "fields": {
+    "userId": "ID utilisateur",
+    "fullUuid": "UUID complet",
+    "displayName": "Nom affiché",
+    "username": "Pseudo",
+    "bio": "Bio",
+    "age": "Âge",
+    "height": "Taille",
+    "currentWeight": "Poids actuel",
+    "goalWeight": "Poids visé",
+    "gender": "Genre",
+    "experience": "Niveau d'expérience",
+    "goal": "Objectif principal",
+    "currentFrequency": "Fréquence actuelle",
+    "targetDays": "Jours visés / semaine",
+    "duration": "Durée de séance",
+    "location": "Lieu d'entraînement",
+    "muscleGroups": "Groupes musculaires",
+    "affectedAreas": "Zones concernées"
+  },
+  "placeholders": {
+    "displayName": "Ton nom complet",
+    "username": "tonpseudo",
+    "bio": "Raconte-nous ton parcours sportif…"
+  },
+  "suffix": {
+    "years": "ans",
+    "days": "jours"
+  },
+  "gender": {
+    "male": "Homme",
+    "female": "Femme",
+    "other": "Autre"
+  },
+  "experience": {
+    "beginner": "Débutant",
+    "intermediate": "Intermédiaire",
+    "advanced": "Avancé"
+  },
+  "goal": {
+    "loseWeight": "Perdre du poids",
+    "buildMuscle": "Prendre du muscle",
+    "getStronger": "Devenir plus fort",
+    "maintain": "Maintenir"
+  },
+  "frequency": {
+    "f01": "0 – 1 jour/semaine",
+    "f23": "2 – 3 jours/semaine",
+    "f45": "4 – 5 jours/semaine",
+    "f6": "6+ jours/semaine"
+  },
+  "duration": {
+    "quick": "Rapide (<20 min)",
+    "d2040": "20 – 40 min",
+    "d4060": "40 – 60 min",
+    "d60": "60+ min"
+  },
+  "location": {
+    "largeGym": "Grande salle",
+    "smallGym": "Petite salle",
+    "home": "Maison",
+    "bodyweight": "Poids du corps seul"
+  },
+  "focus": {
+    "chest": "Pectoraux",
+    "back": "Dos",
+    "shoulders": "Épaules",
+    "arms": "Bras",
+    "core": "Gainage",
+    "legs": "Jambes",
+    "glutes": "Fessiers",
+    "fullBody": "Corps entier"
+  },
+  "injury": {
+    "lowerBack": "Bas du dos",
+    "knee": "Genou",
+    "shoulder": "Épaule",
+    "wrist": "Poignet",
+    "ankle": "Cheville",
+    "neck": "Nuque",
+    "hip": "Hanche",
+    "elbow": "Coude"
+  },
+  "notice": "Ton ID utilisateur est permanent et ne peut pas être modifié. Toutes les autres données de profil et d'entraînement peuvent être modifiées à tout moment.",
+  "healthNotice": "Les informations sur l'IMC et l'objectif de poids dans Athletx sont des conseils généraux, pas un avis médical.",
+  "alerts": {
+    "nameRequiredTitle": "Nom requis",
+    "nameRequiredMessage": "Saisis ton nom affiché.",
+    "usernameShortTitle": "Pseudo trop court",
+    "usernameShortMessage": "Le pseudo doit contenir au moins 3 caractères.",
+    "savedTitle": "Enregistré !",
+    "savedMessage": "Ton profil a été mis à jour."
+  }
+}

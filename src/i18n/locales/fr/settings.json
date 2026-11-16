@@ -1,1 +1,88 @@
-{}
+{
+  "title": "Réglages",
+  "editPhoto": "Modifier la photo de profil",
+  "stats": {
+    "age": "Âge",
+    "weight": "Poids",
+    "height": "Taille",
+    "yearsUnit": "ans"
+  },
+  "premium": {
+    "active": "Premium actif",
+    "go": "Passe en Premium",
+    "activeBody": "Merci de soutenir Athletx. Tous les programmes et fonctionnalités sont débloqués.",
+    "unlockBody": "Débloque tous les programmes, les stats avancées et le suivi corporel.",
+    "upgrade": "Passer en Premium"
+  },
+  "general": {
+    "title": "Général",
+    "personalInfo": "Informations personnelles",
+    "personalInfoHint": "Nom, âge, poids et taille",
+    "notification": "Notifications",
+    "notificationHint": "Rappels et alertes d'entraînement",
+    "privacy": "Confidentialité",
+    "privacyHint": "Données, autorisations et sécurité"
+  },
+  "support": {
+    "title": "Assistance",
+    "help": "Aide et assistance",
+    "helpHint": "FAQ, contact et avis",
+    "logOut": "Se déconnecter",
+    "logOutHint": "Quitte ton compte"
+  },
+  "logOutAlert": {
+    "title": "Se déconnecter",
+    "message": "Cela efface tes réponses d'accueil et te ramène au début.",
+    "cancel": "Annuler",
+    "confirm": "Se déconnecter"
+  },
+  "permission": {
+    "title": "Autorisation requise",
+    "message": "Active les notifications dans les réglages de ton téléphone."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "enable": "Activer les notifications",
+    "workoutReminders": "Rappels de séance",
+    "workoutRemindersHint": "Un rappel quotidien pour ta séance prévue",
+    "hydration": "Hydratation et motivation",
+    "hydrationHint": "Bois de l'eau et continue comme ça !",
+    "done": "Terminé"
+  },
+  "health": {
+    "linkLabel": "Sources et avertissement",
+    "linkA11y": "Sources des informations de santé et avertissement",
+    "close": "Fermer",
+    "title": "Sources et avertissement",
+    "howBmi": "COMMENT L'IMC EST CALCULÉ",
+    "formula": "IMC = poids (kg) ÷ taille (m)²",
+    "categories": "Les catégories suivent les plages standard pour adultes publiées par l'OMS et les CDC : moins de 18,5 insuffisance pondérale, de 18,5 à 24,9 poids normal, de 25 à 29,9 surpoids, 30 et plus obésité.",
+    "sources": "SOURCES",
+    "disclaimerTitle": "AVERTISSEMENT",
+    "disclaimer": "L'IMC est une estimation de dépistage générale. Il ne mesure ni la masse grasse ni la masse musculaire et ne constitue pas un diagnostic. Les informations d'Athletx sont données à titre de forme physique générale et ne constituent pas un avis médical. Parle à un médecin ou à un autre professionnel de santé qualifié avant de commencer un nouveau programme d'exercice ou d'alimentation, ou si tu as des questions sur ta santé.",
+    "sourceList": {
+      "who": {
+        "title": "Obésité et surpoids (fiche d'information)",
+        "publisher": "Organisation mondiale de la Santé (OMS)",
+        "covers": "Définition et classification de l'IMC adulte (surpoids 25+, obésité 30+)."
+      },
+      "cdcAdult": {
+        "title": "Catégories d'IMC pour adultes",
+        "publisher": "Centres américains de contrôle et de prévention des maladies (CDC)",
+        "covers": "Plages d'IMC adulte : insuffisance pondérale, poids normal, surpoids, obésité."
+      },
+      "cdcChild": {
+        "title": "Catégories d'IMC pour enfants et ados",
+        "publisher": "Centres américains de contrôle et de prévention des maladies (CDC)",
+        "covers": "Pourquoi l'IMC des moins de 18 ans se lit en percentile selon l'âge et le sexe."
+      }
+    },
+    "bmiCategory": {
+      "underweight": "Insuffisance pondérale (IMC inférieur à 18,5).",
+      "healthy": "Poids normal (IMC de 18,5 à 24,9).",
+      "overweight": "Surpoids (IMC de 25 à 29,9).",
+      "obese": "Obésité (IMC de 30 ou plus)."
+    },
+    "minorBmi": "Pour les moins de 18 ans, l'IMC s'interprète en percentile selon l'âge et le sexe, donc les catégories adultes ne s'appliquent pas. Un médecin peut t'expliquer ce que ton IMC signifie pour toi."
+  }
+}

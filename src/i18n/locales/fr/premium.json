@@ -1,1 +1,68 @@
-{}
+{
+  "paywall": {
+    "plan_limit": "Les comptes gratuits peuvent avoir jusqu'à {{count}} programmes. Passe à Premium pour en créer sans limite.",
+    "prepared_workout": "Les comptes gratuits incluent les {{count}} premières séances prêtes à l'emploi. Passe à Premium pour toutes les débloquer."
+  },
+  "benefits": {
+    "noAds": { "title": "Sans pubs", "description": "Entraîne-toi sans interruption" },
+    "unlimitedPlans": { "title": "Programmes perso illimités", "description": "Crée autant de routines que tu veux" },
+    "allWorkouts": { "title": "Toutes les séances prêtes", "description": "Chaque programme tout fait, débloqué" },
+    "advancedStats": { "title": "Stats avancées", "description": "Une vue plus fine de ta progression" }
+  },
+  "plans": {
+    "monthly": { "title": "Mensuel", "period": "mois" },
+    "yearly": { "title": "Annuel", "period": "an" },
+    "per": "par {{period}}",
+    "subYearly_other": "{{count}} jours offerts · puis {{price}} / mois",
+    "subYearly_one": "{{count}} jour offert · puis {{price}} / mois",
+    "subMonthly_other": "{{count}} jours offerts · puis facturé chaque mois",
+    "subMonthly_one": "{{count}} jour offert · puis facturé chaque mois",
+    "a11y": "Formule {{title}}, {{price}} par {{period}}",
+    "bestValue": "MEILLEUR PRIX · -{{percent}} %"
+  },
+  "popup": {
+    "close": "Fermer",
+    "titleLine1": "Libère ton",
+    "titleHighlight": "plein potentiel",
+    "trialPill_one": "{{count}} JOUR OFFERT",
+    "trialPill_other": "{{count}} JOURS OFFERTS",
+    "trialA11y_one": "Essai gratuit de {{count}} jour",
+    "trialA11y_other": "Essai gratuit de {{count}} jours",
+    "youArePremium": "Tu es Premium",
+    "manage": "GÉRER L'ABONNEMENT",
+    "startTrial_one": "ESSAI GRATUIT DE {{count}} JOUR",
+    "startTrial_other": "ESSAI GRATUIT DE {{count}} JOURS",
+    "finePrint_one": "Essaie gratuitement pendant {{count}} jour, puis {{price}} par {{period}}. Résilie quand tu veux avant la fin de l'essai et tu ne seras pas facturé. Ton abonnement se renouvelle automatiquement sauf si tu l'annules au moins 24 heures avant la fin de l'essai ou de la période en cours, et le paiement est prélevé sur ton compte {{store}} à la fin de l'essai gratuit.",
+    "finePrint_other": "Essaie gratuitement pendant {{count}} jours, puis {{price}} par {{period}}. Résilie quand tu veux avant la fin de l'essai et tu ne seras pas facturé. Ton abonnement se renouvelle automatiquement sauf si tu l'annules au moins 24 heures avant la fin de l'essai ou de la période en cours, et le paiement est prélevé sur ton compte {{store}} à la fin de l'essai gratuit.",
+    "restore": "Restaurer",
+    "terms": "Conditions",
+    "privacy": "Confidentialité",
+    "maybeLater": "Plus tard"
+  },
+  "alerts": {
+    "pendingTitle": "En attente d'approbation",
+    "pendingMessage": "Ton achat est en attente d'approbation. Premium se débloque automatiquement dès qu'il est approuvé.",
+    "nothingToRestoreTitle": "Rien à restaurer",
+    "nothingToRestoreMessage": "Nous n'avons trouvé aucun abonnement actif sur ce compte {{store}}.",
+    "entitlementMissingTitle": "Presque terminé",
+    "entitlementMissingMessage": "Ton achat a bien été effectué, mais Premium n'est pas encore actif. Touche Restaurer dans un instant, ou contacte le support si le problème persiste.",
+    "errorTitle": "Achat impossible",
+    "errorMessage": "La boutique a renvoyé une erreur, tu n'as donc pas été débité. Réessaie dans un instant.\n\n{{detail}}",
+    "unavailableTitle": "Abonnements indisponibles",
+    "unavailableMessage": "Impossible de joindre la boutique pour le moment. Vérifie ta connexion et réessaie.",
+    "genericTitle": "Une erreur est survenue",
+    "genericMessage": "Nous n'avons pas pu terminer l'opération. Réessaie."
+  },
+  "rewarded": {
+    "opening": "Ouverture de la pub…",
+    "loading": "Chargement de la pub…",
+    "retry": "Pub indisponible. Touche pour réessayer",
+    "watch": "Regarde une pub pour débloquer cette séance",
+    "notEarned": "Regarde toute la pub pour débloquer cette séance.",
+    "noAd": "Aucune pub disponible pour le moment. Réessaie dans un instant.",
+    "freeFor_one": "Gratuit pendant {{count}} heure",
+    "freeFor_other": "Gratuit pendant {{count}} heures",
+    "premiumWorkout": "{{title}} est une séance Premium",
+    "unlockWithPremium": "Débloquer avec Premium"
+  }
+}

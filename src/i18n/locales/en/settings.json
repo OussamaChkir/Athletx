@@ -1,1 +1,88 @@
-{}
+{
+  "title": "Settings",
+  "editPhoto": "Edit profile photo",
+  "stats": {
+    "age": "Age",
+    "weight": "Weight",
+    "height": "Height",
+    "yearsUnit": "yr"
+  },
+  "premium": {
+    "active": "Premium active",
+    "go": "Go Premium",
+    "activeBody": "Thanks for supporting Athletx. Every program and feature is unlocked.",
+    "unlockBody": "Unlock every program, advanced stats and body tracking.",
+    "upgrade": "Upgrade to Premium"
+  },
+  "general": {
+    "title": "General",
+    "personalInfo": "Personal information",
+    "personalInfoHint": "Name, age, weight and height",
+    "notification": "Notification",
+    "notificationHint": "Reminders and workout alerts",
+    "privacy": "Privacy",
+    "privacyHint": "Data, permissions and security"
+  },
+  "support": {
+    "title": "Support",
+    "help": "Help & support",
+    "helpHint": "FAQ, contact and feedback",
+    "logOut": "Log out",
+    "logOutHint": "Sign out of your account"
+  },
+  "logOutAlert": {
+    "title": "Log out",
+    "message": "This clears your onboarding answers and takes you back to the start.",
+    "cancel": "Cancel",
+    "confirm": "Log out"
+  },
+  "permission": {
+    "title": "Permission required",
+    "message": "Please enable notifications in your phone settings."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "enable": "Enable Notifications",
+    "workoutReminders": "Workout Reminders",
+    "workoutRemindersHint": "Daily reminder for your scheduled workout",
+    "hydration": "Hydration & Motivation",
+    "hydrationHint": "Drink water and keep pushing!",
+    "done": "Done"
+  },
+  "health": {
+    "linkLabel": "Sources & disclaimer",
+    "linkA11y": "Health information sources and disclaimer",
+    "close": "Close",
+    "title": "Sources & disclaimer",
+    "howBmi": "HOW BMI IS CALCULATED",
+    "formula": "BMI = weight (kg) ÷ height (m)²",
+    "categories": "Categories follow the standard adult ranges published by the WHO and the CDC: below 18.5 underweight, 18.5 to 24.9 healthy weight, 25 to 29.9 overweight, 30 and above obesity.",
+    "sources": "SOURCES",
+    "disclaimerTitle": "DISCLAIMER",
+    "disclaimer": "BMI is a general screening estimate. It does not measure body fat or muscle mass and is not a diagnosis. The information in Athletx is for general fitness purposes only and is not medical advice. Talk to a doctor or other qualified healthcare professional before starting a new exercise or nutrition program, or if you have questions about your health.",
+    "sourceList": {
+      "who": {
+        "title": "Obesity and overweight (fact sheet)",
+        "publisher": "World Health Organization (WHO)",
+        "covers": "Adult BMI definition and classification (overweight 25+, obesity 30+)."
+      },
+      "cdcAdult": {
+        "title": "Adult BMI Categories",
+        "publisher": "U.S. Centers for Disease Control and Prevention (CDC)",
+        "covers": "Adult BMI ranges: underweight, healthy weight, overweight, obesity."
+      },
+      "cdcChild": {
+        "title": "Child and Teen BMI Categories",
+        "publisher": "U.S. Centers for Disease Control and Prevention (CDC)",
+        "covers": "Why BMI for people under 18 is read as an age- and sex-specific percentile."
+      }
+    },
+    "bmiCategory": {
+      "underweight": "Underweight range (BMI below 18.5).",
+      "healthy": "Healthy weight range (BMI 18.5 to 24.9).",
+      "overweight": "Overweight range (BMI 25 to 29.9).",
+      "obese": "Obesity range (BMI 30 or above)."
+    },
+    "minorBmi": "For people under 18, BMI is interpreted as a percentile for age and sex, so adult categories don't apply. A doctor can tell you what your BMI means for you."
+  }
+}

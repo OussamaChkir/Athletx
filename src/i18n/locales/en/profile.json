@@ -1,1 +1,112 @@
-{}
+{
+  "title": "EDIT PROFILE",
+  "save": "Save",
+  "back": "Back",
+  "copy": "Copy",
+  "changePhoto": "Tap to change photo",
+  "tapToSelect": "Tap to select",
+  "example": "e.g. {{value}}",
+  "sections": {
+    "accountIdentity": "ACCOUNT IDENTITY",
+    "personalInfo": "PERSONAL INFO",
+    "bodyMetrics": "BODY METRICS",
+    "trainingProfile": "TRAINING PROFILE",
+    "gymEquipment": "GYM & EQUIPMENT",
+    "focusAreas": "FOCUS AREAS",
+    "injuries": "INJURIES & LIMITATIONS",
+    "healthInfo": "HEALTH INFORMATION"
+  },
+  "fields": {
+    "userId": "User ID",
+    "fullUuid": "Full UUID",
+    "displayName": "Display Name",
+    "username": "Username",
+    "bio": "Bio",
+    "age": "Age",
+    "height": "Height",
+    "currentWeight": "Current Weight",
+    "goalWeight": "Goal Weight",
+    "gender": "Gender",
+    "experience": "Experience Level",
+    "goal": "Primary Goal",
+    "currentFrequency": "Current Frequency",
+    "targetDays": "Target Days / Week",
+    "duration": "Session Duration",
+    "location": "Training Location",
+    "muscleGroups": "Muscle Groups",
+    "affectedAreas": "Affected Areas"
+  },
+  "placeholders": {
+    "displayName": "Your full name",
+    "username": "yourhandle",
+    "bio": "Tell us about your fitness journey…"
+  },
+  "suffix": {
+    "years": "yrs",
+    "days": "days"
+  },
+  "gender": {
+    "male": "Male",
+    "female": "Female",
+    "other": "Other"
+  },
+  "experience": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
+  "goal": {
+    "loseWeight": "Lose Weight",
+    "buildMuscle": "Build Muscle",
+    "getStronger": "Get Stronger",
+    "maintain": "Maintain"
+  },
+  "frequency": {
+    "f01": "0 – 1 days/week",
+    "f23": "2 – 3 days/week",
+    "f45": "4 – 5 days/week",
+    "f6": "6+ days/week"
+  },
+  "duration": {
+    "quick": "Quick (<20 min)",
+    "d2040": "20 – 40 min",
+    "d4060": "40 – 60 min",
+    "d60": "60+ min"
+  },
+  "location": {
+    "largeGym": "Large Gym",
+    "smallGym": "Small Gym",
+    "home": "Home",
+    "bodyweight": "Bodyweight Only"
+  },
+  "focus": {
+    "chest": "Chest",
+    "back": "Back",
+    "shoulders": "Shoulders",
+    "arms": "Arms",
+    "core": "Core",
+    "legs": "Legs",
+    "glutes": "Glutes",
+    "fullBody": "Full body"
+  },
+  "injury": {
+    "lowerBack": "Lower Back",
+    "knee": "Knee",
+    "shoulder": "Shoulder",
+    "wrist": "Wrist",
+    "ankle": "Ankle",
+    "neck": "Neck",
+    "hip": "Hip",
+    "elbow": "Elbow"
+  },
+  "notice": "Your User ID is permanent and cannot be changed. All other profile and training data can be edited at any time.",
+  "healthNotice": "BMI and weight-goal information in Athletx is general guidance, not medical advice.",
+  "alerts": {
+    "nameRequiredTitle": "Name required",
+    "nameRequiredMessage": "Please enter your display name.",
+    "usernameShortTitle": "Username too short",
+    "usernameShortMessage": "Username must be at least 3 characters.",
+    "savedTitle": "Saved!",
+    "savedMessage": "Your profile has been updated."
+  }
+}

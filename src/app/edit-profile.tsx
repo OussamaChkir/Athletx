@@ -36,6 +36,7 @@ import {
   RefreshCw,
 } from "lucide-react-native";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { theme } from "@/lib/theme";
 import { HealthSourcesLink } from "@/components/health-sources";
 import { useProfileStore } from "@/store/profile-store";
@@ -60,53 +61,68 @@ import {
 
 /* ─────────────────────────────────────────────
    OPTION DATA
+   `value` is what gets stored; `key` points at profile:<group>.<key> for the displayed label.
 ───────────────────────────────────────────── */
-const GENDER_OPTIONS: { label: string; value: Gender }[] = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "Other", value: "other" },
+const GENDER_OPTIONS: { key: string; value: Gender }[] = [
+  { key: "male", value: "male" },
+  { key: "female", value: "female" },
+  { key: "other", value: "other" },
 ];
 
-const EXPERIENCE_OPTIONS: { label: string; value: Experience }[] = [
-  { label: "Beginner", value: "beginner" },
-  { label: "Intermediate", value: "intermediate" },
-  { label: "Advanced", value: "advanced" },
+const EXPERIENCE_OPTIONS: { key: string; value: Experience }[] = [
+  { key: "beginner", value: "beginner" },
+  { key: "intermediate", value: "intermediate" },
+  { key: "advanced", value: "advanced" },
 ];
 
-const GOAL_OPTIONS: { label: string; value: Goal }[] = [
-  { label: "Lose Weight", value: "lose_weight" },
-  { label: "Build Muscle", value: "build_muscle" },
-  { label: "Get Stronger", value: "get_stronger" },
-  { label: "Maintain", value: "maintain" },
+const GOAL_OPTIONS: { key: string; value: Goal }[] = [
+  { key: "loseWeight", value: "lose_weight" },
+  { key: "buildMuscle", value: "build_muscle" },
+  { key: "getStronger", value: "get_stronger" },
+  { key: "maintain", value: "maintain" },
 ];
 
-const FREQUENCY_OPTIONS: { label: string; value: FrequencyStr }[] = [
-  { label: "0 – 1 days/week", value: "0-1" },
-  { label: "2 – 3 days/week", value: "2-3" },
-  { label: "4 – 5 days/week", value: "4-5" },
-  { label: "6+ days/week", value: "6+" },
+const FREQUENCY_OPTIONS: { key: string; value: FrequencyStr }[] = [
+  { key: "f01", value: "0-1" },
+  { key: "f23", value: "2-3" },
+  { key: "f45", value: "4-5" },
+  { key: "f6", value: "6+" },
 ];
 
-const DURATION_OPTIONS: { label: string; value: DurationType }[] = [
-  { label: "Quick (<20 min)", value: "quick" },
-  { label: "20 – 40 min", value: "20-40" },
-  { label: "40 – 60 min", value: "40-60" },
-  { label: "60+ min", value: "60+" },
+const DURATION_OPTIONS: { key: string; value: DurationType }[] = [
+  { key: "quick", value: "quick" },
+  { key: "d2040", value: "20-40" },
+  { key: "d4060", value: "40-60" },
+  { key: "d60", value: "60+" },
 ];
 
-const LOCATION_OPTIONS: { label: string; value: LocationType }[] = [
-  { label: "Large Gym", value: "large_gym" },
-  { label: "Small Gym", value: "small_gym" },
-  { label: "Home", value: "home" },
-  { label: "Bodyweight Only", value: "bodyweight" },
+const LOCATION_OPTIONS: { key: string; value: LocationType }[] = [
+  { key: "largeGym", value: "large_gym" },
+  { key: "smallGym", value: "small_gym" },
+  { key: "home", value: "home" },
+  { key: "bodyweight", value: "bodyweight" },
 ];
 
-const FOCUS_OPTIONS = [
-  "chest", "back", "shoulders", "arms", "core", "legs", "glutes", "full body",
+const FOCUS_OPTIONS: { key: string; value: string }[] = [
+  { key: "chest", value: "chest" },
+  { key: "back", value: "back" },
+  { key: "shoulders", value: "shoulders" },
+  { key: "arms", value: "arms" },
+  { key: "core", value: "core" },
+  { key: "legs", value: "legs" },
+  { key: "glutes", value: "glutes" },
+  { key: "fullBody", value: "full body" },
 ];
 
-const INJURY_OPTIONS = [
-  "Lower Back", "Knee", "Shoulder", "Wrist", "Ankle", "Neck", "Hip", "Elbow",
+const INJURY_OPTIONS: { key: string; value: string }[] = [
+  { key: "lowerBack", value: "Lower Back" },
+  { key: "knee", value: "Knee" },
+  { key: "shoulder", value: "Shoulder" },
+  { key: "wrist", value: "Wrist" },
+  { key: "ankle", value: "Ankle" },
+  { key: "neck", value: "Neck" },
+  { key: "hip", value: "Hip" },
+  { key: "elbow", value: "Elbow" },
 ];
 
 /* ─────────────────────────────────────────────
@@ -136,6 +152,7 @@ function ReadonlyField({
   value: string;
   onCopy?: () => void;
 }) {
+  const { t } = useTranslation("profile");
   const [copied, setCopied] = useState(false);
   return (
     <View style={s.readonlyRow}>
@@ -147,7 +164,7 @@ function ReadonlyField({
         <Text style={s.readonlyValue} numberOfLines={1}>{value}</Text>
       </View>
       {onCopy && (
-        <Pressable onPress={() => { onCopy(); setCopied(true); setTimeout(() => setCopied(false), 2000); }} style={s.copyBtn}>
+        <Pressable onPress={() => { onCopy(); setCopied(true); setTimeout(() => setCopied(false), 2000); }} style={s.copyBtn} accessibilityRole="button" accessibilityLabel={t("copy")}>
           {copied ? <CheckCircle size={16} color={theme.neon} /> : <Copy size={16} color={theme.muted} />}
         </Pressable>
       )}
@@ -227,6 +244,7 @@ function OptionPicker<T extends string | null>({
   value: T;
   onChange: (v: T) => void;
 }) {
+  const { t } = useTranslation("profile");
   const [open, setOpen] = useState(false);
   const selected = options.find((o) => o.value === value);
 
@@ -239,7 +257,7 @@ function OptionPicker<T extends string | null>({
         <View style={{ flex: 1 }}>
           <Text style={s.fieldLabel}>{label}</Text>
           <Text style={selected ? s.pickerValue : s.pickerPlaceholder}>
-            {selected?.label ?? "Tap to select"}
+            {selected?.label ?? t("tapToSelect")}
           </Text>
         </View>
         <ChevronDown size={18} color={theme.muted}
@@ -358,6 +376,7 @@ function heightToDraft(value: number, unit: HeightUnit): string {
 }
 
 export default function EditProfileScreen() {
+  const { t } = useTranslation("profile");
   const profile = useProfileStore();
   const ob = useOnboardingStore();
 
@@ -414,11 +433,11 @@ export default function EditProfileScreen() {
   /* ── Save ── */
   const handleSave = useCallback(async () => {
     if (!displayName.trim()) {
-      Alert.alert("Name required", "Please enter your display name.");
+      Alert.alert(t("alerts.nameRequiredTitle"), t("alerts.nameRequiredMessage"));
       return;
     }
     if (username.trim().length < 3) {
-      Alert.alert("Username too short", "Username must be at least 3 characters.");
+      Alert.alert(t("alerts.usernameShortTitle"), t("alerts.usernameShortMessage"));
       return;
     }
     setSaving(true);
@@ -447,13 +466,13 @@ export default function EditProfileScreen() {
     ob.setField("injuries", injuries);
 
     setSaving(false);
-    Alert.alert("Saved!", "Your profile has been updated.");
+    Alert.alert(t("alerts.savedTitle"), t("alerts.savedMessage"));
   }, [
     displayName, username, bio,
     age, heightVal, heightUnit, weightVal, weightUnit, goalWeight,
     gender, experience, goal, currentFrequency, duration, targetFrequency,
     location, focusArea, injuries,
-    profile, ob,
+    profile, ob, t,
   ]);
 
 
@@ -464,10 +483,10 @@ export default function EditProfileScreen() {
 
       {/* ── Header ── */}
       <View style={s.header}>
-        <Pressable style={s.headerBtn} onPress={() => router.back()}>
+        <Pressable style={s.headerBtn} onPress={() => router.back()} accessibilityRole="button" accessibilityLabel={t("back")}>
           <ArrowLeft size={20} color={theme.text} />
         </Pressable>
-        <Text style={s.headerTitle}>EDIT PROFILE</Text>
+        <Text style={s.headerTitle}>{t("title")}</Text>
         <Pressable
           style={[s.saveBtn, (!isDirty || saving) && s.saveBtnDim]}
           onPress={handleSave}
@@ -475,7 +494,7 @@ export default function EditProfileScreen() {
         >
           {saving
             ? <ActivityIndicator size="small" color={theme.background} />
-            : <Text style={s.saveBtnText}>Save</Text>
+            : <Text style={s.saveBtnText}>{t("save")}</Text>
           }
         </Pressable>
       </View>
@@ -489,54 +508,54 @@ export default function EditProfileScreen() {
         {/* ── Avatar ── */}
         <View style={s.avatarSection}>
           <AvatarCircle name={displayName || username} size={92} />
-          <Text style={s.avatarHint}>Tap to change photo</Text>
+          <Text style={s.avatarHint}>{t("changePhoto")}</Text>
         </View>
 
         {/* ══════════════════════════════════
             SECTION: ACCOUNT IDENTITY
         ══════════════════════════════════ */}
-        <SectionLabel text="ACCOUNT IDENTITY" />
+        <SectionLabel text={t("sections.accountIdentity")} />
         <FieldCard>
           <ReadonlyField
             icon={Hash}
-            label="User ID"
+            label={t("fields.userId")}
             value={shortId}
             onCopy={() => {/* Clipboard.setStringAsync(profile.userId) */}}
           />
           <Divider />
-          <ReadonlyField icon={Shield} label="Full UUID" value={profile.userId} onCopy={() => {}} />
+          <ReadonlyField icon={Shield} label={t("fields.fullUuid")} value={profile.userId} onCopy={() => {}} />
         </FieldCard>
 
         {/* ══════════════════════════════════
             SECTION: PERSONAL INFO
         ══════════════════════════════════ */}
-        <SectionLabel text="PERSONAL INFO" />
+        <SectionLabel text={t("sections.personalInfo")} />
         <FieldCard>
           <EditField
             icon={User}
-            label="Display Name"
+            label={t("fields.displayName")}
             value={displayName}
             onChangeText={setDisplayName}
-            placeholder="Your full name"
+            placeholder={t("placeholders.displayName")}
             maxLength={40}
           />
           <Divider />
           <EditField
             icon={AtSign}
-            label="Username"
+            label={t("fields.username")}
             value={username}
             onChangeText={setUsername}
-            placeholder="yourhandle"
+            placeholder={t("placeholders.username")}
             prefix="@"
             maxLength={20}
           />
           <Divider />
           <EditField
             icon={Edit2}
-            label="Bio"
+            label={t("fields.bio")}
             value={bio}
             onChangeText={setBio}
-            placeholder="Tell us about your fitness journey…"
+            placeholder={t("placeholders.bio")}
             multiline
             maxLength={120}
           />
@@ -545,17 +564,17 @@ export default function EditProfileScreen() {
         {/* ══════════════════════════════════
             SECTION: BODY METRICS
         ══════════════════════════════════ */}
-        <SectionLabel text="BODY METRICS" />
+        <SectionLabel text={t("sections.bodyMetrics")} />
         <FieldCard>
           {/* Age */}
           <EditField
             icon={Calendar}
-            label="Age"
+            label={t("fields.age")}
             value={age}
             onChangeText={setAge}
-            placeholder="e.g. 25"
+            placeholder={t("example", { value: "25" })}
             keyboardType="numeric"
-            suffix="yrs"
+            suffix={t("suffix.years")}
           />
           <Divider />
 
@@ -565,12 +584,12 @@ export default function EditProfileScreen() {
               <Ruler size={17} color={theme.muted} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={s.fieldLabel}>Height</Text>
+              <Text style={s.fieldLabel}>{t("fields.height")}</Text>
               <View style={s.inputRow}>
                 <TextInput
                   value={heightVal}
                   onChangeText={setHeightVal}
-                  placeholder={heightUnit === "cm" ? "e.g. 175" : "e.g. 5.9"}
+                  placeholder={t("example", { value: heightUnit === "cm" ? "175" : "5.9" })}
                   placeholderTextColor={theme.muted}
                   style={[s.textInput, { marginRight: 8 }]}
                   keyboardType="decimal-pad"
@@ -600,12 +619,12 @@ export default function EditProfileScreen() {
               <Weight size={17} color={theme.muted} />
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={s.fieldLabel}>Current Weight</Text>
+              <Text style={s.fieldLabel}>{t("fields.currentWeight")}</Text>
               <View style={s.inputRow}>
                 <TextInput
                   value={weightVal}
                   onChangeText={setWeightVal}
-                  placeholder={weightUnit === "kg" ? "e.g. 75" : "e.g. 165"}
+                  placeholder={t("example", { value: weightUnit === "kg" ? "75" : "165" })}
                   placeholderTextColor={theme.muted}
                   style={[s.textInput, { marginRight: 8 }]}
                   keyboardType="decimal-pad"
@@ -636,10 +655,10 @@ export default function EditProfileScreen() {
           {/* Goal Weight */}
           <EditField
             icon={Target}
-            label="Goal Weight"
+            label={t("fields.goalWeight")}
             value={goalWeight}
             onChangeText={setGoalWeight}
-            placeholder={`e.g. ${weightUnit === "kg" ? "70" : "155"}`}
+            placeholder={t("example", { value: weightUnit === "kg" ? "70" : "155" })}
             keyboardType="decimal-pad"
             suffix={weightUnit}
           />
@@ -648,54 +667,54 @@ export default function EditProfileScreen() {
         {/* ══════════════════════════════════
             SECTION: TRAINING PROFILE
         ══════════════════════════════════ */}
-        <SectionLabel text="TRAINING PROFILE" />
+        <SectionLabel text={t("sections.trainingProfile")} />
         <FieldCard>
           <OptionPicker
             icon={User}
-            label="Gender"
-            options={GENDER_OPTIONS}
+            label={t("fields.gender")}
+            options={GENDER_OPTIONS.map((o) => ({ label: t(`gender.${o.key}`), value: o.value }))}
             value={gender}
             onChange={setGender}
           />
           <Divider />
           <OptionPicker
             icon={Zap}
-            label="Experience Level"
-            options={EXPERIENCE_OPTIONS}
+            label={t("fields.experience")}
+            options={EXPERIENCE_OPTIONS.map((o) => ({ label: t(`experience.${o.key}`), value: o.value }))}
             value={experience}
             onChange={setExperience}
           />
           <Divider />
           <OptionPicker
             icon={Flame}
-            label="Primary Goal"
-            options={GOAL_OPTIONS}
+            label={t("fields.goal")}
+            options={GOAL_OPTIONS.map((o) => ({ label: t(`goal.${o.key}`), value: o.value }))}
             value={goal}
             onChange={setGoal}
           />
           <Divider />
           <OptionPicker
             icon={RefreshCw}
-            label="Current Frequency"
-            options={FREQUENCY_OPTIONS}
+            label={t("fields.currentFrequency")}
+            options={FREQUENCY_OPTIONS.map((o) => ({ label: t(`frequency.${o.key}`), value: o.value }))}
             value={currentFrequency}
             onChange={setCurrentFrequency}
           />
           <Divider />
           <EditField
             icon={Target}
-            label="Target Days / Week"
+            label={t("fields.targetDays")}
             value={targetFrequency}
             onChangeText={setTargetFrequency}
-            placeholder="e.g. 4"
+            placeholder={t("example", { value: "4" })}
             keyboardType="numeric"
-            suffix="days"
+            suffix={t("suffix.days")}
           />
           <Divider />
           <OptionPicker
             icon={Clock}
-            label="Session Duration"
-            options={DURATION_OPTIONS}
+            label={t("fields.duration")}
+            options={DURATION_OPTIONS.map((o) => ({ label: t(`duration.${o.key}`), value: o.value }))}
             value={duration}
             onChange={setDuration}
           />
@@ -704,12 +723,12 @@ export default function EditProfileScreen() {
         {/* ══════════════════════════════════
             SECTION: GYM & EQUIPMENT
         ══════════════════════════════════ */}
-        <SectionLabel text="GYM & EQUIPMENT" />
+        <SectionLabel text={t("sections.gymEquipment")} />
         <FieldCard>
           <ChipMultiSelect<LocationType>
             icon={MapPin}
-            label="Training Location"
-            options={LOCATION_OPTIONS}
+            label={t("fields.location")}
+            options={LOCATION_OPTIONS.map((o) => ({ label: t(`location.${o.key}`), value: o.value }))}
             values={location}
             onChange={setLocation}
           />
@@ -718,12 +737,12 @@ export default function EditProfileScreen() {
         {/* ══════════════════════════════════
             SECTION: FOCUS AREAS
         ══════════════════════════════════ */}
-        <SectionLabel text="FOCUS AREAS" />
+        <SectionLabel text={t("sections.focusAreas")} />
         <FieldCard>
           <ChipMultiSelect<string>
             icon={Dumbbell}
-            label="Muscle Groups"
-            options={FOCUS_OPTIONS.map((f) => ({ label: f[0].toUpperCase() + f.slice(1), value: f }))}
+            label={t("fields.muscleGroups")}
+            options={FOCUS_OPTIONS.map((o) => ({ label: t(`focus.${o.key}`), value: o.value }))}
             values={focusArea}
             onChange={setFocusArea}
           />
@@ -732,12 +751,12 @@ export default function EditProfileScreen() {
         {/* ══════════════════════════════════
             SECTION: INJURIES / LIMITATIONS
         ══════════════════════════════════ */}
-        <SectionLabel text="INJURIES & LIMITATIONS" />
+        <SectionLabel text={t("sections.injuries")} />
         <FieldCard>
           <ChipMultiSelect<string>
             icon={AlertTriangle}
-            label="Affected Areas"
-            options={INJURY_OPTIONS.map((i) => ({ label: i, value: i }))}
+            label={t("fields.affectedAreas")}
+            options={INJURY_OPTIONS.map((o) => ({ label: t(`injury.${o.key}`), value: o.value }))}
             values={injuries}
             onChange={setInjuries}
           />
@@ -747,19 +766,14 @@ export default function EditProfileScreen() {
         {/* ── Info notice ── */}
         <View style={s.notice}>
           <Info size={14} color={theme.muted} />
-          <Text style={s.noticeText}>
-            Your User ID is permanent and cannot be changed. All other profile and training
-            data can be edited at any time.
-          </Text>
+          <Text style={s.noticeText}>{t("notice")}</Text>
         </View>
 
         {/* ── Health information sources (App Store guideline 1.4.1) ── */}
-        <SectionLabel text="HEALTH INFORMATION" />
+        <SectionLabel text={t("sections.healthInfo")} />
         <FieldCard>
           <View style={{ padding: 16 }}>
-            <Text style={[s.noticeText, { flex: 0 }]}>
-              BMI and weight-goal information in Athletx is general guidance, not medical advice.
-            </Text>
+            <Text style={[s.noticeText, { flex: 0 }]}>{t("healthNotice")}</Text>
             <HealthSourcesLink />
           </View>
         </FieldCard>

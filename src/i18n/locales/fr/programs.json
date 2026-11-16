@@ -1,1 +1,285 @@
-{}
+{
+  "gym-starter": {
+    "title": "Débuter en salle",
+    "subtitle": "Les bases du corps entier",
+    "description": "Ton premier programme en salle. Trois séances corps entier faciles, sur machines et avec des haltères simples, pour apprendre les mouvements et prendre confiance.",
+    "focus": "Corps entier",
+    "category": "CORPS ENTIER",
+    "days": {
+      "0": {
+        "label": "Corps entier A",
+        "muscles": "Jambes · Pectoraux · Dos"
+      },
+      "1": {
+        "label": "Corps entier B",
+        "muscles": "Jambes · Dos · Pectoraux"
+      },
+      "2": {
+        "label": "Corps entier C",
+        "muscles": "Jambes · Pectoraux · Dos"
+      }
+    }
+  },
+  "her-strong-start": {
+    "title": "Démarre en force",
+    "subtitle": "Plan débutante pour femmes",
+    "description": "Un premier plan sympa pour les femmes qui débutent en salle. Travail des fessiers et des jambes, une séance complète du haut du corps et du gainage, le tout sur des machines et des haltères faciles à prendre en main.",
+    "focus": "Fessiers et corps entier",
+    "category": "CORPS ENTIER",
+    "days": {
+      "0": {
+        "label": "Fessiers et jambes",
+        "muscles": "Fessiers · Quadriceps · Ischio-jambiers"
+      },
+      "1": {
+        "label": "Haut du corps",
+        "muscles": "Dos · Pectoraux · Épaules · Bras"
+      },
+      "2": {
+        "label": "Corps entier et gainage",
+        "muscles": "Jambes · Dos · Fessiers · Tronc"
+      }
+    }
+  },
+  "upper-lower": {
+    "title": "Haut / Bas",
+    "subtitle": "Split 4 jours",
+    "description": "Quatre jours par semaine : deux séances haut du corps et deux séances bas du corps. D'abord les gros mouvements polyarticulaires, puis le travail en volume. Une belle étape après l'entraînement corps entier.",
+    "focus": "Force et volume",
+    "category": "HAUT BAS",
+    "days": {
+      "0": {
+        "label": "Haut A",
+        "muscles": "Pectoraux · Dos · Épaules · Bras"
+      },
+      "1": {
+        "label": "Bas A",
+        "muscles": "Quadriceps · Ischio-jambiers · Mollets · Abdos"
+      },
+      "2": {
+        "label": "Haut B",
+        "muscles": "Pectoraux · Dos · Épaules · Triceps"
+      },
+      "3": {
+        "label": "Bas B",
+        "muscles": "Fessiers · Quadriceps · Ischio-jambiers · Mollets"
+      }
+    }
+  },
+  "push-pull-legs": {
+    "title": "Push Pull Legs",
+    "subtitle": "Split 6 jours",
+    "description": "Le PPL classique : pousser, tirer et jambes, répété deux fois par semaine. Chaque muscle est sollicité deux fois pour une prise de muscle régulière. Idéal si tu peux t'entraîner six jours.",
+    "focus": "Prise de muscle",
+    "category": "PUSH PULL LEGS",
+    "days": {
+      "0": {
+        "label": "Push A",
+        "muscles": "Pectoraux · Épaules · Triceps"
+      },
+      "1": {
+        "label": "Pull A",
+        "muscles": "Dos · Biceps"
+      },
+      "2": {
+        "label": "Jambes A",
+        "muscles": "Quadriceps · Ischio-jambiers · Mollets"
+      },
+      "3": {
+        "label": "Push B",
+        "muscles": "Pectoraux · Épaules · Triceps"
+      },
+      "4": {
+        "label": "Pull B",
+        "muscles": "Dos · Deltoïdes postérieurs · Biceps"
+      },
+      "5": {
+        "label": "Jambes B",
+        "muscles": "Fessiers · Quadriceps · Ischio-jambiers · Mollets"
+      }
+    }
+  },
+  "bro-split": {
+    "title": "Split par muscle",
+    "subtitle": "Split 5 jours par groupe musculaire",
+    "description": "Un groupe musculaire par jour : pectoraux, dos, épaules, jambes et bras. Beaucoup de volume sur chaque muscle, parfait pour la pompe et pour une semaine de salle bien remplie.",
+    "focus": "Musculation",
+    "category": "SPLIT PAR MUSCLE",
+    "days": {
+      "0": {
+        "label": "Jour pectoraux",
+        "muscles": "Pectoraux"
+      },
+      "1": {
+        "label": "Jour dos",
+        "muscles": "Grands dorsaux · Dos · Trapèzes"
+      },
+      "2": {
+        "label": "Jour épaules",
+        "muscles": "Épaules · Trapèzes"
+      },
+      "3": {
+        "label": "Jour jambes",
+        "muscles": "Quadriceps · Ischio-jambiers · Mollets"
+      },
+      "4": {
+        "label": "Jour bras",
+        "muscles": "Biceps · Triceps"
+      }
+    }
+  },
+  "glute-sculpt": {
+    "title": "Fessiers & Sculpt",
+    "subtitle": "4 jours focus fessiers",
+    "description": "Quatre jours construits autour de fessiers et de jambes forts et galbés, avec deux séances haut du corps pour équilibrer. Pour les femmes avec quelques mois d'expérience en salle.",
+    "focus": "Fessiers et jambes",
+    "category": "FESSIERS",
+    "days": {
+      "0": {
+        "label": "Jour fessiers A",
+        "muscles": "Fessiers · Ischio-jambiers"
+      },
+      "1": {
+        "label": "Haut du corps",
+        "muscles": "Dos · Épaules · Pectoraux · Bras"
+      },
+      "2": {
+        "label": "Jour fessiers B",
+        "muscles": "Quadriceps · Fessiers · Ischio-jambiers"
+      },
+      "3": {
+        "label": "Haut du corps et gainage",
+        "muscles": "Dos · Épaules · Pectoraux · Tronc"
+      }
+    }
+  },
+  "iron-strength": {
+    "title": "Force de fer",
+    "subtitle": "Split force 4 jours",
+    "description": "Deviens plus fort sur les quatre grands mouvements : squat, développé couché, soulevé de terre et développé militaire. Séries lourdes avec de longs repos, puis exercices complémentaires pour les soutenir. Pour les pratiquants expérimentés.",
+    "focus": "Force",
+    "category": "FORCE",
+    "days": {
+      "0": {
+        "label": "Jour squat",
+        "muscles": "Squat · Jambes"
+      },
+      "1": {
+        "label": "Jour développé couché",
+        "muscles": "Développé couché · Pectoraux · Dos"
+      },
+      "2": {
+        "label": "Jour soulevé de terre",
+        "muscles": "Soulevé de terre · Dos · Ischio-jambiers"
+      },
+      "3": {
+        "label": "Jour développé militaire",
+        "muscles": "Développé militaire · Épaules · Bras"
+      }
+    }
+  },
+  "golden-era": {
+    "title": "Âge d'or",
+    "subtitle": "Split classique 6 jours",
+    "description": "La musculation à l'ancienne : pectoraux et dos ensemble, épaules et bras ensemble, et jambes, le tout deux fois par semaine. Beaucoup de volume pour les pratiquants avancés qui récupèrent bien.",
+    "focus": "Musculation",
+    "category": "MUSCULATION",
+    "days": {
+      "0": {
+        "label": "Pectoraux et dos A",
+        "muscles": "Pectoraux · Dos"
+      },
+      "1": {
+        "label": "Épaules et bras A",
+        "muscles": "Épaules · Biceps · Triceps"
+      },
+      "2": {
+        "label": "Jambes A",
+        "muscles": "Quadriceps · Ischio-jambiers · Mollets"
+      },
+      "3": {
+        "label": "Pectoraux et dos B",
+        "muscles": "Pectoraux · Dos"
+      },
+      "4": {
+        "label": "Épaules et bras B",
+        "muscles": "Épaules · Biceps · Triceps"
+      },
+      "5": {
+        "label": "Jambes B",
+        "muscles": "Fessiers · Quadriceps · Ischio-jambiers · Mollets"
+      }
+    }
+  },
+  "dumbbell-home": {
+    "title": "Muscu maison aux haltères",
+    "subtitle": "3 jours Push, Pull, Legs",
+    "description": "Prends du muscle à la maison avec seulement des haltères et un banc. Trois séances par semaine : push, pull et jambes.",
+    "focus": "Prise de muscle",
+    "category": "MAISON",
+    "days": {
+      "0": {
+        "label": "Push",
+        "muscles": "Pectoraux · Épaules · Triceps"
+      },
+      "1": {
+        "label": "Pull",
+        "muscles": "Dos · Biceps"
+      },
+      "2": {
+        "label": "Jambes",
+        "muscles": "Quadriceps · Ischio-jambiers · Fessiers · Mollets"
+      }
+    }
+  },
+  "morning-flow": {
+    "title": "Flow du matin",
+    "subtitle": "Routine de mobilité",
+    "description": "De courtes séances au poids du corps chaque matin en semaine pour réveiller tes articulations et rester mobile.",
+    "focus": "Mobilité",
+    "category": "MOBILITÉ",
+    "days": {
+      "0": {
+        "label": "Hanches et fessiers",
+        "muscles": "Fessiers · Hanches · Jambes"
+      },
+      "1": {
+        "label": "Contrôle du tronc",
+        "muscles": "Abdos · Tronc · Bas du dos"
+      },
+      "2": {
+        "label": "Jambes et équilibre",
+        "muscles": "Quadriceps · Ischio-jambiers · Fessiers"
+      },
+      "3": {
+        "label": "Haut du corps",
+        "muscles": "Pectoraux · Épaules · Triceps"
+      },
+      "4": {
+        "label": "Flow corps entier",
+        "muscles": "Corps entier · Abdos"
+      }
+    }
+  },
+  "cardio-shred": {
+    "title": "Cardio brûle-graisse",
+    "subtitle": "Circuit HIIT",
+    "description": "Trois circuits rapides et intenses par semaine, sans salle. Repos courts, effort maximal, corps entier.",
+    "focus": "HIIT",
+    "category": "HIIT",
+    "days": {
+      "0": {
+        "label": "Circuit A",
+        "muscles": "Corps entier"
+      },
+      "1": {
+        "label": "Circuit B",
+        "muscles": "Jambes · Tronc"
+      },
+      "2": {
+        "label": "Circuit C",
+        "muscles": "Haut du corps · Tronc"
+      }
+    }
+  }
+}
