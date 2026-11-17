@@ -1,9 +1,11 @@
 import { Tabs } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { Dumbbell, Library, ChartLine, BicepsFlexed, Settings } from "lucide-react-native";
 import { TabBar } from "@/components/kit";
 import { PremiumLaunchPopup } from "@/components/premium-popup";
 
 export default function TabsLayout() {
+  const { t } = useTranslation("home");
   return (
     <>
     <PremiumLaunchPopup />
@@ -14,35 +16,35 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Workout",
+          title: t("tabs.train"),
           tabBarIcon: (p) => <Dumbbell {...p} />,
         }}
       />
       <Tabs.Screen
         name="library"
         options={{
-          title: "Library",
+          title: t("tabs.library"),
           tabBarIcon: (p) => <Library {...p} />,
         }}
       />
       <Tabs.Screen
         name="builder"
         options={{
-          title: "Exercises",
+          title: t("tabs.exercises"),
           tabBarIcon: (p) => <BicepsFlexed {...p} />,
         }}
       />
       <Tabs.Screen
         name="history"
         options={{
-          title: "Progress",
+          title: t("tabs.progress"),
           tabBarIcon: (p) => <ChartLine {...p} />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: t("tabs.settings"),
           tabBarIcon: (p) => <Settings {...p} />,
         }}
       />

@@ -1,1 +1,70 @@
-{}
+{
+  "title": "Library",
+  "a11y": {
+    "premium": "Premium",
+    "goPremium": "Go Premium"
+  },
+  "searchPlaceholder": "Search programs, exercises",
+  "levels": {
+    "all": "All",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
+  "levelsCard": {
+    "beginner": "Easy",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced"
+  },
+  "dayFilters": {
+    "all": "All",
+    "1": "1 Day",
+    "2": "2 Days",
+    "3": "3 Days",
+    "4plus": "4+ Days"
+  },
+  "empty": "No programs match your filters.",
+  "equipment": {
+    "fullGym": "Full gym",
+    "atHome": "At home"
+  },
+  "weeksCount_one": "{{count}} week",
+  "weeksCount_other": "{{count}} weeks",
+  "daysPerWeek_one": "{{count}} day/week",
+  "daysPerWeek_other": "{{count}} days/week",
+  "units": {
+    "weeks_one": "week",
+    "weeks_other": "weeks",
+    "days_one": "day",
+    "days_other": "days"
+  },
+  "weekdays": {
+    "0": "Sun",
+    "1": "Mon",
+    "2": "Tue",
+    "3": "Wed",
+    "4": "Thu",
+    "5": "Fri",
+    "6": "Sat"
+  },
+  "enroll": {
+    "title": "Enrolled",
+    "message": "You have successfully enrolled in {{title}}!"
+  },
+  "detail": {
+    "notFound": "Workout not found",
+    "goBack": "Go Back",
+    "back": "Go back",
+    "header": "Program",
+    "level": "Level",
+    "equipment": "Equipment",
+    "length": "Length",
+    "daysPerWeek": "Days / week",
+    "perWorkout": "Per workout",
+    "recommendedDays": "Recommended days",
+    "workoutPlan": "Workout plan",
+    "daysCount_one": "{{count}} day",
+    "daysCount_other": "{{count}} days",
+    "startProgram": "Start program"
+  }
+}

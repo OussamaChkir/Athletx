@@ -17,11 +17,14 @@ import { Image } from "expo-image";
 import { getExerciseImageSource } from "@/lib/exercise-image";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { intlLocale, useLanguage } from "@/i18n";
+import { useGlossary } from "@/i18n/glossary";
+import { exerciseSearchText, exerciseSteps, exerciseTitle } from "@/lib/exercise-i18n";
 import {
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
-  format,
   isSameDay,
   getDay,
   startOfWeek,
@@ -47,7 +50,6 @@ import {
   X,
   Lock,
 } from "lucide-react-native";
-import { EQUIPMENT_LIST, FOCUS_PRESETS, MUSCLES } from "@/lib/constants";
 import { filterExercises, getExerciseById } from "@/lib/exercises";
 import { colors, fonts, radius, spacing, theme } from "@/lib/theme";
 import {
@@ -55,13 +57,14 @@ import {
   buildDayExercises,
   dayMinutes,
   getProgram,
+  localizedProgram,
   programEquipment,
   programIndex,
   programMinutes,
+  type Program,
   type ProgramLevel,
 } from "@/lib/programs";
 import { AppText, Button, Chip, StatCard } from "@/components/kit";
-import type { WorkoutFocus } from "@/lib/types";
 import { useWorkoutStore, type DayPlan } from "@/store/workout-store";
 import { PremiumPopup } from "@/components/premium-popup";
 import type { PaywallReason } from "@/lib/entitlements";
@@ -75,9 +78,8 @@ import {
 } from "@/lib/ads";
 /*import { AdBanner } from "@/components/AdBanner"; */
 
-const DAY_NAMES = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-function getWeekDates(): { day: string; date: number; dayIndex: number; isToday: boolean }[] {
+function getWeekDates(): { date: number; dayIndex: number; isToday: boolean }[] {
   const now = new Date();
   const todayDOW = now.getDay();
   const result = [];
@@ -85,7 +87,6 @@ function getWeekDates(): { day: string; date: number; dayIndex: number; isToday:
     const d = new Date(now);
     d.setDate(now.getDate() - todayDOW + i);
     result.push({
-      day: DAY_NAMES[i],
       date: d.getDate(),
       dayIndex: i,
       isToday: i === todayDOW,
@@ -119,6 +120,8 @@ function Pill({
 }
 
 export function TrainScreen() {
+  const { t } = useTranslation("home");
+  const language = useLanguage();
   const s = useWorkoutStore();
   const weekDates = useMemo(() => getWeekDates(), []);
   const [selectedDay, setSelectedDay] = useState(() => new Date().getDay());
@@ -150,11 +153,18 @@ export function TrainScreen() {
     return Array(startingDayIndex).fill(null).concat(daysInMonth);
   }, [today]);
 
+  const monthTitle = useMemo(() => {
+    const title = today.toLocaleDateString(intlLocale(language), { month: "long", year: "numeric" });
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }, [today, language]);
+
   const weekPlan = s.plans.find((p) => p.id === s.activePlanId) ?? null;
   const todayPlan: DayPlan | null = weekPlan?.days[selectedDay] ?? null;
   const exercises = todayPlan?.exercises ?? s.currentWorkout;
-  const workoutLabel = todayPlan?.label ?? "Custom";
   const isRest = todayPlan?.isRest ?? false;
+  // Rest days are stored with the raw label "Rest"; show it translated.
+  const workoutLabel =
+    isRest && (!todayPlan?.label || todayPlan.label === "Rest") ? t("restLabel") : (todayPlan?.label ?? t("custom"));
 
   const estimatedMinutes = Math.round(
     exercises.reduce((t, e) => t + e.sets * (0.75 + e.restSeconds / 60), 0)
@@ -191,7 +201,7 @@ export function TrainScreen() {
             onPress={() => setPlanDropdownVisible(true)}
           >
             <AppText variant="titleLarge" numberOfLines={1} style={{ flexShrink: 1 }}>
-              {weekPlan?.name || "My Plan"}
+              {weekPlan?.name || t("myPlan")}
             </AppText>
             <ChevronDown size={20} color={colors.textPrimary} />
           </Pressable>
@@ -200,7 +210,7 @@ export function TrainScreen() {
               style={[trainStyles.iconButton, { backgroundColor: colors.accent }]}
               onPress={() => setPremiumVisible(true)}
               accessibilityRole="button"
-              accessibilityLabel={access.isPremium ? "Premium" : "Go Premium"}
+              accessibilityLabel={access.isPremium ? t("a11y.premium") : t("a11y.goPremium")}
             >
               <Crown size={20} color={colors.textOnAccent} />
             </Pressable>
@@ -208,7 +218,7 @@ export function TrainScreen() {
               style={[trainStyles.iconButton, { backgroundColor: colors.bgSurface }]}
               onPress={() => setCalendarVisible(true)}
               accessibilityRole="button"
-              accessibilityLabel="Open calendar"
+              accessibilityLabel={t("a11y.openCalendar")}
             >
               <Calendar size={20} color={colors.textPrimary} />
             </Pressable>
@@ -223,13 +233,13 @@ export function TrainScreen() {
         >
           <View style={trainStyles.filterChip}>
             <AppText variant="labelLarge">
-              Muscles ({new Set(exercises.map((e) => e.mainMuscle)).size})
+              {t("musclesCount", { n: new Set(exercises.map((e) => e.mainMuscle)).size })}
             </AppText>
             <ChevronDown size={14} color={colors.textSecondary} />
           </View>
           <View style={trainStyles.filterChip}>
             <AppText variant="labelLarge">
-              {estimatedMinutes > 0 ? `${estimatedMinutes}–${estimatedMinutes + 10} Min` : "—"}
+              {estimatedMinutes > 0 ? t("minRange", { from: estimatedMinutes, to: estimatedMinutes + 10 }) : "—"}
             </AppText>
             <ChevronDown size={14} color={colors.textSecondary} />
           </View>
@@ -254,7 +264,7 @@ export function TrainScreen() {
                 accessibilityState={{ selected: isSelected }}
               >
                 <AppText variant="caption" color={isSelected ? "textOnAccent" : "textSecondary"}>
-                  {d.day}
+                  {t(`weekdaysShort.${d.dayIndex}`)}
                 </AppText>
                 <AppText variant="titleSmall" color={isSelected ? "textOnAccent" : "textPrimary"}>
                   {d.date}
@@ -279,14 +289,14 @@ export function TrainScreen() {
         {/* ---- Week / Phase label ---- */}
         {weekPlan && (
           <AppText variant="labelLarge" color="accent" style={{ textAlign: "center" }}>
-            Week {weekPlan.weekNumber}/{weekPlan.totalWeeks} – {weekPlan.phaseName}
+            {t("weekPhase", { week: weekPlan.weekNumber, total: weekPlan.totalWeeks, phase: weekPlan.phaseName })}
           </AppText>
         )}
 
         {/* ---- TODAY'S WORKOUT ---- */}
         <View style={trainStyles.todaySection}>
           <AppText variant="caption" color="textSecondary" style={{ letterSpacing: 1 }}>
-            TODAY&apos;S WORKOUT
+            {t("todaysWorkout")}
           </AppText>
           <AppText variant="titleMedium">{workoutLabel}</AppText>
         </View>
@@ -294,9 +304,9 @@ export function TrainScreen() {
         {isRest ? (
           <View style={trainStyles.restCard}>
             <Text style={{ fontSize: 48 }}>😴</Text>
-            <AppText variant="titleMedium">Rest Day</AppText>
+            <AppText variant="titleMedium">{t("restDay")}</AppText>
             <AppText variant="bodyMedium" color="textSecondary" style={{ textAlign: "center" }}>
-              Recovery is part of the plan. Take it easy today.
+              {t("restDayHint")}
             </AppText>
           </View>
         ) : (
@@ -305,15 +315,15 @@ export function TrainScreen() {
             <View style={trainStyles.statsRow}>
               <View style={trainStyles.statItem}>
                 <Zap size={16} color={colors.accent} />
-                <AppText variant="labelLarge">{exercises.length} Exercises</AppText>
+                <AppText variant="labelLarge">{t("exercisesCount", { count: exercises.length })}</AppText>
               </View>
               <View style={trainStyles.statItem}>
                 <Clock size={16} color={colors.accent} />
-                <AppText variant="labelLarge">{estimatedMinutes} Min</AppText>
+                <AppText variant="labelLarge">{t("minutes", { value: estimatedMinutes })}</AppText>
               </View>
               <View style={trainStyles.statItem}>
                 <Flame size={16} color={colors.accent} />
-                <AppText variant="labelLarge">{estimatedCal} Cal</AppText>
+                <AppText variant="labelLarge">{t("calories", { value: estimatedCal })}</AppText>
               </View>
             </View>
 
@@ -337,11 +347,11 @@ export function TrainScreen() {
                 </View>
                 <View style={trainStyles.exerciseInfo}>
                   <AppText variant="titleSmall" numberOfLines={1}>
-                    {ex.title}
+                    {exerciseTitle(ex.exerciseId, ex.title)}
                   </AppText>
                   <AppText variant="bodyMedium" color="textSecondary">
-                    {ex.sets} sets × {ex.reps} reps
-                    {ex.restSeconds ? ` × ${ex.restSeconds}s rest` : ""}
+                    {t("setsReps", { count: ex.sets, reps: ex.reps })}
+                    {ex.restSeconds ? t("restSuffix", { seconds: ex.restSeconds }) : ""}
                   </AppText>
                 </View>
                 <View style={trainStyles.infoButton}>
@@ -359,7 +369,7 @@ export function TrainScreen() {
       {/* ---- Start workout CTA ---- */}
       {!isRest && exercises.length > 0 && (
         <View style={trainStyles.ctaContainer} pointerEvents="box-none">
-          <Button label="Start workout" onPress={handleStartWorkout} />
+          <Button label={t("startWorkout")} onPress={handleStartWorkout} />
         </View>
       )}
 
@@ -370,7 +380,7 @@ export function TrainScreen() {
           onPress={() => setPlanDropdownVisible(false)}
         >
           <View style={styles.dropdownMenu}>
-            <Text style={styles.dropdownTitle}>Switch Plan</Text>
+            <Text style={styles.dropdownTitle}>{t("switchPlan")}</Text>
             {s.plans.map(p => (
               <View key={p.id} style={{ flexDirection: "row", alignItems: "center" }}>
                 <Pressable
@@ -399,12 +409,12 @@ export function TrainScreen() {
                     style={{ padding: 10 }}
                     onPress={() => {
                       Alert.alert(
-                        "Delete Plan",
-                        `Are you sure you want to delete "${p.name}"?`,
+                        t("deletePlanTitle"),
+                        t("deletePlanMessage", { name: p.name }),
                         [
-                          { text: "Cancel", style: "cancel" },
+                          { text: t("cancel"), style: "cancel" },
                           {
-                            text: "Delete",
+                            text: t("delete"),
                             style: "destructive",
                             onPress: () => s.deletePlan(p.id)
                           }
@@ -434,7 +444,7 @@ export function TrainScreen() {
               ) : (
                 <Lock size={16} color={theme.neon} />
               )}
-              <Text style={styles.dropdownAddText}>Add New Plan</Text>
+              <Text style={styles.dropdownAddText}>{t("addNewPlan")}</Text>
             </Pressable>
           </View>
         </Pressable>
@@ -457,7 +467,7 @@ export function TrainScreen() {
         >
           <Pressable style={styles.calendarModalContent} onPress={() => { }}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-              <Text style={styles.calendarTitle}>{format(today, "MMMM yyyy")}</Text>
+              <Text style={styles.calendarTitle}>{monthTitle}</Text>
               <Pressable onPress={() => setCalendarVisible(false)}>
                 <X size={24} color={theme.text} />
               </Pressable>
@@ -466,14 +476,14 @@ export function TrainScreen() {
             <View style={styles.streakContainer}>
               <Flame size={20} color={theme.neon} />
               <Text style={styles.streakText}>
-                {workoutsThisWeek.length} {workoutsThisWeek.length === 1 ? 'workout' : 'workouts'} this week
+                {t("workoutsThisWeek", { count: workoutsThisWeek.length })}
               </Text>
             </View>
 
             <View style={styles.calendarHeaderRow}>
-              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+              {[0, 1, 2, 3, 4, 5, 6].map((day) => (
                 <Text key={day} style={styles.calendarDayHeader}>
-                  {day}
+                  {t(`weekdaysShort.${day}`)}
                 </Text>
               ))}
             </View>
@@ -488,7 +498,7 @@ export function TrainScreen() {
                 return (
                   <View key={d.toString()} style={[styles.calendarCell, hasWorkedOut && styles.calendarCellWorkedOut]}>
                     <Text style={[styles.calendarCellText, hasWorkedOut && styles.calendarCellTextWorkedOut, isToday && styles.calendarCellTextToday]}>
-                      {format(d, "d")}
+                      {d.getDate()}
                     </Text>
                   </View>
                 );
@@ -654,14 +664,19 @@ const libStyles = StyleSheet.create({
 
 /* ===== OTHER SCREENS (unchanged logic) ===== */
 
+// Raw filter values (used for filtering); the chips show translated text via `library:levels.*` / `library:dayFilters.*`.
 const LIBRARY_LEVELS = ["All", "Beginner", "Intermediate", "Advanced"] as const;
 const LIBRARY_DAYS = [
-  { label: "All", match: (_n: number) => true },
-  { label: "1 Day", match: (n: number) => n === 1 },
-  { label: "2 Days", match: (n: number) => n === 2 },
-  { label: "3 Days", match: (n: number) => n === 3 },
-  { label: "4+ Days", match: (n: number) => n >= 4 },
+  { id: "all", match: (_n: number) => true },
+  { id: "1", match: (n: number) => n === 1 },
+  { id: "2", match: (n: number) => n === 2 },
+  { id: "3", match: (n: number) => n === 3 },
+  { id: "4plus", match: (n: number) => n >= 4 },
 ] as const;
+/** Keys under `library:levels.*` for a raw level. */
+const levelKey = (level: string) => level.toLowerCase();
+/** Key under `library:equipment.*` for a program's raw equipment ("Full gym" / "At home"). */
+const programEquipmentKey = (equipment: Program["equipment"]) => (equipment === "Full gym" ? "fullGym" : "atHome");
 const LEVEL_BARS: Record<ProgramLevel, number> = { Beginner: 1, Intermediate: 2, Advanced: 3 };
 const BAR_HEIGHTS = { sm: [4, 7, 10], md: [6, 10, 14] } as const;
 
@@ -683,6 +698,9 @@ function LevelBars({ level, size = "md" }: { level: string; size?: "sm" | "md" }
 const toTitleCase = (t: string) => t.toLowerCase().replace(/(^|[\s-])([a-z])/g, (_, sep, c) => sep + c.toUpperCase());
 
 export function LibraryScreen() {
+  const { t } = useTranslation("library");
+  const language = useLanguage();
+  const displayTitle = (title: string) => (language === "en" ? toTitleCase(title) : title);
   const [query, setQuery] = useState("");
   const [paywallReason, setPaywallReason] = useState<PaywallReason | null>(null);
   const access = usePremiumAccess();
@@ -698,20 +716,31 @@ export function LibraryScreen() {
     ADS_SUPPORTED ? router.push(`/workout/${workoutId}` as any) : setPaywallReason("prepared_workout");
 
   const [level, setLevel] = useState<(typeof LIBRARY_LEVELS)[number]>("All");
-  const [days, setDays] = useState<(typeof LIBRARY_DAYS)[number]["label"]>("All");
+  const [days, setDays] = useState<(typeof LIBRARY_DAYS)[number]["id"]>("all");
 
   const programs = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const dayFilter = LIBRARY_DAYS.find((d) => d.label === days)!;
+    const dayFilter = LIBRARY_DAYS.find((d) => d.id === days)!;
     return PROGRAMS.filter((w) => {
       if (level !== "All" && w.level !== level) return false;
       if (!dayFilter.match(w.days.length)) return false;
       if (!q) return true;
-      return [w.title, w.subtitle, w.category, w.equipment, w.focus, w.level].some((t) =>
-        t.toLowerCase().includes(q),
-      );
-    });
-  }, [query, level, days]);
+      const local = localizedProgram(w);
+      return [
+        local.title,
+        local.subtitle,
+        local.category,
+        local.focus,
+        t(`equipment.${programEquipmentKey(w.equipment)}`),
+        t(`levels.${levelKey(w.level)}`),
+        w.title,
+        w.subtitle,
+        w.equipment,
+        w.level,
+      ].some((text) => text.toLowerCase().includes(q));
+    }).map(localizedProgram);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, level, days, language]);
 
   return (
     <View style={styles.discoverPage}>
@@ -725,12 +754,12 @@ export function LibraryScreen() {
           ListHeaderComponent={
             <View style={libStyles.headerBlock}>
               <View style={libStyles.header}>
-                <AppText variant="titleLarge">Library</AppText>
+                <AppText variant="titleLarge">{t("title")}</AppText>
                 <Pressable
                   style={libStyles.crownButton}
                   onPress={() => setPaywallReason("prepared_workout")}
                   accessibilityRole="button"
-                  accessibilityLabel={access.isPremium ? "Premium" : "Go Premium"}
+                  accessibilityLabel={access.isPremium ? t("a11y.premium") : t("a11y.goPremium")}
                 >
                   <Crown size={22} color={colors.textOnAccent} />
                 </Pressable>
@@ -738,7 +767,7 @@ export function LibraryScreen() {
 
               <View style={libStyles.search}>
                 <TextInput
-                  placeholder="Search programs, exercises"
+                  placeholder={t("searchPlaceholder")}
                   placeholderTextColor={colors.textMuted}
                   value={query}
                   onChangeText={setQuery}
@@ -750,19 +779,19 @@ export function LibraryScreen() {
 
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={libStyles.chipRow}>
                 {LIBRARY_LEVELS.map((l) => (
-                  <Chip key={l} label={l} selected={level === l} onPress={() => setLevel(l)} />
+                  <Chip key={l} label={t(`levels.${levelKey(l)}`)} selected={level === l} onPress={() => setLevel(l)} />
                 ))}
               </ScrollView>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={libStyles.chipRow}>
                 {LIBRARY_DAYS.map((d) => (
-                  <Chip key={d.label} label={d.label} selected={days === d.label} onPress={() => setDays(d.label)} />
+                  <Chip key={d.id} label={t(`dayFilters.${d.id}`)} selected={days === d.id} onPress={() => setDays(d.id)} />
                 ))}
               </ScrollView>
             </View>
           }
           ListEmptyComponent={
             <AppText variant="bodyMedium" color="textSecondary" style={{ textAlign: "center", paddingTop: spacing["3xl"] }}>
-              No programs match your filters.
+              {t("empty")}
             </AppText>
           }
           renderItem={({ item }) => {
@@ -772,7 +801,7 @@ export function LibraryScreen() {
                 style={libStyles.card}
                 onPress={() => (locked ? openLockedWorkout(item.id) : router.push(`/workout/${item.id}` as any))}
                 accessibilityRole="button"
-                accessibilityLabel={`${item.title}, ${item.level}${locked ? ", Premium" : ""}`}
+                accessibilityLabel={`${item.title}, ${t(`levels.${levelKey(item.level)}`)}${locked ? `, ${t("a11y.premium")}` : ""}`}
               >
                 {/* Image slot: programs get cover images later; until then an inset placeholder. */}
                 <View style={libStyles.cover}>
@@ -788,7 +817,7 @@ export function LibraryScreen() {
                 <View style={libStyles.cardBody}>
                   <View style={libStyles.titleRow}>
                     <AppText variant="titleSmall" numberOfLines={1} style={{ flex: 1 }}>
-                      {toTitleCase(item.title)}
+                      {displayTitle(item.title)}
                     </AppText>
                     {locked ? (
                       <View style={libStyles.crownBadge}>
@@ -801,14 +830,14 @@ export function LibraryScreen() {
                   </AppText>
                   <View style={libStyles.tags}>
                     {[
-                      item.equipment,
+                      t(`equipment.${programEquipmentKey(item.equipment)}`),
                       item.focus,
-                      `${item.programLength} weeks`,
-                      `${item.days.length} days/week`,
-                    ].map((t) => (
-                      <View key={t} style={libStyles.tag}>
+                      t("weeksCount", { count: item.programLength }),
+                      t("daysPerWeek", { count: item.days.length }),
+                    ].map((tag) => (
+                      <View key={tag} style={libStyles.tag}>
                         <AppText variant="labelMedium" color="textSecondary">
-                          {t}
+                          {tag}
                         </AppText>
                       </View>
                     ))}
@@ -816,7 +845,7 @@ export function LibraryScreen() {
                   <View style={libStyles.levelRow}>
                     <LevelBars level={item.level} />
                     <AppText variant="labelMedium" color="textSecondary">
-                      {item.level === "Beginner" ? "Easy" : item.level}
+                      {t(`levelsCard.${levelKey(item.level)}`)}
                     </AppText>
                   </View>
                 </View>
@@ -837,9 +866,15 @@ export function LibraryScreen() {
 
 const ALL_MUSCLES_LABEL = "All";
 
-const DIFFICULTY_LABEL: Record<string, string> = { Beginner: "Easy", Intermediate: "Intermediate", Advanced: "Hard" };
+/** Raw difficulty -> key under `exercises:difficulty.*` (display text is "Easy" / "Intermediate" / "Hard"). */
+const difficultyKey = (difficulty: string) => difficulty.toLowerCase();
 
 export function BuilderScreen() {
+  const { t } = useTranslation("exercises");
+  const language = useLanguage();
+  const g = useGlossary();
+  const difficultyLabel = (difficulty: string) =>
+    ["Beginner", "Intermediate", "Advanced"].includes(difficulty) ? t(`difficulty.${difficultyKey(difficulty)}`) : difficulty;
   const [query, setQuery] = useState("");
   const [selectedMuscle, setSelectedMuscle] = useState<string>(ALL_MUSCLES_LABEL);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -866,13 +901,15 @@ export function BuilderScreen() {
       const q = query.trim().toLowerCase();
       const matchesQuery =
         !q ||
-        e.title.toLowerCase().includes(q) ||
+        exerciseSearchText(e._id, e.title).includes(q) ||
         e.category.toLowerCase().includes(q) ||
-        e.targets.some((t) => t.toLowerCase().includes(q)) ||
-        e.equipment.some((eq) => eq.toLowerCase().includes(q));
+        g("category", e.category).toLowerCase().includes(q) ||
+        e.targets.some((m) => m.toLowerCase().includes(q) || g("muscle", m).toLowerCase().includes(q)) ||
+        e.equipment.some((eq) => eq.toLowerCase().includes(q) || g("equipment", eq).toLowerCase().includes(q));
       return matchesMuscle && matchesCategory && matchesQuery;
     });
-  }, [allExercises, selectedMuscle, selectedCategory, query]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allExercises, selectedMuscle, selectedCategory, query, language]);
 
   return (
     <SafeAreaView style={exStyles.root}>
@@ -886,20 +923,20 @@ export function BuilderScreen() {
         ListHeaderComponent={
           <View style={exStyles.headerBlock}>
             <AppText variant="titleLarge" style={{ paddingTop: spacing.md }}>
-              Exercise <AppText variant="titleLarge" color="accent">Library</AppText>
+              {t("titleLead")} <AppText variant="titleLarge" color="accent">{t("titleAccent")}</AppText>
             </AppText>
 
             <View style={libStyles.search}>
               <TextInput
                 value={query}
                 onChangeText={setQuery}
-                placeholder="Search exercises, muscles, equipment…"
+                placeholder={t("searchPlaceholder")}
                 placeholderTextColor={colors.textMuted}
                 style={libStyles.searchInput}
                 returnKeyType="search"
               />
               {query.length > 0 ? (
-                <Pressable onPress={() => setQuery("")} accessibilityRole="button" accessibilityLabel="Clear search">
+                <Pressable onPress={() => setQuery("")} accessibilityRole="button" accessibilityLabel={t("clearSearch")}>
                   <X color={colors.textSecondary} size={20} />
                 </Pressable>
               ) : (
@@ -909,24 +946,24 @@ export function BuilderScreen() {
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={libStyles.chipRow}>
               {muscles.map((m) => (
-                <Chip key={m} dot label={m} selected={m === selectedMuscle} onPress={() => setSelectedMuscle(m)} />
+                <Chip key={m} dot label={m === ALL_MUSCLES_LABEL ? t("all") : g("muscle", m)} selected={m === selectedMuscle} onPress={() => setSelectedMuscle(m)} />
               ))}
             </ScrollView>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={libStyles.chipRow}>
               {categories.map((cat) => (
-                <Chip key={cat} label={cat} selected={cat === selectedCategory} onPress={() => setSelectedCategory(cat)} />
+                <Chip key={cat} label={cat === "All" ? t("all") : g("category", cat)} selected={cat === selectedCategory} onPress={() => setSelectedCategory(cat)} />
               ))}
             </ScrollView>
 
             <View style={exStyles.legend}>
               <AppText variant="caption" color="textSecondary">
-                Difficulty
+                {t("difficulty.title")}
               </AppText>
               {(["Beginner", "Intermediate", "Advanced"] as const).map((level) => (
                 <View key={level} style={exStyles.legendItem}>
                   <LevelBars level={level} size="sm" />
                   <AppText variant="caption" color="textSecondary">
-                    {DIFFICULTY_LABEL[level]}
+                    {difficultyLabel(level)}
                   </AppText>
                 </View>
               ))}
@@ -936,9 +973,9 @@ export function BuilderScreen() {
         ListEmptyComponent={
           <View style={exStyles.empty}>
             <Dumbbell color={colors.textMuted} size={40} />
-            <AppText variant="titleSmall">No exercises found</AppText>
+            <AppText variant="titleSmall">{t("emptyTitle")}</AppText>
             <AppText variant="bodyMedium" color="textSecondary">
-              Try a different search or filter
+              {t("emptyHint")}
             </AppText>
           </View>
         }
@@ -949,7 +986,7 @@ export function BuilderScreen() {
               style={exStyles.card}
               onPress={() => router.push(`/exercise/${e._id}` as any)}
               accessibilityRole="button"
-              accessibilityLabel={`${e.title}, ${DIFFICULTY_LABEL[e.difficulty] ?? e.difficulty}`}
+              accessibilityLabel={`${exerciseTitle(e._id, e.title)}, ${difficultyLabel(e.difficulty)}`}
             >
               <View style={exStyles.thumb}>
                 {e.image ? (
@@ -961,22 +998,22 @@ export function BuilderScreen() {
 
               <View style={exStyles.cardBody}>
                 <AppText variant="titleSmall" numberOfLines={2}>
-                  {e.title}
+                  {exerciseTitle(e._id, e.title)}
                 </AppText>
                 <View style={exStyles.tags}>
                   <View style={exStyles.tag}>
                     <View style={exStyles.tagDot} />
                     <AppText variant="labelMedium" color="accent">
-                      {muscle}
+                      {g("muscle", muscle)}
                     </AppText>
                   </View>
                   <View style={exStyles.tag}>
-                    <AppText variant="labelMedium">{e.category}</AppText>
+                    <AppText variant="labelMedium">{g("category", e.category)}</AppText>
                   </View>
                 </View>
                 {e.equipment?.length > 0 ? (
                   <AppText variant="caption" color="textSecondary" numberOfLines={1}>
-                    {e.equipment.join(" · ")}
+                    {e.equipment.map((eq) => g("equipment", eq)).join(" · ")}
                   </AppText>
                 ) : null}
               </View>
@@ -992,12 +1029,6 @@ export function BuilderScreen() {
   );
 }
 
-const LIFTER_NOTE: Record<string, string> = {
-  Beginner: "Beginner friendly",
-  Intermediate: "Some experience",
-  Advanced: "Advanced lifters",
-};
-
 function MuscleTag({ label, primary }: { label: string; primary?: boolean }) {
   return (
     <View style={[exStyles.muscleTag, { backgroundColor: primary ? colors.accent : colors.bgSurface }]}>
@@ -1010,6 +1041,8 @@ function MuscleTag({ label, primary }: { label: string; primary?: boolean }) {
 }
 
 export function ExerciseDetail({ id }: { id: string }) {
+  const { t } = useTranslation("exercises");
+  const g = useGlossary();
   const e = getExerciseById(id);
   const [imgError, setImgError] = useState(false);
   const insets = useSafeAreaInsets();
@@ -1018,13 +1051,15 @@ export function ExerciseDetail({ id }: { id: string }) {
     return (
       <View style={detailStyles.notFound}>
         <Dumbbell color={theme.muted} size={48} />
-        <Text style={detailStyles.notFoundText}>Exercise not found</Text>
+        <Text style={detailStyles.notFoundText}>{t("detail.notFound")}</Text>
       </View>
     );
 
   const primary = e.primary_muscles?.length ? e.primary_muscles : [e.mainMuscle ?? e.targets?.[0]].filter(Boolean) as string[];
   const secondary = e.secondary_muscles ?? [];
-  const difficultyLabel = DIFFICULTY_LABEL[e.difficulty] ?? e.difficulty;
+  const known = ["Beginner", "Intermediate", "Advanced"].includes(e.difficulty);
+  const difficultyLabel = known ? t(`difficulty.${difficultyKey(e.difficulty)}`) : e.difficulty;
+  const steps = exerciseSteps(e._id, e.steps);
 
   return (
     <View style={exStyles.root}>
@@ -1036,12 +1071,12 @@ export function ExerciseDetail({ id }: { id: string }) {
             style={progStyles.backButton}
             onPress={() => router.back()}
             accessibilityRole="button"
-            accessibilityLabel="Go back"
+            accessibilityLabel={t("detail.back")}
           >
             <ArrowLeft size={20} color={colors.textPrimary} />
           </Pressable>
           <AppText variant="titleSmall" style={progStyles.headerTitle}>
-            Exercise
+            {t("detail.header")}
           </AppText>
           <View style={progStyles.backButton} />
         </View>
@@ -1066,9 +1101,12 @@ export function ExerciseDetail({ id }: { id: string }) {
         </View>
 
         <View style={{ gap: spacing.sm }}>
-          <AppText variant="titleLarge">{e.title}</AppText>
+          <AppText variant="titleLarge">{exerciseTitle(e._id, e.title)}</AppText>
           <AppText variant="bodyLarge" color="textSecondary">
-            {e.category} exercise for {primary.join(", ").toLowerCase()}.
+            {t("detail.summary", {
+              category: g("category", e.category),
+              muscles: primary.map((m) => g("muscle", m)).join(", ").toLowerCase(),
+            })}
           </AppText>
         </View>
 
@@ -1078,22 +1116,22 @@ export function ExerciseDetail({ id }: { id: string }) {
           </View>
           <View style={{ flex: 1 }}>
             <AppText variant="caption" color="textSecondary">
-              Difficulty
+              {t("difficulty.title")}
             </AppText>
             <AppText variant="titleSmall">{difficultyLabel}</AppText>
           </View>
           <AppText variant="bodyMedium" color="textSecondary">
-            {LIFTER_NOTE[e.difficulty] ?? ""}
+            {known ? t(`detail.lifterNote.${difficultyKey(e.difficulty)}`) : ""}
           </AppText>
         </View>
 
         {e.equipment?.length > 0 && (
           <View style={{ gap: spacing.md }}>
-            <AppText variant="titleSmall">Equipment</AppText>
+            <AppText variant="titleSmall">{t("detail.equipment")}</AppText>
             <View style={exStyles.wrapRow}>
               {e.equipment.map((eq) => (
                 <View key={eq} style={exStyles.equipTag}>
-                  <AppText variant="labelLarge">{eq}</AppText>
+                  <AppText variant="labelLarge">{g("equipment", eq)}</AppText>
                 </View>
               ))}
             </View>
@@ -1101,25 +1139,25 @@ export function ExerciseDetail({ id }: { id: string }) {
         )}
 
         <View style={{ gap: spacing.md }}>
-          <AppText variant="titleSmall">Muscles worked</AppText>
+          <AppText variant="titleSmall">{t("detail.musclesWorked")}</AppText>
           <View style={{ gap: spacing.sm }}>
             <AppText variant="caption" color="textSecondary">
-              Primary
+              {t("detail.primary")}
             </AppText>
             <View style={exStyles.wrapRow}>
               {primary.map((m) => (
-                <MuscleTag key={m} label={m} primary />
+                <MuscleTag key={m} label={g("muscle", m)} primary />
               ))}
             </View>
           </View>
           {secondary.length > 0 && (
             <View style={{ gap: spacing.sm }}>
               <AppText variant="caption" color="textSecondary">
-                Secondary
+                {t("detail.secondary")}
               </AppText>
               <View style={exStyles.wrapRow}>
                 {secondary.map((m) => (
-                  <MuscleTag key={m} label={m} />
+                  <MuscleTag key={m} label={g("muscle", m)} />
                 ))}
               </View>
             </View>
@@ -1128,13 +1166,13 @@ export function ExerciseDetail({ id }: { id: string }) {
 
         <View style={{ gap: spacing.md }}>
           <View style={exStyles.howHeader}>
-            <AppText variant="titleSmall">How to</AppText>
+            <AppText variant="titleSmall">{t("detail.howTo")}</AppText>
             <AppText variant="labelMedium" color="textSecondary">
-              {e.steps.length} steps
+              {t("detail.stepsCount", { count: steps.length })}
             </AppText>
           </View>
           <View style={exStyles.steps}>
-            {e.steps.map((step, i) => (
+            {steps.map((step, i) => (
               <View key={i} style={exStyles.stepRow}>
                 <View style={exStyles.stepNum}>
                   <AppText variant="labelLarge" color="textOnAccent">
@@ -1154,7 +1192,13 @@ export function ExerciseDetail({ id }: { id: string }) {
 }
 
 export function WorkoutDetailScreen({ id }: { id: string }) {
-  const workout = getProgram(id);
+  const { t } = useTranslation("library");
+  const language = useLanguage();
+  const g = useGlossary();
+  const rawWorkout = getProgram(id);
+  // Translated copy of the program (title, subtitle, description, focus, category, day labels) for display and enrolling.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const workout = useMemo(() => (rawWorkout ? localizedProgram(rawWorkout) : undefined), [rawWorkout, language]);
   const s = useWorkoutStore();
   const insets = useSafeAreaInsets();
   const access = usePremiumAccess();
@@ -1177,9 +1221,9 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
     return (
       <View style={detailStyles.notFound}>
         <Dumbbell color={theme.muted} size={48} />
-        <Text style={detailStyles.notFoundText}>Workout not found</Text>
+        <Text style={detailStyles.notFoundText}>{t("detail.notFound")}</Text>
         <Pressable onPress={() => router.back()}>
-          <Text style={{ color: theme.neon, marginTop: 20 }}>Go Back</Text>
+          <Text style={{ color: theme.neon, marginTop: 20 }}>{t("detail.goBack")}</Text>
         </Pressable>
       </View>
     );
@@ -1191,12 +1235,12 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
     const adLoading = rewardedStatus === "idle" || rewardedStatus === "loading";
     const watchDisabled = adBusy || adLoading;
     const watchLabel = adBusy
-      ? "Opening ad…"
+      ? t("premium:rewarded.opening")
       : adLoading
-        ? "Loading ad…"
+        ? t("premium:rewarded.loading")
         : rewardedStatus === "unavailable"
-          ? "Ad unavailable. Tap to retry"
-          : "Watch an ad to unlock this workout";
+          ? t("premium:rewarded.retry")
+          : t("premium:rewarded.watch");
     const unlockHours = Math.round(REWARDED_UNLOCK_MS / (60 * 60 * 1000));
 
     const handleWatchAd = async () => {
@@ -1207,14 +1251,14 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
       const result = await showRewardedForWorkout(workout.id);
       setAdBusy(false);
       // "earned": the unlock is already stored, so `locked` flips and this screen becomes the workout.
-      if (result === "not_earned") setAdMessage("Watch the whole ad to unlock this workout.");
-      if (result === "unavailable") setAdMessage("No ad is available right now. Please try again in a moment.");
+      if (result === "not_earned") setAdMessage(t("premium:rewarded.notEarned"));
+      if (result === "unavailable") setAdMessage(t("premium:rewarded.noAd"));
     };
 
     return (
       <View style={detailStyles.notFound}>
         <Lock color={theme.neon} size={48} />
-        <Text style={detailStyles.notFoundText}>{workout.title} is a Premium workout</Text>
+        <Text style={detailStyles.notFoundText}>{t("premium:rewarded.premiumWorkout", { title: workout.title })}</Text>
         {ADS_SUPPORTED && (
           <View style={detailStyles.unlockAdWrap}>
             <Pressable
@@ -1231,14 +1275,14 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
               )}
               <Text style={detailStyles.unlockAdBtnText}>{watchLabel}</Text>
             </Pressable>
-            <Text style={detailStyles.unlockAdNote}>{adMessage ?? `Free for ${unlockHours} hours`}</Text>
+            <Text style={detailStyles.unlockAdNote}>{adMessage ?? t("premium:rewarded.freeFor", { count: unlockHours })}</Text>
           </View>
         )}
         <Pressable onPress={() => setPaywallReason("prepared_workout")}>
-          <Text style={{ color: theme.neon, marginTop: 20, fontWeight: "800" }}>Unlock with Premium</Text>
+          <Text style={{ color: theme.neon, marginTop: 20, fontWeight: "800" }}>{t("premium:rewarded.unlockWithPremium")}</Text>
         </Pressable>
         <Pressable onPress={() => router.back()}>
-          <Text style={{ color: theme.muted, marginTop: 16 }}>Go Back</Text>
+          <Text style={{ color: theme.muted, marginTop: 16 }}>{t("detail.goBack")}</Text>
         </Pressable>
         <PremiumPopup
           visible={paywallReason !== null}
@@ -1256,7 +1300,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
       const programDay = workout.days[workout.recommendedDays.indexOf(dayIndex)];
       return programDay
         ? { dayIndex, label: programDay.label, isRest: false, exercises: buildDayExercises(programDay) }
-        : { dayIndex, label: "Rest", isRest: true, exercises: [] };
+        : { dayIndex, label: "Rest", isRest: true, exercises: [] }; // raw label; shown translated
     });
 
     const planId = Math.random().toString(36).slice(2);
@@ -1270,7 +1314,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
     });
     if (!added) return setPaywallReason("plan_limit");
     s.setActivePlan(planId);
-    Alert.alert("Enrolled", `You have successfully enrolled in ${workout.title}!`);
+    Alert.alert(t("enroll.title"), t("enroll.message", { title: workout.title }));
     router.replace("/" as any);
   };
 
@@ -1284,12 +1328,12 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
             style={progStyles.backButton}
             onPress={() => router.back()}
             accessibilityRole="button"
-            accessibilityLabel="Go back"
+            accessibilityLabel={t("detail.back")}
           >
             <ArrowLeft size={20} color={colors.textPrimary} />
           </Pressable>
           <AppText variant="titleSmall" style={progStyles.headerTitle}>
-            Program
+            {t("detail.header")}
           </AppText>
           <View style={progStyles.backButton} />
         </View>
@@ -1303,13 +1347,13 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
         <View style={progStyles.cover}>
           <View style={progStyles.coverBadge}>
             <Dumbbell size={16} color={colors.accent} />
-            <AppText variant="labelMedium">{workout.equipment}</AppText>
+            <AppText variant="labelMedium">{t(`equipment.${programEquipmentKey(workout.equipment)}`)}</AppText>
           </View>
           <Dumbbell size={48} color={colors.textMuted} />
         </View>
 
         <View style={{ gap: spacing.sm }}>
-          <AppText variant="titleLarge">{toTitleCase(workout.title)}</AppText>
+          <AppText variant="titleLarge">{language === "en" ? toTitleCase(workout.title) : workout.title}</AppText>
           <AppText variant="bodyLarge" color="textSecondary">
             {workout.description}
           </AppText>
@@ -1322,9 +1366,9 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
             </View>
             <View style={{ flex: 1 }}>
               <AppText variant="caption" color="textSecondary">
-                Level
+                {t("detail.level")}
               </AppText>
-              <AppText variant="titleSmall">{workout.level}</AppText>
+              <AppText variant="titleSmall">{t(`levels.${levelKey(workout.level)}`)}</AppText>
             </View>
           </View>
           <View style={progStyles.divider} />
@@ -1334,12 +1378,12 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
             </View>
             <View style={{ flex: 1 }}>
               <AppText variant="caption" color="textSecondary">
-                Equipment
+                {t("detail.equipment")}
               </AppText>
-              <AppText variant="titleSmall">{workout.equipment}</AppText>
+              <AppText variant="titleSmall">{t(`equipment.${programEquipmentKey(workout.equipment)}`)}</AppText>
             </View>
             <AppText variant="bodyMedium" color="textSecondary" numberOfLines={2} style={progStyles.equipmentList}>
-              {programEquipment(workout).join(" · ")}
+              {programEquipment(workout).map((eq) => g("equipment", eq)).join(" · ")}
             </AppText>
           </View>
         </View>
@@ -1348,25 +1392,25 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
           <StatCard
             icon={<Calendar size={20} color={colors.accent} />}
             value={String(workout.programLength)}
-            unit="weeks"
-            label="Length"
+            unit={t("units.weeks", { count: workout.programLength })}
+            label={t("detail.length")}
           />
           <StatCard
             icon={<CalendarCheck size={20} color={colors.accent} />}
             value={String(workout.days.length)}
-            unit="days"
-            label="Days / week"
+            unit={t("units.days", { count: workout.days.length })}
+            label={t("detail.daysPerWeek")}
           />
           <StatCard
             icon={<Clock size={20} color={colors.accent} />}
             value={String(programMinutes(workout))}
             unit="min"
-            label="Per workout"
+            label={t("detail.perWorkout")}
           />
         </View>
 
         <View style={{ gap: spacing.md }}>
-          <AppText variant="titleSmall">Recommended days</AppText>
+          <AppText variant="titleSmall">{t("detail.recommendedDays")}</AppText>
           <View style={progStyles.weekRow}>
             {WEEK_ORDER.map((dayIndex) => {
               const on = workout.recommendedDays.includes(dayIndex);
@@ -1376,7 +1420,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
                   style={[progStyles.weekPill, { backgroundColor: on ? colors.accent : colors.bgSurface }]}
                 >
                   <AppText variant="labelMedium" color={on ? "textOnAccent" : "textSecondary"}>
-                    {WEEKDAY_LABELS[dayIndex]}
+                    {t(`weekdays.${dayIndex}`)}
                   </AppText>
                 </View>
               );
@@ -1385,9 +1429,9 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
         </View>
 
         <View style={progStyles.planHeader}>
-          <AppText variant="titleSmall">Workout plan</AppText>
+          <AppText variant="titleSmall">{t("detail.workoutPlan")}</AppText>
           <AppText variant="labelMedium" color="textSecondary">
-            {workout.days.length} days
+            {t("detail.daysCount", { count: workout.days.length })}
           </AppText>
         </View>
 
@@ -1425,7 +1469,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
                   )}
                 </View>
                 <AppText variant="labelLarge" numberOfLines={1} style={{ flex: 1 }}>
-                  {item.title}
+                  {exerciseTitle(item.exerciseId, item.title)}
                 </AppText>
                 <AppText variant="bodyMedium" color="textSecondary">
                   {item.sets} × {item.reps}
@@ -1437,7 +1481,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
       </ScrollView>
 
       <View style={[progStyles.cta, { paddingBottom: Math.max(insets.bottom, spacing.lg) }]}>
-        <Button label="Start program" onPress={handleEnroll} />
+        <Button label={t("detail.startProgram")} onPress={handleEnroll} />
       </View>
 
       <PremiumPopup
@@ -1450,7 +1494,6 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
 }
 
 const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];
-const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const progStyles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.bgApp },

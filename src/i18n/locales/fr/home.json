@@ -1,1 +1,48 @@
-{}
+{
+  "tabs": {
+    "train": "Séance",
+    "library": "Bibliothèque",
+    "exercises": "Exercices",
+    "progress": "Progrès",
+    "settings": "Réglages"
+  },
+  "a11y": {
+    "premium": "Premium",
+    "goPremium": "Passer à Premium",
+    "openCalendar": "Ouvrir le calendrier"
+  },
+  "weekdaysShort": {
+    "0": "Di",
+    "1": "Lu",
+    "2": "Ma",
+    "3": "Me",
+    "4": "Je",
+    "5": "Ve",
+    "6": "Sa"
+  },
+  "restLabel": "Repos",
+  "custom": "Perso",
+  "myPlan": "Mon plan",
+  "musclesCount": "Muscles ({{n}})",
+  "minRange": "{{from}}–{{to}} min",
+  "weekPhase": "Semaine {{week}}/{{total}} – {{phase}}",
+  "todaysWorkout": "SÉANCE DU JOUR",
+  "restDay": "Jour de repos",
+  "restDayHint": "La récupération fait partie du programme. Vas-y doucement aujourd'hui.",
+  "exercisesCount_one": "{{count}} exercice",
+  "exercisesCount_other": "{{count}} exercices",
+  "minutes": "{{value}} min",
+  "calories": "{{value}} Cal",
+  "setsReps_one": "{{count}} série × {{reps}} reps",
+  "setsReps_other": "{{count}} séries × {{reps}} reps",
+  "restSuffix": " × {{seconds}}s de repos",
+  "startWorkout": "Commencer la séance",
+  "switchPlan": "Changer de plan",
+  "deletePlanTitle": "Supprimer le plan",
+  "deletePlanMessage": "Veux-tu vraiment supprimer « {{name}} » ?",
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "addNewPlan": "Ajouter un plan",
+  "workoutsThisWeek_one": "{{count}} séance cette semaine",
+  "workoutsThisWeek_other": "{{count}} séances cette semaine"
+}
