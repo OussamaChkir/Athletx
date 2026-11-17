@@ -23,6 +23,11 @@ import {
   Trash2,
   X,
 } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
+import { intlLocale, useLanguage } from "@/i18n";
+import { useGlossary } from "@/i18n/glossary";
+import { exerciseSearchText, exerciseTitle } from "@/lib/exercise-i18n";
+import { muscleLabel } from "@/lib/constants-i18n";
 import { theme } from "@/lib/theme";
 import { MUSCLES } from "@/lib/constants";
 import { createWorkoutExercise, filterExercises } from "@/lib/exercises";
@@ -33,8 +38,7 @@ import { useWorkoutStore, type WeekPlan, type DayPlan } from "@/store/workout-st
 import { createId } from "@/lib/id";
 import type { Exercise, MuscleId, WorkoutExercise } from "@/lib/types";
 
-const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const PRESET_LABELS = ["Push", "Pull", "Legs", "Upper", "Lower", "Full Body", "Core"];
+const PRESET_LABELS = ["Push", "Pull", "Legs", "Upper", "Lower", "Full Body", "Core"] as const;
 
 interface ExerciseConfig {
   exercise: WorkoutExercise;
@@ -88,6 +92,18 @@ function Stepper({
 // Main screen
 // ─────────────────────────────────────────────────────────────────────────────
 export default function NewPlanScreen() {
+  const { t } = useTranslation("plan");
+  const language = useLanguage();
+  const g = useGlossary();
+  // Index 0 = Sunday (matches dayIndex). 2023-01-01 was a Sunday.
+  const dayName = (i: number) => {
+    const name = new Date(2023, 0, 1 + i).toLocaleDateString(intlLocale(language), { weekday: "long" });
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  };
+  // Labels saved from the English presets are shown in the current language.
+  const displayLabel = (label: string) =>
+    (PRESET_LABELS as readonly string[]).includes(label) ? t(`presets.${label}`) : label;
+  const muscleList = (ids: MuscleId[]) => ids.map((m) => muscleLabel(m)).join(", ");
   const s = useWorkoutStore();
   const { planId } = useLocalSearchParams<{ planId?: string }>();
   const existingPlan = planId ? s.plans.find((p) => p.id === planId) ?? null : null;
@@ -103,8 +119,8 @@ export default function NewPlanScreen() {
   useEffect(() => {
     if (!blockedOnEntry) return;
     // Wait for the modal route's presentation animation before showing another modal on top.
-    const t = setTimeout(() => setPaywallVisible(true), 400);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setPaywallVisible(true), 400);
+    return () => clearTimeout(timer);
   }, [blockedOnEntry]);
 
   const closePaywall = () => {
@@ -115,7 +131,7 @@ export default function NewPlanScreen() {
     }
   };
 
-  const [name, setName] = useState(existingPlan?.name ?? "My Custom Plan");
+  const [name, setName] = useState(existingPlan?.name ?? t("defaultName"));
 
   const [days, setDays] = useState<DayState[]>(() => {
     if (existingPlan) {
@@ -139,7 +155,7 @@ export default function NewPlanScreen() {
 
   // Keep plan name in sync if the plan changes externally (unlikely but safe)
   useEffect(() => {
-    if (existingPlan && name === "My Custom Plan") setName(existingPlan.name);
+    if (existingPlan && name === t("defaultName")) setName(existingPlan.name);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -180,7 +196,7 @@ export default function NewPlanScreen() {
     } else {
       newDays[editingDayIdx] = {
         isRest: false,
-        label: editLabel.trim() || "Workout",
+        label: editLabel.trim() || t("defaultWorkout"),
         muscles: editMuscles,
         exercises: editExercises,
       };
@@ -197,11 +213,16 @@ export default function NewPlanScreen() {
 
   // ── Exercise picker logic ─────────────────────────────────────────
   const pickerPool = useMemo(() => {
-    return filterExercises({
-      muscles: editMuscles.length > 0 ? editMuscles : undefined,
-      search: pickerSearch.trim() || undefined,
-    });
-  }, [editMuscles, pickerSearch]);
+    const muscles = editMuscles.length > 0 ? editMuscles : undefined;
+    const query = pickerSearch.trim().toLowerCase();
+    if (!query) return filterExercises({ muscles });
+    // Match the English search plus the name in the current language.
+    const byEnglish = new Set(filterExercises({ muscles, search: query }).map((e) => e._id));
+    return filterExercises({ muscles }).filter(
+      (e) => byEnglish.has(e._id) || exerciseSearchText(e._id, e.title).includes(query)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editMuscles, pickerSearch, language]);
 
   const addExerciseFromPicker = useCallback(
     (ex: Exercise) => {
@@ -232,7 +253,7 @@ export default function NewPlanScreen() {
 
   // ── Save plan ─────────────────────────────────────────────────────
   const handleSavePlan = () => {
-    if (!name.trim()) return Alert.alert("Error", "Please enter a plan name.");
+    if (!name.trim()) return Alert.alert(t("errorTitle"), t("enterName"));
 
     const dayPlans: DayPlan[] = days.map((d, i) => {
       if (d.isRest || d.exercises.length === 0) {
@@ -280,35 +301,35 @@ export default function NewPlanScreen() {
       <ScrollView contentContainerStyle={ss.scroll}>
         {/* Plan name */}
         <View style={ss.header}>
-          <Text style={ss.screenTitle}>{isEditing ? "Edit Plan" : "New Plan"}</Text>
-          <Text style={ss.label}>Plan Name</Text>
+          <Text style={ss.screenTitle}>{isEditing ? t("title.edit") : t("title.new")}</Text>
+          <Text style={ss.label}>{t("planName")}</Text>
           <TextInput
             style={ss.input}
             value={name}
             onChangeText={setName}
-            placeholder="E.g., Summer Shred"
+            placeholder={t("planNamePlaceholder")}
             placeholderTextColor={theme.muted}
           />
         </View>
 
-        <Text style={ss.sectionTitle}>Weekly Schedule</Text>
-        <Text style={ss.subtitle}>Tap a day to configure its workout.</Text>
+        <Text style={ss.sectionTitle}>{t("weeklySchedule")}</Text>
+        <Text style={ss.subtitle}>{t("tapDay")}</Text>
 
         <View style={ss.daysList}>
           {days.map((d, i) => (
             <Pressable key={i} style={ss.dayCard} onPress={() => openDayEditor(i)}>
               <View style={ss.dayCardLeft}>
-                <Text style={ss.dayName}>{DAY_NAMES[i]}</Text>
+                <Text style={ss.dayName}>{dayName(i)}</Text>
                 <Text style={[ss.dayLabel, d.isRest && ss.dayLabelRest]}>
-                  {d.isRest ? "Rest Day" : d.label}
+                  {d.isRest ? t("restDay") : displayLabel(d.label)}
                 </Text>
                 {!d.isRest && d.exercises.length > 0 && (
                   <Text style={ss.dayMeta}>
-                    {d.exercises.length} exercise{d.exercises.length !== 1 ? "s" : ""}
+                    {t("exerciseCount", { count: d.exercises.length })}
                   </Text>
                 )}
                 {!d.isRest && d.muscles.length > 0 && d.exercises.length === 0 && (
-                  <Text style={ss.dayMeta}>{d.muscles.join(", ")} · no exercises yet</Text>
+                  <Text style={ss.dayMeta}>{t("musclesNoExercises", { muscles: muscleList(d.muscles) })}</Text>
                 )}
               </View>
               <ChevronRight size={20} color={theme.muted} />
@@ -321,7 +342,7 @@ export default function NewPlanScreen() {
       <View style={ss.footer}>
         <Pressable style={ss.saveBtn} onPress={handleSavePlan}>
           <Save size={20} color={theme.background} />
-          <Text style={ss.saveBtnText}>{isEditing ? "Save Changes" : "Save Plan"}</Text>
+          <Text style={ss.saveBtnText}>{isEditing ? t("saveChanges") : t("savePlan")}</Text>
         </Pressable>
       </View>
 
@@ -337,7 +358,7 @@ export default function NewPlanScreen() {
               <>
                 <View style={ss.modalHeader}>
                   <Text style={ss.modalTitle}>
-                    {editingDayIdx !== null ? DAY_NAMES[editingDayIdx] : ""}
+                    {editingDayIdx !== null ? dayName(editingDayIdx) : ""}
                   </Text>
                   <Pressable onPress={() => setEditingDayIdx(null)}>
                     <X size={24} color={theme.muted} />
@@ -351,14 +372,14 @@ export default function NewPlanScreen() {
                       style={[ss.toggleBtn, editIsRest && ss.toggleBtnActive]}
                       onPress={() => setEditIsRest(true)}
                     >
-                      <Text style={[ss.toggleText, editIsRest && ss.toggleTextActive]}>Rest Day</Text>
+                      <Text style={[ss.toggleText, editIsRest && ss.toggleTextActive]}>{t("restDay")}</Text>
                     </Pressable>
                     <Pressable
                       style={[ss.toggleBtn, !editIsRest && ss.toggleBtnActive]}
                       onPress={() => setEditIsRest(false)}
                     >
                       <Text style={[ss.toggleText, !editIsRest && ss.toggleTextActive]}>
-                        Workout Day
+                        {t("workoutDay")}
                       </Text>
                     </Pressable>
                   </View>
@@ -366,30 +387,33 @@ export default function NewPlanScreen() {
                   {!editIsRest && (
                     <>
                       {/* Workout type label */}
-                      <Text style={ss.label}>Workout Type</Text>
+                      <Text style={ss.label}>{t("workoutType")}</Text>
                       <TextInput
                         style={ss.input}
                         value={editLabel}
                         onChangeText={setEditLabel}
-                        placeholder="E.g., Push, Upper, Legs..."
+                        placeholder={t("workoutTypePlaceholder")}
                         placeholderTextColor={theme.muted}
                       />
                       <View style={ss.presetsRow}>
-                        {PRESET_LABELS.map((p) => (
-                          <Pressable
-                            key={p}
-                            style={[ss.presetChip, editLabel === p && ss.presetChipActive]}
-                            onPress={() => setEditLabel(p)}
-                          >
-                            <Text style={[ss.presetChipText, editLabel === p && ss.presetChipTextActive]}>
-                              {p}
-                            </Text>
-                          </Pressable>
-                        ))}
+                        {PRESET_LABELS.map((p) => {
+                          const presetText = t(`presets.${p}`);
+                          return (
+                            <Pressable
+                              key={p}
+                              style={[ss.presetChip, editLabel === presetText && ss.presetChipActive]}
+                              onPress={() => setEditLabel(presetText)}
+                            >
+                              <Text style={[ss.presetChipText, editLabel === presetText && ss.presetChipTextActive]}>
+                                {presetText}
+                              </Text>
+                            </Pressable>
+                          );
+                        })}
                       </View>
 
                       {/* Target muscles */}
-                      <Text style={[ss.label, { marginTop: 20 }]}>Target Muscles</Text>
+                      <Text style={[ss.label, { marginTop: 20 }]}>{t("targetMuscles")}</Text>
                       <View style={ss.musclesGrid}>
                         {MUSCLES.map((m) => {
                           const active = editMuscles.includes(m.id);
@@ -403,7 +427,7 @@ export default function NewPlanScreen() {
                                 <Check size={14} color={theme.background} style={{ marginRight: 4 }} />
                               )}
                               <Text style={[ss.muscleText, active && ss.muscleTextActive]}>
-                                {m.label}
+                                {muscleLabel(m.id)}
                               </Text>
                             </Pressable>
                           );
@@ -413,14 +437,14 @@ export default function NewPlanScreen() {
                       {/* ── Exercises section ── */}
                       <View style={ss.exercisesSectionHeader}>
                         <Text style={[ss.label, { marginTop: 0, marginBottom: 0, flex: 1 }]}>
-                          Exercises ({editExercises.length})
+                          {t("exercisesHeading", { n: editExercises.length })}
                         </Text>
                         <Pressable
                           style={ss.addExBtn}
                           onPress={openPicker}
                         >
                           <Plus size={14} color={theme.background} />
-                          <Text style={ss.addExBtnText}>Add</Text>
+                          <Text style={ss.addExBtnText}>{t("add")}</Text>
                         </Pressable>
                       </View>
 
@@ -430,11 +454,11 @@ export default function NewPlanScreen() {
                           onPress={openPicker}
                         >
                           <Dumbbell size={28} color={theme.muted} />
-                          <Text style={ss.emptyExText}>Tap to add exercises</Text>
+                          <Text style={ss.emptyExText}>{t("tapToAdd")}</Text>
                           <Text style={ss.emptyExSub}>
                             {editMuscles.length > 0
-                              ? `Filtered by: ${editMuscles.join(", ")}`
-                              : "Select muscles above to filter exercises"}
+                              ? t("filteredBy", { muscles: muscleList(editMuscles) })
+                              : t("selectMusclesHint")}
                           </Text>
                         </Pressable>
                       ) : (
@@ -447,7 +471,7 @@ export default function NewPlanScreen() {
                                   <Text style={ss.exNumText}>{idx + 1}</Text>
                                 </View>
                                 <Text style={ss.exTitle} numberOfLines={2}>
-                                  {item.exercise.title}
+                                  {exerciseTitle(item.exercise.exerciseId, item.exercise.title)}
                                 </Text>
                                 <Pressable
                                   onPress={() => removeExercise(item.exercise.instanceId)}
@@ -458,12 +482,12 @@ export default function NewPlanScreen() {
                               </View>
 
                               {/* Muscle tag */}
-                              <Text style={ss.exMuscleTag}>{item.exercise.mainMuscle}</Text>
+                              <Text style={ss.exMuscleTag}>{g("muscle", item.exercise.mainMuscle)}</Text>
 
                               {/* Config row: sets / reps / rest */}
                               <View style={ss.exConfigRow}>
                                 <View style={ss.exConfigItem}>
-                                  <Text style={ss.exConfigLabel}>Sets</Text>
+                                  <Text style={ss.exConfigLabel}>{t("sets")}</Text>
                                   <Stepper
                                     value={item.exercise.sets}
                                     min={1}
@@ -477,7 +501,7 @@ export default function NewPlanScreen() {
                                 <View style={ss.exConfigDivider} />
 
                                 <View style={ss.exConfigItem}>
-                                  <Text style={ss.exConfigLabel}>Reps</Text>
+                                  <Text style={ss.exConfigLabel}>{t("reps")}</Text>
                                   <Stepper
                                     value={item.exercise.reps}
                                     min={1}
@@ -491,7 +515,7 @@ export default function NewPlanScreen() {
                                 <View style={ss.exConfigDivider} />
 
                                 <View style={ss.exConfigItem}>
-                                  <Text style={ss.exConfigLabel}>Rest</Text>
+                                  <Text style={ss.exConfigLabel}>{t("rest")}</Text>
                                   <Stepper
                                     value={item.exercise.restSeconds}
                                     min={15}
@@ -514,7 +538,7 @@ export default function NewPlanScreen() {
 
                 <View style={ss.modalFooter}>
                   <Pressable style={ss.modalSaveBtn} onPress={saveDayEdit}>
-                    <Text style={ss.modalSaveText}>Apply to Day</Text>
+                    <Text style={ss.modalSaveText}>{t("applyToDay")}</Text>
                   </Pressable>
                 </View>
               </>
@@ -527,7 +551,7 @@ export default function NewPlanScreen() {
                   <Pressable onPress={closePicker} style={ss.backBtn}>
                     <ArrowLeft size={20} color={theme.text} />
                   </Pressable>
-                  <Text style={ss.modalTitle}>Add Exercise</Text>
+                  <Text style={ss.modalTitle}>{t("addExercise")}</Text>
                   <Pressable onPress={() => setEditingDayIdx(null)}>
                     <X size={24} color={theme.muted} />
                   </Pressable>
@@ -542,8 +566,8 @@ export default function NewPlanScreen() {
                     onChangeText={setPickerSearch}
                     placeholder={
                       editMuscles.length > 0
-                        ? `Search ${editMuscles.slice(0, 2).join(", ")} exercises…`
-                        : "Search exercises…"
+                        ? t("searchMuscleExercises", { muscles: muscleList(editMuscles.slice(0, 2)) })
+                        : t("searchExercises")
                     }
                     placeholderTextColor={theme.muted}
                   />
@@ -555,8 +579,8 @@ export default function NewPlanScreen() {
                 </View>
 
                 <Text style={ss.pickerCount}>
-                  {pickerPool.length} exercise{pickerPool.length !== 1 ? "s" : ""}
-                  {editMuscles.length > 0 ? ` · ${editMuscles.join(", ")}` : ""}
+                  {t("pickerCount", { count: pickerPool.length })}
+                  {editMuscles.length > 0 ? ` · ${muscleList(editMuscles)}` : ""}
                 </Text>
 
                 <FlatList
@@ -579,10 +603,10 @@ export default function NewPlanScreen() {
                           <Text
                             style={[ss.pickerItemTitle, alreadyAdded && ss.pickerItemTitleAdded]}
                           >
-                            {item.title}
+                            {exerciseTitle(item._id, item.title)}
                           </Text>
                           <Text style={ss.pickerItemMeta}>
-                            {item.targets?.[0] ?? "–"} · {item.difficulty}
+                            {item.targets?.[0] ? g("muscle", item.targets[0]) : "–"} · {g("difficulty", item.difficulty)}
                           </Text>
                         </View>
                         {alreadyAdded ? (
@@ -595,7 +619,7 @@ export default function NewPlanScreen() {
                   }}
                   ListEmptyComponent={
                     <View style={ss.pickerEmpty}>
-                      <Text style={ss.pickerEmptyText}>No exercises found</Text>
+                      <Text style={ss.pickerEmptyText}>{t("noExercisesFound")}</Text>
                     </View>
                   }
                 />
@@ -603,7 +627,7 @@ export default function NewPlanScreen() {
                 <View style={ss.modalFooter}>
                   <Pressable style={ss.modalSaveBtn} onPress={closePicker}>
                     <Text style={ss.modalSaveText}>
-                      Done · {editExercises.length} added
+                      {t("doneAdded", { count: editExercises.length })}
                     </Text>
                   </Pressable>
                 </View>

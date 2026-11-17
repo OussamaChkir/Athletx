@@ -1,1 +1,95 @@
-{}
+{
+  "title": "Progress",
+  "periods": {
+    "week": "Week",
+    "month": "Month",
+    "year": "Year"
+  },
+  "stats": {
+    "workouts": "Workouts",
+    "streak": "Streak",
+    "days": "days",
+    "totalLifted": "Total lifted"
+  },
+  "recentWorkouts": "Recent workouts",
+  "showLess": "Show less",
+  "showAll": "All {{count}}",
+  "emptyHistory": "Finish a live workout to see it here.",
+  "setsCount_one": "{{count}} set",
+  "setsCount_other": "{{count}} sets",
+  "prCount_one": "{{count}} PR",
+  "prCount_other": "{{count}} PR",
+  "muscles": {
+    "title": "Muscles",
+    "metrics": {
+      "sets": "Sets",
+      "fatigue": "Fatigue",
+      "strength": "Strength"
+    },
+    "modes": {
+      "completed": "Completed",
+      "planned": "Planned"
+    },
+    "weekOf": "Week of {{date}}",
+    "previous": "Previous",
+    "next": "Next",
+    "emptyPlanned": "No active plan with exercises yet.",
+    "emptyWeek": "No sets logged this week.",
+    "emptyMonth": "No sets logged this month.",
+    "emptyFatigue": "No workouts in the last week.",
+    "emptyStrength": "Log workouts with weights to see your strength."
+  },
+  "groups": {
+    "chest": "Chest",
+    "shoulders": "Shoulders",
+    "lats": "Lats & upper back",
+    "traps": "Traps",
+    "lower-back": "Lower back",
+    "biceps": "Biceps",
+    "triceps": "Triceps",
+    "forearms": "Forearms",
+    "abs": "Abs & core",
+    "quads": "Quads",
+    "hamstrings": "Hamstrings",
+    "glutes": "Glutes",
+    "calves": "Calves",
+    "adductors": "Inner thighs",
+    "shins": "Shins"
+  },
+  "bodyMap": {
+    "less": "Less",
+    "more": "More"
+  },
+  "bodyWeight": {
+    "title": "Body weight",
+    "log": "Log",
+    "allWeighIns": "All weigh-ins",
+    "chartEmpty": "Log weigh-ins to see your trend",
+    "ranges": {
+      "1M": "1M",
+      "3M": "3M",
+      "1Y": "1Y",
+      "All": "All"
+    },
+    "logTitle": "Log body weight",
+    "logHint": "One entry per day. Saving again updates that day.",
+    "date": "Date",
+    "weight": "Weight",
+    "placeholderKg": "e.g. 78.3",
+    "placeholderLb": "e.g. 172.5",
+    "cancel": "Cancel",
+    "save": "Save",
+    "previousDay": "Previous day",
+    "nextDay": "Next day"
+  },
+  "weighIns": {
+    "title": "All weigh-ins",
+    "deleteTitle": "Delete weigh-in",
+    "deleteMessage": "Remove this day’s log?",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "empty": "No weigh-ins yet. Tap + to log one.",
+    "add": "Add weigh-in",
+    "back": "Back"
+  }
+}

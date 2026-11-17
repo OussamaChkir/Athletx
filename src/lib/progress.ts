@@ -1,4 +1,5 @@
 import { addMonths, addWeeks, addYears, differenceInCalendarDays, endOfMonth, endOfWeek, endOfYear, startOfDay, startOfMonth, startOfWeek, startOfYear } from "date-fns";
+import i18n from "@/i18n";
 import { getExerciseById } from "./exercises";
 import type { HistoryExercise, WorkoutHistoryEntry } from "./types";
 import type { Slug } from "react-native-body-highlighter";
@@ -162,6 +163,10 @@ export const MUSCLE_GROUPS: readonly MuscleGroup[] = [
 
 const groupByMember = new Map<string, MuscleGroup>();
 for (const g of MUSCLE_GROUPS) for (const m of g.members) groupByMember.set(m, g);
+
+/** Display name of a muscle group in the current language (`label` stays the English fallback). */
+export const muscleGroupLabel = (group: Pick<MuscleGroup, "id" | "label">) =>
+  i18n.t(`progress:groups.${group.id}`, { defaultValue: group.label });
 
 export const groupOfMuscle = (name: string) => groupByMember.get(name);
 

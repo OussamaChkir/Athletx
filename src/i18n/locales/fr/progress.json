@@ -1,1 +1,95 @@
-{}
+{
+  "title": "Progrès",
+  "periods": {
+    "week": "Semaine",
+    "month": "Mois",
+    "year": "Année"
+  },
+  "stats": {
+    "workouts": "Séances",
+    "streak": "Série",
+    "days": "jours",
+    "totalLifted": "Total soulevé"
+  },
+  "recentWorkouts": "Séances récentes",
+  "showLess": "Voir moins",
+  "showAll": "Tout ({{count}})",
+  "emptyHistory": "Termine une séance en direct pour la voir ici.",
+  "setsCount_one": "{{count}} série",
+  "setsCount_other": "{{count}} séries",
+  "prCount_one": "{{count}} record",
+  "prCount_other": "{{count}} records",
+  "muscles": {
+    "title": "Muscles",
+    "metrics": {
+      "sets": "Séries",
+      "fatigue": "Fatigue",
+      "strength": "Force"
+    },
+    "modes": {
+      "completed": "Réalisées",
+      "planned": "Prévues"
+    },
+    "weekOf": "Semaine du {{date}}",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "emptyPlanned": "Aucun plan actif avec des exercices.",
+    "emptyWeek": "Aucune série enregistrée cette semaine.",
+    "emptyMonth": "Aucune série enregistrée ce mois-ci.",
+    "emptyFatigue": "Aucune séance la semaine dernière.",
+    "emptyStrength": "Enregistre des séances avec des charges pour voir ta force."
+  },
+  "groups": {
+    "chest": "Pectoraux",
+    "shoulders": "Épaules",
+    "lats": "Dorsaux et haut du dos",
+    "traps": "Trapèzes",
+    "lower-back": "Bas du dos",
+    "biceps": "Biceps",
+    "triceps": "Triceps",
+    "forearms": "Avant-bras",
+    "abs": "Abdos et gainage",
+    "quads": "Quadriceps",
+    "hamstrings": "Ischio-jambiers",
+    "glutes": "Fessiers",
+    "calves": "Mollets",
+    "adductors": "Adducteurs",
+    "shins": "Tibias"
+  },
+  "bodyMap": {
+    "less": "Moins",
+    "more": "Plus"
+  },
+  "bodyWeight": {
+    "title": "Poids du corps",
+    "log": "Ajouter",
+    "allWeighIns": "Toutes les pesées",
+    "chartEmpty": "Enregistre des pesées pour voir ta tendance",
+    "ranges": {
+      "1M": "1M",
+      "3M": "3M",
+      "1Y": "1A",
+      "All": "Tout"
+    },
+    "logTitle": "Enregistrer ton poids",
+    "logHint": "Une entrée par jour. Enregistrer à nouveau met à jour ce jour.",
+    "date": "Date",
+    "weight": "Poids",
+    "placeholderKg": "ex. 78,3",
+    "placeholderLb": "ex. 172,5",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "previousDay": "Jour précédent",
+    "nextDay": "Jour suivant"
+  },
+  "weighIns": {
+    "title": "Toutes les pesées",
+    "deleteTitle": "Supprimer la pesée",
+    "deleteMessage": "Supprimer l'entrée de ce jour ?",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "empty": "Aucune pesée pour l'instant. Touche + pour en ajouter.",
+    "add": "Ajouter une pesée",
+    "back": "Retour"
+  }
+}

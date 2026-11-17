@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowDownToLine, ChevronRight, Dumbbell, Flame, Footprints, Scale, Trophy, type LucideIcon } from "lucide-react-native";
-import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
+import { intlLocale, useLanguage } from "@/i18n";
 import { AppText, StatCard } from "@/components/kit";
 import { BodyWeightCard } from "@/components/body-weight-card";
 import { MusclesSection } from "@/components/progress/MusclesSection";
@@ -14,11 +15,7 @@ import { fromKg } from "@/lib/weight";
 import type { WorkoutHistoryEntry } from "@/lib/types";
 import { useWorkoutStore } from "@/store/workout-store";
 
-const PERIODS = [
-  { value: "week", label: "Week" },
-  { value: "month", label: "Month" },
-  { value: "year", label: "Year" },
-] as const;
+const PERIOD_IDS = ["week", "month", "year"] as const;
 
 const RECENT_COUNT = 3;
 
@@ -42,8 +39,11 @@ function formatDuration(seconds: number): string {
 }
 
 function WorkoutCard({ entry, unit }: { entry: WorkoutHistoryEntry; unit: "kg" | "lb" }) {
+  const { t } = useTranslation("progress");
+  const language = useLanguage();
+  const locale = intlLocale(language);
   const Icon = WORKOUT_ICONS[workoutKind(entry)];
-  const volume = fromKg(entry.totalVolume, unit).toLocaleString("en-US", { maximumFractionDigits: 1 });
+  const volume = fromKg(entry.totalVolume, unit).toLocaleString(locale, { maximumFractionDigits: 1 });
   return (
     <View style={styles.workoutCard}>
       <View style={styles.workoutIcon}>
@@ -54,16 +54,16 @@ function WorkoutCard({ entry, unit }: { entry: WorkoutHistoryEntry; unit: "kg" |
           {entry.name}
         </AppText>
         <AppText variant="bodyMedium" color="textSecondary">
-          {format(new Date(entry.completedAt), "EEE d MMM")} · {formatDuration(entry.durationSeconds)}
+          {new Date(entry.completedAt).toLocaleDateString(locale, { weekday: "short", day: "numeric", month: "short" })} · {formatDuration(entry.durationSeconds)}
         </AppText>
         <AppText variant="bodyMedium" color="textSecondary">
-          {entry.totalSets} sets · {volume} {unit}
+          {t("setsCount", { count: entry.totalSets })} · {volume} {unit}
         </AppText>
       </View>
       {entry.prCount ? (
         <View style={styles.prBadge}>
           <Trophy size={14} color={colors.accent} />
-          <AppText variant="labelMedium">{entry.prCount} PR</AppText>
+          <AppText variant="labelMedium">{t("prCount", { count: entry.prCount })}</AppText>
         </View>
       ) : null}
     </View>
@@ -71,6 +71,8 @@ function WorkoutCard({ entry, unit }: { entry: WorkoutHistoryEntry; unit: "kg" |
 }
 
 export function ProgressScreen() {
+  const { t } = useTranslation("progress");
+  const periodOptions = PERIOD_IDS.map((p) => ({ value: p, label: t(`periods.${p}`) }));
   const history = useWorkoutStore((s) => s.history);
   const unit = useWeightUnit();
   const [period, setPeriod] = useState<Period>("week");
@@ -91,19 +93,19 @@ export function ProgressScreen() {
     <SafeAreaView style={styles.safe}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <AppText variant="titleLarge" style={{ paddingTop: spacing.md }}>
-          Progress
+          {t("title")}
         </AppText>
 
-        <SegmentedTabs options={PERIODS} value={period} onChange={setPeriod} />
+        <SegmentedTabs options={periodOptions} value={period} onChange={setPeriod} />
 
         <View style={styles.statsRow}>
-          <StatCard icon={<Dumbbell size={20} color={colors.accent} />} value={String(stats.workouts)} label="Workouts" />
-          <StatCard icon={<Flame size={20} color={colors.accent} />} value={String(stats.streak)} unit="days" label="Streak" />
+          <StatCard icon={<Dumbbell size={20} color={colors.accent} />} value={String(stats.workouts)} label={t("stats.workouts")} />
+          <StatCard icon={<Flame size={20} color={colors.accent} />} value={String(stats.streak)} unit={t("stats.days")} label={t("stats.streak")} />
           <StatCard
             icon={<Scale size={20} color={colors.accent} />}
             value={compactNumber(fromKg(stats.volume, unit))}
             unit={unit}
-            label="Total lifted"
+            label={t("stats.totalLifted")}
           />
         </View>
 
@@ -111,11 +113,11 @@ export function ProgressScreen() {
 
         <View style={{ gap: spacing.md }}>
           <View style={styles.sectionHead}>
-            <AppText variant="titleSmall">Recent workouts</AppText>
+            <AppText variant="titleSmall">{t("recentWorkouts")}</AppText>
             {history.length > RECENT_COUNT ? (
               <Pressable style={styles.allLink} onPress={() => setShowAll((v) => !v)} accessibilityRole="button">
                 <AppText variant="labelLarge" color="accent">
-                  {showAll ? "Show less" : `All ${history.length}`}
+                  {showAll ? t("showLess") : t("showAll", { count: history.length })}
                 </AppText>
                 <ChevronRight size={16} color={colors.accent} style={showAll ? { transform: [{ rotate: "90deg" }] } : undefined} />
               </Pressable>
@@ -124,7 +126,7 @@ export function ProgressScreen() {
           {history.length === 0 ? (
             <View style={styles.empty}>
               <AppText variant="bodyMedium" color="textSecondary" style={{ textAlign: "center" }}>
-                Finish a live workout to see it here.
+                {t("emptyHistory")}
               </AppText>
             </View>
           ) : (

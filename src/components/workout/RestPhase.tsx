@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { Minus, Plus } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { AppText, Button } from "@/components/kit";
 import { ExerciseCover, formatClock } from "@/components/workout/shared";
 import { colors, radius, spacing } from "@/lib/theme";
@@ -23,12 +24,13 @@ type Props = {
 
 /** Rest Timer: countdown ring, ±15s, skip, and what comes next. Remounted for every rest. */
 export function RestPhase({ remaining, onAdd, onReduce, onSkip, next }: Props) {
+  const { t } = useTranslation("workout");
   // Length of this rest, so the ring keeps filling correctly when time is added or removed.
   const [total, setTotal] = useState(Math.max(remaining, 1));
   const progress = Math.min(1, Math.max(0, remaining / total));
 
   const add = () => {
-    setTotal((t) => t + STEP);
+    setTotal((prev) => prev + STEP);
     onAdd(STEP);
   };
   const reduce = () => onReduce(STEP);
@@ -37,7 +39,7 @@ export function RestPhase({ remaining, onAdd, onReduce, onSkip, next }: Props) {
     <View style={{ flex: 1 }}>
       <View style={styles.body}>
         <AppText variant="labelLarge" color="textSecondary" style={styles.eyebrow}>
-          REST
+          {t("rest.title")}
         </AppText>
 
         <View style={styles.ringWrap}>
@@ -63,11 +65,11 @@ export function RestPhase({ remaining, onAdd, onReduce, onSkip, next }: Props) {
         </View>
 
         <View style={styles.adjustRow}>
-          <Pressable style={styles.adjust} onPress={reduce} accessibilityRole="button" accessibilityLabel="Remove 15 seconds">
+          <Pressable style={styles.adjust} onPress={reduce} accessibilityRole="button" accessibilityLabel={t("rest.removeA11y", { seconds: STEP })}>
             <Minus size={16} color={colors.textPrimary} />
             <AppText variant="labelLarge">{STEP}s</AppText>
           </Pressable>
-          <Pressable style={styles.adjust} onPress={add} accessibilityRole="button" accessibilityLabel="Add 15 seconds">
+          <Pressable style={styles.adjust} onPress={add} accessibilityRole="button" accessibilityLabel={t("rest.addA11y", { seconds: STEP })}>
             <Plus size={16} color={colors.accent} />
             <AppText variant="labelLarge">{STEP}s</AppText>
           </Pressable>
@@ -94,7 +96,7 @@ export function RestPhase({ remaining, onAdd, onReduce, onSkip, next }: Props) {
       </View>
 
       <View style={styles.footer}>
-        <Button label="Skip rest" onPress={onSkip} />
+        <Button label={t("rest.skip")} onPress={onSkip} />
       </View>
     </View>
   );

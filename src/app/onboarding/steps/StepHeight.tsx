@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { StepTitle } from "@/components/onboarding/StepTitle";
 import { UnitToggle } from "@/components/onboarding/UnitToggle";
@@ -7,6 +8,7 @@ import { ftValueToInches, HEIGHT_RULERS, inchesToFtValue } from "@/components/on
 import type { HeightUnit } from "@/lib/weight";
 
 export default function StepHeight() {
+  const { t } = useTranslation("onboarding");
   const { height, setField, setHeightUnit } = useOnboardingStore();
   const unit = height.unit;
 
@@ -16,7 +18,7 @@ export default function StepHeight() {
 
   return (
     <View style={styles.root}>
-      <StepTitle title="What's your" highlight="height?" subtitle="Don't worry, you can change it later." />
+      <StepTitle title={t("height.title")} highlight={t("height.highlight")} subtitle={t("height.subtitle")} />
       <UnitToggle<HeightUnit>
         options={[
           { value: "cm", label: "CM" },

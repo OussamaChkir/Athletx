@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { NumberPicker } from "@/components/onboarding/NumberPicker";
 import { RecommendationCard } from "@/components/onboarding/RecommendationCard";
 import { StepTitle } from "@/components/onboarding/StepTitle";
 
 export default function StepTargetFrequency() {
+  const { t } = useTranslation("onboarding");
   const { targetFrequency, experience, goal, setField } = useOnboardingStore();
 
   const suggested = (() => {
@@ -28,13 +30,13 @@ export default function StepTargetFrequency() {
   return (
     <View style={styles.root}>
       <StepTitle
-        title="How many days"
-        highlight="a week?"
-        subtitle="How many days a week do you plan to train? Consistency is key to reaching your goals."
+        title={t("targetFrequency.title")}
+        highlight={t("targetFrequency.highlight")}
+        subtitle={t("targetFrequency.subtitle")}
       />
-      <RecommendationCard hint="Based on your profile, we recommend" value={`${suggested} days / week`} />
+      <RecommendationCard hint={t("targetFrequency.hint")} value={`${suggested} ${t("targetFrequency.unit")}`} />
       <View style={styles.center}>
-        <NumberPicker min={1} max={7} value={targetFrequency ?? suggested} onChange={(v) => setField("targetFrequency", v)} unit="days / week" />
+        <NumberPicker min={1} max={7} value={targetFrequency ?? suggested} onChange={(v) => setField("targetFrequency", v)} unit={t("targetFrequency.unit")} />
       </View>
     </View>
   );

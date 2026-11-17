@@ -9,6 +9,8 @@ import Svg, {
   Stop,
   Text as SvgText,
 } from "react-native-svg";
+import { useTranslation } from "react-i18next";
+import { intlLocale, useLanguage } from "@/i18n";
 import { colors } from "@/lib/theme";
 import { formatWeight, parseDateKey } from "@/lib/weight";
 
@@ -51,8 +53,8 @@ function niceTicks(min: number, max: number, count = 3): number[] {
   return ticks.length >= 2 ? ticks : [min, max];
 }
 
-function monthLabel(date: Date): string {
-  return date.toLocaleDateString(undefined, { month: "short" });
+function monthLabel(date: Date, locale: string): string {
+  return date.toLocaleDateString(locale, { month: "short" });
 }
 
 export function BodyWeightChart({
@@ -66,6 +68,8 @@ export function BodyWeightChart({
   width: number;
   height?: number;
 }) {
+  const { t } = useTranslation("progress");
+  const language = useLanguage();
   const padL = 36;
   const padR = 28;
   const padT = 10;
@@ -110,7 +114,7 @@ export function BodyWeightChart({
     const months: { x: number; label: string }[] = [];
     const seen = new Set<string>();
     for (const p of mapped) {
-      const label = monthLabel(parseDateKey(p.date));
+      const label = monthLabel(parseDateKey(p.date), intlLocale(language));
       if (seen.has(label)) continue;
       seen.add(label);
       months.push({ x: p.x, label });
@@ -120,12 +124,12 @@ export function BodyWeightChart({
     }
 
     return { mapped, line, fill, ticks, yMax, ySpan, goalY, months };
-  }, [points, goal, width, chartW, chartH]);
+  }, [points, goal, width, chartW, chartH, language]);
 
   if (!layout) {
     return (
       <View style={[styles.empty, { height }]}>
-        <Text style={styles.emptyText}>Log weigh-ins to see your trend</Text>
+        <Text style={styles.emptyText}>{t("bodyWeight.chartEmpty")}</Text>
       </View>
     );
   }

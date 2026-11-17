@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { HealthSourcesLink } from "@/components/health-sources";
 import { InfoCard } from "@/components/onboarding/InfoCard";
@@ -8,6 +9,7 @@ import { WEIGHT_RULERS } from "@/components/onboarding/ruler-configs";
 import { colors, theme } from "@/lib/theme";
 
 export default function StepGoalWeight() {
+  const { t } = useTranslation("onboarding");
   const { weight, goalWeight, setField } = useOnboardingStore();
 
   const diffPerc = weight.value && goalWeight ? ((goalWeight - weight.value) / weight.value) * 100 : null;
@@ -17,28 +19,24 @@ export default function StepGoalWeight() {
   let diffColor: string = colors.accent;
   if (diffPerc !== null) {
     if (diffPerc < -15) {
-      diffMsg = `You are aiming to lose ${Math.abs(diffPerc).toFixed(1)}% of your body weight. This is a significant goal that takes a steady, long-term approach. Check with a healthcare professional if unsure.`;
+      diffMsg = t("goalWeight.loseLarge", { pct: Math.abs(diffPerc).toFixed(1) });
       diffColor = theme.ember;
     } else if (diffPerc < 0) {
-      diffMsg = `You are aiming to lose ${Math.abs(diffPerc).toFixed(1)}% of your body weight. This is a moderate goal that can be approached gradually.`;
+      diffMsg = t("goalWeight.loseModerate", { pct: Math.abs(diffPerc).toFixed(1) });
     } else if (diffPerc > 15) {
-      diffMsg = `You are aiming to gain ${diffPerc.toFixed(1)}% of your body weight. This is a large change, so a gradual, structured approach is usually recommended. Check with a healthcare professional if unsure.`;
+      diffMsg = t("goalWeight.gainLarge", { pct: diffPerc.toFixed(1) });
       diffColor = theme.ember;
     } else if (diffPerc > 0) {
-      diffMsg = `You are aiming to gain ${diffPerc.toFixed(1)}% of your body weight. A gradual gain can support building lean mass.`;
+      diffMsg = t("goalWeight.gainModerate", { pct: diffPerc.toFixed(1) });
     } else {
-      diffMsg = "You are aiming to maintain your current weight. We'll focus on body recomposition.";
+      diffMsg = t("goalWeight.maintain");
     }
-    diffLabel = diffPerc > 0 ? "TARGET GAIN" : diffPerc < 0 ? "TARGET LOSS" : "MAINTENANCE";
+    diffLabel = diffPerc > 0 ? t("goalWeight.targetGain") : diffPerc < 0 ? t("goalWeight.targetLoss") : t("goalWeight.maintenance");
   }
 
   return (
     <View style={styles.root}>
-      <StepTitle
-        title="What's your"
-        highlight="goal weight?"
-        subtitle="A realistic target helps us tune your workouts and nutrition."
-      />
+      <StepTitle title={t("goalWeight.title")} highlight={t("goalWeight.highlight")} subtitle={t("goalWeight.subtitle")} />
       <View style={styles.center}>
         <ValueRuler
           key={weight.unit}

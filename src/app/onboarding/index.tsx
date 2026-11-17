@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/kit";
 import { colors, spacing } from "@/lib/theme";
 import { useOnboardingStore } from "@/store/onboarding-store";
@@ -26,6 +27,7 @@ import StepTargetFrequency from "./steps/StepTargetFrequency";
 const TOTAL_STEPS = 14;
 
 export default function OnboardingScreen() {
+  const { t } = useTranslation("onboarding");
   const store = useOnboardingStore();
   const { currentStep, nextStep, prevStep } = store;
 
@@ -111,7 +113,7 @@ export default function OnboardingScreen() {
       </ScrollView>
 
       <View style={styles.footer}>
-        <Button label="Continue" disabled={!isValid} onPress={handleContinue} />
+        <Button label={t("continue")} disabled={!isValid} onPress={handleContinue} />
       </View>
     </SafeAreaView>
   );

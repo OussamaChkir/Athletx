@@ -1,1 +1,193 @@
-{}
+{
+  "splash": {
+    "tagline": "Train. Track. Progress.",
+    "getStarted": "Get started"
+  },
+  "back": "Back",
+  "continue": "Continue",
+  "gender": {
+    "title": "Tell us your",
+    "highlight": "gender",
+    "subtitle": "We use this to estimate your metabolic rate and personalize your calorie targets.",
+    "male": {
+      "title": "Male",
+      "description": "Estimates tuned for a male profile"
+    },
+    "female": {
+      "title": "Female",
+      "description": "Estimates tuned for a female profile"
+    }
+  },
+  "experience": {
+    "title": "What's your",
+    "highlight": "level?",
+    "subtitle": "This helps us match your workouts to what you can do today.",
+    "beginner": {
+      "title": "Beginner",
+      "description": "New to working out, or back after a long break."
+    },
+    "intermediate": {
+      "title": "Intermediate",
+      "description": "Active 2-3 times a week for at least 6 months."
+    },
+    "advanced": {
+      "title": "Advanced",
+      "description": "Consistent training 4+ days a week with high intensity."
+    }
+  },
+  "frequency": {
+    "title": "How often do you",
+    "highlight": "work out?",
+    "subtitle": "Tell us your current routine so we can suggest a schedule you can keep.",
+    "options": {
+      "low": "0-1 days a week",
+      "mid": "2-3 days a week",
+      "high": "4-5 days a week",
+      "max": "6+ days a week"
+    }
+  },
+  "goal": {
+    "title": "What's your",
+    "highlight": "fitness goal?",
+    "subtitle": "This sets the workouts, volume and intensity we build for you.",
+    "lose_weight": {
+      "title": "Lose Weight",
+      "description": "Burn calories and lean out."
+    },
+    "build_muscle": {
+      "title": "Build Muscle",
+      "description": "Hypertrophy-focused training for size."
+    },
+    "get_stronger": {
+      "title": "Get Stronger",
+      "description": "Lower rep ranges for maximum strength."
+    },
+    "maintain": {
+      "title": "Maintain Fitness",
+      "description": "A balanced routine for overall health."
+    }
+  },
+  "location": {
+    "title": "Where do you",
+    "highlight": "work out?",
+    "subtitle": "Select all that apply. It tells us what equipment you likely have.",
+    "large_gym": {
+      "title": "Large Gym",
+      "description": "Machines, cables and free weights."
+    },
+    "small_gym": {
+      "title": "Small Gym / Hotel",
+      "description": "Dumbbells, benches and a few machines."
+    },
+    "home": {
+      "title": "Home Gym",
+      "description": "Adjustable dumbbells, bands or a basic rack."
+    },
+    "bodyweight": {
+      "title": "Bodyweight Only",
+      "description": "No equipment, just you."
+    }
+  },
+  "injuries": {
+    "title": "Any active",
+    "highlight": "injuries?",
+    "subtitle": "Select up to {{max}} areas. We'll adapt your exercises to avoid straining them.",
+    "shoulders": "Shoulders",
+    "back": "Lower/Upper Back",
+    "knees": "Knees",
+    "wrists": "Wrists",
+    "elbows": "Elbows",
+    "hips": "Hips"
+  },
+  "focus": {
+    "title": "Which area to",
+    "highlight": "focus on?",
+    "subtitle": "Select the muscle groups you want to prioritize.",
+    "upper": {
+      "title": "Upper Body",
+      "description": "Chest, back and arms"
+    },
+    "lower": {
+      "title": "Lower Body",
+      "description": "Legs and glutes"
+    },
+    "core": {
+      "title": "Core & Abs"
+    },
+    "full": {
+      "title": "Full Body Balance"
+    }
+  },
+  "age": {
+    "title": "How old",
+    "highlight": "are you?",
+    "subtitle": "Your age helps us choose a safe workout intensity and estimate your metabolic rate.",
+    "unit": "years"
+  },
+  "height": {
+    "title": "What's your",
+    "highlight": "height?",
+    "subtitle": "Don't worry, you can change it later."
+  },
+  "weight": {
+    "title": "What's your",
+    "highlight": "current weight?",
+    "subtitle": "Don't worry, you can change it later.",
+    "bmiLabel": "ESTIMATED BMI: {{bmi}}",
+    "bmiNote": "Estimate only, not medical advice. Ranges based on WHO and CDC BMI classifications."
+  },
+  "goalWeight": {
+    "title": "What's your",
+    "highlight": "goal weight?",
+    "subtitle": "A realistic target helps us tune your workouts and nutrition.",
+    "targetGain": "TARGET GAIN",
+    "targetLoss": "TARGET LOSS",
+    "maintenance": "MAINTENANCE",
+    "loseLarge": "You are aiming to lose {{pct}}% of your body weight. This is a significant goal that takes a steady, long-term approach. Check with a healthcare professional if unsure.",
+    "loseModerate": "You are aiming to lose {{pct}}% of your body weight. This is a moderate goal that can be approached gradually.",
+    "gainLarge": "You are aiming to gain {{pct}}% of your body weight. This is a large change, so a gradual, structured approach is usually recommended. Check with a healthcare professional if unsure.",
+    "gainModerate": "You are aiming to gain {{pct}}% of your body weight. A gradual gain can support building lean mass.",
+    "maintain": "You are aiming to maintain your current weight. We'll focus on body recomposition."
+  },
+  "duration": {
+    "title": "How long per",
+    "highlight": "workout?",
+    "subtitle": "How much time can you realistically give a single session?",
+    "quick": {
+      "title": "Quick (up to 20 min)",
+      "description": "About 3 exercises. High intensity, minimal rest."
+    },
+    "short": {
+      "title": "20 - 40 minutes",
+      "description": "4-6 exercises. A balanced routine."
+    },
+    "medium": {
+      "title": "40 - 60 minutes",
+      "description": "5-7 exercises with proper rest."
+    },
+    "long": {
+      "title": "60+ minutes",
+      "description": "8-10 exercises. A full training session."
+    }
+  },
+  "targetFrequency": {
+    "title": "How many days",
+    "highlight": "a week?",
+    "subtitle": "How many days a week do you plan to train? Consistency is key to reaching your goals.",
+    "hint": "Based on your profile, we recommend",
+    "unit": "days / week"
+  },
+  "setupType": {
+    "title": "How do you want to",
+    "highlight": "start?",
+    "subtitle": "Choose how to build your training program. You can change it later.",
+    "smart": {
+      "title": "Smart Plan",
+      "description": "Auto-generated by our AI based on your profile and goals."
+    },
+    "custom": {
+      "title": "Custom Plan",
+      "description": "Build your own routines from the exercise library."
+    }
+  }
+}

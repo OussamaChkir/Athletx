@@ -1,7 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { DEFAULT_EQUIPMENT, FOCUS_PRESETS } from "@/lib/constants";
+import i18n from "@/i18n";
+import { DEFAULT_EQUIPMENT } from "@/lib/constants";
+import { focusLabel, muscleLabel } from "@/lib/constants-i18n";
 import { canCreatePlan } from "@/lib/entitlements";
 import { createId } from "@/lib/id";
 import { countPersonalRecords } from "@/lib/progress";
@@ -38,6 +40,10 @@ export interface WeekPlan {
 }
 
 /* ---- Split templates ---- */
+/** "Push Day" in the current language. Day labels are stored as raw English ids ("Push", "Full Body"...). */
+const dayWorkoutName = (label: string) =>
+  i18n.t("workout:dayName", { label: i18n.t(`plan:presets.${label}`, { defaultValue: label }) });
+
 const SPLIT_TEMPLATES: Record<number, { label: string; muscles: MuscleId[] }[]> = {
   1: [{ label: "Full Body", muscles: ["Chest", "Lats", "Quads", "Shoulders", "Biceps", "Triceps"] }],
   2: [
@@ -172,7 +178,7 @@ export const useWorkoutStore = create<State>()(
       exerciseCount: 6,
       difficulties: [],
       currentWorkout: [],
-      workoutName: "My Workout",
+      workoutName: i18n.t("workout:defaultName"),
       savedWorkouts: [],
       history: [],
       plans: [],
@@ -212,7 +218,7 @@ export const useWorkoutStore = create<State>()(
         } as GeneratorOptions);
         set({
           currentWorkout: workout,
-          workoutName: `${s.muscles.slice(0, 2).join(" + ") || "Custom"} · ${FOCUS_PRESETS[s.focus].label}`,
+          workoutName: `${s.muscles.slice(0, 2).map(muscleLabel).join(" + ") || i18n.t("workout:customName")} · ${focusLabel(s.focus)}`,
         });
         return workout;
       },
@@ -279,7 +285,7 @@ export const useWorkoutStore = create<State>()(
 
         const newPlan: WeekPlan = {
           id: "default",
-          name: "Smart Plan",
+          name: i18n.t("workout:smartPlanName"),
           weekNumber: 1,
           totalWeeks: 5,
           phaseName,
@@ -293,7 +299,7 @@ export const useWorkoutStore = create<State>()(
           plans: [newPlan],
           activePlanId: "default",
           currentWorkout: todayPlan && !todayPlan.isRest ? todayPlan.exercises : [],
-          workoutName: todayPlan && !todayPlan.isRest ? `${todayPlan.label} Day` : "Rest Day",
+          workoutName: todayPlan && !todayPlan.isRest ? dayWorkoutName(todayPlan.label) : i18n.t("workout:restDayName"),
         });
       },
 
@@ -467,7 +473,7 @@ export const useWorkoutStore = create<State>()(
         if (!day || day.isRest) return;
         set({
           currentWorkout: day.exercises,
-          workoutName: `${day.label} Day`,
+          workoutName: dayWorkoutName(day.label),
         });
       },
 
@@ -482,7 +488,7 @@ export const useWorkoutStore = create<State>()(
         set({
           activePlanId: id,
           currentWorkout: todayPlan && !todayPlan.isRest ? todayPlan.exercises : [],
-          workoutName: todayPlan && !todayPlan.isRest ? `${todayPlan.label} Day` : "Rest Day",
+          workoutName: todayPlan && !todayPlan.isRest ? dayWorkoutName(todayPlan.label) : i18n.t("workout:restDayName"),
         });
       },
 

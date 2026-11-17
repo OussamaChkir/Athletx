@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { Minus, Plus } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { AppText, Button } from "@/components/kit";
 import { ExerciseCover } from "@/components/workout/shared";
+import { exerciseTitle } from "@/lib/exercise-i18n";
+import { useGlossary } from "@/i18n/glossary";
 import { colors, fonts, radius, spacing } from "@/lib/theme";
 import { convertWeight, fromKg, roundWeight, toKg, type BodyWeightUnit } from "@/lib/weight";
 import type { WorkoutExercise } from "@/lib/types";
@@ -13,6 +16,8 @@ const showNumber = (n: number) => String(roundWeight(n, 1));
 
 function ValueCard({
   label,
+  minusLabel,
+  plusLabel,
   value,
   onChangeText,
   onMinus,
@@ -22,6 +27,8 @@ function ValueCard({
   right,
 }: {
   label: string;
+  minusLabel: string;
+  plusLabel: string;
   value: string;
   onChangeText: (t: string) => void;
   onMinus: () => void;
@@ -49,10 +56,10 @@ function ValueCard({
         accessibilityLabel={label}
       />
       <View style={styles.stepRow}>
-        <Pressable style={styles.stepButton} onPress={onMinus} accessibilityRole="button" accessibilityLabel={`Decrease ${label}`}>
+        <Pressable style={styles.stepButton} onPress={onMinus} accessibilityRole="button" accessibilityLabel={minusLabel}>
           <Minus size={18} color={colors.textPrimary} />
         </Pressable>
-        <Pressable style={styles.stepButton} onPress={onPlus} accessibilityRole="button" accessibilityLabel={`Increase ${label}`}>
+        <Pressable style={styles.stepButton} onPress={onPlus} accessibilityRole="button" accessibilityLabel={plusLabel}>
           <Plus size={18} color={colors.accent} />
         </Pressable>
       </View>
@@ -76,6 +83,8 @@ type Props = {
 
 /** Live Workout: log reps and weight for the current set. Remounted for every set so inputs reset. */
 export function ExercisePhase({ exercise, index, total, set, unit, onToggleUnit, startWeightKg, lastTime, onComplete }: Props) {
+  const { t } = useTranslation("workout");
+  const g = useGlossary();
   const [reps, setReps] = useState(String(exercise.reps));
   const [weight, setWeight] = useState(startWeightKg != null ? showNumber(fromKg(startWeightKg, unit)) : "");
 
@@ -108,25 +117,25 @@ export function ExercisePhase({ exercise, index, total, set, unit, onToggleUnit,
           badgeTone="inset"
           badge={
             <AppText variant="labelMedium">
-              Exercise {index + 1} / {total}
+              {t("exercise.badge", { index: index + 1, total })}
             </AppText>
           }
         />
 
         <View style={{ gap: spacing.sm }}>
-          <AppText variant="titleLarge">{exercise.title}</AppText>
+          <AppText variant="titleLarge">{exerciseTitle(exercise.exerciseId, exercise.title)}</AppText>
           <View style={styles.metaRow}>
             <View style={styles.dot} />
             <AppText variant="bodyMedium" color="textSecondary">
-              {exercise.mainMuscle}
-              {exercise.equipment[0] ? `  ·  ${exercise.equipment[0]}` : ""}
+              {g("muscle", exercise.mainMuscle)}
+              {exercise.equipment[0] ? `  ·  ${g("equipment", exercise.equipment[0])}` : ""}
             </AppText>
           </View>
         </View>
 
         <View style={styles.setRow}>
           <AppText variant="labelLarge" color="accent">
-            Set {set} of {exercise.sets}
+            {t("setOf", { set, total: exercise.sets })}
           </AppText>
           <View style={styles.segments}>
             {Array.from({ length: exercise.sets }, (_, i) => (
@@ -137,7 +146,9 @@ export function ExercisePhase({ exercise, index, total, set, unit, onToggleUnit,
 
         <View style={styles.cards}>
           <ValueCard
-            label="Reps"
+            label={t("exercise.reps")}
+            minusLabel={t("exercise.decreaseReps")}
+            plusLabel={t("exercise.increaseReps")}
             value={reps}
             onChangeText={setReps}
             onMinus={() => setReps(bump(reps, -1, 0))}
@@ -146,7 +157,9 @@ export function ExercisePhase({ exercise, index, total, set, unit, onToggleUnit,
             placeholder={String(exercise.reps)}
           />
           <ValueCard
-            label="Weight"
+            label={t("exercise.weight")}
+            minusLabel={t("exercise.decreaseWeight")}
+            plusLabel={t("exercise.increaseWeight")}
             value={weight}
             onChangeText={setWeight}
             onMinus={() => setWeight(bump(weight, -step, 1))}
@@ -154,7 +167,7 @@ export function ExercisePhase({ exercise, index, total, set, unit, onToggleUnit,
             keyboardType="decimal-pad"
             placeholder="—"
             right={
-              <Pressable style={styles.unitChip} onPress={switchUnit} hitSlop={8} accessibilityRole="button" accessibilityLabel="Switch weight unit">
+              <Pressable style={styles.unitChip} onPress={switchUnit} hitSlop={8} accessibilityRole="button" accessibilityLabel={t("exercise.switchUnit")}>
                 <AppText variant="labelMedium" color="accent">
                   {unit}
                 </AppText>
@@ -165,14 +178,15 @@ export function ExercisePhase({ exercise, index, total, set, unit, onToggleUnit,
 
         {lastTime ? (
           <AppText variant="bodyMedium" color="textSecondary" style={{ textAlign: "center" }}>
-            Last time: {lastTime.weight ? `${showNumber(fromKg(lastTime.weight, unit))} ${unit} × ` : ""}
-            {lastTime.reps}
+            {t("exercise.lastTime", {
+              value: `${lastTime.weight ? `${showNumber(fromKg(lastTime.weight, unit))} ${unit} × ` : ""}${lastTime.reps}`,
+            })}
           </AppText>
         ) : null}
       </ScrollView>
 
       <View style={styles.footer}>
-        <Button label="Complete set" onPress={submit} />
+        <Button label={t("exercise.complete")} onPress={submit} />
       </View>
     </View>
   );

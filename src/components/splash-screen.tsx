@@ -3,6 +3,7 @@ import { Animated, Easing, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
 import Svg, { Defs, LinearGradient, Rect, Stop } from "react-native-svg";
 import { AppText, Button } from "@/components/kit";
 import { colors, spacing } from "@/lib/theme";
@@ -28,6 +29,7 @@ function GreenOverlay() {
 }
 
 export function SplashScreen() {
+  const { t } = useTranslation("onboarding");
   const isCompleted = useOnboardingStore((s) => s.isCompleted);
   const insets = useSafeAreaInsets();
 
@@ -57,14 +59,14 @@ export function SplashScreen() {
       <Animated.View style={[styles.center, { opacity: fade, transform: [{ translateY: rise }] }]}>
         <Image source={LOGO} style={styles.logo} contentFit="contain" accessibilityLabel="Athletx" />
         <AppText variant="titleSmall" color="accent" style={styles.tagline}>
-          Train. Track. Progress.
+          {t("splash.tagline")}
         </AppText>
       </Animated.View>
 
       <Animated.View
         style={[styles.footer, { opacity: buttonFade, paddingBottom: Math.max(insets.bottom, spacing.lg) + spacing.sm }]}
       >
-        <Button label="Get started" onPress={() => router.replace("/onboarding" as any)} />
+        <Button label={t("splash.getStarted")} onPress={() => router.replace("/onboarding" as any)} />
       </Animated.View>
     </View>
   );

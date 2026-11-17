@@ -1,20 +1,16 @@
 import { View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { SelectList, SelectRow } from "@/components/onboarding/SelectRow";
 import { StepTitle } from "@/components/onboarding/StepTitle";
 
 const MAX_INJURIES = 3;
 
-const INJURY_OPTIONS = [
-  { id: "shoulders", title: "Shoulders" },
-  { id: "back", title: "Lower/Upper Back" },
-  { id: "knees", title: "Knees" },
-  { id: "wrists", title: "Wrists" },
-  { id: "elbows", title: "Elbows" },
-  { id: "hips", title: "Hips" },
-];
+// Ids are stored; the text lives in the onboarding namespace (injuries.<id>).
+const INJURY_IDS = ["shoulders", "back", "knees", "wrists", "elbows", "hips"];
 
 export default function StepInjuries() {
+  const { t } = useTranslation("onboarding");
   const { injuries, setField } = useOnboardingStore();
 
   const toggle = (id: string) => {
@@ -25,21 +21,21 @@ export default function StepInjuries() {
   return (
     <View>
       <StepTitle
-        title="Any active"
-        highlight="injuries?"
-        subtitle={`Select up to ${MAX_INJURIES} areas. We'll adapt your exercises to avoid straining them.`}
+        title={t("injuries.title")}
+        highlight={t("injuries.highlight")}
+        subtitle={t("injuries.subtitle", { max: MAX_INJURIES })}
       />
       <SelectList>
-        {INJURY_OPTIONS.map((o) => {
-          const selected = injuries.includes(o.id);
+        {INJURY_IDS.map((id) => {
+          const selected = injuries.includes(id);
           return (
             <SelectRow
-              key={o.id}
+              key={id}
               role="checkbox"
-              title={o.title}
+              title={t(`injuries.${id}`)}
               selected={selected}
               disabled={!selected && injuries.length >= MAX_INJURIES}
-              onPress={() => toggle(o.id)}
+              onPress={() => toggle(id)}
             />
           );
         })}

@@ -1,37 +1,39 @@
 import { View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { Dumbbell, Flame, Sparkles } from "lucide-react-native";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { SelectList, SelectRow } from "@/components/onboarding/SelectRow";
 import { StepTitle } from "@/components/onboarding/StepTitle";
 
 export default function StepExperience() {
+  const { t } = useTranslation("onboarding");
   const { experience, setField } = useOnboardingStore();
 
   return (
     <View>
       <StepTitle
-        title="What's your"
-        highlight="level?"
-        subtitle="This helps us match your workouts to what you can do today."
+        title={t("experience.title")}
+        highlight={t("experience.highlight")}
+        subtitle={t("experience.subtitle")}
       />
       <SelectList>
         <SelectRow
-          title="Beginner"
-          description="New to working out, or back after a long break."
+          title={t("experience.beginner.title")}
+          description={t("experience.beginner.description")}
           icon={Sparkles}
           selected={experience === "beginner"}
           onPress={() => setField("experience", "beginner")}
         />
         <SelectRow
-          title="Intermediate"
-          description="Active 2-3 times a week for at least 6 months."
+          title={t("experience.intermediate.title")}
+          description={t("experience.intermediate.description")}
           icon={Dumbbell}
           selected={experience === "intermediate"}
           onPress={() => setField("experience", "intermediate")}
         />
         <SelectRow
-          title="Advanced"
-          description="Consistent training 4+ days a week with high intensity."
+          title={t("experience.advanced.title")}
+          description={t("experience.advanced.description")}
           icon={Flame}
           selected={experience === "advanced"}
           onPress={() => setField("experience", "advanced")}

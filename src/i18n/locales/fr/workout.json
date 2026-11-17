@@ -1,1 +1,65 @@
-{}
+{
+  "defaultName": "Ma séance",
+  "customName": "Perso",
+  "smartPlanName": "Programme intelligent",
+  "dayName": "Jour {{label}}",
+  "restDayName": "Jour de repos",
+  "setOf": "Série {{set}} sur {{total}}",
+  "setsReps_one": "{{count}} série × {{reps}} reps",
+  "setsReps_other": "{{count}} séries × {{reps}} reps",
+  "live": {
+    "endTitle": "Arrêter la séance ?",
+    "endMessage": "Ta progression ne sera pas enregistrée.",
+    "keepGoing": "Continuer",
+    "endWorkout": "Arrêter la séance",
+    "endA11y": "Arrêter la séance",
+    "nextExercise": "EXERCICE SUIVANT",
+    "nextSet": "SÉRIE SUIVANTE"
+  },
+  "exercise": {
+    "badge": "Exercice {{index}} / {{total}}",
+    "reps": "Reps",
+    "weight": "Poids",
+    "decreaseReps": "Diminuer les répétitions",
+    "increaseReps": "Augmenter les répétitions",
+    "decreaseWeight": "Diminuer le poids",
+    "increaseWeight": "Augmenter le poids",
+    "switchUnit": "Changer l'unité de poids",
+    "lastTime": "Dernière fois : {{value}}",
+    "complete": "Valider la série"
+  },
+  "rest": {
+    "title": "REPOS",
+    "removeA11y": "Retirer {{seconds}} secondes",
+    "addA11y": "Ajouter {{seconds}} secondes",
+    "skip": "Passer le repos"
+  },
+  "complete": {
+    "shareTitle": "{{name}} terminé avec Athletx 💪",
+    "shareLifted": "{{volume}} {{unit}} soulevés",
+    "sharePr": "🏆 Nouveau record : {{title}} {{weight}} × {{reps}}",
+    "recordsTitle_one": "Nouveau record !",
+    "recordsTitle_other": "{{count}} nouveaux records !",
+    "recordsBody": "Tu as battu ton meilleur score sur {{name}}.",
+    "doneTitle": "Séance terminée",
+    "doneBody": "{{name}} est dans la boîte. Beau travail !",
+    "time": "Durée",
+    "lifted": "Soulevé",
+    "sets": "Séries",
+    "personalRecords": "Records personnels",
+    "previousBest": "Précédent record : {{weight}}",
+    "summary": "Résumé",
+    "noSets": "Aucune série enregistrée.",
+    "setCount_one": "{{count}} série",
+    "setCount_other": "{{count}} séries",
+    "share": "Partager",
+    "done": "Terminé"
+  },
+  "liveActivity": {
+    "restHeader": "ATHLETX · REPOS",
+    "current": "Série {{set}} sur {{total}} · {{reps}} reps",
+    "nextExercise_one": "Ensuite · {{count}} série × {{reps}} reps",
+    "nextExercise_other": "Ensuite · {{count}} séries × {{reps}} reps",
+    "nextSet": "Ensuite · Série {{set}} sur {{total}}"
+  }
+}

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Alert, View } from "react-native";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CompletePhase } from "@/components/workout/CompletePhase";
 import { ExercisePhase } from "@/components/workout/ExercisePhase";
@@ -12,6 +13,7 @@ import {
   showInterstitialThen,
 } from "@/lib/ads";
 import { detectRecords, lastLoggedSet } from "@/lib/progress";
+import { exerciseTitle } from "@/lib/exercise-i18n";
 import { colors } from "@/lib/theme";
 import { useWorkoutLiveActivity } from "@/lib/use-workout-live-activity";
 import { useWeightUnit } from "@/lib/units";
@@ -22,6 +24,7 @@ import { useWorkoutStore } from "@/store/workout-store";
 /** Live workout: logging a set, resting between sets, and the summary once the last set is done. */
 export function LiveScreen() {
   const router = useRouter();
+  const { t } = useTranslation("workout");
   const s = useWorkoutStore();
   const tickRest = useWorkoutStore((st) => st.tickRest);
   const [elapsed, setElapsed] = useState(0);
@@ -62,10 +65,10 @@ export function LiveScreen() {
   const goHome = () => router.replace("/" as never);
 
   const confirmEnd = () => {
-    Alert.alert("End Workout Early?", "Your progress will not be saved.", [
-      { text: "Keep Going", style: "cancel" },
+    Alert.alert(t("live.endTitle"), t("live.endMessage"), [
+      { text: t("live.keepGoing"), style: "cancel" },
       {
-        text: "End Workout",
+        text: t("live.endWorkout"),
         style: "destructive",
         onPress: () => {
           const loggedSets = useWorkoutStore.getState().currentWorkout.reduce((n, e) => n + e.loggedSets.length, 0);
@@ -147,12 +150,12 @@ export function LiveScreen() {
             onReduce={s.reduceRestTime}
             onSkip={s.skipRest}
             next={{
-              label: s.liveSet === 1 ? "NEXT EXERCISE" : "NEXT SET",
-              title: nextTitle.title,
+              label: s.liveSet === 1 ? t("live.nextExercise") : t("live.nextSet"),
+              title: exerciseTitle(nextTitle.exerciseId, nextTitle.title),
               detail:
                 s.liveSet === 1
-                  ? `${nextTitle.sets} sets × ${nextTitle.reps} reps`
-                  : `Set ${s.liveSet} of ${nextTitle.sets}`,
+                  ? t("setsReps", { count: nextTitle.sets, reps: nextTitle.reps })
+                  : t("setOf", { set: s.liveSet, total: nextTitle.sets }),
               image: nextTitle.gif,
             }}
           />

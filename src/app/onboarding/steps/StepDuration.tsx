@@ -1,32 +1,35 @@
 import { View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { Clock, Hourglass, Timer, Zap } from "lucide-react-native";
 import { useOnboardingStore, type DurationType } from "@/store/onboarding-store";
 import { SelectList, SelectRow } from "@/components/onboarding/SelectRow";
 import { StepTitle } from "@/components/onboarding/StepTitle";
 
-const OPTIONS: { value: Exclude<DurationType, null>; title: string; description: string; icon: typeof Zap }[] = [
-  { value: "quick", title: "Quick (up to 20 min)", description: "About 3 exercises. High intensity, minimal rest.", icon: Zap },
-  { value: "20-40", title: "20 - 40 minutes", description: "4-6 exercises. A balanced routine.", icon: Timer },
-  { value: "40-60", title: "40 - 60 minutes", description: "5-7 exercises with proper rest.", icon: Clock },
-  { value: "60+", title: "60+ minutes", description: "8-10 exercises. A full training session.", icon: Hourglass },
+// `key` points at the translated text in the onboarding namespace; `value` is the stored id.
+const OPTIONS: { value: Exclude<DurationType, null>; key: string; icon: typeof Zap }[] = [
+  { value: "quick", key: "quick", icon: Zap },
+  { value: "20-40", key: "short", icon: Timer },
+  { value: "40-60", key: "medium", icon: Clock },
+  { value: "60+", key: "long", icon: Hourglass },
 ];
 
 export default function StepDuration() {
+  const { t } = useTranslation("onboarding");
   const { duration, setField } = useOnboardingStore();
 
   return (
     <View>
       <StepTitle
-        title="How long per"
-        highlight="workout?"
-        subtitle="How much time can you realistically give a single session?"
+        title={t("duration.title")}
+        highlight={t("duration.highlight")}
+        subtitle={t("duration.subtitle")}
       />
       <SelectList>
         {OPTIONS.map((o) => (
           <SelectRow
             key={o.value}
-            title={o.title}
-            description={o.description}
+            title={t(`duration.${o.key}.title`)}
+            description={t(`duration.${o.key}.description`)}
             icon={o.icon}
             selected={duration === o.value}
             onPress={() => setField("duration", o.value)}
