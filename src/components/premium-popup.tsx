@@ -12,11 +12,12 @@ import {
   Text,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import * as Haptics from "expo-haptics";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CheckIcon, CrownIcon, GiftIcon, XIcon } from "lucide-react-native";
 import { theme } from "@/lib/theme";
-import { PAYWALL_MESSAGES, type PaywallReason } from "@/lib/entitlements";
+import { paywallMessage, type PaywallReason } from "@/lib/entitlements";
 import {
   FREE_TRIAL_DAYS,
   PREMIUM_BENEFITS,
@@ -25,6 +26,8 @@ import {
   TERMS_URL,
   YEARLY_SAVINGS_PERCENT,
   formatUsd,
+  planPeriod,
+  planTitle,
   type PlanId,
 } from "@/lib/premium";
 import {
@@ -53,25 +56,28 @@ function PlanCard({
   livePrice?: PlanPrice;
   savingsPercent: number;
 }) {
+  const { t } = useTranslation("premium");
   const plan = PREMIUM_PLANS[planId];
+  const title = planTitle(planId);
+  const period = planPeriod(planId);
   const isYearly = planId === "yearly";
   const priceText = livePrice?.priceString ?? formatUsd(plan.price);
   const perMonthText = livePrice?.pricePerMonthString ?? formatUsd(plan.price / 12);
   const perMonth = isYearly
-    ? `${FREE_TRIAL_DAYS} days free · then ${perMonthText} / month`
-    : `${FREE_TRIAL_DAYS} days free · then billed monthly`;
+    ? t("plans.subYearly", { count: FREE_TRIAL_DAYS, price: perMonthText })
+    : t("plans.subMonthly", { count: FREE_TRIAL_DAYS });
 
   return (
     <Pressable
       onPress={onSelect}
       accessibilityRole="radio"
       accessibilityState={{ selected }}
-      accessibilityLabel={`${plan.title} plan, ${priceText} per ${plan.period}`}
+      accessibilityLabel={t("plans.a11y", { title, price: priceText, period })}
       style={[styles.planCard, selected && styles.planCardSelected]}
     >
       {isYearly && (
         <View style={styles.planBadge}>
-          <Text style={styles.planBadgeText}>BEST VALUE · SAVE {savingsPercent}%</Text>
+          <Text style={styles.planBadgeText}>{t("plans.bestValue", { percent: savingsPercent })}</Text>
         </View>
       )}
 
@@ -80,13 +86,13 @@ function PlanCard({
       </View>
 
       <View style={{ flex: 1, gap: 2 }}>
-        <Text style={styles.planTitle}>{plan.title}</Text>
+        <Text style={styles.planTitle}>{title}</Text>
         <Text style={styles.planSub}>{perMonth}</Text>
       </View>
 
       <View style={{ alignItems: "flex-end" }}>
         <Text style={styles.planPrice}>{priceText}</Text>
-        <Text style={styles.planPeriod}>per {plan.period}</Text>
+        <Text style={styles.planPeriod}>{t("plans.per", { period })}</Text>
       </View>
     </Pressable>
   );
@@ -103,6 +109,7 @@ export function PremiumPopup({
   /** Why the paywall opened (plan limit, locked workout). Shown as a short explanation under the title. */
   reason?: PaywallReason;
 }) {
+  const { t } = useTranslation("premium");
   const insets = useSafeAreaInsets();
   const isPremium = usePremiumStore((s) => s.isPremium);
   const activePlan = usePremiumStore((s) => s.activePlan);
@@ -125,6 +132,7 @@ export function PremiumPopup({
   }, [visible]);
 
   const plan = PREMIUM_PLANS[selected];
+  const period = planPeriod(selected);
   const storeName = Platform.OS === "android" ? "Google Play" : "Apple ID";
   const selectedPriceText = prices[selected]?.priceString ?? formatUsd(plan.price);
   const savingsPercent =
@@ -147,31 +155,22 @@ export function PremiumPopup({
       case "cancelled":
         break;
       case "pending":
-        Alert.alert(
-          "Waiting for approval",
-          "Your purchase is pending approval. Premium unlocks automatically once it's approved.",
-        );
+        Alert.alert(t("alerts.pendingTitle"), t("alerts.pendingMessage"));
         break;
       case "nothing_to_restore":
-        Alert.alert("Nothing to restore", `We couldn't find an active subscription on this ${storeName} account.`);
+        Alert.alert(t("alerts.nothingToRestoreTitle"), t("alerts.nothingToRestoreMessage", { store: storeName }));
         break;
       case "entitlement_missing":
-        Alert.alert(
-          "Almost there",
-          "Your purchase went through but Premium isn't active yet. Tap Restore in a moment, or contact support if this persists.",
-        );
+        Alert.alert(t("alerts.entitlementMissingTitle"), t("alerts.entitlementMissingMessage"));
         break;
       case "error":
         Alert.alert(
-          "Purchase couldn't be completed",
-          `The store returned an error, so you haven't been charged. Please try again in a moment.\n\n${result.detail}`,
+          t("alerts.errorTitle"),
+          t("alerts.errorMessage", { detail: result.detail, interpolation: { escapeValue: false } }),
         );
         break;
       case "unavailable":
-        Alert.alert(
-          "Subscriptions unavailable",
-          "We couldn't reach the store right now. Check your connection and try again.",
-        );
+        Alert.alert(t("alerts.unavailableTitle"), t("alerts.unavailableMessage"));
         break;
     }
   };
@@ -182,7 +181,7 @@ export function PremiumPopup({
     try {
       handleResult(await action());
     } catch {
-      Alert.alert("Something went wrong", "We couldn't complete that. Please try again.");
+      Alert.alert(t("alerts.genericTitle"), t("alerts.genericMessage"));
     } finally {
       setBusy(false);
     }
@@ -207,7 +206,7 @@ export function PremiumPopup({
             onPress={onClose}
             hitSlop={12}
             accessibilityRole="button"
-            accessibilityLabel="Close"
+            accessibilityLabel={t("popup.close")}
             style={styles.closeBtn}
           >
             <XIcon size={18} color={theme.muted} />
@@ -228,27 +227,28 @@ export function PremiumPopup({
               <View style={styles.eyebrowLine} />
             </View>
             <Text style={styles.title}>
-              Unlock your{"\n"}
-              <Text style={{ color: theme.neon }}>full potential</Text>
+              {t("popup.titleLine1")}
+              {"\n"}
+              <Text style={{ color: theme.neon }}>{t("popup.titleHighlight")}</Text>
             </Text>
             {!isPremium && (
-              <View style={styles.trialPill} accessibilityLabel={`${FREE_TRIAL_DAYS} days free trial`}>
+              <View style={styles.trialPill} accessibilityLabel={t("popup.trialA11y", { count: FREE_TRIAL_DAYS })}>
                 <GiftIcon size={14} color={theme.background} strokeWidth={2.6} />
-                <Text style={styles.trialPillText}>{FREE_TRIAL_DAYS} DAYS FREE</Text>
+                <Text style={styles.trialPillText}>{t("popup.trialPill", { count: FREE_TRIAL_DAYS })}</Text>
               </View>
             )}
-            {reason && !isPremium && <Text style={styles.reason}>{PAYWALL_MESSAGES[reason]}</Text>}
+            {reason && !isPremium && <Text style={styles.reason}>{paywallMessage(reason)}</Text>}
 
             {/* Benefits */}
             <View style={styles.benefits}>
-              {PREMIUM_BENEFITS.map(({ icon: Icon, title, description }) => (
-                <View key={title} style={styles.benefitRow}>
+              {PREMIUM_BENEFITS.map(({ id, icon: Icon }) => (
+                <View key={id} style={styles.benefitRow}>
                   <View style={styles.benefitIcon}>
                     <Icon size={20} color={theme.neon} />
                   </View>
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.benefitTitle}>{title}</Text>
-                    <Text style={styles.benefitDesc}>{description}</Text>
+                    <Text style={styles.benefitTitle}>{t(`benefits.${id}.title`)}</Text>
+                    <Text style={styles.benefitDesc}>{t(`benefits.${id}.description`)}</Text>
                   </View>
                   <CheckIcon size={18} color={theme.neon} strokeWidth={3} />
                 </View>
@@ -261,8 +261,8 @@ export function PremiumPopup({
                 <View style={styles.activeCard}>
                   <CheckIcon size={18} color={theme.neon} strokeWidth={3} />
                   <Text style={styles.activeText}>
-                    {"You're Premium"}
-                    {activePlan ? ` · ${PREMIUM_PLANS[activePlan].title}` : ""}
+                    {t("popup.youArePremium")}
+                    {activePlan ? ` · ${planTitle(activePlan)}` : ""}
                   </Text>
                 </View>
                 <Pressable
@@ -270,7 +270,7 @@ export function PremiumPopup({
                   onPress={() => openManageSubscriptions().catch(() => {})}
                   accessibilityRole="button"
                 >
-                  <Text style={styles.ctaText}>MANAGE SUBSCRIPTION</Text>
+                  <Text style={styles.ctaText}>{t("popup.manage")}</Text>
                 </Pressable>
               </>
             ) : (
@@ -307,17 +307,19 @@ export function PremiumPopup({
                       <ActivityIndicator color={theme.background} />
                     ) : (
                       <Text style={styles.ctaText} numberOfLines={1} adjustsFontSizeToFit>
-                        START {FREE_TRIAL_DAYS}-DAY FREE TRIAL
+                        {t("popup.startTrial", { count: FREE_TRIAL_DAYS })}
                       </Text>
                     )}
                   </Pressable>
                 </Animated.View>
 
                 <Text style={styles.finePrint}>
-                  Try free for {FREE_TRIAL_DAYS} days, then {selectedPriceText} per {plan.period}. Cancel anytime
-                  before the trial ends and you won&apos;t be charged. Your subscription renews automatically unless
-                  canceled at least 24 hours before the end of the trial or current period, and payment is charged
-                  to your {storeName} account once the free trial ends.
+                  {t("popup.finePrint", {
+                    count: FREE_TRIAL_DAYS,
+                    price: selectedPriceText,
+                    period,
+                    store: storeName,
+                  })}
                 </Text>
               </>
             )}
@@ -325,20 +327,20 @@ export function PremiumPopup({
             {/* Footer */}
             <View style={styles.footer}>
               <Pressable onPress={() => run(restorePurchases)} hitSlop={8}>
-                <Text style={styles.footerLink}>Restore</Text>
+                <Text style={styles.footerLink}>{t("popup.restore")}</Text>
               </Pressable>
               <Text style={styles.footerDot}>•</Text>
               <Pressable onPress={() => Linking.openURL(TERMS_URL)} hitSlop={8}>
-                <Text style={styles.footerLink}>Terms</Text>
+                <Text style={styles.footerLink}>{t("popup.terms")}</Text>
               </Pressable>
               <Text style={styles.footerDot}>•</Text>
               <Pressable onPress={() => Linking.openURL(PRIVACY_URL)} hitSlop={8}>
-                <Text style={styles.footerLink}>Privacy</Text>
+                <Text style={styles.footerLink}>{t("popup.privacy")}</Text>
               </Pressable>
             </View>
 
             <Pressable onPress={onClose} hitSlop={8} style={styles.laterBtn}>
-              <Text style={styles.laterText}>Maybe later</Text>
+              <Text style={styles.laterText}>{t("popup.maybeLater")}</Text>
             </Pressable>
           </ScrollView>
         </View>

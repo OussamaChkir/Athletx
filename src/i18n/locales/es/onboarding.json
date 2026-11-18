@@ -1,0 +1,193 @@
+{
+  "splash": {
+    "tagline": "Entrena. Registra. Progresa.",
+    "getStarted": "Empezar"
+  },
+  "back": "Atrás",
+  "continue": "Continuar",
+  "gender": {
+    "title": "Cuéntanos tu",
+    "highlight": "sexo",
+    "subtitle": "Lo usamos para estimar tu metabolismo y personalizar tus objetivos de calorías.",
+    "male": {
+      "title": "Hombre",
+      "description": "Estimaciones ajustadas a un perfil masculino"
+    },
+    "female": {
+      "title": "Mujer",
+      "description": "Estimaciones ajustadas a un perfil femenino"
+    }
+  },
+  "experience": {
+    "title": "¿Cuál es tu",
+    "highlight": "nivel?",
+    "subtitle": "Nos ayuda a adaptar tus entrenamientos a lo que puedes hacer hoy.",
+    "beginner": {
+      "title": "Principiante",
+      "description": "Nuevo en el entrenamiento, o vuelves tras una larga pausa."
+    },
+    "intermediate": {
+      "title": "Intermedio",
+      "description": "Activo 2-3 veces por semana durante al menos 6 meses."
+    },
+    "advanced": {
+      "title": "Avanzado",
+      "description": "Entrenas de forma constante 4 o más días por semana con alta intensidad."
+    }
+  },
+  "frequency": {
+    "title": "¿Con qué frecuencia",
+    "highlight": "entrenas?",
+    "subtitle": "Cuéntanos tu rutina actual para sugerirte un horario que puedas mantener.",
+    "options": {
+      "low": "0-1 días por semana",
+      "mid": "2-3 días por semana",
+      "high": "4-5 días por semana",
+      "max": "6 o más días por semana"
+    }
+  },
+  "goal": {
+    "title": "¿Cuál es tu",
+    "highlight": "objetivo?",
+    "subtitle": "Define los entrenamientos, el volumen y la intensidad que preparamos para ti.",
+    "lose_weight": {
+      "title": "Perder peso",
+      "description": "Quema calorías y define."
+    },
+    "build_muscle": {
+      "title": "Ganar músculo",
+      "description": "Entrenamiento de hipertrofia para ganar volumen."
+    },
+    "get_stronger": {
+      "title": "Ganar fuerza",
+      "description": "Pocas repeticiones para la máxima fuerza."
+    },
+    "maintain": {
+      "title": "Mantener la forma",
+      "description": "Una rutina equilibrada para tu salud general."
+    }
+  },
+  "location": {
+    "title": "¿Dónde",
+    "highlight": "entrenas?",
+    "subtitle": "Selecciona todo lo que corresponda. Nos indica el equipo que probablemente tienes.",
+    "large_gym": {
+      "title": "Gimnasio grande",
+      "description": "Máquinas, poleas y peso libre."
+    },
+    "small_gym": {
+      "title": "Gimnasio pequeño / Hotel",
+      "description": "Mancuernas, bancos y algunas máquinas."
+    },
+    "home": {
+      "title": "Gimnasio en casa",
+      "description": "Mancuernas ajustables, bandas o un rack básico."
+    },
+    "bodyweight": {
+      "title": "Solo peso corporal",
+      "description": "Sin equipo, solo tú."
+    }
+  },
+  "injuries": {
+    "title": "¿Tienes alguna",
+    "highlight": "lesión activa?",
+    "subtitle": "Selecciona hasta {{max}} zonas. Adaptaremos tus ejercicios para no forzarlas.",
+    "shoulders": "Hombros",
+    "back": "Espalda baja/alta",
+    "knees": "Rodillas",
+    "wrists": "Muñecas",
+    "elbows": "Codos",
+    "hips": "Caderas"
+  },
+  "focus": {
+    "title": "¿En qué zona quieres",
+    "highlight": "centrarte?",
+    "subtitle": "Selecciona los grupos musculares que quieres priorizar.",
+    "upper": {
+      "title": "Tren superior",
+      "description": "Pecho, espalda y brazos"
+    },
+    "lower": {
+      "title": "Tren inferior",
+      "description": "Piernas y glúteos"
+    },
+    "core": {
+      "title": "Core y abdominales"
+    },
+    "full": {
+      "title": "Cuerpo completo equilibrado"
+    }
+  },
+  "age": {
+    "title": "¿Cuántos años",
+    "highlight": "tienes?",
+    "subtitle": "Tu edad nos ayuda a elegir una intensidad segura y a estimar tu metabolismo.",
+    "unit": "años"
+  },
+  "height": {
+    "title": "¿Cuánto",
+    "highlight": "mides?",
+    "subtitle": "Tranquilo, podrás cambiarlo más tarde."
+  },
+  "weight": {
+    "title": "¿Cuál es tu",
+    "highlight": "peso actual?",
+    "subtitle": "Tranquilo, podrás cambiarlo más tarde.",
+    "bmiLabel": "IMC ESTIMADO: {{bmi}}",
+    "bmiNote": "Solo una estimación, no es consejo médico. Rangos basados en las clasificaciones de IMC de la OMS y los CDC."
+  },
+  "goalWeight": {
+    "title": "¿Cuál es tu",
+    "highlight": "peso objetivo?",
+    "subtitle": "Una meta realista nos ayuda a ajustar tus entrenamientos y tu nutrición.",
+    "targetGain": "GANANCIA OBJETIVO",
+    "targetLoss": "PÉRDIDA OBJETIVO",
+    "maintenance": "MANTENIMIENTO",
+    "loseLarge": "Tu objetivo es perder un {{pct}} % de tu peso corporal. Es una meta importante que requiere un enfoque constante a largo plazo. Consulta con un profesional de la salud si tienes dudas.",
+    "loseModerate": "Tu objetivo es perder un {{pct}} % de tu peso corporal. Es una meta moderada que se puede alcanzar poco a poco.",
+    "gainLarge": "Tu objetivo es ganar un {{pct}} % de tu peso corporal. Es un cambio grande, por lo que suele recomendarse un enfoque gradual y estructurado. Consulta con un profesional de la salud si tienes dudas.",
+    "gainModerate": "Tu objetivo es ganar un {{pct}} % de tu peso corporal. Una ganancia gradual puede ayudarte a desarrollar masa magra.",
+    "maintain": "Tu objetivo es mantener tu peso actual. Nos centraremos en la recomposición corporal."
+  },
+  "duration": {
+    "title": "¿Cuánto dura cada",
+    "highlight": "entrenamiento?",
+    "subtitle": "¿Cuánto tiempo puedes dedicar de forma realista a una sesión?",
+    "quick": {
+      "title": "Rápido (hasta 20 min)",
+      "description": "Unos 3 ejercicios. Alta intensidad y descanso mínimo."
+    },
+    "short": {
+      "title": "20 - 40 minutos",
+      "description": "4-6 ejercicios. Una rutina equilibrada."
+    },
+    "medium": {
+      "title": "40 - 60 minutos",
+      "description": "5-7 ejercicios con el descanso adecuado."
+    },
+    "long": {
+      "title": "Más de 60 minutos",
+      "description": "8-10 ejercicios. Una sesión completa."
+    }
+  },
+  "targetFrequency": {
+    "title": "¿Cuántos días",
+    "highlight": "por semana?",
+    "subtitle": "¿Cuántos días por semana piensas entrenar? La constancia es clave para alcanzar tus objetivos.",
+    "hint": "Según tu perfil, te recomendamos",
+    "unit": "días / semana"
+  },
+  "setupType": {
+    "title": "¿Cómo quieres",
+    "highlight": "empezar?",
+    "subtitle": "Elige cómo crear tu programa de entrenamiento. Podrás cambiarlo más tarde.",
+    "smart": {
+      "title": "Plan inteligente",
+      "description": "Generado automáticamente por nuestra IA según tu perfil y tus objetivos."
+    },
+    "custom": {
+      "title": "Plan personalizado",
+      "description": "Crea tus propias rutinas con la biblioteca de ejercicios."
+    }
+  }
+}

@@ -1,5 +1,8 @@
+import "@/i18n";
+import "@/store/language-store"; // loads the saved language choice at startup, not only when Settings opens
 import { useEffect } from "react";
 import { Stack } from "expo-router";
+import { useTranslation } from "react-i18next";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -12,6 +15,7 @@ import { theme } from "@/lib/theme";
 void SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
+  const { t } = useTranslation("plan");
   const [fontsLoaded, fontError] = useAppFonts();
 
   useEffect(() => {
@@ -46,7 +50,7 @@ export default function Layout() {
         <Stack.Screen name="workout/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="exercise/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-        <Stack.Screen name="plan/new" options={{ presentation: "modal", title: "New Plan" }} />
+        <Stack.Screen name="plan/new" options={{ presentation: "modal", title: t("title.new") }} />
         <Stack.Screen name="edit-profile" options={{ headerShown: false, presentation: "card" }} />
         <Stack.Screen name="weigh-ins" options={{ headerShown: false, presentation: "card" }} />
       </Stack>

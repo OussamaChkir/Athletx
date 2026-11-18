@@ -8,8 +8,10 @@ export type WorkoutActivityProps = {
   workoutName: string;
   /** Current lift (during a set) or the next lift (during rest). */
   exerciseTitle: string;
-  /** "Set 1 of 4 · 10 reps" */
+  /** Already translated by the app, e.g. "Set 1 of 4 · 10 reps". The widget runtime has no i18n. */
   detail: string;
+  /** Already translated header text, e.g. "ATHLETX" or "ATHLETX · REST". */
+  header: string;
   phase: "exercise" | "rest";
   /** When the workout started; drives the count-up clock shown while lifting. */
   startedAt: number;
@@ -63,7 +65,7 @@ const WorkoutActivity = (props: WorkoutActivityProps) => {
       <VStack alignment="leading" spacing={12} modifiers={[padding({ all: 16 })]}>
         <HStack>
           <Text modifiers={[font({ size: 13, weight: "heavy" }), foregroundStyle(lime)]}>
-            {resting ? "ATHLETX · REST" : "ATHLETX"}
+            {props.header}
           </Text>
           <Spacer />
           {clock}

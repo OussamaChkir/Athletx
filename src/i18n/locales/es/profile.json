@@ -1,0 +1,112 @@
+{
+  "title": "EDITAR PERFIL",
+  "save": "Guardar",
+  "back": "Atrás",
+  "copy": "Copiar",
+  "changePhoto": "Toca para cambiar la foto",
+  "tapToSelect": "Toca para elegir",
+  "example": "p. ej. {{value}}",
+  "sections": {
+    "accountIdentity": "IDENTIDAD DE LA CUENTA",
+    "personalInfo": "DATOS PERSONALES",
+    "bodyMetrics": "MEDIDAS CORPORALES",
+    "trainingProfile": "PERFIL DE ENTRENAMIENTO",
+    "gymEquipment": "GIMNASIO Y EQUIPO",
+    "focusAreas": "ZONAS DE ENFOQUE",
+    "injuries": "LESIONES Y LIMITACIONES",
+    "healthInfo": "INFORMACIÓN DE SALUD"
+  },
+  "fields": {
+    "userId": "ID de usuario",
+    "fullUuid": "UUID completo",
+    "displayName": "Nombre visible",
+    "username": "Usuario",
+    "bio": "Bio",
+    "age": "Edad",
+    "height": "Estatura",
+    "currentWeight": "Peso actual",
+    "goalWeight": "Peso objetivo",
+    "gender": "Género",
+    "experience": "Nivel de experiencia",
+    "goal": "Objetivo principal",
+    "currentFrequency": "Frecuencia actual",
+    "targetDays": "Días objetivo / semana",
+    "duration": "Duración de la sesión",
+    "location": "Lugar de entrenamiento",
+    "muscleGroups": "Grupos musculares",
+    "affectedAreas": "Zonas afectadas"
+  },
+  "placeholders": {
+    "displayName": "Tu nombre completo",
+    "username": "tuusuario",
+    "bio": "Cuéntanos tu recorrido fitness…"
+  },
+  "suffix": {
+    "years": "años",
+    "days": "días"
+  },
+  "gender": {
+    "male": "Hombre",
+    "female": "Mujer",
+    "other": "Otro"
+  },
+  "experience": {
+    "beginner": "Principiante",
+    "intermediate": "Intermedio",
+    "advanced": "Avanzado"
+  },
+  "goal": {
+    "loseWeight": "Perder peso",
+    "buildMuscle": "Ganar músculo",
+    "getStronger": "Ganar fuerza",
+    "maintain": "Mantener"
+  },
+  "frequency": {
+    "f01": "0 – 1 días/semana",
+    "f23": "2 – 3 días/semana",
+    "f45": "4 – 5 días/semana",
+    "f6": "6+ días/semana"
+  },
+  "duration": {
+    "quick": "Rápida (<20 min)",
+    "d2040": "20 – 40 min",
+    "d4060": "40 – 60 min",
+    "d60": "60+ min"
+  },
+  "location": {
+    "largeGym": "Gimnasio grande",
+    "smallGym": "Gimnasio pequeño",
+    "home": "Casa",
+    "bodyweight": "Solo peso corporal"
+  },
+  "focus": {
+    "chest": "Pecho",
+    "back": "Espalda",
+    "shoulders": "Hombros",
+    "arms": "Brazos",
+    "core": "Core",
+    "legs": "Piernas",
+    "glutes": "Glúteos",
+    "fullBody": "Cuerpo completo"
+  },
+  "injury": {
+    "lowerBack": "Zona lumbar",
+    "knee": "Rodilla",
+    "shoulder": "Hombro",
+    "wrist": "Muñeca",
+    "ankle": "Tobillo",
+    "neck": "Cuello",
+    "hip": "Cadera",
+    "elbow": "Codo"
+  },
+  "notice": "Tu ID de usuario es permanente y no se puede cambiar. El resto de tus datos de perfil y entrenamiento se pueden editar en cualquier momento.",
+  "healthNotice": "La información sobre IMC y peso objetivo de Athletx es orientación general, no consejo médico.",
+  "alerts": {
+    "nameRequiredTitle": "Nombre obligatorio",
+    "nameRequiredMessage": "Escribe tu nombre visible.",
+    "usernameShortTitle": "Usuario demasiado corto",
+    "usernameShortMessage": "El usuario debe tener al menos 3 caracteres.",
+    "savedTitle": "¡Guardado!",
+    "savedMessage": "Tu perfil se ha actualizado."
+  }
+}

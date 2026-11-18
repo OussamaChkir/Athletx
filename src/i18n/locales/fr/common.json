@@ -1,0 +1,85 @@
+{
+  "language": {
+    "title": "Langue",
+    "auto": "Automatique",
+    "autoHint": "Suit votre téléphone",
+    "choose": "Choisir la langue",
+    "close": "Fermer"
+  },
+  "equipment": {
+    "none": {
+      "label": "Poids du corps",
+      "description": "Aucun matériel"
+    },
+    "dumbbell": {
+      "label": "Haltères",
+      "description": "Poids libres"
+    },
+    "barbell": {
+      "label": "Barre",
+      "description": "Mouvements polyarticulaires"
+    },
+    "kettlebell": {
+      "label": "Kettlebell",
+      "description": "Swings et développés"
+    },
+    "band": {
+      "label": "Élastiques",
+      "description": "Bandes de résistance"
+    },
+    "plate": {
+      "label": "Disque",
+      "description": "Charge sur disques"
+    },
+    "pull-up-bar": {
+      "label": "Barre de traction",
+      "description": "Tirer et se suspendre"
+    },
+    "bench": {
+      "label": "Banc",
+      "description": "Développé et appui"
+    },
+    "cable": {
+      "label": "Poulies",
+      "description": "Poulies à câble"
+    },
+    "leg-machine": {
+      "label": "Machines",
+      "description": "Machines guidées"
+    },
+    "trx": {
+      "label": "TRX",
+      "description": "Sangles de suspension"
+    }
+  },
+  "muscles": {
+    "Chest": "Pectoraux",
+    "Shoulders": "Épaules",
+    "Lats": "Grands dorsaux",
+    "Traps": "Trapèzes",
+    "Biceps": "Biceps",
+    "Triceps": "Triceps",
+    "Forearms": "Avant-bras",
+    "Abdominals": "Abdos",
+    "Obliques": "Obliques",
+    "Lower back": "Bas du dos",
+    "Quads": "Quadriceps",
+    "Hamstrings": "Ischio-jambiers",
+    "Glutes": "Fessiers",
+    "Calves": "Mollets"
+  },
+  "focus": {
+    "strength": {
+      "label": "Force",
+      "blurb": "Charges lourdes, repos plus long"
+    },
+    "hypertrophy": {
+      "label": "Hypertrophie",
+      "blurb": "Du volume pour prendre du muscle"
+    },
+    "endurance": {
+      "label": "Endurance",
+      "blurb": "Plus de répétitions, repos plus court"
+    }
+  }
+}

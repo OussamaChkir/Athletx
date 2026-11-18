@@ -1,0 +1,33 @@
+{
+  "titleLead": "Biblioteca de",
+  "titleAccent": "ejercicios",
+  "searchPlaceholder": "Buscar ejercicios, músculos, equipo…",
+  "clearSearch": "Borrar búsqueda",
+  "all": "Todos",
+  "difficulty": {
+    "title": "Dificultad",
+    "beginner": "Fácil",
+    "intermediate": "Intermedio",
+    "advanced": "Difícil"
+  },
+  "emptyTitle": "No se encontraron ejercicios",
+  "emptyHint": "Prueba con otra búsqueda o filtro",
+  "detail": {
+    "notFound": "Ejercicio no encontrado",
+    "back": "Volver",
+    "header": "Ejercicio",
+    "summary": "Ejercicio ({{category}}) para: {{muscles}}.",
+    "lifterNote": {
+      "beginner": "Apto para principiantes",
+      "intermediate": "Algo de experiencia",
+      "advanced": "Para atletas avanzados"
+    },
+    "equipment": "Equipamiento",
+    "musclesWorked": "Músculos trabajados",
+    "primary": "Principales",
+    "secondary": "Secundarios",
+    "howTo": "Cómo hacerlo",
+    "stepsCount_one": "{{count}} paso",
+    "stepsCount_other": "{{count}} pasos"
+  }
+}

@@ -1,6 +1,7 @@
 import type { ComponentProps } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import type { Tabs } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { colors, radius, spacing } from "@/lib/theme";
 import { AppText } from "./AppText";
 
@@ -11,6 +12,8 @@ export const TAB_BAR_HEIGHT = 72;
 
 /** Tab Bar from Figma: floating dark pill, the active tab is a lime pill with icon and label. */
 export function TabBar({ state, descriptors, emitter, navigateToTab, insets }: BottomTabBarProps) {
+  // Re-render when the language changes (tab titles come from the navigator options).
+  useTranslation("home");
   return (
     <View
       pointerEvents="box-none"

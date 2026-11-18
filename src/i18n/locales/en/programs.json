@@ -1,0 +1,285 @@
+{
+  "gym-starter": {
+    "title": "Gym Starter",
+    "subtitle": "Full Body Basics",
+    "description": "Your first gym program. Three easy full-body sessions on machines and simple dumbbell lifts, so you learn the moves and build confidence.",
+    "focus": "Full Body",
+    "category": "FULL BODY",
+    "days": {
+      "0": {
+        "label": "Full Body A",
+        "muscles": "Legs · Chest · Back"
+      },
+      "1": {
+        "label": "Full Body B",
+        "muscles": "Legs · Back · Chest"
+      },
+      "2": {
+        "label": "Full Body C",
+        "muscles": "Legs · Chest · Back"
+      }
+    }
+  },
+  "her-strong-start": {
+    "title": "Her Strong Start",
+    "subtitle": "Beginner Women's Plan",
+    "description": "A friendly first plan for women new to the gym. Glute and leg work, a full upper-body day, and core, all on easy-to-learn machines and dumbbells.",
+    "focus": "Glutes & Full Body",
+    "category": "FULL BODY",
+    "days": {
+      "0": {
+        "label": "Glutes & Legs",
+        "muscles": "Glutes · Quads · Hamstrings"
+      },
+      "1": {
+        "label": "Upper Body",
+        "muscles": "Back · Chest · Shoulders · Arms"
+      },
+      "2": {
+        "label": "Full Body & Core",
+        "muscles": "Legs · Back · Glutes · Core"
+      }
+    }
+  },
+  "upper-lower": {
+    "title": "Upper / Lower",
+    "subtitle": "4-Day Split",
+    "description": "Four days a week: two upper-body and two lower-body sessions. Heavy compound lifts first, then volume work. A great step up from full-body training.",
+    "focus": "Strength & Size",
+    "category": "UPPER LOWER",
+    "days": {
+      "0": {
+        "label": "Upper A",
+        "muscles": "Chest · Back · Shoulders · Arms"
+      },
+      "1": {
+        "label": "Lower A",
+        "muscles": "Quads · Hamstrings · Calves · Abs"
+      },
+      "2": {
+        "label": "Upper B",
+        "muscles": "Chest · Back · Shoulders · Triceps"
+      },
+      "3": {
+        "label": "Lower B",
+        "muscles": "Glutes · Quads · Hamstrings · Calves"
+      }
+    }
+  },
+  "push-pull-legs": {
+    "title": "Push Pull Legs",
+    "subtitle": "6-Day Split",
+    "description": "The classic PPL: push, pull and legs, run twice a week. Each muscle gets hit twice for steady muscle gain. Best if you can train six days.",
+    "focus": "Muscle Building",
+    "category": "PUSH PULL LEGS",
+    "days": {
+      "0": {
+        "label": "Push A",
+        "muscles": "Chest · Shoulders · Triceps"
+      },
+      "1": {
+        "label": "Pull A",
+        "muscles": "Back · Biceps"
+      },
+      "2": {
+        "label": "Legs A",
+        "muscles": "Quads · Hamstrings · Calves"
+      },
+      "3": {
+        "label": "Push B",
+        "muscles": "Chest · Shoulders · Triceps"
+      },
+      "4": {
+        "label": "Pull B",
+        "muscles": "Back · Rear Delts · Biceps"
+      },
+      "5": {
+        "label": "Legs B",
+        "muscles": "Glutes · Quads · Hamstrings · Calves"
+      }
+    }
+  },
+  "bro-split": {
+    "title": "Bro Split",
+    "subtitle": "5-Day Body-Part Split",
+    "description": "One muscle group per day: chest, back, shoulders, legs and arms. High volume on each muscle, perfect for the pump and for a busy gym week.",
+    "focus": "Bodybuilding",
+    "category": "BRO SPLIT",
+    "days": {
+      "0": {
+        "label": "Chest Day",
+        "muscles": "Chest"
+      },
+      "1": {
+        "label": "Back Day",
+        "muscles": "Lats · Back · Traps"
+      },
+      "2": {
+        "label": "Shoulder Day",
+        "muscles": "Shoulders · Traps"
+      },
+      "3": {
+        "label": "Leg Day",
+        "muscles": "Quads · Hamstrings · Calves"
+      },
+      "4": {
+        "label": "Arm Day",
+        "muscles": "Biceps · Triceps"
+      }
+    }
+  },
+  "glute-sculpt": {
+    "title": "Glute & Sculpt",
+    "subtitle": "4-Day Glute Focus",
+    "description": "Four days built around strong, shapely glutes and legs, with two upper-body days to balance it out. For women with a few months of gym experience.",
+    "focus": "Glutes & Legs",
+    "category": "GLUTES",
+    "days": {
+      "0": {
+        "label": "Glute Day A",
+        "muscles": "Glutes · Hamstrings"
+      },
+      "1": {
+        "label": "Upper Body",
+        "muscles": "Back · Shoulders · Chest · Arms"
+      },
+      "2": {
+        "label": "Glute Day B",
+        "muscles": "Quads · Glutes · Hamstrings"
+      },
+      "3": {
+        "label": "Upper & Core",
+        "muscles": "Back · Shoulders · Chest · Core"
+      }
+    }
+  },
+  "iron-strength": {
+    "title": "Iron Strength",
+    "subtitle": "4-Day Strength Split",
+    "description": "Get strong on the big four lifts: squat, bench, deadlift and overhead press. Heavy sets with long rests, then accessories to support them. For experienced lifters.",
+    "focus": "Strength",
+    "category": "STRENGTH",
+    "days": {
+      "0": {
+        "label": "Squat Day",
+        "muscles": "Squat · Legs"
+      },
+      "1": {
+        "label": "Bench Day",
+        "muscles": "Bench · Chest · Back"
+      },
+      "2": {
+        "label": "Deadlift Day",
+        "muscles": "Deadlift · Back · Hamstrings"
+      },
+      "3": {
+        "label": "Press Day",
+        "muscles": "Overhead Press · Shoulders · Arms"
+      }
+    }
+  },
+  "golden-era": {
+    "title": "Golden Era",
+    "subtitle": "6-Day Classic Split",
+    "description": "Old-school bodybuilding: chest and back together, shoulders and arms together, and legs, all twice a week. High volume for advanced lifters who recover well.",
+    "focus": "Bodybuilding",
+    "category": "BODYBUILDING",
+    "days": {
+      "0": {
+        "label": "Chest & Back A",
+        "muscles": "Chest · Back"
+      },
+      "1": {
+        "label": "Shoulders & Arms A",
+        "muscles": "Shoulders · Biceps · Triceps"
+      },
+      "2": {
+        "label": "Legs A",
+        "muscles": "Quads · Hamstrings · Calves"
+      },
+      "3": {
+        "label": "Chest & Back B",
+        "muscles": "Chest · Back"
+      },
+      "4": {
+        "label": "Shoulders & Arms B",
+        "muscles": "Shoulders · Biceps · Triceps"
+      },
+      "5": {
+        "label": "Legs B",
+        "muscles": "Glutes · Quads · Hamstrings · Calves"
+      }
+    }
+  },
+  "dumbbell-home": {
+    "title": "Dumbbell Home Builder",
+    "subtitle": "3-Day Push, Pull, Legs",
+    "description": "Build muscle at home with just dumbbells and a bench. Three sessions a week: push, pull and legs.",
+    "focus": "Muscle Building",
+    "category": "HOME",
+    "days": {
+      "0": {
+        "label": "Push",
+        "muscles": "Chest · Shoulders · Triceps"
+      },
+      "1": {
+        "label": "Pull",
+        "muscles": "Back · Biceps"
+      },
+      "2": {
+        "label": "Legs",
+        "muscles": "Quads · Hamstrings · Glutes · Calves"
+      }
+    }
+  },
+  "morning-flow": {
+    "title": "Morning Flow",
+    "subtitle": "Mobility Routine",
+    "description": "Short bodyweight sessions every weekday morning to wake up your joints and keep you moving well.",
+    "focus": "Mobility",
+    "category": "MOBILITY",
+    "days": {
+      "0": {
+        "label": "Hips & Glutes",
+        "muscles": "Glutes · Hips · Legs"
+      },
+      "1": {
+        "label": "Core Control",
+        "muscles": "Abs · Core · Lower back"
+      },
+      "2": {
+        "label": "Legs & Balance",
+        "muscles": "Quads · Hamstrings · Glutes"
+      },
+      "3": {
+        "label": "Upper Body",
+        "muscles": "Chest · Shoulders · Triceps"
+      },
+      "4": {
+        "label": "Full Body Flow",
+        "muscles": "Full Body · Abs"
+      }
+    }
+  },
+  "cardio-shred": {
+    "title": "Cardio Shred",
+    "subtitle": "HIIT Circuit",
+    "description": "Three fast, sweaty circuits a week with no gym needed. Short rests, high effort, full body.",
+    "focus": "HIIT",
+    "category": "HIIT",
+    "days": {
+      "0": {
+        "label": "Burn A",
+        "muscles": "Full Body"
+      },
+      "1": {
+        "label": "Burn B",
+        "muscles": "Legs · Core"
+      },
+      "2": {
+        "label": "Burn C",
+        "muscles": "Upper Body · Core"
+      }
+    }
+  }
+}

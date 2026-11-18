@@ -1,0 +1,85 @@
+{
+  "language": {
+    "title": "Language",
+    "auto": "Automatic",
+    "autoHint": "Follows your phone",
+    "choose": "Choose language",
+    "close": "Close"
+  },
+  "equipment": {
+    "none": {
+      "label": "Bodyweight",
+      "description": "No gear needed"
+    },
+    "dumbbell": {
+      "label": "Dumbbells",
+      "description": "Free weights"
+    },
+    "barbell": {
+      "label": "Barbell",
+      "description": "Compound lifts"
+    },
+    "kettlebell": {
+      "label": "Kettlebell",
+      "description": "Swings & presses"
+    },
+    "band": {
+      "label": "Bands",
+      "description": "Resistance bands"
+    },
+    "plate": {
+      "label": "Weight Plate",
+      "description": "Plate-loaded"
+    },
+    "pull-up-bar": {
+      "label": "Pull-up Bar",
+      "description": "Pull & hang"
+    },
+    "bench": {
+      "label": "Bench",
+      "description": "Press & support"
+    },
+    "cable": {
+      "label": "Cables",
+      "description": "Cable stack"
+    },
+    "leg-machine": {
+      "label": "Machines",
+      "description": "Guided machines"
+    },
+    "trx": {
+      "label": "TRX",
+      "description": "Suspension straps"
+    }
+  },
+  "muscles": {
+    "Chest": "Chest",
+    "Shoulders": "Shoulders",
+    "Lats": "Lats",
+    "Traps": "Traps",
+    "Biceps": "Biceps",
+    "Triceps": "Triceps",
+    "Forearms": "Forearms",
+    "Abdominals": "Abs",
+    "Obliques": "Obliques",
+    "Lower back": "Lower Back",
+    "Quads": "Quads",
+    "Hamstrings": "Hamstrings",
+    "Glutes": "Glutes",
+    "Calves": "Calves"
+  },
+  "focus": {
+    "strength": {
+      "label": "Strength",
+      "blurb": "Heavy loads, longer rest"
+    },
+    "hypertrophy": {
+      "label": "Hypertrophy",
+      "blurb": "Volume for muscle growth"
+    },
+    "endurance": {
+      "label": "Endurance",
+      "blurb": "Higher reps, shorter rest"
+    }
+  }
+}

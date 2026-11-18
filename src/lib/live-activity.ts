@@ -3,6 +3,8 @@ export type WorkoutActivityState = {
   workoutName: string;
   exerciseTitle: string;
   detail: string;
+  /** Translated header line of the card ("ATHLETX" or "ATHLETX · REST"). */
+  header: string;
   phase: "exercise" | "rest";
   startedAt: number;
   restEndsAt: number;

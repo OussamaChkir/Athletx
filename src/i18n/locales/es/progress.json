@@ -1,0 +1,95 @@
+{
+  "title": "Progreso",
+  "periods": {
+    "week": "Semana",
+    "month": "Mes",
+    "year": "Año"
+  },
+  "stats": {
+    "workouts": "Sesiones",
+    "streak": "Racha",
+    "days": "días",
+    "totalLifted": "Total levantado"
+  },
+  "recentWorkouts": "Sesiones recientes",
+  "showLess": "Ver menos",
+  "showAll": "Todas ({{count}})",
+  "emptyHistory": "Termina una sesión en vivo para verla aquí.",
+  "setsCount_one": "{{count}} serie",
+  "setsCount_other": "{{count}} series",
+  "prCount_one": "{{count}} récord",
+  "prCount_other": "{{count}} récords",
+  "muscles": {
+    "title": "Músculos",
+    "metrics": {
+      "sets": "Series",
+      "fatigue": "Fatiga",
+      "strength": "Fuerza"
+    },
+    "modes": {
+      "completed": "Completadas",
+      "planned": "Previstas"
+    },
+    "weekOf": "Semana del {{date}}",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "emptyPlanned": "Aún no hay un plan activo con ejercicios.",
+    "emptyWeek": "No hay series registradas esta semana.",
+    "emptyMonth": "No hay series registradas este mes.",
+    "emptyFatigue": "Ninguna sesión en la última semana.",
+    "emptyStrength": "Registra sesiones con peso para ver tu fuerza."
+  },
+  "groups": {
+    "chest": "Pecho",
+    "shoulders": "Hombros",
+    "lats": "Dorsales y espalda alta",
+    "traps": "Trapecios",
+    "lower-back": "Zona lumbar",
+    "biceps": "Bíceps",
+    "triceps": "Tríceps",
+    "forearms": "Antebrazos",
+    "abs": "Abdominales y core",
+    "quads": "Cuádriceps",
+    "hamstrings": "Isquiotibiales",
+    "glutes": "Glúteos",
+    "calves": "Gemelos",
+    "adductors": "Aductores",
+    "shins": "Tibiales"
+  },
+  "bodyMap": {
+    "less": "Menos",
+    "more": "Más"
+  },
+  "bodyWeight": {
+    "title": "Peso corporal",
+    "log": "Registrar",
+    "allWeighIns": "Todos los pesajes",
+    "chartEmpty": "Registra pesajes para ver tu tendencia",
+    "ranges": {
+      "1M": "1M",
+      "3M": "3M",
+      "1Y": "1A",
+      "All": "Todo"
+    },
+    "logTitle": "Registrar peso corporal",
+    "logHint": "Una entrada por día. Guardar de nuevo actualiza ese día.",
+    "date": "Fecha",
+    "weight": "Peso",
+    "placeholderKg": "ej. 78,3",
+    "placeholderLb": "ej. 172,5",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "previousDay": "Día anterior",
+    "nextDay": "Día siguiente"
+  },
+  "weighIns": {
+    "title": "Todos los pesajes",
+    "deleteTitle": "Eliminar pesaje",
+    "deleteMessage": "¿Eliminar el registro de este día?",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "empty": "Aún no hay pesajes. Toca + para añadir uno.",
+    "add": "Añadir pesaje",
+    "back": "Atrás"
+  }
+}

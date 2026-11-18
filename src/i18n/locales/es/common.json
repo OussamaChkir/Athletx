@@ -1,0 +1,85 @@
+{
+  "language": {
+    "title": "Idioma",
+    "auto": "Automático",
+    "autoHint": "Sigue tu teléfono",
+    "choose": "Elegir idioma",
+    "close": "Cerrar"
+  },
+  "equipment": {
+    "none": {
+      "label": "Peso corporal",
+      "description": "Sin equipamiento"
+    },
+    "dumbbell": {
+      "label": "Mancuernas",
+      "description": "Pesas libres"
+    },
+    "barbell": {
+      "label": "Barra",
+      "description": "Ejercicios compuestos"
+    },
+    "kettlebell": {
+      "label": "Kettlebell",
+      "description": "Swings y presses"
+    },
+    "band": {
+      "label": "Bandas",
+      "description": "Bandas de resistencia"
+    },
+    "plate": {
+      "label": "Disco",
+      "description": "Con discos"
+    },
+    "pull-up-bar": {
+      "label": "Barra de dominadas",
+      "description": "Tirar y colgarse"
+    },
+    "bench": {
+      "label": "Banco",
+      "description": "Press y apoyo"
+    },
+    "cable": {
+      "label": "Poleas",
+      "description": "Torre de poleas"
+    },
+    "leg-machine": {
+      "label": "Máquinas",
+      "description": "Máquinas guiadas"
+    },
+    "trx": {
+      "label": "TRX",
+      "description": "Cintas de suspensión"
+    }
+  },
+  "muscles": {
+    "Chest": "Pecho",
+    "Shoulders": "Hombros",
+    "Lats": "Dorsales",
+    "Traps": "Trapecios",
+    "Biceps": "Bíceps",
+    "Triceps": "Tríceps",
+    "Forearms": "Antebrazos",
+    "Abdominals": "Abdominales",
+    "Obliques": "Oblicuos",
+    "Lower back": "Zona lumbar",
+    "Quads": "Cuádriceps",
+    "Hamstrings": "Isquiotibiales",
+    "Glutes": "Glúteos",
+    "Calves": "Gemelos"
+  },
+  "focus": {
+    "strength": {
+      "label": "Fuerza",
+      "blurb": "Cargas pesadas, más descanso"
+    },
+    "hypertrophy": {
+      "label": "Hipertrofia",
+      "blurb": "Volumen para ganar músculo"
+    },
+    "endurance": {
+      "label": "Resistencia",
+      "blurb": "Más repeticiones, menos descanso"
+    }
+  }
+}

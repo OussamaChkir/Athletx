@@ -1,0 +1,88 @@
+{
+  "title": "Ajustes",
+  "editPhoto": "Editar foto de perfil",
+  "stats": {
+    "age": "Edad",
+    "weight": "Peso",
+    "height": "Estatura",
+    "yearsUnit": "años"
+  },
+  "premium": {
+    "active": "Premium activo",
+    "go": "Hazte Premium",
+    "activeBody": "Gracias por apoyar Athletx. Todos los programas y funciones están desbloqueados.",
+    "unlockBody": "Desbloquea todos los programas, estadísticas avanzadas y seguimiento corporal.",
+    "upgrade": "Pasar a Premium"
+  },
+  "general": {
+    "title": "General",
+    "personalInfo": "Información personal",
+    "personalInfoHint": "Nombre, edad, peso y estatura",
+    "notification": "Notificaciones",
+    "notificationHint": "Recordatorios y alertas de entrenamiento",
+    "privacy": "Privacidad",
+    "privacyHint": "Datos, permisos y seguridad"
+  },
+  "support": {
+    "title": "Soporte",
+    "help": "Ayuda y soporte",
+    "helpHint": "Preguntas frecuentes, contacto y opiniones",
+    "logOut": "Cerrar sesión",
+    "logOutHint": "Sal de tu cuenta"
+  },
+  "logOutAlert": {
+    "title": "Cerrar sesión",
+    "message": "Esto borra tus respuestas iniciales y te lleva de vuelta al principio.",
+    "cancel": "Cancelar",
+    "confirm": "Cerrar sesión"
+  },
+  "permission": {
+    "title": "Permiso necesario",
+    "message": "Activa las notificaciones en los ajustes de tu teléfono."
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "enable": "Activar notificaciones",
+    "workoutReminders": "Recordatorios de entrenamiento",
+    "workoutRemindersHint": "Un recordatorio diario para tu sesión programada",
+    "hydration": "Hidratación y motivación",
+    "hydrationHint": "¡Bebe agua y sigue adelante!",
+    "done": "Listo"
+  },
+  "health": {
+    "linkLabel": "Fuentes y aviso",
+    "linkA11y": "Fuentes de la información de salud y aviso legal",
+    "close": "Cerrar",
+    "title": "Fuentes y aviso",
+    "howBmi": "CÓMO SE CALCULA EL IMC",
+    "formula": "IMC = peso (kg) ÷ estatura (m)²",
+    "categories": "Las categorías siguen los rangos estándar para adultos publicados por la OMS y los CDC: menos de 18,5 bajo peso, de 18,5 a 24,9 peso saludable, de 25 a 29,9 sobrepeso, 30 o más obesidad.",
+    "sources": "FUENTES",
+    "disclaimerTitle": "AVISO",
+    "disclaimer": "El IMC es una estimación general de cribado. No mide la grasa corporal ni la masa muscular y no es un diagnóstico. La información de Athletx es solo para fines generales de actividad física y no es consejo médico. Habla con un médico u otro profesional sanitario cualificado antes de empezar un nuevo programa de ejercicio o alimentación, o si tienes dudas sobre tu salud.",
+    "sourceList": {
+      "who": {
+        "title": "Obesidad y sobrepeso (hoja informativa)",
+        "publisher": "Organización Mundial de la Salud (OMS)",
+        "covers": "Definición y clasificación del IMC en adultos (sobrepeso 25+, obesidad 30+)."
+      },
+      "cdcAdult": {
+        "title": "Categorías de IMC en adultos",
+        "publisher": "Centros para el Control y la Prevención de Enfermedades de EE. UU. (CDC)",
+        "covers": "Rangos de IMC en adultos: bajo peso, peso saludable, sobrepeso, obesidad."
+      },
+      "cdcChild": {
+        "title": "Categorías de IMC en niños y adolescentes",
+        "publisher": "Centros para el Control y la Prevención de Enfermedades de EE. UU. (CDC)",
+        "covers": "Por qué el IMC de menores de 18 años se lee como percentil según edad y sexo."
+      }
+    },
+    "bmiCategory": {
+      "underweight": "Rango de bajo peso (IMC inferior a 18,5).",
+      "healthy": "Rango de peso saludable (IMC de 18,5 a 24,9).",
+      "overweight": "Rango de sobrepeso (IMC de 25 a 29,9).",
+      "obese": "Rango de obesidad (IMC de 30 o más)."
+    },
+    "minorBmi": "En menores de 18 años, el IMC se interpreta como un percentil según la edad y el sexo, así que las categorías de adultos no se aplican. Un médico puede explicarte qué significa tu IMC para ti."
+  }
+}

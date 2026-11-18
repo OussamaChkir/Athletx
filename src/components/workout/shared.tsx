@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { Dumbbell, X } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { AppText } from "@/components/kit";
 import { getExerciseImageSource } from "@/lib/exercise-image";
 import { colors, radius, spacing } from "@/lib/theme";
@@ -24,9 +25,10 @@ export function formatElapsed(totalSeconds: number) {
 
 /** Close button, workout clock and a spacer, shared by the live and rest screens. */
 export function LiveHeader({ elapsed, onClose }: { elapsed: number; onClose: () => void }) {
+  const { t } = useTranslation("workout");
   return (
     <View style={styles.header}>
-      <Pressable style={styles.closeButton} onPress={onClose} accessibilityRole="button" accessibilityLabel="End workout">
+      <Pressable style={styles.closeButton} onPress={onClose} accessibilityRole="button" accessibilityLabel={t("live.endA11y")}>
         <X size={20} color={colors.textPrimary} />
       </Pressable>
       <AppText variant="titleSmall" style={styles.clock}>

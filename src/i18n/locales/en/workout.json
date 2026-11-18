@@ -1,0 +1,65 @@
+{
+  "defaultName": "My Workout",
+  "customName": "Custom",
+  "smartPlanName": "Smart Plan",
+  "dayName": "{{label}} Day",
+  "restDayName": "Rest Day",
+  "setOf": "Set {{set}} of {{total}}",
+  "setsReps_one": "{{count}} set × {{reps}} reps",
+  "setsReps_other": "{{count}} sets × {{reps}} reps",
+  "live": {
+    "endTitle": "End Workout Early?",
+    "endMessage": "Your progress will not be saved.",
+    "keepGoing": "Keep Going",
+    "endWorkout": "End Workout",
+    "endA11y": "End workout",
+    "nextExercise": "NEXT EXERCISE",
+    "nextSet": "NEXT SET"
+  },
+  "exercise": {
+    "badge": "Exercise {{index}} / {{total}}",
+    "reps": "Reps",
+    "weight": "Weight",
+    "decreaseReps": "Decrease reps",
+    "increaseReps": "Increase reps",
+    "decreaseWeight": "Decrease weight",
+    "increaseWeight": "Increase weight",
+    "switchUnit": "Switch weight unit",
+    "lastTime": "Last time: {{value}}",
+    "complete": "Complete set"
+  },
+  "rest": {
+    "title": "REST",
+    "removeA11y": "Remove {{seconds}} seconds",
+    "addA11y": "Add {{seconds}} seconds",
+    "skip": "Skip rest"
+  },
+  "complete": {
+    "shareTitle": "{{name}} done with Athletx 💪",
+    "shareLifted": "{{volume}} {{unit}} lifted",
+    "sharePr": "🏆 New PR: {{title}} {{weight}} × {{reps}}",
+    "recordsTitle_one": "New record!",
+    "recordsTitle_other": "{{count}} new records!",
+    "recordsBody": "You beat your best in {{name}}.",
+    "doneTitle": "Workout complete",
+    "doneBody": "{{name}} is in the books. Nice work.",
+    "time": "Time",
+    "lifted": "Lifted",
+    "sets": "Sets",
+    "personalRecords": "Personal records",
+    "previousBest": "Previous best {{weight}}",
+    "summary": "Summary",
+    "noSets": "No sets were logged.",
+    "setCount_one": "{{count}} set",
+    "setCount_other": "{{count}} sets",
+    "share": "Share",
+    "done": "Done"
+  },
+  "liveActivity": {
+    "restHeader": "ATHLETX · REST",
+    "current": "Set {{set}} of {{total}} · {{reps}} reps",
+    "nextExercise_one": "Next · {{count}} set × {{reps}} reps",
+    "nextExercise_other": "Next · {{count}} sets × {{reps}} reps",
+    "nextSet": "Next · Set {{set}} of {{total}}"
+  }
+}

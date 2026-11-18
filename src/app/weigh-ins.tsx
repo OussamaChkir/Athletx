@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeft, Plus, Trash2 } from "lucide-react-native";
-import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
+import { intlLocale, useLanguage } from "@/i18n";
 import { router } from "expo-router";
 import { theme } from "@/lib/theme";
 import { useOnboardingStore } from "@/store/onboarding-store";
@@ -23,6 +24,8 @@ import {
 import { LogWeightModal } from "@/components/body-weight-card";
 
 export default function WeighInsScreen() {
+  const { t } = useTranslation("progress");
+  const language = useLanguage();
   const entries = useWeightStore((s) => s.entries);
   const deleteEntry = useWeightStore((s) => s.deleteEntry);
   const unit = unitLabel(useOnboardingStore((s) => s.weight.unit));
@@ -32,10 +35,10 @@ export default function WeighInsScreen() {
   const data = [...entries].reverse();
 
   const confirmDelete = (entry: WeighIn) => {
-    Alert.alert("Delete weigh-in", "Remove this day’s log?", [
-      { text: "Cancel", style: "cancel" },
+    Alert.alert(t("weighIns.deleteTitle"), t("weighIns.deleteMessage"), [
+      { text: t("weighIns.cancel"), style: "cancel" },
       {
-        text: "Delete",
+        text: t("weighIns.delete"),
         style: "destructive",
         onPress: () => deleteEntry(entry.id),
       },
@@ -45,10 +48,16 @@ export default function WeighInsScreen() {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.header}>
-        <Pressable onPress={() => router.back()} style={styles.iconBtn} hitSlop={8}>
+        <Pressable
+          onPress={() => router.back()}
+          style={styles.iconBtn}
+          hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel={t("weighIns.back")}
+        >
           <ArrowLeft size={22} color={theme.text} />
         </Pressable>
-        <Text style={styles.title}>All weigh-ins</Text>
+        <Text style={styles.title}>{t("weighIns.title")}</Text>
         <Pressable
           onPress={() => {
             setEditing(null);
@@ -56,6 +65,8 @@ export default function WeighInsScreen() {
           }}
           style={styles.iconBtn}
           hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel={t("weighIns.add")}
         >
           <Plus size={22} color={theme.neon} />
         </Pressable>
@@ -66,7 +77,7 @@ export default function WeighInsScreen() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.list}
         ListEmptyComponent={
-          <Text style={styles.empty}>No weigh-ins yet. Tap + to log one.</Text>
+          <Text style={styles.empty}>{t("weighIns.empty")}</Text>
         }
         renderItem={({ item, index }) => {
           const display = fromKg(item.kg, unit);
@@ -83,7 +94,12 @@ export default function WeighInsScreen() {
             >
               <View style={{ flex: 1 }}>
                 <Text style={styles.rowDate}>
-                  {format(parseDateKey(item.date), "EEE d MMM yyyy")}
+                  {parseDateKey(item.date).toLocaleDateString(intlLocale(language), {
+                    weekday: "short",
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </Text>
                 <Text style={styles.rowWeight}>
                   {formatWeight(display, 1)}{" "}

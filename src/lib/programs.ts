@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { createWorkoutExercise, getExerciseById } from "./exercises";
 import type { WorkoutExercise } from "./types";
 
@@ -746,6 +747,27 @@ export const PROGRAMS: Program[] = [
     ],
   },
 ];
+
+/**
+ * A copy of the program with its display text (title, subtitle, description, focus, category, day label and muscles)
+ * in the current language. `id`, `level`, `equipment` and the exercises stay untouched, since logic relies on them.
+ */
+export function localizedProgram(program: Program): Program {
+  const key = (path: string) => `programs:${program.id}.${path}`;
+  return {
+    ...program,
+    title: i18n.t(key("title"), { defaultValue: program.title }),
+    subtitle: i18n.t(key("subtitle"), { defaultValue: program.subtitle }),
+    description: i18n.t(key("description"), { defaultValue: program.description }),
+    focus: i18n.t(key("focus"), { defaultValue: program.focus }),
+    category: i18n.t(key("category"), { defaultValue: program.category }),
+    days: program.days.map((day, index) => ({
+      ...day,
+      label: i18n.t(key(`days.${index}.label`), { defaultValue: day.label }),
+      muscles: i18n.t(key(`days.${index}.muscles`), { defaultValue: day.muscles }),
+    })),
+  };
+}
 
 export const getProgram = (id: string) => PROGRAMS.find((p) => p.id === id);
 

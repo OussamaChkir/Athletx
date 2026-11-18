@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import Body, { type ExtendedBodyPart, type Slug } from "react-native-body-highlighter";
 import { AppText } from "@/components/kit";
 import { colors, spacing } from "@/lib/theme";
@@ -15,6 +16,7 @@ const SCALE = 0.5; // the package draws a figure at 200 x 400 for scale 1
 
 /** Front and back body figures with each muscle tinted by its heat level. */
 export function BodyMap({ levels }: { levels: Partial<Record<Slug, HeatLevel>> }) {
+  const { t } = useTranslation("progress");
   const data: ExtendedBodyPart[] = [
     ...NON_MUSCLE_PARTS.map((slug) => ({ slug, styles: { fill: NON_MUSCLE } })),
     ...(Object.entries(levels) as [Slug, HeatLevel][])
@@ -34,13 +36,13 @@ export function BodyMap({ levels }: { levels: Partial<Record<Slug, HeatLevel>> }
       </View>
       <View style={styles.legend}>
         <AppText variant="caption" color="textSecondary">
-          Less
+          {t("bodyMap.less")}
         </AppText>
         {[UNTRAINED, ...LEVEL_COLORS].map((c) => (
           <View key={c} style={[styles.legendDot, { backgroundColor: c }]} />
         ))}
         <AppText variant="caption" color="textSecondary">
-          More
+          {t("bodyMap.more")}
         </AppText>
       </View>
     </View>

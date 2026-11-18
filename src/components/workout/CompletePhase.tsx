@@ -1,7 +1,9 @@
 import { ScrollView, Share, StyleSheet, View } from "react-native";
 import { Check, Share2, Trophy } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { AppText, Button, StatCard } from "@/components/kit";
 import { formatElapsed } from "@/components/workout/shared";
+import { exerciseTitle } from "@/lib/exercise-i18n";
 import { compactNumber, type PersonalRecord } from "@/lib/progress";
 import { colors, radius, spacing } from "@/lib/theme";
 import { fromKg, roundWeight, type BodyWeightUnit } from "@/lib/weight";
@@ -23,14 +25,23 @@ const show = (kg: number, unit: BodyWeightUnit) => `${roundWeight(fromKg(kg, uni
 
 /** Workout Complete. Shows the personal-records version when at least one lift beat its history. */
 export function CompletePhase({ workoutName, elapsed, volumeKg, totalSets, exercises, records, unit, onDone }: Props) {
+  const { t } = useTranslation("workout");
   const hasRecords = records.length > 0;
   const volume = `${compactNumber(Math.round(fromKg(volumeKg, unit)))}`;
 
   const share = () => {
+    const stats = [formatElapsed(elapsed), t("complete.setCount", { count: totalSets })];
+    if (volumeKg > 0) stats.push(t("complete.shareLifted", { volume, unit }));
     const lines = [
-      `${workoutName} done with Athletx 💪`,
-      `${formatElapsed(elapsed)} · ${totalSets} sets${volumeKg > 0 ? ` · ${volume} ${unit} lifted` : ""}`,
-      ...records.map((r) => `🏆 New PR: ${r.title} ${show(r.weight, unit)} × ${r.reps}`),
+      t("complete.shareTitle", { name: workoutName }),
+      stats.join(" · "),
+      ...records.map((r) =>
+        t("complete.sharePr", {
+          title: exerciseTitle(r.exerciseId, r.title),
+          weight: show(r.weight, unit),
+          reps: r.reps,
+        })
+      ),
     ];
     Share.share({ message: lines.join("\n") }).catch(() => undefined);
   };
@@ -43,22 +54,22 @@ export function CompletePhase({ workoutName, elapsed, volumeKg, totalSets, exerc
             {hasRecords ? <Trophy size={40} color={colors.textOnAccent} /> : <Check size={40} color={colors.accent} />}
           </View>
           <AppText variant="displayLarge" style={{ textAlign: "center" }}>
-            {hasRecords ? (records.length > 1 ? `${records.length} new records!` : "New record!") : "Workout complete"}
+            {hasRecords ? t("complete.recordsTitle", { count: records.length }) : t("complete.doneTitle")}
           </AppText>
           <AppText variant="bodyLarge" color="textSecondary" style={{ textAlign: "center" }}>
-            {hasRecords ? `You beat your best in ${workoutName}.` : `${workoutName} is in the books. Nice work.`}
+            {hasRecords ? t("complete.recordsBody", { name: workoutName }) : t("complete.doneBody", { name: workoutName })}
           </AppText>
         </View>
 
         <View style={styles.statRow}>
-          <StatCard value={formatElapsed(elapsed)} label="Time" />
-          <StatCard value={volumeKg > 0 ? volume : "—"} unit={volumeKg > 0 ? unit : undefined} label="Lifted" />
-          <StatCard value={String(totalSets)} label="Sets" />
+          <StatCard value={formatElapsed(elapsed)} label={t("complete.time")} />
+          <StatCard value={volumeKg > 0 ? volume : "—"} unit={volumeKg > 0 ? unit : undefined} label={t("complete.lifted")} />
+          <StatCard value={String(totalSets)} label={t("complete.sets")} />
         </View>
 
         {hasRecords ? (
           <View style={{ gap: spacing.md }}>
-            <AppText variant="titleMedium">Personal records</AppText>
+            <AppText variant="titleMedium">{t("complete.personalRecords")}</AppText>
             {records.map((r) => (
               <View key={r.exerciseId} style={styles.prCard}>
                 <View style={styles.prIcon}>
@@ -66,10 +77,10 @@ export function CompletePhase({ workoutName, elapsed, volumeKg, totalSets, exerc
                 </View>
                 <View style={{ flex: 1 }}>
                   <AppText variant="titleSmall" numberOfLines={1}>
-                    {r.title}
+                    {exerciseTitle(r.exerciseId, r.title)}
                   </AppText>
                   <AppText variant="bodyMedium" color="textSecondary">
-                    Previous best {show(r.previousWeight, unit)}
+                    {t("complete.previousBest", { weight: show(r.previousWeight, unit) })}
                   </AppText>
                 </View>
                 <View style={{ alignItems: "flex-end" }}>
@@ -86,20 +97,20 @@ export function CompletePhase({ workoutName, elapsed, volumeKg, totalSets, exerc
         ) : null}
 
         <View style={{ gap: spacing.md }}>
-          <AppText variant="titleMedium">Summary</AppText>
+          <AppText variant="titleMedium">{t("complete.summary")}</AppText>
           <View style={styles.summary}>
             {exercises.length === 0 ? (
               <AppText variant="bodyMedium" color="textSecondary">
-                No sets were logged.
+                {t("complete.noSets")}
               </AppText>
             ) : (
               exercises.map((e, i) => (
                 <View key={e.exerciseId + i} style={[styles.summaryRow, i > 0 && styles.summaryDivider]}>
                   <AppText variant="titleSmall" style={{ flex: 1 }} numberOfLines={1}>
-                    {e.title}
+                    {exerciseTitle(e.exerciseId, e.title)}
                   </AppText>
                   <AppText variant="bodyMedium" color="textSecondary">
-                    {e.sets.length} {e.sets.length === 1 ? "set" : "sets"}
+                    {t("complete.setCount", { count: e.sets.length })}
                     {bestLabel(e, unit)}
                   </AppText>
                 </View>
@@ -111,9 +122,9 @@ export function CompletePhase({ workoutName, elapsed, volumeKg, totalSets, exerc
 
       <View style={styles.footer}>
         {hasRecords ? (
-          <Button label="Share" variant="dark" icon={<Share2 size={18} color={colors.accent} />} onPress={share} style={styles.shareBtn} />
+          <Button label={t("complete.share")} variant="dark" icon={<Share2 size={18} color={colors.accent} />} onPress={share} style={styles.shareBtn} />
         ) : null}
-        <Button label="Done" onPress={onDone} style={{ flex: 1 }} />
+        <Button label={t("complete.done")} onPress={onDone} style={{ flex: 1 }} />
       </View>
     </View>
   );

@@ -1,0 +1,48 @@
+{
+  "tabs": {
+    "train": "Workout",
+    "library": "Library",
+    "exercises": "Exercises",
+    "progress": "Progress",
+    "settings": "Settings"
+  },
+  "a11y": {
+    "premium": "Premium",
+    "goPremium": "Go Premium",
+    "openCalendar": "Open calendar"
+  },
+  "weekdaysShort": {
+    "0": "Su",
+    "1": "Mo",
+    "2": "Tu",
+    "3": "We",
+    "4": "Th",
+    "5": "Fr",
+    "6": "Sa"
+  },
+  "restLabel": "Rest",
+  "custom": "Custom",
+  "myPlan": "My Plan",
+  "musclesCount": "Muscles ({{n}})",
+  "minRange": "{{from}}–{{to}} Min",
+  "weekPhase": "Week {{week}}/{{total}} – {{phase}}",
+  "todaysWorkout": "TODAY'S WORKOUT",
+  "restDay": "Rest Day",
+  "restDayHint": "Recovery is part of the plan. Take it easy today.",
+  "exercisesCount_one": "{{count}} Exercise",
+  "exercisesCount_other": "{{count}} Exercises",
+  "minutes": "{{value}} Min",
+  "calories": "{{value}} Cal",
+  "setsReps_one": "{{count}} set × {{reps}} reps",
+  "setsReps_other": "{{count}} sets × {{reps}} reps",
+  "restSuffix": " × {{seconds}}s rest",
+  "startWorkout": "Start workout",
+  "switchPlan": "Switch Plan",
+  "deletePlanTitle": "Delete Plan",
+  "deletePlanMessage": "Are you sure you want to delete \"{{name}}\"?",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "addNewPlan": "Add New Plan",
+  "workoutsThisWeek_one": "{{count}} workout this week",
+  "workoutsThisWeek_other": "{{count}} workouts this week"
+}

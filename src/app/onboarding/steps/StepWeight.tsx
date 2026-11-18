@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { HealthSourcesLink } from "@/components/health-sources";
 import { InfoCard } from "@/components/onboarding/InfoCard";
@@ -9,9 +10,9 @@ import { WEIGHT_RULERS } from "@/components/onboarding/ruler-configs";
 import { AppText } from "@/components/kit";
 import {
   BMI_CATEGORY_TEXT,
-  MINOR_BMI_TEXT,
   adultBmiCategory,
   isUnderAdultAge,
+  minorBmiText,
   type BmiCategory,
 } from "@/lib/health-sources";
 import { colors, theme } from "@/lib/theme";
@@ -25,6 +26,7 @@ const BMI_COLORS: Record<BmiCategory, string> = {
 };
 
 export default function StepWeight() {
+  const { t } = useTranslation("onboarding");
   const { weight, height, age, setField, setWeightUnit } = useOnboardingStore();
 
   const bmi = (() => {
@@ -39,7 +41,7 @@ export default function StepWeight() {
   let bmiColor: string = colors.accent;
   if (bmi) {
     if (isUnderAdultAge(age)) {
-      bmiMsg = MINOR_BMI_TEXT;
+      bmiMsg = minorBmiText();
     } else {
       const category = adultBmiCategory(bmi);
       bmiMsg = BMI_CATEGORY_TEXT[category];
@@ -49,7 +51,7 @@ export default function StepWeight() {
 
   return (
     <View style={styles.root}>
-      <StepTitle title="What's your" highlight="current weight?" subtitle="Don't worry, you can change it later." />
+      <StepTitle title={t("weight.title")} highlight={t("weight.highlight")} subtitle={t("weight.subtitle")} />
       <UnitToggle<BodyWeightUnit>
         options={[
           { value: "kg", label: "KG" },
@@ -68,9 +70,9 @@ export default function StepWeight() {
       </View>
 
       {bmi !== null && (
-        <InfoCard label={`ESTIMATED BMI: ${bmi.toFixed(1)}`} message={bmiMsg} tone={bmiColor}>
+        <InfoCard label={t("weight.bmiLabel", { bmi: bmi.toFixed(1) })} message={bmiMsg} tone={bmiColor}>
           <AppText variant="caption" color="textSecondary">
-            Estimate only, not medical advice. Ranges based on WHO and CDC BMI classifications.
+            {t("weight.bmiNote")}
           </AppText>
           <HealthSourcesLink />
         </InfoCard>

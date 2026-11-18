@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Animated, Pressable, StyleSheet, View } from "react-native";
 import { ChevronLeft } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { AppText } from "@/components/kit";
 import { colors, radius, spacing } from "@/lib/theme";
 
@@ -12,6 +13,7 @@ type Props = {
 
 /** Back button, progress bar and "3/14" counter shown above every onboarding step. */
 export function OnboardingHeader({ step, total, onBack }: Props) {
+  const { t } = useTranslation("onboarding");
   const progress = Math.min(Math.max(step / total, 0), 1);
   const [animated] = useState(() => new Animated.Value(progress));
 
@@ -21,7 +23,7 @@ export function OnboardingHeader({ step, total, onBack }: Props) {
 
   return (
     <View style={styles.row}>
-      <Pressable style={styles.back} onPress={onBack} accessibilityRole="button" accessibilityLabel="Back">
+      <Pressable style={styles.back} onPress={onBack} accessibilityRole="button" accessibilityLabel={t("back")}>
         <ChevronLeft size={20} color={colors.textPrimary} />
       </Pressable>
       <View style={styles.track}>

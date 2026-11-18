@@ -1,0 +1,70 @@
+{
+  "title": "Biblioteca",
+  "a11y": {
+    "premium": "Premium",
+    "goPremium": "Hazte Premium"
+  },
+  "searchPlaceholder": "Buscar programas, ejercicios",
+  "levels": {
+    "all": "Todos",
+    "beginner": "Principiante",
+    "intermediate": "Intermedio",
+    "advanced": "Avanzado"
+  },
+  "levelsCard": {
+    "beginner": "Fácil",
+    "intermediate": "Intermedio",
+    "advanced": "Avanzado"
+  },
+  "dayFilters": {
+    "all": "Todos",
+    "1": "1 día",
+    "2": "2 días",
+    "3": "3 días",
+    "4plus": "4+ días"
+  },
+  "empty": "Ningún programa coincide con tus filtros.",
+  "equipment": {
+    "fullGym": "Gimnasio completo",
+    "atHome": "En casa"
+  },
+  "weeksCount_one": "{{count}} semana",
+  "weeksCount_other": "{{count}} semanas",
+  "daysPerWeek_one": "{{count}} día/semana",
+  "daysPerWeek_other": "{{count}} días/semana",
+  "units": {
+    "weeks_one": "semana",
+    "weeks_other": "semanas",
+    "days_one": "día",
+    "days_other": "días"
+  },
+  "weekdays": {
+    "0": "Dom",
+    "1": "Lun",
+    "2": "Mar",
+    "3": "Mié",
+    "4": "Jue",
+    "5": "Vie",
+    "6": "Sáb"
+  },
+  "enroll": {
+    "title": "Programa iniciado",
+    "message": "¡Has empezado el programa {{title}}!"
+  },
+  "detail": {
+    "notFound": "Programa no encontrado",
+    "goBack": "Volver",
+    "back": "Volver",
+    "header": "Programa",
+    "level": "Nivel",
+    "equipment": "Equipamiento",
+    "length": "Duración",
+    "daysPerWeek": "Días / semana",
+    "perWorkout": "Por sesión",
+    "recommendedDays": "Días recomendados",
+    "workoutPlan": "Plan de entrenamiento",
+    "daysCount_one": "{{count}} día",
+    "daysCount_other": "{{count}} días",
+    "startProgram": "Empezar programa"
+  }
+}

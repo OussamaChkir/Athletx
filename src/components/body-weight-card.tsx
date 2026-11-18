@@ -10,7 +10,9 @@ import {
   View,
 } from "react-native";
 import { ChevronLeft, ChevronRight, Plus, Target } from "lucide-react-native";
-import { format, subDays } from "date-fns";
+import { subDays } from "date-fns";
+import { useTranslation } from "react-i18next";
+import { intlLocale, useLanguage } from "@/i18n";
 import { Href, router } from "expo-router";
 import { colors, radius, spacing, theme } from "@/lib/theme";
 import { AppText } from "@/components/kit";
@@ -41,6 +43,8 @@ export function LogWeightModal({
   initialDate?: string;
   initialKg?: number;
 }) {
+  const { t } = useTranslation("progress");
+  const language = useLanguage();
   const unit = useOnboardingStore((s) => s.weight.unit);
   const setField = useOnboardingStore((s) => s.setField);
   const logWeight = useWeightStore((s) => s.logWeight);
@@ -85,38 +89,46 @@ export function LogWeightModal({
       >
         <Pressable style={styles.modalBackdrop} onPress={onClose} />
         <View style={styles.sheet}>
-          <Text style={styles.sheetTitle}>Log body weight</Text>
-          <Text style={styles.sheetHint}>One entry per day. Saving again updates that day.</Text>
+          <Text style={styles.sheetTitle}>{t("bodyWeight.logTitle")}</Text>
+          <Text style={styles.sheetHint}>{t("bodyWeight.logHint")}</Text>
 
-          <Text style={styles.fieldLabel}>Date</Text>
+          <Text style={styles.fieldLabel}>{t("bodyWeight.date")}</Text>
           <View style={styles.dateRow}>
             <Pressable
               onPress={() => setDate((d) => addDays(d, -1))}
               style={styles.dateBtn}
               hitSlop={8}
+              accessibilityRole="button"
+              accessibilityLabel={t("bodyWeight.previousDay")}
             >
               <ChevronLeft size={20} color={theme.text} />
             </Pressable>
             <Text style={styles.dateValue}>
-              {format(parseDateKey(date), "EEE d MMM")}
+              {parseDateKey(date).toLocaleDateString(intlLocale(language), {
+                weekday: "short",
+                day: "numeric",
+                month: "short",
+              })}
             </Text>
             <Pressable
               onPress={() => canForward && setDate((d) => addDays(d, 1))}
               style={[styles.dateBtn, !canForward && { opacity: 0.3 }]}
               disabled={!canForward}
               hitSlop={8}
+              accessibilityRole="button"
+              accessibilityLabel={t("bodyWeight.nextDay")}
             >
               <ChevronRight size={20} color={theme.text} />
             </Pressable>
           </View>
 
-          <Text style={styles.fieldLabel}>Weight</Text>
+          <Text style={styles.fieldLabel}>{t("bodyWeight.weight")}</Text>
           <View style={styles.inputRow}>
             <TextInput
               value={text}
               onChangeText={setText}
               keyboardType="decimal-pad"
-              placeholder={displayUnit === "kg" ? "e.g. 78.3" : "e.g. 172.5"}
+              placeholder={displayUnit === "kg" ? t("bodyWeight.placeholderKg") : t("bodyWeight.placeholderLb")}
               placeholderTextColor={theme.muted}
               style={styles.input}
               autoFocus
@@ -126,14 +138,14 @@ export function LogWeightModal({
 
           <View style={styles.sheetActions}>
             <Pressable onPress={onClose} style={styles.cancelBtn}>
-              <Text style={styles.cancelText}>Cancel</Text>
+              <Text style={styles.cancelText}>{t("bodyWeight.cancel")}</Text>
             </Pressable>
             <Pressable
               onPress={save}
               style={[styles.saveBtn, !canSave && { opacity: 0.4 }]}
               disabled={!canSave}
             >
-              <Text style={styles.saveText}>Save</Text>
+              <Text style={styles.saveText}>{t("bodyWeight.save")}</Text>
             </Pressable>
           </View>
         </View>
@@ -143,14 +155,15 @@ export function LogWeightModal({
 }
 
 const RANGES = [
-  { value: "1M", label: "1M", days: 30 },
-  { value: "3M", label: "3M", days: 90 },
-  { value: "1Y", label: "1Y", days: 365 },
-  { value: "All", label: "All", days: null },
+  { value: "1M", days: 30 },
+  { value: "3M", days: 90 },
+  { value: "1Y", days: 365 },
+  { value: "All", days: null },
 ] as const;
 type RangeValue = (typeof RANGES)[number]["value"];
 
 export function BodyWeightCard() {
+  const { t } = useTranslation("progress");
   const weight = useOnboardingStore((s) => s.weight);
   const goalWeight = useOnboardingStore((s) => s.goalWeight);
   const entries = useWeightStore((s) => s.entries);
@@ -159,6 +172,7 @@ export function BodyWeightCard() {
   const [logOpen, setLogOpen] = useState(false);
   const [chartWidth, setChartWidth] = useState(0);
   const [range, setRange] = useState<RangeValue>("3M");
+  const rangeOptions = RANGES.map((r) => ({ value: r.value, label: t(`bodyWeight.ranges.${r.value}`) }));
 
   const unit: BodyWeightUnit = unitLabel(weight.unit);
 
@@ -187,7 +201,7 @@ export function BodyWeightCard() {
     <View style={cardStyles.card}>
       <View style={cardStyles.topRow}>
         <AppText variant="labelLarge" color="textSecondary">
-          Body weight
+          {t("bodyWeight.title")}
         </AppText>
         <View style={cardStyles.topRight}>
           {goalDisplay != null ? (
@@ -201,13 +215,13 @@ export function BodyWeightCard() {
           <Pressable onPress={() => setLogOpen(true)} style={cardStyles.logBtn} hitSlop={8} accessibilityRole="button">
             <Plus size={16} color={colors.accent} />
             <AppText variant="labelLarge" color="accent">
-              Log
+              {t("bodyWeight.log")}
             </AppText>
           </Pressable>
         </View>
       </View>
 
-      <SegmentedTabs tone="inset" options={RANGES} value={range} onChange={setRange} />
+      <SegmentedTabs tone="inset" options={rangeOptions} value={range} onChange={setRange} />
 
       <View style={cardStyles.chartWrap} onLayout={(e) => setChartWidth(e.nativeEvent.layout.width)}>
         <BodyWeightChart points={chartPoints} goal={goalDisplay} width={chartWidth} />
@@ -215,7 +229,7 @@ export function BodyWeightCard() {
 
       <Pressable onPress={() => router.push("/weigh-ins" as Href)} style={cardStyles.allLink} accessibilityRole="button">
         <AppText variant="labelLarge" color="accent">
-          All weigh-ins
+          {t("bodyWeight.allWeighIns")}
         </AppText>
         <ChevronRight size={16} color={colors.accent} />
       </Pressable>

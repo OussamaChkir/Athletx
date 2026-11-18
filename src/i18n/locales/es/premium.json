@@ -1,0 +1,68 @@
+{
+  "paywall": {
+    "plan_limit": "Las cuentas gratuitas pueden tener hasta {{count}} planes. Pásate a Premium para tener planes ilimitados.",
+    "prepared_workout": "Las cuentas gratuitas incluyen los primeros {{count}} entrenamientos preparados. Pásate a Premium para desbloquearlos todos."
+  },
+  "benefits": {
+    "noAds": { "title": "Sin anuncios", "description": "Entrena sin interrupciones" },
+    "unlimitedPlans": { "title": "Planes propios ilimitados", "description": "Crea todas las rutinas que quieras" },
+    "allWorkouts": { "title": "Todos los entrenamientos preparados", "description": "Cada programa listo para usar, desbloqueado" },
+    "advancedStats": { "title": "Estadísticas avanzadas", "description": "Conoce mejor tu progreso" }
+  },
+  "plans": {
+    "monthly": { "title": "Mensual", "period": "mes" },
+    "yearly": { "title": "Anual", "period": "año" },
+    "per": "por {{period}}",
+    "subYearly_other": "{{count}} días gratis · luego {{price}} / mes",
+    "subYearly_one": "{{count}} día gratis · luego {{price}} / mes",
+    "subMonthly_other": "{{count}} días gratis · luego se cobra cada mes",
+    "subMonthly_one": "{{count}} día gratis · luego se cobra cada mes",
+    "a11y": "Plan {{title}}, {{price}} por {{period}}",
+    "bestValue": "MEJOR PRECIO · AHORRA {{percent}} %"
+  },
+  "popup": {
+    "close": "Cerrar",
+    "titleLine1": "Libera tu",
+    "titleHighlight": "máximo potencial",
+    "trialPill_one": "{{count}} DÍA GRATIS",
+    "trialPill_other": "{{count}} DÍAS GRATIS",
+    "trialA11y_one": "Prueba gratuita de {{count}} día",
+    "trialA11y_other": "Prueba gratuita de {{count}} días",
+    "youArePremium": "Eres Premium",
+    "manage": "GESTIONAR SUSCRIPCIÓN",
+    "startTrial_one": "PRUEBA GRATIS DE {{count}} DÍA",
+    "startTrial_other": "PRUEBA GRATIS DE {{count}} DÍAS",
+    "finePrint_one": "Prueba gratis durante {{count}} día y después {{price}} por {{period}}. Cancela cuando quieras antes de que termine la prueba y no se te cobrará. Tu suscripción se renueva automáticamente salvo que la canceles al menos 24 horas antes del final de la prueba o del periodo actual, y el pago se carga en tu cuenta de {{store}} cuando termina la prueba gratuita.",
+    "finePrint_other": "Prueba gratis durante {{count}} días y después {{price}} por {{period}}. Cancela cuando quieras antes de que termine la prueba y no se te cobrará. Tu suscripción se renueva automáticamente salvo que la canceles al menos 24 horas antes del final de la prueba o del periodo actual, y el pago se carga en tu cuenta de {{store}} cuando termina la prueba gratuita.",
+    "restore": "Restaurar",
+    "terms": "Términos",
+    "privacy": "Privacidad",
+    "maybeLater": "Quizá más tarde"
+  },
+  "alerts": {
+    "pendingTitle": "Esperando aprobación",
+    "pendingMessage": "Tu compra está pendiente de aprobación. Premium se desbloquea automáticamente cuando se apruebe.",
+    "nothingToRestoreTitle": "Nada que restaurar",
+    "nothingToRestoreMessage": "No encontramos ninguna suscripción activa en esta cuenta de {{store}}.",
+    "entitlementMissingTitle": "Casi listo",
+    "entitlementMissingMessage": "Tu compra se realizó, pero Premium aún no está activo. Toca Restaurar en un momento o contacta con soporte si el problema continúa.",
+    "errorTitle": "No se pudo completar la compra",
+    "errorMessage": "La tienda devolvió un error, así que no se te ha cobrado. Inténtalo de nuevo en un momento.\n\n{{detail}}",
+    "unavailableTitle": "Suscripciones no disponibles",
+    "unavailableMessage": "No pudimos conectar con la tienda ahora mismo. Revisa tu conexión e inténtalo de nuevo.",
+    "genericTitle": "Algo salió mal",
+    "genericMessage": "No pudimos completar la operación. Inténtalo de nuevo."
+  },
+  "rewarded": {
+    "opening": "Abriendo anuncio…",
+    "loading": "Cargando anuncio…",
+    "retry": "Anuncio no disponible. Toca para reintentar",
+    "watch": "Mira un anuncio para desbloquear este entrenamiento",
+    "notEarned": "Mira el anuncio completo para desbloquear este entrenamiento.",
+    "noAd": "No hay ningún anuncio disponible ahora mismo. Inténtalo de nuevo en un momento.",
+    "freeFor_one": "Gratis durante {{count}} hora",
+    "freeFor_other": "Gratis durante {{count}} horas",
+    "premiumWorkout": "{{title}} es un entrenamiento Premium",
+    "unlockWithPremium": "Desbloquear con Premium"
+  }
+}

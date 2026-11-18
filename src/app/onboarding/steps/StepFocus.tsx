@@ -1,16 +1,19 @@
 import { View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useOnboardingStore } from "@/store/onboarding-store";
 import { SelectList, SelectRow } from "@/components/onboarding/SelectRow";
 import { StepTitle } from "@/components/onboarding/StepTitle";
 
+// Ids are stored; the text lives in the onboarding namespace (focus.<id>). Only some options have a description.
 const FOCUS_OPTIONS = [
-  { id: "upper", title: "Upper Body", description: "Chest, back and arms" },
-  { id: "lower", title: "Lower Body", description: "Legs and glutes" },
-  { id: "core", title: "Core & Abs" },
-  { id: "full", title: "Full Body Balance" },
+  { id: "upper", hasDescription: true },
+  { id: "lower", hasDescription: true },
+  { id: "core", hasDescription: false },
+  { id: "full", hasDescription: false },
 ];
 
 export default function StepFocus() {
+  const { t } = useTranslation("onboarding");
   const { focusArea, setField } = useOnboardingStore();
 
   const toggle = (id: string) =>
@@ -19,17 +22,17 @@ export default function StepFocus() {
   return (
     <View>
       <StepTitle
-        title="Which area to"
-        highlight="focus on?"
-        subtitle="Select the muscle groups you want to prioritize."
+        title={t("focus.title")}
+        highlight={t("focus.highlight")}
+        subtitle={t("focus.subtitle")}
       />
       <SelectList>
         {FOCUS_OPTIONS.map((o) => (
           <SelectRow
             key={o.id}
             role="checkbox"
-            title={o.title}
-            description={o.description}
+            title={t(`focus.${o.id}.title`)}
+            description={o.hasDescription ? t(`focus.${o.id}.description`) : undefined}
             selected={focusArea.includes(o.id)}
             onPress={() => toggle(o.id)}
           />

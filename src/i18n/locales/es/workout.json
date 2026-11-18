@@ -1,0 +1,65 @@
+{
+  "defaultName": "Mi entrenamiento",
+  "customName": "Personalizado",
+  "smartPlanName": "Plan inteligente",
+  "dayName": "Día de {{label}}",
+  "restDayName": "Día de descanso",
+  "setOf": "Serie {{set}} de {{total}}",
+  "setsReps_one": "{{count}} serie × {{reps}} reps",
+  "setsReps_other": "{{count}} series × {{reps}} reps",
+  "live": {
+    "endTitle": "¿Terminar el entrenamiento?",
+    "endMessage": "No se guardará tu progreso.",
+    "keepGoing": "Seguir",
+    "endWorkout": "Terminar entrenamiento",
+    "endA11y": "Terminar entrenamiento",
+    "nextExercise": "SIGUIENTE EJERCICIO",
+    "nextSet": "SIGUIENTE SERIE"
+  },
+  "exercise": {
+    "badge": "Ejercicio {{index}} / {{total}}",
+    "reps": "Reps",
+    "weight": "Peso",
+    "decreaseReps": "Reducir repeticiones",
+    "increaseReps": "Aumentar repeticiones",
+    "decreaseWeight": "Reducir peso",
+    "increaseWeight": "Aumentar peso",
+    "switchUnit": "Cambiar unidad de peso",
+    "lastTime": "Última vez: {{value}}",
+    "complete": "Completar serie"
+  },
+  "rest": {
+    "title": "DESCANSO",
+    "removeA11y": "Quitar {{seconds}} segundos",
+    "addA11y": "Añadir {{seconds}} segundos",
+    "skip": "Saltar descanso"
+  },
+  "complete": {
+    "shareTitle": "{{name}} completado con Athletx 💪",
+    "shareLifted": "{{volume}} {{unit}} levantados",
+    "sharePr": "🏆 Nuevo récord: {{title}} {{weight}} × {{reps}}",
+    "recordsTitle_one": "¡Nuevo récord!",
+    "recordsTitle_other": "¡{{count}} nuevos récords!",
+    "recordsBody": "Superaste tu mejor marca en {{name}}.",
+    "doneTitle": "Entrenamiento completado",
+    "doneBody": "{{name}} completado. ¡Buen trabajo!",
+    "time": "Tiempo",
+    "lifted": "Levantado",
+    "sets": "Series",
+    "personalRecords": "Récords personales",
+    "previousBest": "Mejor anterior: {{weight}}",
+    "summary": "Resumen",
+    "noSets": "No se registró ninguna serie.",
+    "setCount_one": "{{count}} serie",
+    "setCount_other": "{{count}} series",
+    "share": "Compartir",
+    "done": "Listo"
+  },
+  "liveActivity": {
+    "restHeader": "ATHLETX · DESCANSO",
+    "current": "Serie {{set}} de {{total}} · {{reps}} reps",
+    "nextExercise_one": "Siguiente · {{count}} serie × {{reps}} reps",
+    "nextExercise_other": "Siguiente · {{count}} series × {{reps}} reps",
+    "nextSet": "Siguiente · Serie {{set}} de {{total}}"
+  }
+}

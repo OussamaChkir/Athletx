@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react-native";
-import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
+import { intlLocale, useLanguage } from "@/i18n";
 import type { Slug } from "react-native-body-highlighter";
 import { AppText, Chip } from "@/components/kit";
 import { BodyMap, type HeatLevel } from "@/components/progress/BodyMap";
@@ -9,6 +10,7 @@ import {
   MUSCLE_GROUPS,
   entriesInRange,
   fatigueByGroup,
+  muscleGroupLabel,
   periodRange,
   plannedSetsByGroup,
   rangeDays,
@@ -26,11 +28,7 @@ type Metric = "sets" | "fatigue" | "strength";
 type Mode = "completed" | "planned";
 type MusclePeriod = Extract<Period, "week" | "month">;
 
-const METRICS: { value: Metric; label: string }[] = [
-  { value: "sets", label: "Sets" },
-  { value: "fatigue", label: "Fatigue" },
-  { value: "strength", label: "Strength" },
-];
+const METRICS: Metric[] = ["sets", "fatigue", "strength"];
 
 const MAX_ROWS = 8;
 
@@ -51,6 +49,9 @@ interface Row {
 }
 
 export function MusclesSection() {
+  const { t } = useTranslation("progress");
+  const language = useLanguage();
+  const locale = intlLocale(language);
   const history = useWorkoutStore((s) => s.history);
   const plans = useWorkoutStore((s) => s.plans);
   const activePlanId = useWorkoutStore((s) => s.activePlanId);
@@ -85,7 +86,7 @@ export function MusclesSection() {
         const [lo, hi] = targetRange(g, days);
         paint(g.slugs, levelOf(value / Math.max(hi, 1)));
         if (value > 0) {
-          raw.push({ id: g.id, label: g.label, value: String(value), hint: `/${lo}–${hi}`, hintColor: "textSecondary", fill: value, track: hi, sortKey: value });
+          raw.push({ id: g.id, label: muscleGroupLabel(g), value: String(value), hint: `/${lo}–${hi}`, hintColor: "textSecondary", fill: value, track: hi, sortKey: value });
         }
       }
     } else if (metric === "fatigue") {
@@ -97,7 +98,7 @@ export function MusclesSection() {
       for (const g of MUSCLE_GROUPS) {
         const score = scores.get(g.id) ?? 0;
         paint(g.slugs, levelOf(score / 100));
-        if (score > 0) raw.push({ id: g.id, label: g.label, value: `${score}%`, fill: score, track: 100, sortKey: score });
+        if (score > 0) raw.push({ id: g.id, label: muscleGroupLabel(g), value: `${score}%`, fill: score, track: 100, sortKey: score });
       }
     } else {
       const upTo = history.filter((h) => new Date(h.completedAt) <= range.end);
@@ -113,7 +114,7 @@ export function MusclesSection() {
           const change = before ? Math.round(((now - before) / before) * 100) : null;
           raw.push({
             id: g.id,
-            label: g.label,
+            label: muscleGroupLabel(g),
             value: `${roundWeight(fromKg(now, unit), 0)} ${unit}`,
             hint: change == null ? undefined : `${change > 0 ? "+" : ""}${change}%`,
             hintColor: change == null ? "textSecondary" : change >= 0 ? "accent" : "danger",
@@ -130,34 +131,41 @@ export function MusclesSection() {
     // Bars share one scale so they can be compared; the track is the target, with a little headroom.
     const scale = Math.max(1, ...top.map((r) => Math.max(r.fill, r.track))) * 1.1;
     return { rows: top.map((r) => ({ ...r, fill: Math.min(r.fill / scale, 1), track: Math.min(r.track / scale, 1) })), heat: heatMap };
-  }, [history, plans, activePlanId, metric, mode, range, days, offset, period, unit]);
+    // `language` re-runs the memo so the muscle names are re-translated.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [history, plans, activePlanId, metric, mode, range, days, offset, period, unit, language]);
 
-  const label = period === "week" ? `Week of ${format(range.start, "d MMM")}` : format(range.start, "MMMM yyyy");
+  const label =
+    period === "week"
+      ? t("muscles.weekOf", { date: range.start.toLocaleDateString(locale, { day: "numeric", month: "short" }) })
+      : range.start.toLocaleDateString(locale, { month: "long", year: "numeric" });
 
   const empty =
     metric === "sets"
       ? mode === "planned"
-        ? "No active plan with exercises yet."
-        : `No sets logged this ${period}.`
+        ? t("muscles.emptyPlanned")
+        : period === "week"
+          ? t("muscles.emptyWeek")
+          : t("muscles.emptyMonth")
       : metric === "fatigue"
-        ? "No workouts in the last week."
-        : "Log workouts with weights to see your strength.";
+        ? t("muscles.emptyFatigue")
+        : t("muscles.emptyStrength");
 
   return (
     <View style={styles.section}>
-      <AppText variant="titleSmall">Muscles</AppText>
+      <AppText variant="titleSmall">{t("muscles.title")}</AppText>
 
       <View style={styles.metricRow}>
         {METRICS.map((m) => (
-          <Chip key={m.value} label={m.label} selected={metric === m.value} onPress={() => setMetric(m.value)} style={styles.metricChip} />
+          <Chip key={m} label={t(`muscles.metrics.${m}`)} selected={metric === m} onPress={() => setMetric(m)} style={styles.metricChip} />
         ))}
       </View>
 
       <View style={styles.modeRow}>
         {metric === "sets" ? (
           <View style={styles.modeChips}>
-            <Chip label="Completed" selected={mode === "completed"} onPress={() => setMode("completed")} />
-            <Chip label="Planned" selected={mode === "planned"} onPress={() => setMode("planned")} />
+            <Chip label={t("muscles.modes.completed")} selected={mode === "completed"} onPress={() => setMode("completed")} />
+            <Chip label={t("muscles.modes.planned")} selected={mode === "planned"} onPress={() => setMode("planned")} />
           </View>
         ) : (
           <View />
@@ -165,7 +173,7 @@ export function MusclesSection() {
         <View style={styles.periodWrap}>
           <Pressable style={styles.periodButton} onPress={() => setMenuOpen((o) => !o)} accessibilityRole="button" hitSlop={8}>
             <AppText variant="labelLarge" color="accent">
-              {period === "week" ? "Week" : "Month"}
+              {t(`periods.${period}`)}
             </AppText>
             <ChevronDown size={16} color={colors.accent} />
           </Pressable>
@@ -182,7 +190,7 @@ export function MusclesSection() {
                   }}
                 >
                   <AppText variant="labelLarge" color={p === period ? "accent" : "textPrimary"}>
-                    {p === "week" ? "Week" : "Month"}
+                    {t(`periods.${p}`)}
                   </AppText>
                 </Pressable>
               ))}
@@ -192,7 +200,7 @@ export function MusclesSection() {
       </View>
 
       <View style={styles.navRow}>
-        <Pressable onPress={() => setOffset((o) => o - 1)} hitSlop={12} accessibilityRole="button" accessibilityLabel="Previous">
+        <Pressable onPress={() => setOffset((o) => o - 1)} hitSlop={12} accessibilityRole="button" accessibilityLabel={t("muscles.previous")}>
           <ChevronLeft size={20} color={colors.textPrimary} />
         </Pressable>
         <AppText variant="labelLarge">{label}</AppText>
@@ -201,7 +209,7 @@ export function MusclesSection() {
           disabled={offset === 0}
           hitSlop={12}
           accessibilityRole="button"
-          accessibilityLabel="Next"
+          accessibilityLabel={t("muscles.next")}
         >
           <ChevronRight size={20} color={offset === 0 ? colors.textMuted : colors.textPrimary} />
         </Pressable>
