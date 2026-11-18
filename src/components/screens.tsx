@@ -1531,7 +1531,8 @@ const progStyles = StyleSheet.create({
   headerTitle: { flex: 1, textAlign: "center" },
   content: { paddingHorizontal: spacing.xl, gap: spacing["2xl"] },
   cover: {
-    height: 200,
+    width: "100%",
+    aspectRatio: 1,
     borderRadius: radius.lg,
     backgroundColor: colors.bgSurface,
     alignItems: "center",
