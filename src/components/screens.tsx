@@ -15,6 +15,7 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { getExerciseImageSource } from "@/lib/exercise-image";
+import { getProgramImage } from "@/lib/program-images";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -625,14 +626,19 @@ const libStyles = StyleSheet.create({
     gap: spacing.lg,
   },
   cover: {
-    width: 96,
-    alignSelf: "stretch",
-    minHeight: 132,
+    // Square, so the program artwork (square, with its title in it) is not cropped.
+    width: 112,
+    height: 112,
+    alignSelf: "center",
     borderRadius: radius.md,
     backgroundColor: colors.bgInset,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
+  coverImage: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
+  lockCorner: { position: "absolute", right: spacing.sm, bottom: spacing.sm, width: 32, height: 32 },
+  coverDim: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(20,20,26,0.35)" },
   lockCircle: {
     width: 48,
     height: 48,
@@ -803,13 +809,19 @@ export function LibraryScreen() {
                 accessibilityRole="button"
                 accessibilityLabel={`${item.title}, ${t(`levels.${levelKey(item.level)}`)}${locked ? `, ${t("a11y.premium")}` : ""}`}
               >
-                {/* Image slot: programs get cover images later; until then an inset placeholder. */}
+                {/* Cover picture; programs without one yet show an inset placeholder. */}
                 <View style={libStyles.cover}>
+                  {getProgramImage(item.id) ? (
+                    <Image source={getProgramImage(item.id)} style={libStyles.coverImage} contentFit="cover" transition={200} />
+                  ) : null}
                   {locked ? (
-                    <View style={libStyles.lockCircle}>
-                      <Lock size={22} color={colors.accent} />
-                    </View>
-                  ) : (
+                    <>
+                      {getProgramImage(item.id) ? <View style={libStyles.coverDim} /> : null}
+                      <View style={[libStyles.lockCircle, getProgramImage(item.id) ? libStyles.lockCorner : null]}>
+                        <Lock size={getProgramImage(item.id) ? 16 : 22} color={colors.accent} />
+                      </View>
+                    </>
+                  ) : getProgramImage(item.id) ? null : (
                     <Dumbbell size={40} color={colors.textMuted} />
                   )}
                 </View>
@@ -1343,13 +1355,17 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
         contentContainerStyle={[progStyles.content, { paddingBottom: 96 + insets.bottom }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Cover: images are added later, until then an inset placeholder. */}
+        {/* Cover picture; programs without one yet show an inset placeholder. */}
         <View style={progStyles.cover}>
+          {getProgramImage(workout.id) ? (
+            <Image source={getProgramImage(workout.id)} style={progStyles.coverImage} contentFit="cover" transition={200} />
+          ) : (
+            <Dumbbell size={48} color={colors.textMuted} />
+          )}
           <View style={progStyles.coverBadge}>
             <Dumbbell size={16} color={colors.accent} />
             <AppText variant="labelMedium">{t(`equipment.${programEquipmentKey(workout.equipment)}`)}</AppText>
           </View>
-          <Dumbbell size={48} color={colors.textMuted} />
         </View>
 
         <View style={{ gap: spacing.sm }}>
@@ -1520,7 +1536,9 @@ const progStyles = StyleSheet.create({
     backgroundColor: colors.bgSurface,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
+  coverImage: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
   coverBadge: {
     position: "absolute",
     top: spacing.md,
