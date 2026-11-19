@@ -6,10 +6,10 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from "react-native";
+import { Image } from "expo-image";
 import { router, useLocalSearchParams } from "expo-router";
 import {
   ArrowLeft,
@@ -28,7 +28,9 @@ import { intlLocale, useLanguage } from "@/i18n";
 import { useGlossary } from "@/i18n/glossary";
 import { exerciseSearchText, exerciseTitle } from "@/lib/exercise-i18n";
 import { muscleLabel } from "@/lib/constants-i18n";
-import { theme } from "@/lib/theme";
+import { AppText, Button, Chip } from "@/components/kit";
+import { getExerciseImageSource } from "@/lib/exercise-image";
+import { colors, fonts, radius, spacing } from "@/lib/theme";
 import { MUSCLES } from "@/lib/constants";
 import { createWorkoutExercise, filterExercises } from "@/lib/exercises";
 import { usePremiumAccess } from "@/lib/use-premium-access";
@@ -74,16 +76,34 @@ function Stepper({
       <Pressable
         style={[ss.stepBtn, value <= min && ss.stepBtnDisabled]}
         onPress={() => onChange(Math.max(min, value - step))}
+        hitSlop={6}
       >
-        <Minus size={14} color={value <= min ? theme.muted : theme.text} />
+        <Minus size={14} color={colors.textPrimary} />
       </Pressable>
-      <Text style={ss.stepValue}>{fmt ? fmt(value) : value}</Text>
+      <AppText variant="labelLarge" style={ss.stepValue}>
+        {fmt ? fmt(value) : value}
+      </AppText>
       <Pressable
         style={[ss.stepBtn, value >= max && ss.stepBtnDisabled]}
         onPress={() => onChange(Math.min(max, value + step))}
+        hitSlop={6}
       >
-        <Plus size={14} color={value >= max ? theme.muted : theme.text} />
+        <Plus size={14} color={colors.textPrimary} />
       </Pressable>
+    </View>
+  );
+}
+
+/** Square exercise picture on an inset tile; a dumbbell stands in when there is no picture. */
+function ExerciseThumb({ image, size }: { image: string | undefined; size: number }) {
+  const source = getExerciseImageSource(image);
+  return (
+    <View style={[ss.thumb, { width: size, height: size }]}>
+      {source ? (
+        <Image source={source} style={{ width: size, height: size }} contentFit="contain" transition={150} />
+      ) : (
+        <Dumbbell size={size * 0.4} color={colors.textMuted} />
+      )}
     </View>
   );
 }
@@ -100,6 +120,12 @@ export default function NewPlanScreen() {
     const name = new Date(2023, 0, 1 + i).toLocaleDateString(intlLocale(language), { weekday: "long" });
     return name.charAt(0).toUpperCase() + name.slice(1);
   };
+  const dayShort = (i: number) =>
+    new Date(2023, 0, 1 + i)
+      .toLocaleDateString(intlLocale(language), { weekday: "short" })
+      .replace(".", "")
+      .slice(0, 3)
+      .toUpperCase();
   // Labels saved from the English presets are shown in the current language.
   const displayLabel = (label: string) =>
     (PRESET_LABELS as readonly string[]).includes(label) ? t(`presets.${label}`) : label;
@@ -298,232 +324,259 @@ export default function NewPlanScreen() {
   // ── Render ────────────────────────────────────────────────────────
   return (
     <View style={ss.page}>
-      <ScrollView contentContainerStyle={ss.scroll}>
+      <ScrollView contentContainerStyle={ss.scroll} showsVerticalScrollIndicator={false}>
         {/* Plan name */}
         <View style={ss.header}>
-          <Text style={ss.screenTitle}>{isEditing ? t("title.edit") : t("title.new")}</Text>
-          <Text style={ss.label}>{t("planName")}</Text>
+          <AppText variant="titleLarge" style={ss.screenTitle}>
+            {isEditing ? t("title.edit") : t("title.new")}
+          </AppText>
+          <AppText variant="labelMedium" color="textSecondary" style={ss.label}>
+            {t("planName")}
+          </AppText>
           <TextInput
             style={ss.input}
             value={name}
             onChangeText={setName}
             placeholder={t("planNamePlaceholder")}
-            placeholderTextColor={theme.muted}
+            placeholderTextColor={colors.textMuted}
           />
         </View>
 
-        <Text style={ss.sectionTitle}>{t("weeklySchedule")}</Text>
-        <Text style={ss.subtitle}>{t("tapDay")}</Text>
+        <AppText variant="titleSmall">{t("weeklySchedule")}</AppText>
+        <AppText variant="bodyMedium" color="textSecondary" style={ss.subtitle}>
+          {t("tapDay")}
+        </AppText>
 
         <View style={ss.daysList}>
           {days.map((d, i) => (
-            <Pressable key={i} style={ss.dayCard} onPress={() => openDayEditor(i)}>
-              <View style={ss.dayCardLeft}>
-                <Text style={ss.dayName}>{dayName(i)}</Text>
-                <Text style={[ss.dayLabel, d.isRest && ss.dayLabelRest]}>
+            <Pressable
+              key={i}
+              style={({ pressed }) => [ss.dayCard, pressed && { opacity: 0.85 }]}
+              onPress={() => openDayEditor(i)}
+              accessibilityRole="button"
+              accessibilityLabel={`${dayName(i)}, ${d.isRest ? t("restDay") : displayLabel(d.label)}`}
+            >
+              <View style={[ss.dayBadge, !d.isRest && ss.dayBadgeActive]}>
+                <AppText variant="labelLarge" color={d.isRest ? "textSecondary" : "textOnAccent"}>
+                  {dayShort(i)}
+                </AppText>
+              </View>
+              <View style={ss.dayCardBody}>
+                <AppText variant="labelMedium" color="textSecondary">
+                  {dayName(i)}
+                </AppText>
+                <AppText variant="titleSmall" color={d.isRest ? "textMuted" : "textPrimary"} numberOfLines={1}>
                   {d.isRest ? t("restDay") : displayLabel(d.label)}
-                </Text>
+                </AppText>
                 {!d.isRest && d.exercises.length > 0 && (
-                  <Text style={ss.dayMeta}>
-                    {t("exerciseCount", { count: d.exercises.length })}
-                  </Text>
+                  <View style={ss.dayTags}>
+                    <View style={ss.dayTag}>
+                      <AppText variant="labelMedium" color="accent">
+                        {t("exerciseCount", { count: d.exercises.length })}
+                      </AppText>
+                    </View>
+                  </View>
                 )}
                 {!d.isRest && d.muscles.length > 0 && d.exercises.length === 0 && (
-                  <Text style={ss.dayMeta}>{t("musclesNoExercises", { muscles: muscleList(d.muscles) })}</Text>
+                  <AppText variant="labelMedium" color="textSecondary" numberOfLines={1}>
+                    {t("musclesNoExercises", { muscles: muscleList(d.muscles) })}
+                  </AppText>
                 )}
               </View>
-              <ChevronRight size={20} color={theme.muted} />
+              <ChevronRight size={20} color={colors.textMuted} />
             </Pressable>
           ))}
         </View>
-        <View style={{ height: 100 }} />
+        <View style={{ height: 110 }} />
       </ScrollView>
 
       <View style={ss.footer}>
-        <Pressable style={ss.saveBtn} onPress={handleSavePlan}>
-          <Save size={20} color={theme.background} />
-          <Text style={ss.saveBtnText}>{isEditing ? t("saveChanges") : t("savePlan")}</Text>
-        </Pressable>
+        <Button
+          label={isEditing ? t("saveChanges") : t("savePlan")}
+          onPress={handleSavePlan}
+          icon={<Save size={20} color={colors.textOnAccent} />}
+        />
       </View>
 
       <PremiumPopup visible={paywallVisible} reason="plan_limit" onClose={closePaywall} />
 
       {/* ────── Single Modal (Day Editor + Exercise Picker pages) ────── */}
-      <Modal visible={editingDayIdx !== null} transparent animationType="slide">
+      <Modal visible={editingDayIdx !== null} transparent animationType="slide" onRequestClose={() => setEditingDayIdx(null)}>
         <View style={ss.modalOverlay}>
           <View style={[ss.modalContent, modalPage === "picker" && { height: "92%", maxHeight: "92%" }]}>
+            <View style={ss.grabber} />
 
             {/* ── PAGE: Day Editor ── */}
             {modalPage === "editor" && (
               <>
                 <View style={ss.modalHeader}>
-                  <Text style={ss.modalTitle}>
+                  <AppText variant="titleMedium" style={{ flex: 1 }}>
                     {editingDayIdx !== null ? dayName(editingDayIdx) : ""}
-                  </Text>
-                  <Pressable onPress={() => setEditingDayIdx(null)}>
-                    <X size={24} color={theme.muted} />
+                  </AppText>
+                  <Pressable onPress={() => setEditingDayIdx(null)} style={ss.roundBtn} accessibilityRole="button">
+                    <X size={20} color={colors.textPrimary} />
                   </Pressable>
                 </View>
 
-                <ScrollView contentContainerStyle={ss.modalScroll} keyboardShouldPersistTaps="handled">
+                <ScrollView contentContainerStyle={ss.modalScroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
                   {/* Rest / Workout toggle */}
                   <View style={ss.toggleRow}>
-                    <Pressable
-                      style={[ss.toggleBtn, editIsRest && ss.toggleBtnActive]}
-                      onPress={() => setEditIsRest(true)}
-                    >
-                      <Text style={[ss.toggleText, editIsRest && ss.toggleTextActive]}>{t("restDay")}</Text>
+                    <Pressable style={[ss.toggleBtn, editIsRest && ss.toggleBtnActive]} onPress={() => setEditIsRest(true)}>
+                      <AppText variant="labelLarge" color={editIsRest ? "textOnAccent" : "textSecondary"}>
+                        {t("restDay")}
+                      </AppText>
                     </Pressable>
-                    <Pressable
-                      style={[ss.toggleBtn, !editIsRest && ss.toggleBtnActive]}
-                      onPress={() => setEditIsRest(false)}
-                    >
-                      <Text style={[ss.toggleText, !editIsRest && ss.toggleTextActive]}>
+                    <Pressable style={[ss.toggleBtn, !editIsRest && ss.toggleBtnActive]} onPress={() => setEditIsRest(false)}>
+                      <AppText variant="labelLarge" color={!editIsRest ? "textOnAccent" : "textSecondary"}>
                         {t("workoutDay")}
-                      </Text>
+                      </AppText>
                     </Pressable>
                   </View>
 
-                  {!editIsRest && (
+                  {editIsRest ? (
+                    <View style={ss.restHint}>
+                      <Dumbbell size={28} color={colors.textMuted} />
+                      <AppText variant="bodyMedium" color="textSecondary" style={{ textAlign: "center" }}>
+                        {t("restDay")}
+                      </AppText>
+                    </View>
+                  ) : (
                     <>
                       {/* Workout type label */}
-                      <Text style={ss.label}>{t("workoutType")}</Text>
+                      <AppText variant="labelMedium" color="textSecondary" style={ss.label}>
+                        {t("workoutType")}
+                      </AppText>
                       <TextInput
-                        style={ss.input}
+                        style={[ss.input, ss.inputOnSheet]}
                         value={editLabel}
                         onChangeText={setEditLabel}
                         placeholder={t("workoutTypePlaceholder")}
-                        placeholderTextColor={theme.muted}
+                        placeholderTextColor={colors.textMuted}
                       />
-                      <View style={ss.presetsRow}>
+                      <View style={ss.chipWrap}>
                         {PRESET_LABELS.map((p) => {
                           const presetText = t(`presets.${p}`);
                           return (
-                            <Pressable
+                            <Chip
                               key={p}
-                              style={[ss.presetChip, editLabel === presetText && ss.presetChipActive]}
+                              label={presetText}
+                              selected={editLabel === presetText}
                               onPress={() => setEditLabel(presetText)}
-                            >
-                              <Text style={[ss.presetChipText, editLabel === presetText && ss.presetChipTextActive]}>
-                                {presetText}
-                              </Text>
-                            </Pressable>
+                              style={editLabel === presetText ? undefined : ss.chipOnSheet}
+                            />
                           );
                         })}
                       </View>
 
                       {/* Target muscles */}
-                      <Text style={[ss.label, { marginTop: 20 }]}>{t("targetMuscles")}</Text>
-                      <View style={ss.musclesGrid}>
-                        {MUSCLES.map((m) => {
-                          const active = editMuscles.includes(m.id);
-                          return (
-                            <Pressable
-                              key={m.id}
-                              style={[ss.muscleChip, active && ss.muscleChipActive]}
-                              onPress={() => toggleEditMuscle(m.id)}
-                            >
-                              {active && (
-                                <Check size={14} color={theme.background} style={{ marginRight: 4 }} />
-                              )}
-                              <Text style={[ss.muscleText, active && ss.muscleTextActive]}>
-                                {muscleLabel(m.id)}
-                              </Text>
-                            </Pressable>
-                          );
-                        })}
+                      <AppText variant="labelMedium" color="textSecondary" style={[ss.label, { marginTop: spacing["2xl"] }]}>
+                        {t("targetMuscles")}
+                      </AppText>
+                      <View style={ss.chipWrap}>
+                        {MUSCLES.map((m) => (
+                          <Chip
+                            key={m.id}
+                            label={muscleLabel(m.id)}
+                            dot
+                            selected={editMuscles.includes(m.id)}
+                            onPress={() => toggleEditMuscle(m.id)}
+                            style={editMuscles.includes(m.id) ? undefined : ss.chipOnSheet}
+                          />
+                        ))}
                       </View>
 
                       {/* ── Exercises section ── */}
                       <View style={ss.exercisesSectionHeader}>
-                        <Text style={[ss.label, { marginTop: 0, marginBottom: 0, flex: 1 }]}>
+                        <AppText variant="titleSmall" style={{ flex: 1 }}>
                           {t("exercisesHeading", { n: editExercises.length })}
-                        </Text>
-                        <Pressable
-                          style={ss.addExBtn}
-                          onPress={openPicker}
-                        >
-                          <Plus size={14} color={theme.background} />
-                          <Text style={ss.addExBtnText}>{t("add")}</Text>
+                        </AppText>
+                        <Pressable style={ss.addExBtn} onPress={openPicker} accessibilityRole="button">
+                          <Plus size={16} color={colors.textOnAccent} />
+                          <AppText variant="labelLarge" color="textOnAccent">
+                            {t("add")}
+                          </AppText>
                         </Pressable>
                       </View>
 
                       {editExercises.length === 0 ? (
-                        <Pressable
-                          style={ss.emptyExercises}
-                          onPress={openPicker}
-                        >
-                          <Dumbbell size={28} color={theme.muted} />
-                          <Text style={ss.emptyExText}>{t("tapToAdd")}</Text>
-                          <Text style={ss.emptyExSub}>
+                        <Pressable style={ss.emptyExercises} onPress={openPicker}>
+                          <View style={ss.emptyIcon}>
+                            <Plus size={22} color={colors.accent} />
+                          </View>
+                          <AppText variant="labelLarge">{t("tapToAdd")}</AppText>
+                          <AppText variant="labelMedium" color="textSecondary" style={{ textAlign: "center" }}>
                             {editMuscles.length > 0
                               ? t("filteredBy", { muscles: muscleList(editMuscles) })
                               : t("selectMusclesHint")}
-                          </Text>
+                          </AppText>
                         </Pressable>
                       ) : (
                         <View style={ss.exerciseList}>
                           {editExercises.map((item, idx) => (
                             <View key={item.exercise.instanceId} style={ss.exerciseCard}>
-                              {/* Header row */}
                               <View style={ss.exCardHeader}>
-                                <View style={ss.exNumBadge}>
-                                  <Text style={ss.exNumText}>{idx + 1}</Text>
+                                <View>
+                                  <ExerciseThumb image={item.exercise.gif} size={64} />
+                                  <View style={ss.exNumBadge}>
+                                    <AppText variant="caption" color="textOnAccent" style={{ fontFamily: undefined, fontWeight: "800" }}>
+                                      {idx + 1}
+                                    </AppText>
+                                  </View>
                                 </View>
-                                <Text style={ss.exTitle} numberOfLines={2}>
-                                  {exerciseTitle(item.exercise.exerciseId, item.exercise.title)}
-                                </Text>
+                                <View style={{ flex: 1, gap: 2 }}>
+                                  <AppText variant="labelLarge" numberOfLines={2}>
+                                    {exerciseTitle(item.exercise.exerciseId, item.exercise.title)}
+                                  </AppText>
+                                  <AppText variant="labelMedium" color="accent">
+                                    {g("muscle", item.exercise.mainMuscle)}
+                                  </AppText>
+                                </View>
                                 <Pressable
                                   onPress={() => removeExercise(item.exercise.instanceId)}
                                   style={ss.exDeleteBtn}
+                                  hitSlop={8}
+                                  accessibilityRole="button"
                                 >
-                                  <Trash2 size={16} color={theme.muted} />
+                                  <Trash2 size={18} color={colors.textSecondary} />
                                 </Pressable>
                               </View>
-
-                              {/* Muscle tag */}
-                              <Text style={ss.exMuscleTag}>{g("muscle", item.exercise.mainMuscle)}</Text>
 
                               {/* Config row: sets / reps / rest */}
                               <View style={ss.exConfigRow}>
                                 <View style={ss.exConfigItem}>
-                                  <Text style={ss.exConfigLabel}>{t("sets")}</Text>
+                                  <AppText variant="labelMedium" color="textSecondary" style={ss.exConfigLabel}>
+                                    {t("sets")}
+                                  </AppText>
                                   <Stepper
                                     value={item.exercise.sets}
                                     min={1}
                                     max={10}
-                                    onChange={(v) =>
-                                      updateExerciseParam(item.exercise.instanceId, "sets", v)
-                                    }
+                                    onChange={(v) => updateExerciseParam(item.exercise.instanceId, "sets", v)}
                                   />
                                 </View>
-
                                 <View style={ss.exConfigDivider} />
-
                                 <View style={ss.exConfigItem}>
-                                  <Text style={ss.exConfigLabel}>{t("reps")}</Text>
+                                  <AppText variant="labelMedium" color="textSecondary" style={ss.exConfigLabel}>
+                                    {t("reps")}
+                                  </AppText>
                                   <Stepper
                                     value={item.exercise.reps}
                                     min={1}
                                     max={50}
-                                    onChange={(v) =>
-                                      updateExerciseParam(item.exercise.instanceId, "reps", v)
-                                    }
+                                    onChange={(v) => updateExerciseParam(item.exercise.instanceId, "reps", v)}
                                   />
                                 </View>
-
                                 <View style={ss.exConfigDivider} />
-
                                 <View style={ss.exConfigItem}>
-                                  <Text style={ss.exConfigLabel}>{t("rest")}</Text>
+                                  <AppText variant="labelMedium" color="textSecondary" style={ss.exConfigLabel}>
+                                    {t("rest")}
+                                  </AppText>
                                   <Stepper
                                     value={item.exercise.restSeconds}
                                     min={15}
                                     max={300}
                                     step={15}
-                                    onChange={(v) =>
-                                      updateExerciseParam(item.exercise.instanceId, "restSeconds", v)
-                                    }
+                                    onChange={(v) => updateExerciseParam(item.exercise.instanceId, "restSeconds", v)}
                                     format={(v) => `${v}s`}
                                   />
                                 </View>
@@ -537,9 +590,7 @@ export default function NewPlanScreen() {
                 </ScrollView>
 
                 <View style={ss.modalFooter}>
-                  <Pressable style={ss.modalSaveBtn} onPress={saveDayEdit}>
-                    <Text style={ss.modalSaveText}>{t("applyToDay")}</Text>
-                  </Pressable>
+                  <Button label={t("applyToDay")} onPress={saveDayEdit} />
                 </View>
               </>
             )}
@@ -548,18 +599,20 @@ export default function NewPlanScreen() {
             {modalPage === "picker" && (
               <>
                 <View style={ss.modalHeader}>
-                  <Pressable onPress={closePicker} style={ss.backBtn}>
-                    <ArrowLeft size={20} color={theme.text} />
+                  <Pressable onPress={closePicker} style={ss.roundBtn} accessibilityRole="button">
+                    <ArrowLeft size={20} color={colors.textPrimary} />
                   </Pressable>
-                  <Text style={ss.modalTitle}>{t("addExercise")}</Text>
-                  <Pressable onPress={() => setEditingDayIdx(null)}>
-                    <X size={24} color={theme.muted} />
+                  <AppText variant="titleSmall" style={ss.pickerTitle}>
+                    {t("addExercise")}
+                  </AppText>
+                  <Pressable onPress={() => setEditingDayIdx(null)} style={ss.roundBtn} accessibilityRole="button">
+                    <X size={20} color={colors.textPrimary} />
                   </Pressable>
                 </View>
 
                 {/* Search bar */}
                 <View style={ss.searchBar}>
-                  <Search size={16} color={theme.muted} style={{ marginRight: 8 }} />
+                  <Search size={18} color={colors.textMuted} />
                   <TextInput
                     style={ss.searchInput}
                     value={pickerSearch}
@@ -569,71 +622,71 @@ export default function NewPlanScreen() {
                         ? t("searchMuscleExercises", { muscles: muscleList(editMuscles.slice(0, 2)) })
                         : t("searchExercises")
                     }
-                    placeholderTextColor={theme.muted}
+                    placeholderTextColor={colors.textMuted}
                   />
                   {pickerSearch.length > 0 && (
-                    <Pressable onPress={() => setPickerSearch("")}>
-                      <X size={16} color={theme.muted} />
+                    <Pressable onPress={() => setPickerSearch("")} hitSlop={8}>
+                      <X size={16} color={colors.textMuted} />
                     </Pressable>
                   )}
                 </View>
 
-                <Text style={ss.pickerCount}>
+                <AppText variant="labelMedium" color="textSecondary" style={ss.pickerCount}>
                   {t("pickerCount", { count: pickerPool.length })}
                   {editMuscles.length > 0 ? ` · ${muscleList(editMuscles)}` : ""}
-                </Text>
+                </AppText>
 
                 <FlatList
                   data={pickerPool}
                   keyExtractor={(item) => item._id}
                   keyboardShouldPersistTaps="handled"
                   style={ss.pickerList}
+                  contentContainerStyle={ss.pickerListContent}
+                  initialNumToRender={10}
+                  windowSize={7}
                   renderItem={({ item }) => {
-                    const alreadyAdded = editExercises.some(
-                      (e) => e.exercise.exerciseId === item._id
-                    );
+                    const alreadyAdded = editExercises.some((e) => e.exercise.exerciseId === item._id);
                     return (
                       <Pressable
                         style={[ss.pickerItem, alreadyAdded && ss.pickerItemAdded]}
                         onPress={() => {
                           if (!alreadyAdded) addExerciseFromPicker(item);
                         }}
+                        accessibilityRole="button"
                       >
+                        <ExerciseThumb image={item.image} size={64} />
                         <View style={ss.pickerItemLeft}>
-                          <Text
-                            style={[ss.pickerItemTitle, alreadyAdded && ss.pickerItemTitleAdded]}
-                          >
+                          <AppText variant="labelLarge" numberOfLines={2}>
                             {exerciseTitle(item._id, item.title)}
-                          </Text>
-                          <Text style={ss.pickerItemMeta}>
+                          </AppText>
+                          <AppText variant="labelMedium" color="textSecondary" numberOfLines={1}>
                             {item.targets?.[0] ? g("muscle", item.targets[0]) : "–"} · {g("difficulty", item.difficulty)}
-                          </Text>
+                          </AppText>
                         </View>
-                        {alreadyAdded ? (
-                          <Check size={18} color={theme.neon} />
-                        ) : (
-                          <Plus size={18} color={theme.muted} />
-                        )}
+                        <View style={[ss.addCircle, alreadyAdded && ss.addCircleDone]}>
+                          {alreadyAdded ? (
+                            <Check size={16} color={colors.textOnAccent} />
+                          ) : (
+                            <Plus size={16} color={colors.accent} />
+                          )}
+                        </View>
                       </Pressable>
                     );
                   }}
                   ListEmptyComponent={
                     <View style={ss.pickerEmpty}>
-                      <Text style={ss.pickerEmptyText}>{t("noExercisesFound")}</Text>
+                      <AppText variant="bodyMedium" color="textSecondary">
+                        {t("noExercisesFound")}
+                      </AppText>
                     </View>
                   }
                 />
 
                 <View style={ss.modalFooter}>
-                  <Pressable style={ss.modalSaveBtn} onPress={closePicker}>
-                    <Text style={ss.modalSaveText}>
-                      {t("doneAdded", { count: editExercises.length })}
-                    </Text>
-                  </Pressable>
+                  <Button label={t("doneAdded", { count: editExercises.length })} onPress={closePicker} />
                 </View>
               </>
             )}
-
           </View>
         </View>
       </Modal>
@@ -645,290 +698,255 @@ export default function NewPlanScreen() {
 // Styles
 // ─────────────────────────────────────────────────────────────────────────────
 const ss = StyleSheet.create({
-  page: { flex: 1, backgroundColor: theme.background },
-  scroll: { padding: 20 },
+  page: { flex: 1, backgroundColor: colors.bgApp },
+  scroll: { padding: spacing.xl },
 
-  screenTitle: {
-    color: theme.text,
-    fontSize: 26,
-    fontWeight: "900",
-    marginBottom: 16,
-  },
-  header: { marginBottom: 24 },
-  label: {
-    color: theme.muted,
-    fontSize: 12,
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: 1,
-    marginBottom: 8,
-  },
+  screenTitle: { marginBottom: spacing.xl },
+  header: { marginBottom: spacing["2xl"] },
+  label: { textTransform: "uppercase", letterSpacing: 1, marginBottom: spacing.sm },
   input: {
-    backgroundColor: theme.surface,
-    borderWidth: 1,
-    borderColor: theme.border,
-    borderRadius: 12,
-    color: theme.text,
-    padding: 14,
+    backgroundColor: colors.bgSurface,
+    borderRadius: radius.md,
+    color: colors.textPrimary,
+    paddingHorizontal: spacing.lg,
+    height: 52,
     fontSize: 16,
-    fontWeight: "600",
+    fontFamily: fonts.jakartaSemiBold,
   },
+  inputOnSheet: { backgroundColor: colors.bgInset },
+  subtitle: { marginBottom: spacing.lg },
 
-  sectionTitle: { color: theme.text, fontSize: 20, fontWeight: "900", marginBottom: 4 },
-  subtitle: { color: theme.muted, fontSize: 14, marginBottom: 16 },
-
-  daysList: { gap: 12 },
+  daysList: { gap: spacing.md },
   dayCard: {
-    backgroundColor: theme.surface,
-    borderWidth: 1,
-    borderColor: theme.border,
-    borderRadius: 16,
-    padding: 16,
+    backgroundColor: colors.bgSurface,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    paddingRight: spacing.lg,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    gap: spacing.md,
   },
-  dayCardLeft: { flex: 1 },
-  dayName: {
-    color: theme.muted,
-    fontSize: 11,
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: 1,
-    marginBottom: 4,
+  dayBadge: {
+    width: 56,
+    height: 56,
+    borderRadius: radius.md,
+    backgroundColor: colors.bgInset,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  dayLabel: { color: theme.text, fontSize: 18, fontWeight: "800" },
-  dayLabelRest: { color: theme.muted },
-  dayMeta: { color: theme.neon, fontSize: 12, fontWeight: "600", marginTop: 4 },
+  dayBadgeActive: { backgroundColor: colors.accent },
+  dayCardBody: { flex: 1, gap: 2 },
+  dayTags: { flexDirection: "row", paddingTop: spacing.xs },
+  dayTag: {
+    height: 24,
+    paddingHorizontal: spacing.sm,
+    borderRadius: radius.sm,
+    backgroundColor: colors.bgInset,
+    justifyContent: "center",
+  },
 
   footer: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    padding: 20,
-    paddingBottom: 32,
-    backgroundColor: theme.background,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(255,255,255,0.05)",
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing["3xl"],
+    backgroundColor: colors.bgApp,
   },
-  saveBtn: {
-    backgroundColor: theme.neon,
-    height: 56,
-    borderRadius: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-  saveBtnText: { color: theme.background, fontSize: 16, fontWeight: "900", letterSpacing: 0.5 },
 
   /* ── Modal shared ── */
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.65)",
-    justifyContent: "flex-end",
-  },
+  modalOverlay: { flex: 1, backgroundColor: "rgba(0,0,0,0.65)", justifyContent: "flex-end" },
   modalContent: {
-    backgroundColor: theme.background,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    maxHeight: "88%",
+    backgroundColor: colors.bgSurface,
+    borderTopLeftRadius: radius.xl,
+    borderTopRightRadius: radius.xl,
+    maxHeight: "90%",
+  },
+  grabber: {
+    alignSelf: "center",
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: colors.textMuted,
+    opacity: 0.5,
+    marginTop: spacing.md,
   },
   modalHeader: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.border,
+    gap: spacing.md,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.lg,
   },
-  modalTitle: { color: theme.text, fontSize: 18, fontWeight: "800" },
-  modalScroll: { padding: 20, paddingBottom: 8 },
-  modalFooter: {
-    padding: 20,
-    paddingBottom: 32,
-    borderTopWidth: 1,
-    borderTopColor: theme.border,
-  },
-  modalSaveBtn: {
-    backgroundColor: theme.neon,
-    height: 56,
-    borderRadius: 16,
+  roundBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgInset,
     alignItems: "center",
     justifyContent: "center",
   },
-  modalSaveText: { color: theme.background, fontSize: 16, fontWeight: "900" },
-  backBtn: { padding: 4, marginRight: 4 },
+  pickerTitle: { flex: 1, textAlign: "center" },
+  modalScroll: { paddingHorizontal: spacing.xl, paddingBottom: spacing.lg },
+  modalFooter: {
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.md,
+    paddingBottom: spacing["3xl"],
+  },
 
   /* ── Day editor ── */
   toggleRow: {
     flexDirection: "row",
-    backgroundColor: theme.surface,
-    borderRadius: 12,
-    padding: 4,
-    marginBottom: 24,
+    backgroundColor: colors.bgInset,
+    borderRadius: radius.full,
+    padding: spacing.xs,
+    marginBottom: spacing.xl,
   },
-  toggleBtn: { flex: 1, paddingVertical: 12, alignItems: "center", borderRadius: 8 },
-  toggleBtnActive: { backgroundColor: theme.border },
-  toggleText: { color: theme.muted, fontWeight: "700", fontSize: 15 },
-  toggleTextActive: { color: theme.text },
-
-  presetsRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 12 },
-  presetChip: {
-    backgroundColor: theme.surface,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: theme.border,
-  },
-  presetChipActive: { backgroundColor: theme.neon, borderColor: theme.neon },
-  presetChipText: { color: theme.muted, fontSize: 13, fontWeight: "600" },
-  presetChipTextActive: { color: theme.background },
-
-  musclesGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 8 },
-  muscleChip: {
-    flexDirection: "row",
+  toggleBtn: { flex: 1, height: 44, alignItems: "center", justifyContent: "center", borderRadius: radius.full },
+  toggleBtnActive: { backgroundColor: colors.accent },
+  restHint: {
     alignItems: "center",
-    backgroundColor: theme.surface,
-    borderWidth: 1,
-    borderColor: theme.border,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 20,
+    gap: spacing.sm,
+    paddingVertical: spacing["3xl"],
+    borderRadius: radius.lg,
+    backgroundColor: colors.bgInset,
   },
-  muscleChipActive: { backgroundColor: theme.neon, borderColor: theme.neon },
-  muscleText: { color: theme.muted, fontSize: 13, fontWeight: "700" },
-  muscleTextActive: { color: theme.background },
+
+  chipWrap: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, marginTop: spacing.md },
+  // Chips default to the surface colour, which is the sheet colour here; use the inset tone instead.
+  chipOnSheet: { backgroundColor: colors.bgInset },
 
   /* ── Exercises section ── */
   exercisesSectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 24,
-    marginBottom: 12,
+    marginTop: spacing["2xl"],
+    marginBottom: spacing.md,
   },
   addExBtn: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
-    backgroundColor: theme.neon,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: 10,
+    gap: spacing.xs,
+    backgroundColor: colors.accent,
+    paddingHorizontal: spacing.lg,
+    height: 36,
+    borderRadius: radius.full,
   },
-  addExBtnText: { color: theme.background, fontSize: 13, fontWeight: "800" },
-
   emptyExercises: {
-    borderWidth: 1,
-    borderColor: theme.border,
-    borderStyle: "dashed",
-    borderRadius: 16,
+    backgroundColor: colors.bgInset,
+    borderRadius: radius.lg,
     alignItems: "center",
-    paddingVertical: 28,
-    paddingHorizontal: 20,
-    gap: 8,
+    paddingVertical: spacing["2xl"],
+    paddingHorizontal: spacing.xl,
+    gap: spacing.sm,
   },
-  emptyExText: { color: theme.muted, fontSize: 15, fontWeight: "700" },
-  emptyExSub: { color: theme.muted, fontSize: 12, textAlign: "center", opacity: 0.7 },
-
-  exerciseList: { gap: 12 },
-  exerciseCard: {
-    backgroundColor: theme.surface,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: theme.border,
-    padding: 14,
-  },
-  exCardHeader: { flexDirection: "row", alignItems: "flex-start", gap: 10, marginBottom: 4 },
-  exNumBadge: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: theme.neon,
+  emptyIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgSurface,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 1,
   },
-  exNumText: { color: theme.background, fontSize: 11, fontWeight: "900" },
-  exTitle: { flex: 1, color: theme.text, fontSize: 14, fontWeight: "700", lineHeight: 20 },
-  exDeleteBtn: { padding: 4 },
-  exMuscleTag: { color: theme.neon, fontSize: 11, fontWeight: "700", marginBottom: 12 },
+
+  exerciseList: { gap: spacing.md },
+  exerciseCard: {
+    backgroundColor: colors.bgInset,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    gap: spacing.md,
+  },
+  exCardHeader: { flexDirection: "row", alignItems: "center", gap: spacing.md },
+  exNumBadge: {
+    position: "absolute",
+    top: -4,
+    left: -4,
+    width: 22,
+    height: 22,
+    borderRadius: radius.full,
+    backgroundColor: colors.accent,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  exDeleteBtn: { padding: spacing.xs },
+  thumb: {
+    borderRadius: radius.md,
+    backgroundColor: colors.bgSurface,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
 
   exConfigRow: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: theme.background,
-    borderRadius: 10,
-    padding: 10,
+    backgroundColor: colors.bgSurface,
+    borderRadius: radius.md,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.sm,
   },
-  exConfigItem: { flex: 1, alignItems: "center", gap: 6 },
-  exConfigLabel: {
-    color: theme.muted,
-    fontSize: 11,
-    fontWeight: "700",
-    textTransform: "uppercase",
-  },
-  exConfigDivider: { width: 1, height: 36, backgroundColor: theme.border },
+  exConfigItem: { flex: 1, alignItems: "center", gap: spacing.sm },
+  exConfigLabel: { textTransform: "uppercase", letterSpacing: 0.5 },
+  exConfigDivider: { width: 1, height: 40, backgroundColor: colors.bgInset },
 
   /* ── Stepper ── */
-  stepper: { flexDirection: "row", alignItems: "center", gap: 8 },
+  stepper: { flexDirection: "row", alignItems: "center", gap: spacing.xs },
   stepBtn: {
-    width: 26,
-    height: 26,
-    borderRadius: 8,
-    backgroundColor: theme.surface,
-    borderWidth: 1,
-    borderColor: theme.border,
+    width: 28,
+    height: 28,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgInset,
     alignItems: "center",
     justifyContent: "center",
   },
   stepBtnDisabled: { opacity: 0.35 },
-  stepValue: {
-    color: theme.text,
-    fontSize: 14,
-    fontWeight: "800",
-    minWidth: 30,
-    textAlign: "center",
-  },
+  stepValue: { minWidth: 30, textAlign: "center" },
 
   /* ── Exercise picker ── */
   searchBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: theme.surface,
-    borderWidth: 1,
-    borderColor: theme.border,
-    borderRadius: 12,
-    marginHorizontal: 20,
-    marginTop: 14,
-    marginBottom: 10,
-    paddingHorizontal: 12,
-    height: 44,
+    gap: spacing.md,
+    backgroundColor: colors.bgInset,
+    borderRadius: radius.full,
+    marginHorizontal: spacing.xl,
+    marginBottom: spacing.md,
+    paddingHorizontal: spacing.lg,
+    height: 48,
   },
-  searchInput: { flex: 1, color: theme.text, fontSize: 15, fontWeight: "500" },
-  pickerCount: {
-    color: theme.muted,
-    fontSize: 12,
-    fontWeight: "600",
-    marginHorizontal: 20,
-    marginBottom: 8,
+  searchInput: {
+    flex: 1,
+    color: colors.textPrimary,
+    fontSize: 14,
+    fontFamily: fonts.jakartaRegular,
+    padding: 0,
   },
+  pickerCount: { marginHorizontal: spacing.xl, marginBottom: spacing.sm },
   pickerList: { flex: 1 },
+  pickerListContent: { paddingHorizontal: spacing.xl, paddingBottom: spacing.md, gap: spacing.sm },
   pickerItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.border,
+    gap: spacing.md,
+    backgroundColor: colors.bgInset,
+    borderRadius: radius.lg,
+    padding: spacing.sm,
+    paddingRight: spacing.lg,
   },
-  pickerItemAdded: { opacity: 0.55 },
-  pickerItemLeft: { flex: 1, marginRight: 12 },
-  pickerItemTitle: { color: theme.text, fontSize: 15, fontWeight: "700", marginBottom: 3 },
-  pickerItemTitleAdded: { color: theme.muted },
-  pickerItemMeta: { color: theme.muted, fontSize: 12 },
-  pickerEmpty: { alignItems: "center", paddingVertical: 40 },
-  pickerEmptyText: { color: theme.muted, fontSize: 15 },
+  pickerItemAdded: { opacity: 0.6 },
+  pickerItemLeft: { flex: 1, gap: 2 },
+  addCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: radius.full,
+    borderWidth: 1.5,
+    borderColor: colors.accent,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  addCircleDone: { backgroundColor: colors.accent },
+  pickerEmpty: { alignItems: "center", paddingVertical: spacing["3xl"] },
 });

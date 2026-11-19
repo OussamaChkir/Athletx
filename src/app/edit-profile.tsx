@@ -16,11 +16,7 @@ import {
   Camera,
   CheckCircle,
   ChevronDown,
-  Copy,
-  Edit2,
-  Hash,
   Info,
-  Shield,
   Target,
   User,
   X,
@@ -138,38 +134,6 @@ function FieldCard({ children }: { children: React.ReactNode }) {
 
 function Divider() {
   return <View style={s.divider} />;
-}
-
-/* Read-only row with optional copy */
-function ReadonlyField({
-  icon: Icon,
-  label,
-  value,
-  onCopy,
-}: {
-  icon: any;
-  label: string;
-  value: string;
-  onCopy?: () => void;
-}) {
-  const { t } = useTranslation("profile");
-  const [copied, setCopied] = useState(false);
-  return (
-    <View style={s.readonlyRow}>
-      <View style={s.fieldIconWrap}>
-        <Icon size={17} color={theme.neon} />
-      </View>
-      <View style={{ flex: 1 }}>
-        <Text style={s.fieldLabel}>{label}</Text>
-        <Text style={s.readonlyValue} numberOfLines={1}>{value}</Text>
-      </View>
-      {onCopy && (
-        <Pressable onPress={() => { onCopy(); setCopied(true); setTimeout(() => setCopied(false), 2000); }} style={s.copyBtn} accessibilityRole="button" accessibilityLabel={t("copy")}>
-          {copied ? <CheckCircle size={16} color={theme.neon} /> : <Copy size={16} color={theme.muted} />}
-        </Pressable>
-      )}
-    </View>
-  );
 }
 
 /* Text input row */
@@ -383,7 +347,6 @@ export default function EditProfileScreen() {
   /* ── Profile draft ── */
   const [displayName, setDisplayName] = useState(profile.displayName);
   const [username, setUsername] = useState(profile.username);
-  const [bio, setBio] = useState(profile.bio);
   const [saving, setSaving] = useState(false);
 
   /* ── Body metrics draft ── */
@@ -413,7 +376,6 @@ export default function EditProfileScreen() {
   const isDirty =
     displayName !== profile.displayName ||
     username !== profile.username ||
-    bio !== profile.bio ||
     age !== (ob.age !== null ? String(ob.age) : "") ||
     heightVal !== (ob.height.value !== null ? heightToDraft(ob.height.value, ob.height.unit) : "") ||
     heightUnit !== ob.height.unit ||
@@ -447,7 +409,6 @@ export default function EditProfileScreen() {
     profile.updateProfile({
       displayName: displayName.trim(),
       username: username.trim().toLowerCase().replace(/\s+/g, "_"),
-      bio: bio.trim(),
     });
 
     // Persist onboarding / body / training fields
@@ -468,15 +429,13 @@ export default function EditProfileScreen() {
     setSaving(false);
     Alert.alert(t("alerts.savedTitle"), t("alerts.savedMessage"));
   }, [
-    displayName, username, bio,
+    displayName, username,
     age, heightVal, heightUnit, weightVal, weightUnit, goalWeight,
     gender, experience, goal, currentFrequency, duration, targetFrequency,
     location, focusArea, injuries,
     profile, ob, t,
   ]);
 
-
-  const shortId = profile.userId.slice(0, 8).toUpperCase();
 
   return (
     <SafeAreaView style={s.safe}>
@@ -512,21 +471,6 @@ export default function EditProfileScreen() {
         </View>
 
         {/* ══════════════════════════════════
-            SECTION: ACCOUNT IDENTITY
-        ══════════════════════════════════ */}
-        <SectionLabel text={t("sections.accountIdentity")} />
-        <FieldCard>
-          <ReadonlyField
-            icon={Hash}
-            label={t("fields.userId")}
-            value={shortId}
-            onCopy={() => {/* Clipboard.setStringAsync(profile.userId) */}}
-          />
-          <Divider />
-          <ReadonlyField icon={Shield} label={t("fields.fullUuid")} value={profile.userId} onCopy={() => {}} />
-        </FieldCard>
-
-        {/* ══════════════════════════════════
             SECTION: PERSONAL INFO
         ══════════════════════════════════ */}
         <SectionLabel text={t("sections.personalInfo")} />
@@ -548,16 +492,6 @@ export default function EditProfileScreen() {
             placeholder={t("placeholders.username")}
             prefix="@"
             maxLength={20}
-          />
-          <Divider />
-          <EditField
-            icon={Edit2}
-            label={t("fields.bio")}
-            value={bio}
-            onChangeText={setBio}
-            placeholder={t("placeholders.bio")}
-            multiline
-            maxLength={120}
           />
         </FieldCard>
 

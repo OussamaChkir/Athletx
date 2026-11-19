@@ -657,14 +657,14 @@ const libStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  tagsScroll: { marginRight: -spacing.md, flexGrow: 0 },
-  tags: { flexDirection: "row", flexWrap: "nowrap", gap: spacing.sm, paddingTop: spacing.sm, paddingRight: spacing.md },
+  tags: { flexDirection: "row", flexWrap: "nowrap", gap: spacing.xs, paddingTop: spacing.sm, overflow: "hidden" },
   tag: {
-    height: 28,
-    paddingHorizontal: spacing.md,
+    height: 26,
+    paddingHorizontal: spacing.sm,
     borderRadius: radius.sm,
     backgroundColor: colors.bgInset,
     justifyContent: "center",
+    flexShrink: 1,
   },
   levelRow: { flexDirection: "row", alignItems: "center", gap: spacing.sm, paddingTop: spacing.xs },
 });
@@ -841,16 +841,9 @@ export function LibraryScreen() {
                   <AppText variant="bodyMedium" color="textSecondary">
                     {item.subtitle}
                   </AppText>
-                  {/* One line of tags that scrolls sideways; it runs out to the card edge. */}
-                  <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    style={libStyles.tagsScroll}
-                    contentContainerStyle={libStyles.tags}
-                  >
+                  {/* A single fixed line of tags (no scrolling, so swipes on the list never get stuck here). */}
+                  <View style={libStyles.tags}>
                     {[
-                      t(`equipment.${programEquipmentKey(item.equipment)}`),
-                      item.focus,
                       t("weeksCount", { count: item.programLength }),
                       t("daysPerWeek", { count: item.days.length }),
                     ].map((tag) => (
@@ -860,7 +853,7 @@ export function LibraryScreen() {
                         </AppText>
                       </View>
                     ))}
-                  </ScrollView>
+                  </View>
                   <View style={libStyles.levelRow}>
                     <LevelBars level={item.level} />
                     <AppText variant="labelMedium" color="textSecondary">
