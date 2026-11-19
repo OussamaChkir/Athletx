@@ -657,7 +657,8 @@ const libStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  tags: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm, paddingTop: spacing.sm },
+  tagsScroll: { marginRight: -spacing.md, flexGrow: 0 },
+  tags: { flexDirection: "row", flexWrap: "nowrap", gap: spacing.sm, paddingTop: spacing.sm, paddingRight: spacing.md },
   tag: {
     height: 28,
     paddingHorizontal: spacing.md,
@@ -840,7 +841,13 @@ export function LibraryScreen() {
                   <AppText variant="bodyMedium" color="textSecondary">
                     {item.subtitle}
                   </AppText>
-                  <View style={libStyles.tags}>
+                  {/* One line of tags that scrolls sideways; it runs out to the card edge. */}
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    style={libStyles.tagsScroll}
+                    contentContainerStyle={libStyles.tags}
+                  >
                     {[
                       t(`equipment.${programEquipmentKey(item.equipment)}`),
                       item.focus,
@@ -848,12 +855,12 @@ export function LibraryScreen() {
                       t("daysPerWeek", { count: item.days.length }),
                     ].map((tag) => (
                       <View key={tag} style={libStyles.tag}>
-                        <AppText variant="labelMedium" color="textSecondary">
+                        <AppText variant="labelMedium" color="textSecondary" numberOfLines={1}>
                           {tag}
                         </AppText>
                       </View>
                     ))}
-                  </View>
+                  </ScrollView>
                   <View style={libStyles.levelRow}>
                     <LevelBars level={item.level} />
                     <AppText variant="labelMedium" color="textSecondary">
