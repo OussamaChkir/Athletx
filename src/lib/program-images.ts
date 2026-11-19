@@ -12,6 +12,9 @@ const PROGRAM_IMAGES: Record<string, number> = {
   "glute-sculpt": require("../../assets/images/program/glute_sculpt.png"),
   "iron-strength": require("../../assets/images/program/iron_strength.png"),
   "golden-era": require("../../assets/images/program/golden_era.png"),
+  "dumbbell-home": require("../../assets/images/program/dumbbell_home.png"),
+  "morning-flow": require("../../assets/images/program/morning_flow.png"),
+  "cardio-shred": require("../../assets/images/program/cardio_shred.png"),
 };
 
 export function getProgramImage(programId: string): number | undefined {
