@@ -1087,10 +1087,7 @@ export function ExerciseDetail({ id }: { id: string }) {
           >
             <ArrowLeft size={20} color={colors.textPrimary} />
           </Pressable>
-          <AppText variant="titleSmall" style={progStyles.headerTitle}>
-            {t("detail.header")}
-          </AppText>
-          <View style={progStyles.backButton} />
+
         </View>
       </SafeAreaView>
 
@@ -1344,10 +1341,7 @@ export function WorkoutDetailScreen({ id }: { id: string }) {
           >
             <ArrowLeft size={20} color={colors.textPrimary} />
           </Pressable>
-          <AppText variant="titleSmall" style={progStyles.headerTitle}>
-            {t("detail.header")}
-          </AppText>
-          <View style={progStyles.backButton} />
+
         </View>
       </SafeAreaView>
 
